@@ -1,0 +1,15 @@
+keys:
+  # Users
+  - &users:
+    - &vawvaw 508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8
+  # Hosts
+  - &hosts:
+    - &vaw-pc age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
+
+creation_rules:
+  - path_regex: hosts/common/secrets.yaml$
+    key_groups:
+    - age:
+      - *vaw-pc
+      pgp:
+      - *vawvaw
