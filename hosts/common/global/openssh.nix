@@ -34,6 +34,9 @@ in
       "vaw-valentin.de" = {
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICVjDeeECOjKK1H9x+R+ZS4pYx6CGJXGmmHNS83JEXUJ";
       };
+      "github.com" = {
+        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+      };
     } // builtins.mapAttrs
       (name: _: {
         publicKeyFile = pubKey name;

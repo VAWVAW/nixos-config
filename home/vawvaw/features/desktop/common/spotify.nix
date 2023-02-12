@@ -11,7 +11,7 @@
   home.persistence."/local_persist/home/vawvaw" = {
     directories = [
       ".cache/spotifython-cli"
-      "${config.xdg.dataHome}/spotifyd"
+      ".local/share/spotifyd"
     ];
   };
 
