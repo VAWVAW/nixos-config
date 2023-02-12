@@ -11,6 +11,16 @@
     "x-scheme-handler/https" = [ "firefox.desktop" ];
   };
 
+  programs.firejail.wrappedBinaries.firefox = {
+    executable = "${pkgs.firefox}/bin/firefox";
+    profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
+    extraArgs = [
+      # U2F USB stick
+      "--ignore=private-dev"
+      "--dbus-user.talk=org.freedesktop.Notifications"
+    ];
+  };
+
   programs.firefox = {
     enable = true;
     extensions = with inputs.firefox-addons.packages.${pkgs.system}; [

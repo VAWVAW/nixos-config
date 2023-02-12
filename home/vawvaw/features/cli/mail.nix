@@ -100,7 +100,7 @@ in {
   
   programs = {
     neomutt = let
-      get_i3block_signal = name: (builtins.elemAt (builtins.filter (block: block.name == name) config.programs.i3blocks.blocks) 0).signal;
+      get_i3block_signal = name: (builtins.head (builtins.filter (block: block.name == name) config.programs.i3blocks.blocks)).signal;
     in {
       enable = true;
       binds = [

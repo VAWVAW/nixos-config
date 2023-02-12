@@ -4,6 +4,7 @@
     ./spotify.nix
     ./audio.nix
     ./font.nix
+    ./firejail.nix
     ./firefox.nix
     ./theme.nix
     ./gtk.nix

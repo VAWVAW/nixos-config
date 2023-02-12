@@ -5,6 +5,7 @@
     inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.hardware.nixosModules.common-pc-ssd
 
+    ../common/optional/apparmor.nix
     ../common/optional/encrypted-root.nix
     ../common/optional/yubikey.nix
 
@@ -16,17 +17,10 @@
 
   networking.hostName = "vaw-pc";
 
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-    ];
-  };
-
   virtualisation.libvirtd.enable = true;
   environment.systemPackages = with pkgs; [ virt-manager ];
+
+  programs.firejail.enable = true;
 
   system.stateVersion = "22.11";
 

@@ -91,7 +91,7 @@
         };
         startup = [
           { command = "${pkgs.noisetorch}/bin/noisetorch -i"; }
-          { command = "/run/current-system/sw/bin/discord"; }
+          { command = "discord"; }
         ];
 
         focus.followMouse = "no";
@@ -109,11 +109,11 @@
           let
             inherit modifier left down up right terminal menu;
             mod = modifier;
-            get_i3block_signal = name: (builtins.elemAt (builtins.filter (block: block.name == name) config.programs.i3blocks.blocks) 0).signal;
+            get_i3block_signal = name: (builtins.head (builtins.filter (block: block.name == name) config.programs.i3blocks.blocks)).signal;
               in {
               "${mod}+Shift+r" = "reload";
             "${mod}+Return" = "exec ${terminal}";
-            "${mod}+Plus" = "exec /run/current-system/sw/bin/firefox";
+            "${mod}+Plus" = "exec firefox";
             "${mod}+Shift+q" = "kill";
             "${mod}+d" = "exec --no-startup-id ${menu}";
             "${mod}+f" = "fullscreen";
@@ -247,10 +247,10 @@
                   "q" = "mode default";
                 };
                 open = {
-                  "f" = "exec /run/current-system/sw/bin/firefox; mode default";
+                  "f" = "exec firefox; mode default";
                   "s" = "exec ${pkgs.steam}/bin/steam; mode default";
                   "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
-                  "t" = "exec /run/current-system/sw/bin/tor-browser; mode default";
+                  "t" = "exec tor-browser; mode default";
                   "p" = "exec ${pkgs.jetbrains.pycharm-community}/bin/pycharm-community; mode default";
                   "m" = "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
 

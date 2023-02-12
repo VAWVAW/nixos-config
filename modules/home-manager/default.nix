@@ -1,3 +1,4 @@
 {
+  firejail = import ./firejail.nix;
   i3blocks = import ./i3blocks.nix;
 }

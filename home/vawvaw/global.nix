@@ -38,6 +38,7 @@
 
     packages = with pkgs; [
       sops
+      psmisc
     ];
 
     persistence = {

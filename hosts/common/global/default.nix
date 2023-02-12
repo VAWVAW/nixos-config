@@ -7,10 +7,15 @@
     ./backup.nix
     ./btrfs-optin-persistence.nix
     ./locale.nix
+    ./mailcap.nix
     ./nix.nix
     ./openssh.nix
     ./sops.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
+
+  environment.systemPackages = with pkgs; [
+    xdg-utils
+  ];
 
   home-manager = {
     useUserPackages = true;
