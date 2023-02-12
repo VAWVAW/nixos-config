@@ -75,10 +75,10 @@ in
     ] ++ (if config.networking.networkmanager.enable then [
       "/etc/NetworkManager/system-connections"
       "/var/lib/NetworkManager/seen-bssids"
-    ] else []);
+    ] else [ ]);
     files = (if config.networking.networkmanager.enable then [
       "/var/lib/NetworkManager/secret_key"
       "/var/lib/NetworkManager/timestamps"
-    ] else []);
+    ] else [ ]);
   };
 }

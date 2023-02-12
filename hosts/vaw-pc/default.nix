@@ -8,6 +8,8 @@
     ../common/optional/encrypted-root.nix
     ../common/optional/yubikey.nix
 
+    ../common/optional/desktop
+
     ../common/global
     ../common/users/vawvaw
   ];
@@ -60,8 +62,9 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/0471-23F9";
+    device = "/dev/disk/by-uuid/9949-B164";
     fsType = "vfat";
+    options = [ "ro" ];
   };
 
   #swapDevices = [{

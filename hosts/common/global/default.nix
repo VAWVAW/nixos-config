@@ -1,5 +1,5 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ lib, inputs, outputs, ... }:
+{ pkgs, lib, inputs, outputs, ... }:
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -17,6 +17,8 @@
     extraSpecialArgs = { inherit inputs outputs; };
   };
 
+  environment.shells = [ pkgs.bash pkgs.zsh ];
+
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
@@ -30,6 +32,7 @@
   };
 
   programs = {
+    zsh.enable = true;
     fuse.userAllowOther = true;
     git.enable = true;
     vim.defaultEditor = true;

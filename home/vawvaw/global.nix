@@ -2,6 +2,7 @@
 {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.sops-nix.homeManagerModule
     ./features/cli
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
@@ -18,6 +19,11 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" "repl-flake" ];
     };
+  };
+
+  sops = {
+    age.keyFile = "/local_persist/home/vawvaw/.config/key.txt";
+    defaultSopsFile = ./secrets.yaml;
   };
 
   programs = {

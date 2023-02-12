@@ -12,7 +12,7 @@ in
       # Harden
       PasswordAuthentication = false;
       PermitRootLogin = "no";
-    # Automatically remove stale sockets
+      # Automatically remove stale sockets
       StreamLocalBindUnlink = "yes";
     };
     # Allow forwarding ports to everywhere
@@ -34,10 +34,12 @@ in
       "vaw-valentin.de" = {
         publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICVjDeeECOjKK1H9x+R+ZS4pYx6CGJXGmmHNS83JEXUJ";
       };
-    } // builtins.mapAttrs (name: _: {
-      publicKeyFile = pubKey name;
-      extraHostNames = lib.optional (name == hostname) "localhost";
-    }) hosts;
+    } // builtins.mapAttrs
+      (name: _: {
+        publicKeyFile = pubKey name;
+        extraHostNames = lib.optional (name == hostname) "localhost";
+      })
+      hosts;
   };
 
   # Passwordless sudo when SSH'ing with keys

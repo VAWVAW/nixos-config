@@ -18,6 +18,6 @@
         mnemonicprefix = true;
       };
     };
-    ignores = [ "*~" "*.swp" "result"];
+    ignores = [ "*~" "*.swp" "result" ];
   };
 }

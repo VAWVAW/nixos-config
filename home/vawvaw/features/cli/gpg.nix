@@ -25,14 +25,15 @@ in
     enableExtraSocket = true;
   };
 
-  programs = 
-    let 
+  programs =
+    let
       fixGpg = ''
         export GPG_TTY="$(tty)"
         export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
         gpgconf --launch gpg-agent
       '';
-    in {
+    in
+    {
       bash.profileExtra = fixGpg;
       fish.loginShellInit = fixGpg;
       zsh.loginExtra = fixGpg;
