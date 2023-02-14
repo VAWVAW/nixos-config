@@ -26,6 +26,9 @@
         paths = [
           "/persist"
         ];
+        exclude = [
+          "re:/\\.git/"
+        ];
         extraCreateArgs = "--exclude-caches --keep-exclude-tags";
         preHook = ''
           realBorg="$(${pkgs.which}/bin/which borg)"
@@ -75,7 +78,8 @@
         startAt = [ "weekly" ];
         compression = "lzma";
         prune.keep = {
-          secondly = 1;
+          weekly = 4;
+          monthly = 12;
         };
         preHook = default-job.preHook + "mkdir /root/mnt && ${pkgs.sshfs}/bin/sshfs hosting124304@vaw-valentin.de:/backup /root/mnt";
         postHook = default-job.postHook + "/run/wrappers/bin/umount /root/mnt && rmdir /root/mnt";
