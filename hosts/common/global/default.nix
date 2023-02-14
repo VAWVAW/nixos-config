@@ -1,11 +1,12 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ pkgs, lib, inputs, outputs, ... }:
+{ lib, inputs, outputs, ... }:
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
 
     ./backup.nix
     ./btrfs-optin-persistence.nix
+    ./cli.nix
     ./locale.nix
     ./mailcap.nix
     ./nix.nix
@@ -13,16 +14,10 @@
     ./sops.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
 
-  environment.systemPackages = with pkgs; [
-    xdg-utils
-  ];
-
   home-manager = {
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs outputs; };
   };
-
-  environment.shells = [ pkgs.bash pkgs.zsh ];
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
@@ -36,15 +31,13 @@
     firewall.enable = lib.mkDefault true;
   };
 
-  programs = {
-    zsh.enable = true;
-    fuse.userAllowOther = true;
-    git.enable = true;
-    vim.defaultEditor = true;
-  };
   hardware.enableRedistributableFirmware = true;
 
   users.mutableUsers = false;
+
+  system.activationScripts = {
+    generateMnt = ''[ ! -d /mnt ] && [[ ! "NIXOS_ACTION" == "dry-activate" ]] && mkdir /mnt'';
+  };
 
   security = {
     polkit.enable = true;

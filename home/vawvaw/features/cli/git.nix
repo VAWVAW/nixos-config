@@ -4,6 +4,7 @@
     userEmail = "valentin@wiedekind1.de";
     userName = "vawvaw";
     aliases = {
+      a = "add -A";
       ca = "commit -a";
       graph = "log --decorate --oneline --graph";
     };

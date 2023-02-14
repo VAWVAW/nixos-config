@@ -33,7 +33,8 @@ let
       '') cfg.wrappedBinaries)}
     '';
 
-in {
+in
+{
   options.programs.firejail = {
     firejailBinary = mkOption {
       type = types.path;
@@ -58,13 +59,13 @@ in {
           };
           extraArgs = mkOption {
             type = types.listOf types.str;
-            default = [];
+            default = [ ];
             description = lib.mdDoc "Extra arguments to pass to firejail";
             example = [ "--private=~/.firejail_home" ];
           };
         };
       }));
-      default = {};
+      default = { };
       example = literalExpression ''
         {
           firefox = {
@@ -88,7 +89,7 @@ in {
     };
   };
 
-  config = mkIf (cfg.wrappedBinaries != {}) {
+  config = mkIf (cfg.wrappedBinaries != { }) {
     home.packages = [ wrappedBins ];
   };
 

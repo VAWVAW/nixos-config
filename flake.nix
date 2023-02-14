@@ -8,6 +8,11 @@
     impermanence.url = github:nix-community/impermanence;
     sops-nix.url = github:mic92/sops-nix;
 
+    flake-programs-sqlite = {
+      url = github:wamserma/flake-programs-sqlite;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";

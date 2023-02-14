@@ -1,4 +1,4 @@
-{ pkgs, inputs , ... }:
+{ pkgs, inputs, ... }:
 {
   home = {
     sessionVariables.BROWSER = "firefox";
@@ -21,9 +21,16 @@
     ];
   };
 
+  home.persistence."/local_persist/home/vawvaw" = {
+    directories = [
+      ".mozilla/firefox"
+    ];
+  };
+
   programs.firefox = {
     enable = true;
     extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+      darkreader
       privacy-badger
       noscript
       vimium
@@ -31,6 +38,8 @@
       canvasblocker
       startpage-private-search
       user-agent-string-switcher
+      ublock-origin
+      libredirect
     ];
     profiles."default" = {
       settings = {
@@ -104,6 +113,7 @@
         "extensions.shield-recipe-client.enabled" = false;
         "extensions.webservice.discoverURL" = "";
         "media.autoplay.default" = 0;
+        "media.ffmpeg.vaapi.enabled" = true;
         "media.autoplay.enabled" = true;
         "media.eme.enabled" = false;
         "media.gmp-widevinecdm.enabled" = false;

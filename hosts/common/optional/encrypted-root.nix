@@ -15,6 +15,7 @@ in {
           };
         };
         fallbackToPassword = true;
+        allowDiscards = true;
       };
     };
   };

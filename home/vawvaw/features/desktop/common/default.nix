@@ -1,13 +1,20 @@
 { pkgs, ... }:
 {
   imports = [
-    ./spotify.nix
     ./audio.nix
+    ./discord.nix
     ./font.nix
-    ./firejail.nix
     ./firefox.nix
-    ./theme.nix
     ./gtk.nix
+    ./keepassxc.nix
+    ./signal-desktop.nix
+    ./spotify.nix
+    ./theme.nix
+    ./tor-browser.nix
+  ];
+
+  home.packages = with pkgs; [
+    yubioath-flutter
   ];
 
   xdg.mimeApps.enable = true;

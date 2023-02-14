@@ -16,12 +16,12 @@
   };
 
   sops.secrets = {
-    spotify-password = {};
-    spotifython-client_secret = {};
+    spotify-password = { };
+    spotifython-client_secret = { };
   };
 
   xdg.configFile."spotifython-cli/config" = {
-    source = (pkgs.formats.ini {}).generate "spotifython-cli-config.ini" {
+    source = (pkgs.formats.ini { }).generate "spotifython-cli-config.ini" {
       Authentication = {
         client_id = "b6e7024948814d9b9c795f2aa188dca5";
         client_secret_command = "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/spotifython-client_secret";
@@ -41,7 +41,7 @@
         password_cmd = "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/spotify-password";
         use_mpris = false;
         backend = "alsa";
-        device= "default";
+        device = "default";
         mixer = "PCM";
         volume_controller = "alsa";
         on_song_change_hook = "${pkgs.spotifython-cli}/bin/spotifython-cli spotifyd";

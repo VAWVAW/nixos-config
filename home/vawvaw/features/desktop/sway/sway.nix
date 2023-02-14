@@ -92,6 +92,10 @@
         startup = [
           { command = "${pkgs.noisetorch}/bin/noisetorch -i"; }
           { command = "discord"; }
+          {
+            command = ''${pkgs.bash}/bin/bash -c "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service"'';
+          }
+          { command = "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%"; }
         ];
 
         focus.followMouse = "no";
@@ -110,8 +114,9 @@
             inherit modifier left down up right terminal menu;
             mod = modifier;
             get_i3block_signal = name: (builtins.head (builtins.filter (block: block.name == name) config.programs.i3blocks.blocks)).signal;
-              in {
-              "${mod}+Shift+r" = "reload";
+          in
+          {
+            "${mod}+Shift+r" = "reload";
             "${mod}+Return" = "exec ${terminal}";
             "${mod}+Plus" = "exec firefox";
             "${mod}+Shift+q" = "kill";
@@ -188,104 +193,110 @@
             "${mod}+0" = "workspace 10";
             "${mod}+Shift+0" = "move container to workspace 10; workspace 10";
             "${mod}+Shift+Ctrl+0" = "move container to workspace 10";
-            }
-            //
-            # generate workspace configurations from list and append to keybindings
-            # remember to change workspace 10
-            builtins.listToAttrs(builtins.concatMap (
-            n: [
-            {name = "${mod}+${n}";
-            value = "workspace ${n}";
-            }
-            {name = "${mod}+Shift+${n}";
-            value = "move container to workspace ${n}; workspace ${n}";
-            }
-            {name = "${mod}+Shift+Ctrl+${n}";
-            value = "move container to workspace ${n}";
-            }]
-            # generate list [1..9]
-            ) (builtins.genList (x: toString (x+1)) 9));
+          }
+          //
+          # generate workspace configurations from list and append to keybindings
+          # remember to change workspace 10
+          builtins.listToAttrs (builtins.concatMap
+            (
+              n: [
+                {
+                  name = "${mod}+${n}";
+                  value = "workspace ${n}";
+                }
+                {
+                  name = "${mod}+Shift+${n}";
+                  value = "move container to workspace ${n}; workspace ${n}";
+                }
+                {
+                  name = "${mod}+Shift+Ctrl+${n}";
+                  value = "move container to workspace ${n}";
+                }
+              ]
+              # generate list [1..9]
+            )
+            (builtins.genList (x: toString (x + 1)) 9));
 
-            defaultWorkspace = "workspace 1";
-            workspaceOutputAssign = [
-              { workspace = "1"; output = primary_screen; }
-              { workspace = "9"; output = secondary_screen; }
-              { workspace = "10"; output = secondary_screen; }
-            ];
+        defaultWorkspace = "workspace 1";
+        workspaceOutputAssign = [
+          { workspace = "1"; output = primary_screen; }
+          { workspace = "9"; output = secondary_screen; }
+          { workspace = "10"; output = secondary_screen; }
+        ];
 
-            modes =
-              let
-                inherit modifier left down up right;
-                mod = modifier;
-              in
-              {
-                resize = {
-                  "${left}" = "resize shrink width 10 px or 10 ppt";
-                  "${right}" = "resize grow width 10 px or 10 ppt";
-                  "${down}" = "resize shrink height 10 px or 10 ppt";
-                  "${up}" = "resize grow height 10 px or 10 ppt";
+        modes =
+          let
+            inherit modifier left down up right;
+            mod = modifier;
+          in
+          {
+            resize = {
+              "${left}" = "resize shrink width 10 px or 10 ppt";
+              "${right}" = "resize grow width 10 px or 10 ppt";
+              "${down}" = "resize shrink height 10 px or 10 ppt";
+              "${up}" = "resize grow height 10 px or 10 ppt";
 
-                  "Left" = "resize shrink width 10 px or 10 ppt";
-                  "Right" = "resize grow width 10 px or 10 ppt";
-                  "Down" = "resize shrink height 10 px or 10 ppt";
-                  "Up" = "resize grow height 10 px or 10 ppt";
+              "Left" = "resize shrink width 10 px or 10 ppt";
+              "Right" = "resize grow width 10 px or 10 ppt";
+              "Down" = "resize shrink height 10 px or 10 ppt";
+              "Up" = "resize grow height 10 px or 10 ppt";
 
-                  "Shift+${left}" = "resize shrink width 1 px or 1 ppt";
-                  "Shift+${right}" = "resize grow width 1 px or 1 ppt";
-                  "Shift+${down}" = "resize shrink height 1 px or 1 ppt";
-                  "Shift+${up}" = "resize grow height 1 px or 1 ppt";
+              "Shift+${left}" = "resize shrink width 1 px or 1 ppt";
+              "Shift+${right}" = "resize grow width 1 px or 1 ppt";
+              "Shift+${down}" = "resize shrink height 1 px or 1 ppt";
+              "Shift+${up}" = "resize grow height 1 px or 1 ppt";
 
-                  "Shift+Left" = "resize shrink width 1 px or 1 ppt";
-                  "Shift+Right" = "resize grow width 1 px or 1 ppt";
-                  "Shift+Down" = "resize shrink height 1 px or 1 ppt";
-                  "Shift+Up" = "resize grow height 1 px or 1 ppt";
+              "Shift+Left" = "resize shrink width 1 px or 1 ppt";
+              "Shift+Right" = "resize grow width 1 px or 1 ppt";
+              "Shift+Down" = "resize shrink height 1 px or 1 ppt";
+              "Shift+Up" = "resize grow height 1 px or 1 ppt";
 
-                  # back to normal
-                  "Escape" = "mode default";
-                  "BackSpace" = "mode default";
-                  "${mod}+r" = "mode default";
-                  "q" = "mode default";
-                };
-                open = {
-                  "f" = "exec firefox; mode default";
-                  "s" = "exec ${pkgs.steam}/bin/steam; mode default";
-                  "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
-                  "t" = "exec tor-browser; mode default";
-                  "p" = "exec ${pkgs.jetbrains.pycharm-community}/bin/pycharm-community; mode default";
-                  "m" = "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
-
-                  # back to normal
-                  "Escape" = "mode default";
-                  "BackSpace" = "mode default";
-                  "${mod}+o" = "mode default";
-                };
-                spotify = {
-                  "d" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu";
-                  "p" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t";
-                  "o" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t --playlist-dmenu";
-                  "i" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f --playlist-dmenu";
-                  "r" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f -r t --playlist-dmenu";
-                  "s" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli pause";
-
-                  # back to normal
-                  "Escape" = "mode default";
-                  "BackSpace" = "mode default";
-                  "${mod}+p" = "mode default";
-                };
-              };
+              # back to normal
+              "Escape" = "mode default";
+              "BackSpace" = "mode default";
+              "${mod}+r" = "mode default";
+              "q" = "mode default";
             };
-            extraConfig =
-              let
-                mouse = "4119:24578:HID_1017:6002_Mouse";
-              in
-              ''
-                # bind mouse
-                bindsym --input-device=${mouse} --whole-window button8 workspace next
-                bindsym --input-device=${mouse} --whole-window button9 workspace prev
-                bindcode 152 exec --no-startup-id ${pkgs.bash}/bin/bash -c "for i in {1..4}; do swaymsg seat - cursor press button1 && swaymsg seat - cursor release button1; done"
+            open = {
+              "f" = "exec firefox; mode default";
+              "s" = "exec ${pkgs.steam}/bin/steam; mode default";
+              "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
+              "t" = "exec tor-browser; mode default";
+              "p" = "exec ${pkgs.jetbrains.pycharm-community}/bin/pycharm-community; mode default";
+              "m" = "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
 
-                # workspace layout
-                workspace --no-auto-back-and-forth 10; layout stacking; workspace --no-auto-back-and-forth 1
-              '';
+              # back to normal
+              "Escape" = "mode default";
+              "BackSpace" = "mode default";
+              "${mod}+o" = "mode default";
             };
-            }
+            spotify = {
+              "d" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu";
+              "p" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t";
+              "o" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t --playlist-dmenu";
+              "i" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f --playlist-dmenu";
+              "r" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f -r t --playlist-dmenu";
+              "s" = "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli pause";
+
+              # back to normal
+              "Escape" = "mode default";
+              "BackSpace" = "mode default";
+              "${mod}+p" = "mode default";
+            };
+          };
+      };
+      extraConfig =
+        let
+          mouse = "4119:24578:HID_1017:6002_Mouse";
+        in
+        ''
+          # bind mouse
+          bindsym --input-device=${mouse} --whole-window button8 workspace next
+          bindsym --input-device=${mouse} --whole-window button9 workspace prev
+          bindcode 152 exec --no-startup-id ${pkgs.bash}/bin/bash -c "for i in {1..4}; do swaymsg seat - cursor press button1 && swaymsg seat - cursor release button1; done"
+
+          # workspace layout
+          workspace --no-auto-back-and-forth 10; layout stacking; workspace --no-auto-back-and-forth 1
+        '';
+    };
+}
