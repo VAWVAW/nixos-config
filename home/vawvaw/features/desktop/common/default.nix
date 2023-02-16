@@ -5,7 +5,6 @@
     ./discord.nix
     ./font.nix
     ./firefox.nix
-    ./gtk.nix
     ./keepassxc.nix
     ./signal-desktop.nix
     ./spotify.nix
