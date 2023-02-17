@@ -1,5 +1,5 @@
 # System configuration for my main desktop PC
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, config, ... }: {
   imports = [
     inputs.hardware.nixosModules.common-cpu-intel-cpu-only
     inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
@@ -64,10 +64,9 @@
     options = [ "ro" ];
   };
 
-  #swapDevices = [{
-  #  device = "/swap/swapfile";
-  #  size = 8196;
-  #}];
+  swapDevices = [{
+    label = "${config.networking.hostName}-swap";
+  }];
 
   nixpkgs.hostPlatform.system = "x86_64-linux";
 }
