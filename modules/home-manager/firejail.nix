@@ -5,21 +5,19 @@ with lib;
 let
   cfg = config.programs.firejail;
 
-  wrappedBins = pkgs.runCommand "firejail-wrapped-binaries"
+  wrappedBins = pkgs.runCommandLocal "firejail-wrapped-binaries"
     {
-      preferLocalBuild = true;
-      allowSubstitutes = false;
       # override packages added from other modules in PATH
       meta.priority = -5;
     }
     ''
       mkdir -p $out/bin
-      ${lib.concatStringsSep "\n" (lib.mapAttrsToList (command: value:
+      ${concatStringsSep "\n" (mapAttrsToList (command: value:
       let
-        opts = if builtins.isAttrs value
+        opts = if isAttrs value
         then value
         else { executable = value; profile = null; extraArgs = []; };
-        args = lib.escapeShellArgs (
+        args = escapeShellArgs (
           opts.extraArgs
           ++ (optional (opts.profile != null) "--profile=${toString opts.profile}")
           );
@@ -39,7 +37,7 @@ in
     firejailBinary = mkOption {
       type = types.path;
       default = "/run/wrappers/bin/firejail";
-      description = lib.mdDoc "The firejail executable with setuid installed using your package manager";
+      description = mdDoc "The firejail executable with setuid installed using your package manager";
       example = "/bin/firejail";
     };
 
@@ -48,19 +46,19 @@ in
         options = {
           executable = mkOption {
             type = types.path;
-            description = lib.mdDoc "Executable to run sandboxed";
-            example = literalExpression ''"''${lib.getBin pkgs.firefox}/bin/firefox"'';
+            description = mdDoc "Executable to run sandboxed";
+            example = literalExpression ''"''${getBin pkgs.firefox}/bin/firefox"'';
           };
           profile = mkOption {
             type = types.nullOr types.path;
             default = null;
-            description = lib.mdDoc "Profile to use";
+            description = mdDoc "Profile to use";
             example = literalExpression ''"''${pkgs.firejail}/etc/firejail/firefox.profile"'';
           };
           extraArgs = mkOption {
             type = types.listOf types.str;
             default = [ ];
-            description = lib.mdDoc "Extra arguments to pass to firejail";
+            description = mdDoc "Extra arguments to pass to firejail";
             example = [ "--private=~/.firejail_home" ];
           };
         };
@@ -69,16 +67,16 @@ in
       example = literalExpression ''
         {
           firefox = {
-            executable = "''${lib.getBin pkgs.firefox}/bin/firefox";
+            executable = "''${getBin pkgs.firefox}/bin/firefox";
             profile = "''${pkgs.firejail}/etc/firejail/firefox.profile";
           };
           mpv = {
-            executable = "''${lib.getBin pkgs.mpv}/bin/mpv";
+            executable = "''${getBin pkgs.mpv}/bin/mpv";
             profile = "''${pkgs.firejail}/etc/firejail/mpv.profile";
           };
         }
       '';
-      description = lib.mdDoc ''
+      description = mdDoc ''
         Wrap the binaries in firejail and place them in your path.
         You still need to install firejail globally using your package manager.
         You will get file collisions if you put the actual application binary in
