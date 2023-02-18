@@ -25,7 +25,7 @@ let
       ''
         cat <<_EOF >$out/bin/${command}
         #! ${pkgs.runtimeShell} -e
-        exec ${cfg.firejailBinary} ${args} -- ${toString opts.executable} "\$@"
+        exec ${cfg.firejailBinary} ${args} ${toString opts.executable} "\$@"
         _EOF
         chmod 0755 $out/bin/${command}
       '') cfg.wrappedBinaries)}
