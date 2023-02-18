@@ -4,8 +4,9 @@
     ./bemenu.nix
   ];
 
-  home.packages = [
-    pkgs.spotifython-cli
+  home.packages = with pkgs; [
+    playerctl
+    spotifython-cli
   ];
 
   home.persistence."/local_persist/home/vawvaw" = {
@@ -35,11 +36,11 @@
 
   services.spotifyd = {
     enable = true;
+    package = pkgs.spotifyd.override { withMpris = true; };
     settings = {
       global = {
         username = "vaw.valentin@gmx.de";
         password_cmd = "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/spotify-password";
-        use_mpris = false;
         backend = "alsa";
         device = "default";
         mixer = "PCM";
