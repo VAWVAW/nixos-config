@@ -29,19 +29,19 @@
 
   programs.firefox = {
     enable = true;
-    extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
-      darkreader
-      privacy-badger
-      noscript
-      vimium
-      decentraleyes
-      canvasblocker
-      startpage-private-search
-      user-agent-string-switcher
-      ublock-origin
-      libredirect
-    ];
     profiles."default" = {
+      extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+        darkreader
+        privacy-badger
+        noscript
+        vimium
+        decentraleyes
+        canvasblocker
+        startpage-private-search
+        user-agent-string-switcher
+        ublock-origin
+        libredirect
+      ];
       settings = {
         "browser.startup.homepage" = "https://www.startpage.com/do/mypage.pl?prfe=5477eda89dbc3d3131b5a2f8aefa6bc806ef7ca1857dc6f5a4c6396f04789fa0f9389b088ec341ce380a470ac2cd451d72a522357c57b0994d35b6c538f5a490ddd7c0bb7765e3e34efdad1a";
         "browser.uiCustomization.state" = ''{"placements":{"widget-overflow-fixed-list":[],"unified-extensions-area":["jid1-mnnxcxisbpnsxq_jetpack-browser-action","canvasblocker_kkapsner_de-browser-action","jid1-bofifl9vbdl2zq_jetpack-browser-action","_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action","7esoorv3_alefvanoon_anonaddy_me-browser-action"],"nav-bar":["back-button","forward-button","stop-reload-button","home-button","customizableui-special-spring1","urlbar-container","customizableui-special-spring2","save-to-pocket-button","downloads-button","keepassxc-browser_keepassxc_org-browser-action","ublock0_raymondhill_net-browser-action","_73a6fe31-595d-460b-a920-fcc0f8843232_-browser-action","_b11bea1f-a888-4332-8d8a-cec2be7d24b9_-browser-action","addon_darkreader_org-browser-action","_a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7_-browser-action"],"toolbar-menubar":["menubar-items"],"TabsToolbar":["tabbrowser-tabs","new-tab-button","alltabs-button"],"PersonalToolbar":["personal-bookmarks"]},"seen":["developer-button","canvasblocker_kkapsner_de-browser-action","jid1-bofifl9vbdl2zq_jetpack-browser-action","keepassxc-browser_keepassxc_org-browser-action","_73a6fe31-595d-460b-a920-fcc0f8843232_-browser-action","jid1-mnnxcxisbpnsxq_jetpack-browser-action","_d7742d87-e61d-4b78-b8a1-b469842139fa_-browser-action","_a6c4a591-f1b2-4f03-b3ff-767e5bedf4e7_-browser-action","_b11bea1f-a888-4332-8d8a-cec2be7d24b9_-browser-action","7esoorv3_alefvanoon_anonaddy_me-browser-action","addon_darkreader_org-browser-action","ublock0_raymondhill_net-browser-action"],"dirtyAreaCache":["nav-bar","PersonalToolbar","toolbar-menubar","TabsToolbar","widget-overflow-fixed-list","unified-extensions-area"],"currentVersion":18,"newElementCount":4}'';

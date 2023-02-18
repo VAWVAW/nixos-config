@@ -14,9 +14,9 @@ in
       PermitRootLogin = "no";
       # Automatically remove stale sockets
       StreamLocalBindUnlink = "yes";
+      # Allow forwarding ports to everywhere
+      GatewayPorts = "clientspecified";
     };
-    # Allow forwarding ports to everywhere
-    gatewayPorts = "clientspecified";
 
     hostKeys = [{
       path = "/local_persist/etc/ssh/ssh_host_ed25519_key";
