@@ -39,7 +39,7 @@ in
       options = [ "subvol=root" "compress=zstd" ];
     };
 
-    "/nix" = {
+    "/nix" = lib.mkDefault {
       device = "/dev/disk/by-label/${hostname}";
       fsType = "btrfs";
       options = [ "subvol=nix" "noatime" "compress=zstd" ];
@@ -57,12 +57,6 @@ in
       fsType = "btrfs";
       options = [ "subvol=local_persist" "compress=zstd" ];
       neededForBoot = true;
-    };
-
-    "/swap" = {
-      device = "/dev/disk/by-label/${hostname}";
-      fsType = "btrfs";
-      options = [ "subvol=swap" "noatime" ];
     };
   };
 
