@@ -23,7 +23,7 @@
 
   home.persistence."/local_persist/home/vawvaw" = {
     directories = [
-      ".mozilla/firefox"
+      ".mozilla/firefox/default"
     ];
   };
 

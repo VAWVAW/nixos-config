@@ -5,17 +5,17 @@ let
     mkdir -p /btrfs
     mount -o subvol=/ /dev/disk/by-label/${hostname} /btrfs
 
-    if [ -e "/btrfs/root/dontwipe" ]; then
+    if [ -e "/btrfs/${hostname}/root/dontwipe" ]; then
       echo "Not wiping root"
     else
       echo "Cleaning subvolume"
-      btrfs subvolume list -o /btrfs/root | cut -f9 -d ' ' |
+      btrfs subvolume list -o /btrfs/${hostname}/root | cut -f9 -d ' ' |
       while read subvolume; do
         btrfs subvolume delete "/btrfs/$subvolume"
-      done && btrfs subvolume delete /btrfs/root
+      done && btrfs subvolume delete /btrfs/${hostname}/root
 
       echo "Restoring blank subvolume"
-      btrfs subvolume snapshot /btrfs/root-blank /btrfs/root
+      btrfs subvolume snapshot /btrfs/${hostname}/root-blank /btrfs/${hostname}/root
     fi
 
     umount /btrfs
@@ -36,26 +36,26 @@ in
     "/" = {
       device = "/dev/disk/by-label/${hostname}";
       fsType = "btrfs";
-      options = [ "subvol=root" "compress=zstd" ];
+      options = [ "subvol=${hostname}/root" "compress=zstd" ];
     };
 
     "/nix" = lib.mkDefault {
       device = "/dev/disk/by-label/${hostname}";
       fsType = "btrfs";
-      options = [ "subvol=nix" "noatime" "compress=zstd" ];
+      options = [ "subvol=${hostname}/nix" "noatime" "compress=zstd" ];
     };
 
     "/persist" = {
       device = "/dev/disk/by-label/${hostname}";
       fsType = "btrfs";
-      options = [ "subvol=persist" "compress=zstd" ];
+      options = [ "subvol=${hostname}/persist" "compress=zstd" ];
       neededForBoot = true;
     };
 
     "/local_persist" = {
       device = "/dev/disk/by-label/${hostname}";
       fsType = "btrfs";
-      options = [ "subvol=local_persist" "compress=zstd" ];
+      options = [ "subvol=${hostname}/local_persist" "compress=zstd" ];
       neededForBoot = true;
     };
   };

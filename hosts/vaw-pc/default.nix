@@ -9,6 +9,7 @@
     ../common/optional/encrypted-root.nix
     ../common/optional/yubikey.nix
     ../common/optional/networkmanager.nix
+    ../common/optional/libvirt.nix
 
     ../common/optional/desktop
 
@@ -26,9 +27,7 @@
     ];
   };
 
-  virtualisation.libvirtd.enable = true;
   environment.systemPackages = with pkgs; [
-    virt-manager
     nvtop
   ];
 
@@ -39,8 +38,7 @@
   boot = {
     kernelModules = [ "kvm-intel" ];
     initrd = {
-      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" "sr_mod" ];
-      kernelModules = [ "dm-snapshot" ];
+      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
     };
     loader = {
       efi.canTouchEfiVariables = true;
@@ -73,9 +71,20 @@
     options = [ "ro" ];
   };
 
+  fileSystems."/swap" = 
+  let
+    hostname = config.networking.hostName;
+  in {
+    device = "/dev/disk/by-label/${hostname}";
+    fsType = "btrfs";
+    options = [ "subvol=${hostname}/swap" "noatime" ];
+  };
+
   swapDevices = [{
-    label = "${config.networking.hostName}-swap";
+    device = "/swap/swapfile";
   }];
+  boot.kernelParams = [ "resume_offset=6328854" ];
+  boot.resumeDevice = config.fileSystems."/swap".device;
 
   nixpkgs.hostPlatform.system = "x86_64-linux";
 }

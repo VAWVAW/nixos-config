@@ -20,6 +20,7 @@ in {
       "podman"
       "git"
       "libvirtd"
+      "networkmanager"
     ];
 
     openssh.authorizedKeys.keys = [
