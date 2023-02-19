@@ -60,19 +60,13 @@ in
     };
   };
 
+  environment.persistence."/persist".hideMounts = true;
   environment.persistence."/local_persist" = {
     hideMounts = true;
     directories = [
       "/etc/nixos"
       "/var/log"
       "/var/lib/systemd/timers"
-    ] ++ (if config.networking.networkmanager.enable then [
-      "/etc/NetworkManager/system-connections"
-      "/var/lib/NetworkManager/seen-bssids"
-    ] else [ ]);
-    files = (if config.networking.networkmanager.enable then [
-      "/var/lib/NetworkManager/secret_key"
-      "/var/lib/NetworkManager/timestamps"
-    ] else [ ]);
+    ];
   };
 }

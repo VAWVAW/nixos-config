@@ -8,6 +8,7 @@
     ../common/optional/apparmor.nix
     ../common/optional/encrypted-root.nix
     ../common/optional/yubikey.nix
+    ../common/optional/networkmanager.nix
 
     ../common/optional/desktop
 
@@ -15,7 +16,15 @@
     ../common/users/vawvaw
   ];
 
-  networking.hostName = "vaw-pc";
+  networking = {
+    hostName = "vaw-pc";
+    hosts = {
+      "192.168.2.101" = [ "alarmpi" ];
+    };
+    networkmanager.insertNameservers = [
+      "192.168.2.101"
+    ];
+  };
 
   virtualisation.libvirtd.enable = true;
   environment.systemPackages = with pkgs; [
