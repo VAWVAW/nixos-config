@@ -77,7 +77,7 @@
   in {
     device = "/dev/disk/by-label/${hostname}";
     fsType = "btrfs";
-    options = [ "subvol=${hostname}/swap" "noatime" ];
+    options = [ "subvol=${hostname}/swap" "noatime" "compress=zstd" ];
   };
 
   swapDevices = [{
