@@ -6,7 +6,7 @@
   ];
   environment.persistence."/local_persist" = {
     directories = [
-      "/var/lib/libvirt/images"
+      "/var/lib/libvirt"
     ];
   };
 }
