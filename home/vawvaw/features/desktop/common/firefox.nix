@@ -11,14 +11,29 @@
     "x-scheme-handler/https" = [ "firefox.desktop" ];
   };
 
-  programs.firejail.wrappedBinaries.firefox = {
-    executable = "${pkgs.firefox}/bin/firefox";
-    profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
-    extraArgs = [
-      # U2F USB stick
-      "--ignore=private-dev"
-      "--dbus-user.talk=org.freedesktop.Notifications"
-    ];
+  programs.firejail.wrappedBinaries = {
+    firefox = {
+      executable = "${pkgs.firefox}/bin/firefox";
+      profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
+      extraArgs = [
+        # U2F USB stick
+        "--ignore=private-dev"
+        # enable drm
+        "--ignore=noexec \${HOME}"
+      ];
+    };
+    firefox-unsafe = {
+      executable = "${pkgs.firefox}/bin/firefox";
+      profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
+      extraArgs = [
+        # U2F USB stick
+        "--ignore=private-dev"
+        # enable drm
+        "--ignore=noexec \${HOME}"
+        # disable access to ~
+        "--private"
+      ];
+    };
   };
 
   home.persistence."/local_persist/home/vawvaw" = {
