@@ -12,9 +12,10 @@
     ncdu # TUI disk usage
     exa # colorful ls
     fd # colorful find
-    tmux # terminal multiplexer
 
     nixfmt
     file
+    lsof
+    python311
   ];
 }
