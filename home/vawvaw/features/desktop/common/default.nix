@@ -17,5 +17,19 @@
     yubioath-flutter
   ];
 
+  home.persistence = {
+    "/persist/home/vawvaw" = {
+      directories = [
+        "Pictures"
+      ];
+    };
+    "/local_persist/home/vawvaw" = {
+      directories = [
+        "Games"
+        "Maildir"
+      ];
+    };
+  };
+
   xdg.mimeApps.enable = true;
 }

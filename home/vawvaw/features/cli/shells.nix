@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ./zsh.nix
@@ -14,10 +14,11 @@
     la = "${pkgs.exa}/bin/exa -lag --git";
     tree = "${pkgs.exa}/bin/exa -T";
 
-    ntest = "sudo nixos-rebuild test --flake /etc/nixos#";
-    nswitch = "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild switch --flake /etc/nixos# && sudo umount /boot && sudo mount /boot";
-    nboot = "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild boot --flake /etc/nixos# && sudo umount /boot && sudo mount /boot";
-    nbuild = "sudo nixos-rebuild build --flake /etc/nixos#";
+    ntest = lib.mkDefault "sudo nixos-rebuild test --flake /etc/nixos#";
+    nswitch = lib.mkDefault "sudo nixos-rebuild switch --flake /etc/nixos#";
+    nboot = lib.mkDefault "sudo nixos-rebuild boot --flake /etc/nixos#";
+    nbuild = lib.mkDefault "nixos-rebuild build --flake /etc/nixos#";
+    hswitch = lib.mkDefault "home-manager switch --flake /etc/nixos";
     ".." = "cd ..";
     find = "find 2>/dev/null";
     q = "exit";

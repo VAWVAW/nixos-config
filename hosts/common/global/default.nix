@@ -7,11 +7,13 @@
     ./backup.nix
     ./btrfs-optin-persistence.nix
     ./cli.nix
+    ./encrypted-root.nix
     ./locale.nix
     ./mailcap.nix
     ./nix.nix
     ./openssh.nix
     ./sops.nix
+    ./yubikey.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
 
   home-manager = {

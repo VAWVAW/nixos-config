@@ -13,6 +13,7 @@
     exa # colorful ls
     fd # colorful find
 
+    wget
     nixfmt
     file
     lsof

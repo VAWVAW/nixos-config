@@ -3,7 +3,7 @@ let
   hostname = config.networking.hostName;
   wipeScript = ''
     mkdir -p /btrfs
-    mount -o subvol=/ /dev/disk/by-label/${hostname} /btrfs
+    mount -o subvol=/ /dev/disk/by-label/system_partition /btrfs
 
     if [ -e "/btrfs/${hostname}/root/dontwipe" ]; then
       echo "Not wiping root"
@@ -34,26 +34,26 @@ in
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-label/${hostname}";
+      device = "/dev/disk/by-label/system_partition";
       fsType = "btrfs";
       options = [ "subvol=${hostname}/root" "compress=zstd" ];
     };
 
-    "/nix" = lib.mkDefault {
-      device = "/dev/disk/by-label/${hostname}";
+    "/nix" = {
+      device = "/dev/disk/by-label/system_partition";
       fsType = "btrfs";
       options = [ "subvol=${hostname}/nix" "noatime" "compress=zstd" ];
     };
 
     "/persist" = {
-      device = "/dev/disk/by-label/${hostname}";
+      device = "/dev/disk/by-label/system_partition";
       fsType = "btrfs";
       options = [ "subvol=${hostname}/persist" "compress=zstd" ];
       neededForBoot = true;
     };
 
     "/local_persist" = {
-      device = "/dev/disk/by-label/${hostname}";
+      device = "/dev/disk/by-label/system_partition";
       fsType = "btrfs";
       options = [ "subvol=${hostname}/local_persist" "compress=zstd" ];
       neededForBoot = true;

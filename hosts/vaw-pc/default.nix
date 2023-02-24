@@ -6,8 +6,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     ../common/optional/apparmor.nix
-    ../common/optional/encrypted-root.nix
-    ../common/optional/yubikey.nix
+    ../common/optional/encrypted-root-yubikey.nix
     ../common/optional/networkmanager.nix
     ../common/optional/libvirt.nix
 
@@ -20,10 +19,10 @@
   networking = {
     hostName = "vaw-pc";
     hosts = {
-      "192.168.2.101" = [ "alarmpi" ];
+      "192.168.2.101" = [ "vaw-pi" ];
     };
     networkmanager.insertNameservers = [
-      "192.168.2.101"
+#      "192.168.2.101"
     ];
   };
 

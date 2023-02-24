@@ -45,15 +45,10 @@
         directories = [
           "Documents"
           "Downloads"
-          "Pictures"
         ];
         allowOther = true;
       };
       "/local_persist/home/vawvaw" = {
-        directories = [
-          "Games"
-          "Maildir"
-        ];
         allowOther = true;
       };
     };

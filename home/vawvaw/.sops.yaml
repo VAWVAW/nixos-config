@@ -5,11 +5,13 @@ keys:
   # Hosts
   - &hosts:
     - &vaw-pc age1p6ju0gfsmdd4l7u47rxnmqz6q4jsm480kf2r05dy2f666sflr5lqh770u2
+    - &vaw-pi age1wetyxu09aguqallae0ne58ljy9mnthyz5dr0ycyrzmk6t0umevpsw9fyaa
 
 creation_rules:
   - path_regex: secrets.yaml$
     key_groups:
     - age:
       - *vaw-pc
+      - *vaw-pi
       pgp:
       - *vawvaw

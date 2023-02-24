@@ -1,9 +1,25 @@
+{ pkgs, config, lib, ... }:
 {
-  programs.zsh = {
+  options.programs.zsh.promptColor = lib.mkOption {
+    type = lib.types.str;
+    default = "blue";
+    description = lib.mdDoc "The color to display in the default zsh promt";
+  };
+
+  config.programs.zsh = 
+  let 
+    promptColor = config.programs.zsh.promptColor;
+  in {
     enable = true;
     enableSyntaxHighlighting = true;
     enableCompletion = true;
     initExtra = ''
+      ${lib.optionalString config.programs.tmux.enable ''# start tmux
+      if [ -z "$TMUX" ]; then
+        exec ${pkgs.tmux}/bin/tmux attach
+      fi
+      ''}
+
       setopt promptsubst
 
       # enable completion features
@@ -46,10 +62,10 @@
         fi
       }
 
-      VI_MODE="%(#.red.blue)"
+      VI_MODE="blue"
       prompt_symbol=⏣
       [ "$EUID" -eq 0 ] && prompt_symbol=🕱
-      PROMPT=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.blue)}%n%F{%(#.white.blue)}$prompt_symbol%(#. .)%F{%(#.red.blue)}%m%b%F{%(#.blue.green)})-[%B%F{reset}%~%b%F{%(#.blue.green)}]\n└─%B%F{$VI_MODE}%(#.#.$)%b%F{reset} '
+      PROMPT=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.${promptColor})}%n%F{%(#.white.${promptColor})}$prompt_symbol%(#. .)%F{%(#.red.${promptColor})}%m%b%F{%(#.blue.green)})-[%B%F{reset}%~%b%F{%(#.blue.green)}]\n└─%B%F{$VI_MODE}%(#.#.$)%b%F{reset} '
       RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
 
       # start shell in vi mode
@@ -59,10 +75,10 @@
       function set-prompt () {
           case ''${KEYMAP} in
             (vicmd)      VI_MODE="yellow" ;;
-            (main|viins) VI_MODE="%(#.red.blue)" ;;
-            (*)          VI_MODE="%(#.red.blue)" ;;
+            (main|viins) VI_MODE="blue" ;;
+            (*)          VI_MODE="blue" ;;
           esac
-          PS1=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.blue)}%n%F{%(#.white.blue)}$prompt_symbol%(#. .)%F{%(#.red.blue)}%m%b%F{%(#.blue.green)})-[%B%F{reset}%~%b%F{%(#.blue.green)}]\n└─%B%F{$VI_MODE}%(#.#.$)%b%F{reset} '
+          PS1=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.${promptColor})}%n%F{%(#.white.${promptColor})}$prompt_symbol%(#. .)%F{%(#.red.${promptColor})}%m%b%F{%(#.blue.green)})-[%B%F{reset}%~%b%F{%(#.blue.green)}]\n└─%B%F{$VI_MODE}%(#.#.$)%b%F{reset} '
       }
 
       function zle-line-init zle-keymap-select {
