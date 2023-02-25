@@ -75,7 +75,7 @@
   let
     hostname = config.networking.hostName;
   in {
-    device = "/dev/disk/by-label/${hostname}";
+    device = "/dev/disk/by-label/system_partition";
     fsType = "btrfs";
     options = [ "subvol=${hostname}/swap" "noatime" "compress=zstd" ];
   };
