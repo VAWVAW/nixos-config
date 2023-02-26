@@ -19,7 +19,7 @@
         # U2F USB stick
         "--ignore=private-dev"
         # enable drm
-        "--ignore=noexec \${HOME}"
+        "--ignore=noexec \\\${HOME}"
       ];
     };
     firefox-unsafe = {
@@ -29,7 +29,7 @@
         # U2F USB stick
         "--ignore=private-dev"
         # enable drm
-        "--ignore=noexec \${HOME}"
+        "--ignore=noexec \\\${HOME}"
         # disable access to ~
         "--private"
       ];
