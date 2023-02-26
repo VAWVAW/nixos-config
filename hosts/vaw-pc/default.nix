@@ -9,7 +9,7 @@
     ../common/optional/encrypted-root-yubikey.nix
     ../common/optional/networkmanager.nix
     ../common/optional/libvirt.nix
-    ../common/optional/podman.nix
+    ../common/optional/containers
 
     ../common/optional/desktop
 

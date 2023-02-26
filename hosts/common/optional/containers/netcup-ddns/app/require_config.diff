@@ -1,0 +1,16 @@
+diff --git i/functions.php w/functions.php
+index 904718b..67fdae7 100644
+--- i/functions.php
++++ w/functions.php
+@@ -54,8 +54,9 @@ if (isset($options['ipv6']) || isset($options[6])) {
+ if (isset($options['config']) || isset($options['c'])) {
+     $configFilePath = isset($options['c']) ? $options['c'] : $options['config'];
+ } else {
+-    // If user does not supply an option on the CLI, we will use the default location.
+-    $configFilePath = __DIR__ . '/config.php';
++    // require the config flag being set
++    outputStderr('The "--config" flag needs to be set. Exiting.');
++    exit(1);
+ }
+ 
+ // Load config file

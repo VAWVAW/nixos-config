@@ -3,6 +3,8 @@
   imports = [
     ../common/global
     ../common/users/vawvaw
+
+    ../common/optional/containers/netcup-ddns
   ];
 
   networking = {

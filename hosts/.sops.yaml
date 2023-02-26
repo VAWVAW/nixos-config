@@ -8,10 +8,18 @@ keys:
     - &vaw-pi age15nl6rrcuswt8xynh562agcvf3jjcf4e0ud5rzqp6f6cns0vayvjqjc00lt
 
 creation_rules:
-  - path_regex: hosts/common/secrets.yaml$
+  - path_regex: common/secrets.yaml$
     key_groups:
     - age:
       - *vaw-pc
       - *vaw-pi
+      pgp:
+      - *vawvaw
+  - path_regex: common/optional/containers/.+/.*secret.*
+    key_groups:
+    - age:
+      - *vaw-pi
+      # for testing
+      - *vaw-pc
       pgp:
       - *vawvaw
