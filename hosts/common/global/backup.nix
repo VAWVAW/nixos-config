@@ -74,16 +74,23 @@
       pi = default-job;
       server = default-job // {
         extraPruneArgs = "--save-space";
-        repo = "/root/mnt/backup";
+        repo = "/will/be/overridden";
         startAt = [ "weekly" ];
         compression = "lzma";
+        preHook = ''
+          trap EXIT
+          ${pkgs.sshfs}/bin/sshfs hosting124304@vaw-valentin.de:/backup $RUNTIME_DIRECTORY -o IdentityFile=/local_persist/etc/ssh/ssh_host_ed25519_key -v
+          trap on_exit EXIT
+
+          export BORG_REPO=$RUNTIME_DIRECTORY/backup
+        '' + default-job.preHook;
+        postHook = default-job.postHook + ''
+          /run/wrappers/bin/umount $RUNTIME_DIRECTORY
+        '';
         prune.keep = {
           weekly = 4;
           monthly = 12;
         };
-        preHook = default-job.preHook + "mkdir /root/mnt && ${pkgs.sshfs}/bin/sshfs hosting124304@vaw-valentin.de:/backup /root/mnt";
-        postHook = default-job.postHook + "/run/wrappers/bin/umount /root/mnt && rmdir /root/mnt";
-        readWritePaths = [ "/root/mnt" ];
       };
     };
   systemd.services =
@@ -99,7 +106,11 @@
     in
     {
       borgbackup-job-pi = borg_default;
-      borgbackup-job-server = borg_default;
+      borgbackup-job-server = borg_default // {
+        serviceConfig = {
+          RuntimeDirectory = "backup";
+        };
+      };
       "unit-status-notification@" =
         let
           script = pkgs.writeScript "unit-status-notification" ''
@@ -133,7 +144,7 @@
             ${pkgs.discord-sh}/bin/discord.sh \
               --title "$UNIT ($HOST)" \
               --color "0xFF0000" \
-              --description "$(echo $UNITSTATUS | ${pkgs.jq}/bin/jq -Rs . | cut -c 2- | rev | cut -c 2- | rev)" \
+              --description "$(echo $UNITSTATUS | ${pkgs.jq}/bin/jq -Rs . | cut -c 2- | ${pkgs.util-linux}/bin/rev | cut -c 2- | ${pkgs.util-linux}/bin/rev)" \
               --webhook-url "$(cat ${config.sops.secrets.discord-webhook.path})"
           '';
         in
