@@ -69,20 +69,33 @@
       raspberryPi = {
         enable = true;
         version = 3;
-        uboot.enable = true;
       };
     };
   };
 
   fileSystems = {
     "/boot" = {
-      device = "/dev/disk/by-uuid/555C-6C9F";
+      device = "/dev/mmcblk0p1";
       fsType = "vfat";
+    };
+
+    "/data" = {
+      device = "/dev/mapper/data";
+      fsType = "ext4";
+      encrypted = {
+        enable = true;
+        blkDev = "/dev/disk/by-label/data_crypt";
+        keyFile = "/mnt-root/local_persist/etc/hdd_crypt.key";
+        label = "data";
+      };
     };
     "/".options = lib.mkForce [ "subvol=vaw-pi/root" "compress-force=zstd:5" ];
     "/nix".options = lib.mkForce [ "subvol=vaw-pi/nix" "compress-force=zstd:5" "noatime" ];
     "/persist".options = lib.mkForce [ "subvol=vaw-pi/persist" "compress-force=zstd:5" ];
-    "/local_persist".options = lib.mkForce [ "subvol=vaw-pi/local_persist" "compress-force=zstd:5" ];
+    "/local_persist" = {
+      options = lib.mkForce [ "subvol=vaw-pi/local_persist" "compress-force=zstd:5" ];
+      neededForBoot = true;
+    };
     "/swap" = {
       device = "/dev/disk/by-label/system_partition";
       fsType = "btrfs";
