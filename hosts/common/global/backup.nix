@@ -57,7 +57,7 @@
             borg compact $extraArgs
           fi
         '';
-        repo = "borg@home.vaw-valentin.de:/backup/backup";
+        repo = "borg@home.vaw-valentin.de:.";
         compression = "auto,zstd,10";
         encryption.mode = "repokey";
         encryption.passCommand = "cat ${config.sops.secrets.backup-key.path}";

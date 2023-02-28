@@ -40,6 +40,9 @@
     generateMnt = ''[ ! -d /mnt ] && [[ ! "NIXOS_ACTION" == "dry-activate" ]] && mkdir /mnt'';
   };
 
+  # not possible in openssh.nix because of attrset merge
+  programs.ssh.knownHosts."vaw-pi".extraHostNames = [ "home.vaw-valentin.de" ];
+
   security = {
     polkit.enable = true;
     sudo = {

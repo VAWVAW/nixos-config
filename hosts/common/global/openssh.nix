@@ -38,11 +38,11 @@ in
         hostNames = [ "vaw-pi" "home.vaw-valentin.de" ];
         publicKeyFile = ../../vaw-pi/ssh_initrd_host_ed25519_key.pub;
       };
-      "vaw-pi".extraHostNames = [ "home.vaw-valentin.de" ];
+      # home.vaw-valentin.de is added to vaw-pi in default.nix
     } // builtins.mapAttrs
       (name: _: {
         publicKeyFile = pubKey name;
-        extraHostNames = lib.optional (name == hostname) "localhost";
+        extraHostNames = (lib.optional (name == hostname) "localhost");
       })
       hosts;
   };

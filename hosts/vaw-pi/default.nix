@@ -5,6 +5,8 @@
     ../common/users/vawvaw
 
     ../common/optional/containers/netcup-ddns
+
+    ./backup-repo.nix
   ];
 
   networking = {
