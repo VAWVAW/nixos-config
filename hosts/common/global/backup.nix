@@ -29,6 +29,7 @@
         exclude = [
           "re:/\\.git/"
         ];
+        archiveBaseName = "${config.networking.hostName}";
         extraCreateArgs = "--exclude-caches --keep-exclude-tags";
         preHook = ''
           realBorg="$(${pkgs.which}/bin/which borg)"
