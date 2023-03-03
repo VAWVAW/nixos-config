@@ -7,11 +7,13 @@
   home.packages = with pkgs; [
     playerctl
     spotifython-cli
+    spotify-tui
   ];
 
   home.persistence."/local_persist/home/vawvaw" = {
     directories = [
       ".cache/spotifython-cli"
+      ".cache/spotify-tui"
       ".local/share/spotifyd"
     ];
   };
