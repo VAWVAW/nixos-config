@@ -23,6 +23,11 @@
 
   services.nginx = {
     enable = true;
+    recommendedTlsSettings = true;
+    recommendedOptimisation = true;
+    recommendedGzipSettings = true;
+    recommendedProxySettings = true;
+
     virtualHosts = {
       "home.vaw-valentin.de" = {
         forceSSL = true;
