@@ -14,6 +14,9 @@
   system.stateVersion = "22.11";
 
   boot = {
+    kernelParams = [
+      "ip=45.132.244.25::45.132.244.1:255.255.252.0::ens3:off"
+    ];
     initrd = {
       availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
       network = {
