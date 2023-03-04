@@ -6,6 +6,7 @@ keys:
   - &hosts:
     - &vaw-pc age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
     - &vaw-pi age15nl6rrcuswt8xynh562agcvf3jjcf4e0ud5rzqp6f6cns0vayvjqjc00lt
+    - &vserver age1q8ja62d7x3nmnckkrzzmw6267dwju2kyu9n5p34phak025n3rg3s7xp9p2
 
 creation_rules:
   - path_regex: common/secrets.yaml$
@@ -13,6 +14,7 @@ creation_rules:
     - age:
       - *vaw-pc
       - *vaw-pi
+      - *vserver
       pgp:
       - *vawvaw
   - path_regex: common/optional/containers/.+/.*secret.*
