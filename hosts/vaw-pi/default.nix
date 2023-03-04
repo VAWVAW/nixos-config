@@ -7,6 +7,8 @@
     ../common/optional/containers/netcup-ddns
 
     ./backup-repo.nix
+    ./nginx.nix
+    ./sslh.nix
   ];
 
   networking = {
