@@ -6,7 +6,7 @@ in {
     enable = true;
     matchBlocks = {
       net = {
-        host = builtins.concatStringsSep " " hostnames;
+        host = (builtins.concatStringsSep " " hostnames) + " home.vaw-valentin.de server.vaw-valentin.de";
         forwardAgent = true;
         remoteForwards = [
           {
@@ -18,10 +18,6 @@ in {
             host.address = ''/run/user/1000/gnupg/d.db6k4od13tuchts5jdmgus9t/S.gpg-agent.ssh'';
           }
         ];
-      };
-      trusted = lib.hm.dag.entryBefore [ "net" ] {
-        host = "home.vaw-valentin.de";
-        forwardAgent = true;
       };
     };
   };
