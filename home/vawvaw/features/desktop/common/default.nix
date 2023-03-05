@@ -2,6 +2,7 @@
 {
   imports = [
     ./audio.nix
+    ./cinny.nix
     ./discord.nix
     ./font.nix
     ./firefox.nix
