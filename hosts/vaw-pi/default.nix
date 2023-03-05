@@ -5,6 +5,7 @@
     ../common/users/vawvaw
 
     ../common/optional/containers/netcup-ddns
+    ../common/optional/sslh.nix
 
     ./config
   ];

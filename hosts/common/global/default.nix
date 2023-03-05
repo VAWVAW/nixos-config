@@ -4,6 +4,7 @@
   imports = [
     inputs.home-manager.nixosModules.home-manager
 
+    ./acme.nix
     ./backup.nix
     ./btrfs-optin-persistence.nix
     ./cli.nix

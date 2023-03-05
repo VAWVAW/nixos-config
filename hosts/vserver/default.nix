@@ -2,14 +2,21 @@
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
     ../common/optional/networkmanager.nix
+    ../common/optional/sslh.nix
 
     ../common/global
     ../common/users/vawvaw
+
+    ./config
   ];
 
-  networking = {
-    hostName = "vserver";
-  };
+  networking.hostName = "vserver";
+
+  services.sslh.verbose = true;
+  services.sslh.listenAddresses = [
+  #  "vserver"
+    "server.vaw-valentin.de"
+  ];
 
   system.stateVersion = "22.11";
 
