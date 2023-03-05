@@ -1,0 +1,15 @@
+keys:
+  # Users
+  - &users:
+    - &vawvaw 508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8
+  # Hosts
+  - &hosts:
+    - &vserver age1q8ja62d7x3nmnckkrzzmw6267dwju2kyu9n5p34phak025n3rg3s7xp9p2
+
+creation_rules:
+  - path_regex: synapse_shared_secret
+    key_groups:
+    - age:
+      - *vserver
+      pgp:
+      - *vawvaw

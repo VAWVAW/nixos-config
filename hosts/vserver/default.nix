@@ -14,7 +14,6 @@
 
   services.sslh.verbose = true;
   services.sslh.listenAddresses = [
-  #  "vserver"
     "server.vaw-valentin.de"
   ];
 

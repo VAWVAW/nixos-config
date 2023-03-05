@@ -25,6 +25,7 @@
 
     virtualHosts = {
       "server.vaw-valentin.de" = {
+        enableACME = true;
         forceSSL = true;
         listen = [
           {
@@ -37,7 +38,7 @@
             ssl = true;
           }
         ];
-        enableACME = true;
+
         root = "/var/www/server";
       };
     };
