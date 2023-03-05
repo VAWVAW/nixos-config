@@ -39,7 +39,7 @@ in
         publicKeyFile = ../../vaw-pi/ssh_initrd_host_ed25519_key.pub;
       };
       "vserver-initrd" = {
-        hostNames = [ "vserver" ];
+        hostNames = [ "vserver" "server.vaw-valentin.de" ];
         publicKeyFile = ../../vserver/ssh_initrd_host_ed25519_key.pub;
       };
       # home.vaw-valentin.de is added to vaw-pi in default.nix
