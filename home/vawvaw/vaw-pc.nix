@@ -4,6 +4,7 @@
 
     ./features/desktop/sway
     ./features/desktop/common/steam.nix
+    ./features/desktop/common/lutris.nix
   ];
 
   services.spotifyd.settings.global.device_name = "vaw-pc_spotifyd";
