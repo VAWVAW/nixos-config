@@ -35,6 +35,15 @@
 
   xdg = {
     mimeApps.enable = true;
-    userDirs.enable = true;
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+
+      extraConfig = null;
+      music = null;
+      publicShare = null;
+      templates = null;
+      videos = null;
+    };
   };
 }
