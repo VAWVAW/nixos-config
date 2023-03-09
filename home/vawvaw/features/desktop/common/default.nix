@@ -32,5 +32,8 @@
     };
   };
 
-  xdg.mimeApps.enable = true;
+  xdg = {
+    mimeApps.enable = true;
+    userDirs.enable = true;
+  };
 }

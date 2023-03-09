@@ -123,7 +123,7 @@
             "${mod}+d" = "exec --no-startup-id ${menu}";
             "${mod}+f" = "fullscreen";
             "${mod}+Ctrl+Delete" = "exit";
-            "Mod1+Shift+s" = "exec ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')";
+            "Mod1+Shift+s" = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')'';
             "Mod1+Shift+a" = "exec ${pkgs.wl-color-picker}/bin/wl-color-picker";
 
             # audio
