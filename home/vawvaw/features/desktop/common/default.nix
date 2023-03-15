@@ -39,7 +39,6 @@
       enable = true;
       createDirectories = true;
 
-      extraConfig = null;
       music = null;
       publicShare = null;
       templates = null;
