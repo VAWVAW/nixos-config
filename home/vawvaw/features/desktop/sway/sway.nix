@@ -15,6 +15,10 @@
     wl-color-picker
   ];
 
+  home.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
+
   wayland.windowManager.sway =
     let
       primary_screen = "HDMI-A-1";
