@@ -48,6 +48,11 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/vaw-pc ];
         };
+        # Laptop
+        "vaw-laptop" = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/vaw-laptop ];
+        };
         # hosted server
         "vserver" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
@@ -66,6 +71,12 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/vawvaw/vaw-pc.nix ];
+        };
+        # Laptop
+        "vawvaw@vaw-laptop" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home/vawvaw/vaw-laptop.nix ];
         };
         # hosted server
         "vawvaw@vserver" = home-manager.lib.homeManagerConfiguration {

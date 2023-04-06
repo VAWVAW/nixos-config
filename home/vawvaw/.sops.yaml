@@ -5,6 +5,7 @@ keys:
   # Hosts
   - &hosts:
     - &vaw-pc age1p6ju0gfsmdd4l7u47rxnmqz6q4jsm480kf2r05dy2f666sflr5lqh770u2
+    - &vaw-laptop age127ntjlxgeprk2a3zjvlzem3en9pmn98kkj0mesqzvque8jwzxa8srkggnx
     - &vaw-pi age1wetyxu09aguqallae0ne58ljy9mnthyz5dr0ycyrzmk6t0umevpsw9fyaa
     - &vserver age1ej4dwq678thseqsvzvgtdml3aserucw43vztfxxwx8edkfgf7dkq8g2e83
 
@@ -13,6 +14,7 @@ creation_rules:
     key_groups:
     - age:
       - *vaw-pc
+      - *vaw-laptop
       - *vaw-pi
       pgp:
       - *vawvaw
