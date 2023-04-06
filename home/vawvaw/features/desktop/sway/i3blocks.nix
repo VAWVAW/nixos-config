@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
   programs.i3blocks =
     let
@@ -198,7 +198,7 @@
             name = "battery";
             executable = true;
             text = ''
-              bat_name="BAT1"
+              bat_name="${config.battery.name}"
 
               infos=$(${pkgs.upower}/bin/upower -i /org/freedesktop/UPower/devices/battery_$bat_name | grep -E "(time|percentage)"| cut -c26- |sed -E "s/ (.).+/\1/g")
 
@@ -314,6 +314,11 @@
             min_width = "100%";
             align = "right";
             format = "json";
+          }
+          {
+            name = "battery";
+            command = if config.battery.enable then "${battery_script}" else "echo ''";
+            interval = 15;
           }
           {
             name = "memory";

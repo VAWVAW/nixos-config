@@ -26,6 +26,8 @@
 
   programs.firejail.enable = true;
 
+  services.upower.enable = true;
+
   system.stateVersion = "22.11";
 
   boot = {
