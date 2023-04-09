@@ -10,6 +10,8 @@
     ../common/optional/apparmor.nix
     ../common/optional/encrypted-root-yubikey.nix
     ../common/optional/networkmanager.nix
+    ../common/optional/boot-partition.nix
+    ../common/optional/btrfs-swapfile.nix
 
     ../common/optional/desktop
 
@@ -58,24 +60,6 @@
     enableRedistributableFirmware = true;
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/2AA8-BDEA";
-    fsType = "vfat";
-    options = [ "ro" ];
-  };
-
-  fileSystems."/swap" = 
-  let
-    hostname = config.networking.hostName;
-  in {
-    device = "/dev/disk/by-label/system_partition";
-    fsType = "btrfs";
-    options = [ "subvol=${hostname}/swap" "noatime" "compress=zstd" ];
-  };
-
-  swapDevices = [{
-    device = "/swap/swapfile";
-  }];
   boot.kernelParams = [ "resume_offset=533760" ];
   boot.resumeDevice = config.fileSystems."/swap".device;
 

@@ -3,6 +3,8 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ../common/optional/networkmanager.nix
     ../common/optional/sslh.nix
+    ../common/optional/btrfs-swapfile.nix
+    ../common/optional/boot-partition.nix
 
     ../common/global
     ../common/users/vawvaw
@@ -47,26 +49,6 @@
       };
     };
   };
-
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/A23D-7237";
-    fsType = "vfat";
-    options = [ "ro" ];
-  };
-
-  fileSystems."/swap" = 
-  let
-    hostname = config.networking.hostName;
-  in {
-    device = "/dev/disk/by-label/system_partition";
-    fsType = "btrfs";
-    options = [ "subvol=${hostname}/swap" "noatime" "compress=zstd" ];
-  };
-
-  swapDevices = [{
-    device = "/swap/swapfile";
-  }];
 
   nixpkgs.hostPlatform.system = "x86_64-linux";
 }
