@@ -106,7 +106,9 @@
       };
     in
     {
-      borgbackup-job-pi = borg_default;
+      borgbackup-job-pi = borg_default // {
+        enable = false;
+      };
       borgbackup-job-server = borg_default // {
         serviceConfig = {
           RuntimeDirectory = "backup";
