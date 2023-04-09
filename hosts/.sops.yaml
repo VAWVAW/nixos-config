@@ -27,3 +27,9 @@ creation_rules:
       - *vaw-pc
       pgp:
       - *vawvaw
+  - path_regex: vserver/config/synapse_shared_secret$
+    key_groups:
+    - age:
+      - *vserver
+      pgp:
+      - *vawvaw
