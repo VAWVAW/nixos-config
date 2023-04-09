@@ -8,7 +8,10 @@
   programs.zsh.promptColor = "yellow";
 
   home.shellAliases = {
-    nswitch = "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild switch --flake /etc/nixos# && sudo umount /boot && sudo mount /boot";
-    nboot = "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild boot --flake /etc/nixos# && sudo umount /boot && sudo mount /boot";
+    nswitch = "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild switch --flake github:vawvaw/nixos-config# && sudo umount /boot && sudo mount /boot";
+    nboot = "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild boot --flake github:vawvaw/nixos-config# && sudo umount /boot && sudo mount /boot";
+    nbuild = "nixos-rebuild build --flake github:vawvaw/nixos-config#";
+    ntest = "sudo nixos-rebuild test --flake github:vawvaw/nixos-config#";
+    hswitch = "home-manager switch --flake github:vawvaw/nixos-config";
   };
 }
