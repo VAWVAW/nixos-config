@@ -7,7 +7,7 @@ keys:
     - &vaw-pc age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
     - &vaw-laptop age1ms8v5796f7ns83p7cgdf96jem54p3h7yw70wdkhacuz07qh5kspqrnm7wg
     - &vaw-pi age15nl6rrcuswt8xynh562agcvf3jjcf4e0ud5rzqp6f6cns0vayvjqjc00lt
-    - &vserver age1q8ja62d7x3nmnckkrzzmw6267dwju2kyu9n5p34phak025n3rg3s7xp9p2
+    - &vserver age13xalq5vdg9rnhtpf99yaplthsufnvnkeurqrz8jlcsqp3rrflaasys2vv0
 
 creation_rules:
   - path_regex: common/secrets.yaml$
