@@ -6,7 +6,7 @@ keys:
   - &hosts:
     - &vaw-pc age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
     - &vaw-laptop age1ms8v5796f7ns83p7cgdf96jem54p3h7yw70wdkhacuz07qh5kspqrnm7wg
-    - &vaw-pi age15nl6rrcuswt8xynh562agcvf3jjcf4e0ud5rzqp6f6cns0vayvjqjc00lt
+    - &vaw-pi age1z05mzxqh86dfcdjyt6m47xxsnpxc0a47j3ycg2xvdq9m59gl43mskgtumt
     - &vserver age13xalq5vdg9rnhtpf99yaplthsufnvnkeurqrz8jlcsqp3rrflaasys2vv0
 
 creation_rules:

@@ -1,38 +1,40 @@
 # System configuration for my raspberry pi 3b acting as server
 { pkgs, inputs, config, lib, ... }: {
   imports = [
+  #  ../common/optional/containers/netcup-ddns
+    ../common/optional/sslh.nix
+    ../common/optional/btrfs-swapfile.nix
+    ../common/optional/boot-partition.nix
+
     ../common/global
     ../common/users/vawvaw
-
-    ../common/optional/containers/netcup-ddns
-    ../common/optional/sslh.nix
 
     ./config
   ];
 
   networking = {
     hostName = "vaw-pi";
-    useDHCP = false;
-    nameservers = [
-      "1.1.1.1"
-    ];
-    hosts = {
-      "192.168.2.100" = [ "vaw-pc" ];
-    };
-    interfaces.eth0 = {
-      useDHCP = false;
-      ipv4 = {
-        addresses = [{
-          address = "192.168.2.101";
-          prefixLength = 24;
-        }];
-        routes = [{
-          address = "0.0.0.0";
-          prefixLength = 0;
-          via = "192.168.2.1";
-        }];
-      };
-    };
+  #  useDHCP = false;
+  #  nameservers = [
+  #    "1.1.1.1"
+  #  ];
+  #  hosts = {
+  #    "192.168.2.100" = [ "vaw-pc" ];
+  #  };
+  #  interfaces.eth0 = {
+  #    useDHCP = false;
+  #    ipv4 = {
+  #      addresses = [{
+  #        address = "192.168.2.101";
+  #        prefixLength = 24;
+  #      }];
+  #      routes = [{
+  #        address = "0.0.0.0";
+  #        prefixLength = 0;
+  #        via = "192.168.2.1";
+  #      }];
+  #    };
+  #  };
   };
 
   system.stateVersion = "22.11";
@@ -71,27 +73,23 @@
       grub.enable = false;
       raspberryPi = {
         enable = true;
+        uboot.enable = true;
         version = 3;
       };
     };
   };
 
   fileSystems = {
-    "/boot" = {
-      device = "/dev/mmcblk0p1";
-      fsType = "vfat";
-    };
-
-    "/data" = {
-      device = "/dev/mapper/data";
-      fsType = "ext4";
-      encrypted = {
-        enable = true;
-        blkDev = "/dev/disk/by-label/data_crypt";
-        keyFile = "/mnt-root/local_persist/etc/hdd_crypt.key";
-        label = "data";
-      };
-    };
+  #  "/data" = {
+  #    device = "/dev/mapper/data";
+  #    fsType = "ext4";
+  #    encrypted = {
+  #      enable = true;
+  #      blkDev = "/dev/disk/by-label/data_crypt";
+  #      keyFile = "/mnt-root/local_persist/etc/hdd_crypt.key";
+  #      label = "data";
+  #    };
+  #  };
     "/".options = lib.mkForce [ "subvol=vaw-pi/root" "compress-force=zstd:5" ];
     "/nix".options = lib.mkForce [ "subvol=vaw-pi/nix" "compress-force=zstd:5" "noatime" ];
     "/persist".options = lib.mkForce [ "subvol=vaw-pi/persist" "compress-force=zstd:5" ];
@@ -99,16 +97,7 @@
       options = lib.mkForce [ "subvol=vaw-pi/local_persist" "compress-force=zstd:5" ];
       neededForBoot = true;
     };
-    "/swap" = {
-      device = "/dev/disk/by-label/system_partition";
-      fsType = "btrfs";
-      options = [ "subvol=${config.networking.hostName}/swap" "noatime" ];
-    };
   };
-
-  swapDevices = [{
-    device = "/swap/swapfile";
-  }];
 
   nixpkgs.hostPlatform = "aarch64-linux";
   powerManagement.cpuFreqGovernor = "ondemand";
