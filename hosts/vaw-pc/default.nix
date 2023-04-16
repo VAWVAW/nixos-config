@@ -6,6 +6,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
 
     ../common/optional/apparmor.nix
+    ../common/optional/android.nix
     ../common/optional/encrypted-root-yubikey.nix
     ../common/optional/networkmanager.nix
     ../common/optional/libvirt.nix

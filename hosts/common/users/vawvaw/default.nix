@@ -14,6 +14,7 @@ in {
       "video"
       "audio"
     ] ++ ifTheyExist [
+      "adbusers"
       "network"
       "wireshark"
       "docker"
