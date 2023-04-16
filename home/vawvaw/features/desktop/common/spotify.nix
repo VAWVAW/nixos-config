@@ -39,7 +39,6 @@
 
   services.spotifyd = {
     enable = true;
-    package = pkgs.spotifyd.override { withMpris = true; };
     settings = {
       global = {
         username = "vaw.valentin@gmx.de";
