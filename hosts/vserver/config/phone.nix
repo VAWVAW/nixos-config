@@ -1,5 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
+  environment.persistence."/persist" = {
+    directories = [
+      "${config.users.users.phone.home}/data"
+    ];
+  };
+
   users.users.phone = {
     isNormalUser = true;
     openssh.authorizedKeys.keys = [
