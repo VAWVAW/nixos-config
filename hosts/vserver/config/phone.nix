@@ -1,8 +1,8 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 {
   environment.persistence."/persist" = {
     directories = [
-      "${config.users.users.phone.home}/data"
+      "/home/phone/data"
     ];
   };
 
