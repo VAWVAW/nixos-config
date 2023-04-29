@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
+    ./bluetooth.nix
     ./pipewire.nix
     ./fonts.nix
     ./xdg.nix
