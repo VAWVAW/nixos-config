@@ -1,5 +1,9 @@
 { pkgs, config, ... }:
 {
+  sops.secrets = {
+    divera-token = { };
+  };
+
   programs.i3blocks =
     let
       i3blocks_volume_signal = "10";
@@ -269,11 +273,13 @@
           };
         in
         [
-          #       {
-          #         name = "disabled_mode";
-          #         command = "$SCRIPT_DIR/disabled_mode";
-          #         signal = 13;
-          #       }
+          {
+            name = "divera";
+            command = "${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token";
+            interval = "persist";
+            format = "json";
+            markup = "pango";
+          }
           {
             name = "mail";
             command = "${mail_script}";
