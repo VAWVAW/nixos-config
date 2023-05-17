@@ -1,11 +1,10 @@
 {
   imports = [
-    ./sway.nix
+    ./hyprland.nix
 
     ../../cli/mail.nix
     ../common
     ../common/audio.nix
-    ../common/i3blocks.nix
     ../common/dunst.nix
   ];
 }

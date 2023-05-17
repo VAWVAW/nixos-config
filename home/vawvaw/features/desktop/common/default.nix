@@ -1,7 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, config, inputs, ... }:
 {
   imports = [
     ./audio.nix
+    ./alacritty.nix
     ./cinny.nix
     ./discord.nix
     ./font.nix

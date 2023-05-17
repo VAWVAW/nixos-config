@@ -1,13 +1,5 @@
 { config, pkgs, ... }:
 {
-  imports = [
-    ../common
-    ../common/audio.nix
-    ./i3blocks.nix
-    ./alacritty.nix
-    ./dunst.nix
-  ];
-
   home.packages = with pkgs; [
     light
     grim

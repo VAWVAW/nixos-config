@@ -16,6 +16,7 @@
     ../common/optional/containers
 
     ../common/optional/desktop
+    ../common/optional/desktop/hyprland.nix
 
     ../common/global
     ../common/users/vawvaw
