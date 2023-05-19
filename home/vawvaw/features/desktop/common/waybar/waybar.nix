@@ -38,8 +38,8 @@
       "wlr/workspaces" = {
         sort-by-number = true;
         on-click = "activate";
-        on-scroll-up = "${pkgs.hyprland}/bin/hyprctl dispatch workspace -1";
-        on-scroll-down = "${pkgs.hyprland}/bin/hyprctl dispatch workspace +1";
+        on-scroll-up = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m-1";
+        on-scroll-down = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m+1";
       };
       "hyprland/submap" = {
         on-click = "${pkgs.hyprland}/bin/hyprctl dispatch submap reset";
