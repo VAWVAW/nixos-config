@@ -3,6 +3,7 @@
     ./global.nix
 
     ./features/desktop/sway
+    ./features/desktop/hyprland
     ./features/desktop/common/steam.nix
     ./features/desktop/common/lutris.nix
   ];
