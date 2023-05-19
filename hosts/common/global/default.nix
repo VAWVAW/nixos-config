@@ -1,5 +1,5 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ lib, inputs, outputs, ... }:
+{ lib, inputs, outputs, config, ... }:
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -19,7 +19,7 @@
 
   home-manager = {
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = { inherit inputs outputs; platform = config.nixpkgs.hostPlatform.system; };
   };
 
   nixpkgs = {

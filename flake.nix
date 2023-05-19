@@ -31,6 +31,10 @@
       url = github:hyprwm/Hyprland;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hy3 = {
+      url = github:outfoxxed/hy3;
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
@@ -75,31 +79,31 @@
         # Desktop
         "vawvaw@vaw-pc" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs outputs; platform = "x86_64-linux"; };
           modules = [ ./home/vawvaw/vaw-pc.nix ];
         };
         # Laptop
         "vawvaw@vaw-laptop" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs outputs; platform = "x86_64-linux"; };
           modules = [ ./home/vawvaw/vaw-laptop.nix ];
         };
         # hosted server
         "vawvaw@vserver" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs outputs; platform = "x86_64-linux"; };
           modules = [ ./home/vawvaw/vserver.nix ];
         };
         # Raspberry Pi 3 (server)
         "vawvaw@vaw-pi" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs outputs; platform = "aarch64-linux"; };
           modules = [ ./home/vawvaw/vaw-pi.nix ];
         };
         # Portable minimum configuration
         "vawvaw" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = { inherit inputs outputs; platform = "x86_64-linux"; };
           modules = [ ./home/vawvaw/generic.nix ];
         };
       };

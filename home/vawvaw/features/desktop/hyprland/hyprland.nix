@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, lib, inputs, platform, ... }:
 {
   imports = [
     inputs.hyprland.homeManagerModules.default
@@ -8,6 +8,9 @@
     enable = true;
     package = null;
     recommendedEnvironment = true;
+    plugins = [
+      inputs.hy3.packages."${platform}".hy3
+    ];
     extraConfig = let 
         right = "odiaeresis";
         terminal = "${pkgs.alacritty}/bin/alacritty";
@@ -51,6 +54,7 @@
       }
 
       general {
+        layout = hy3
         gaps_in = 0
         gaps_out = 0
         no_focus_fallback = true
@@ -89,12 +93,14 @@
       bindm = $mod, mouse:272, movewindow
       bindm = $mod, mouse:273, resizewindow
 
+      bind = $mod + SHIFT, q, killactive, 
+      bind = $mod + SHIFT, r, exec, ${pkgs.hyprland}/bin/hyprctl reload
+      bind = $mod + CTRL, Delete, exit, 
+      bind = $mod, f, fullscreen, 0
+
+      bind = $mod, d, exec, ${menu}
       bind = $mod, Return, exec, ${terminal}
       bind = $mod, Plus, exec, firefox
-      bind = $mod + SHIFT, q, killactive, 
-      bind = $mod, d, exec, ${menu}
-      bind = $mod, f, fullscreen, 0
-      bind = $mod + CTRL, Delete, exit, 
       bind = ALT + SHIFT, s, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" $XDG_PICTURES_DIR/screens    hots/$(date '+%F-%T.png')
       bind = ALT + SHIFT, a, exec, ${pkgs.wl-color-picker}/bin/wl-color-picker
 
@@ -170,22 +176,28 @@
       bind = $mod + SHIFT, Space, togglefloating, active
 
       # change focus
-      bind = $mod, $left, movefocus, l
-      bind = $mod, $right, movefocus, r
-      bind = $mod, $up, movefocus, u
-      bind = $mod, $down, movefocus, d
+      bind = $mod, $left, hy3:movefocus, l
+      bind = $mod, $right, hy3:movefocus, r
+      bind = $mod, $up, hy3:movefocus, u
+      bind = $mod, $down, hy3:movefocus, d
+
+      bind = $mod, a, hy3:raisefocus
 
       # move window
-      bind = $mod + SHIFT, $left, movewindow, left
-      bind = $mod + SHIFT, $right, movewindow, right
-      bind = $mod + SHIFT, $up, movewindow, up
-      bind = $mod + SHIFT, $down, movewindow, down
+      bind = $mod + SHIFT, $left, hy3:movewindow, l
+      bind = $mod + SHIFT, $right, hy3:movewindow, r
+      bind = $mod + SHIFT, $up, hy3:movewindow, u
+      bind = $mod + SHIFT, $down, hy3:movewindow, d
+
+      # change layout
+      bind = $mod, h, hy3:makegroup, h
+      bind = $mod, v, hy3:makegroup, v
 
       # move workspaces
-      bind = $mod + SHIFT, left, movecurrentworkspacetomonitor, left
-      bind = $mod + SHIFT, right, movecurrentworkspacetomonitor, right
-      bind = $mod + SHIFT, up, movecurrentworkspacetomonitor, up
-      bind = $mod + SHIFT, down, movecurrentworkspacetomonitor, down
+      bind = $mod + SHIFT, left, movecurrentworkspacetomonitor, l
+      bind = $mod + SHIFT, right, movecurrentworkspacetomonitor, r
+      bind = $mod + SHIFT, up, movecurrentworkspacetomonitor, u
+      bind = $mod + SHIFT, down, movecurrentworkspacetomonitor, d
 
       # workspaces
       ${builtins.concatStringsSep "\n" (builtins.genList (
@@ -204,7 +216,7 @@
       # league of legends
       windowrulev2 = nomaxsize, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
       windowrulev2 = float, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
-      windowrulev2 = size 1540 850, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
+      windowrulev2 = size 1920 1080, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
       windowrulev2 = center, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
 
       windowrulev2 = nomaxsize, class:^(leagueclientux.exe)$,title:^(League of Legends)$
