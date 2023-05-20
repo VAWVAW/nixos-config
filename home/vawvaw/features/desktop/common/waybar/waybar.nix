@@ -41,6 +41,10 @@
         on-scroll-up = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m-1";
         on-scroll-down = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m+1";
       };
+      "sway/workspaces" = {
+        disable-scroll-wraparound = true;
+        enable-bar-scroll = true;
+      };
       "hyprland/submap" = {
         on-click = "${pkgs.hyprland}/bin/hyprctl dispatch submap reset";
         tooltip = false;
@@ -52,7 +56,7 @@
 
       "mpris" = {
         player = "spotifyd";
-        format-playing = "{title:.30} - {artist:.20}";
+        format-playing = "{title:.30}... - {artist:.20}...";
         format-paused = " ";
         format-stopped = " ";
       };
@@ -60,7 +64,8 @@
         format = "{volume}%";
         format-muted = "muted";
         tooltip = false;
-        on-click = "${pkgs.pavucontrol}/bin/pavucontrol";
+        on-click = "${pkgs.playerctl}/bin/playerctl -p spotifyd play-pause";
+        on-click-middle = "${pkgs.pavucontrol}/bin/pavucontrol";
       };
       "network#iface" = {
         interval = 15;

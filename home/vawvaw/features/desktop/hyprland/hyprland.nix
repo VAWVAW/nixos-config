@@ -123,10 +123,10 @@
       bind = , XF86MonBrightnessDown, exec, sudo ${pkgs.light}/bin/light -U 5
 
       # player control
-      bind = , XF86AudioPlay, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli play-pause
-      bind = , XF86AudioStop, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli pause
-      bind = , XF86AudioNext, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli next
-      bind = , XF86AudioPrev, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli prev
+      bind = , XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause
+      bind = , XF86AudioStop, exec, ${pkgs.playerctl}/bin/playerctl stop
+      bind = , XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next
+      bind = , XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
 
       # resize mode
       bind = $mod, r, submap, resize
@@ -160,6 +160,29 @@
       bind = , t, submap, reset
       bind = , m, exec, ${terminal} -e ${pkgs.neomutt}/bin/neomutt
       bind = , m, submap, reset
+
+      # back to normal
+      bind = , Escape, submap, reset
+      bind = , BackSpace, submap, reset
+      bind = , q, submap, reset
+      submap = reset
+
+      # spotify mode
+      bind = $mod, p, submap, spotify
+
+      submap = spotify
+      bind = , d, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu
+      bind = , d, submap, reset
+      bind = , p, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t
+      bind = , p, submap, reset
+      bind = , o, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t --playlist-dmenu
+      bind = , o, submap, reset
+      bind = , i, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f --playlist-dmenu
+      bind = , i, submap, reset
+      bind = , r, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f -r t --playlist-dmenu
+      bind = , r, submap, reset
+      bind = , s, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli pause
+      bind = , s, submap, reset
 
       # back to normal
       bind = , Escape, submap, reset
@@ -216,7 +239,7 @@
       # league of legends
       windowrulev2 = nomaxsize, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
       windowrulev2 = float, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
-      windowrulev2 = size 1920 1080, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
+      windowrulev2 = size 1540 850, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
       windowrulev2 = center, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
 
       windowrulev2 = nomaxsize, class:^(leagueclientux.exe)$,title:^(League of Legends)$
@@ -227,6 +250,13 @@
       windowrulev2 = float, class:^(league of legends.exe)$,title:^(League of Legends (TM) Client)$
       windowrulev2 = nomaxsize, class:^(league of legends.exe)$,title:^(League of Legends (TM) Client)$
       windowrulev2 = fullscreen, class:^(league of legends.exe)$,title:^(League of Legends (TM) Client)$
+
+      # tor browser
+      windowrulev2 = float, class:^(firefox)$,title:(Tor Browser)$
+      windowrulev2 = center, class:^(firefox)$,title:(Tor Browser)$
+
+      # todo exclude alacritty
+      windowrulev2 = noborder, floating: 1
 
       # execs
       exec-once = ${pkgs.noisetorch}/bin/noisetorch -i
