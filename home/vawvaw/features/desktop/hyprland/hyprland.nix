@@ -191,8 +191,8 @@
       submap = reset
 
       # gaming hack
-      bind = $mod + CTRL, Tab, exec, ${pkgs.hyprland}/bin/hyprctl --batch 'keyword monitor HDMI-A-2,preferred,3000x0,1; keyword input:kb_options altwin:menu_win'
-      bind = $mod + CTRL + SHIFT, Tab, exec, ${pkgs.hyprland}/bin/hyprctl --batch 'keyword monitor HDMI-A-2,preferred,1920x65,1; keyword input:kb_options altwin:swap_lalt_lwin,caps:escape,altwin:menu_win'
+      bind = $mod + CTRL, Tab, exec, ${pkgs.hyprland}/bin/hyprctl --batch 'keyword monitor HDMI-A-2,preferred,3000x0,1; keyword input:kb_options altwin:menu_win; keyword unbind ,mouse:275; keyword unbind ,mouse:276'
+      bind = $mod + CTRL + SHIFT, Tab, exec, ${pkgs.hyprland}/bin/hyprctl --batch 'keyword monitor HDMI-A-2,preferred,1920x65,1; keyword input:kb_options altwin:swap_lalt_lwin,caps:escape,altwin:menu_win; keyword bind ,mouse:275,workspace,e+1; keyword bind ,mouse:276,workspace,e-1'
 
 
       # floating
@@ -223,6 +223,9 @@
       bind = $mod + SHIFT, down, movecurrentworkspacetomonitor, d
 
       # workspaces
+      bind = , mouse:275, workspace, e+1
+      bind = , mouse:276, workspace, e-1
+
       ${builtins.concatStringsSep "\n" (builtins.genList (
         x: let
           ws = toString (x + 1);
@@ -233,6 +236,9 @@
           bind = $mod + CTRL + SHIFT, ${key}, movetoworkspacesilent, ${ws}
         ''
       ) 10)}
+
+      workspace = 9,monitor:HDMI-A-2
+      workspace = 10,monitor:HDMI-A-2
 
       # window rules
 
@@ -261,6 +267,8 @@
       # execs
       exec-once = ${pkgs.noisetorch}/bin/noisetorch -i
       exec-once = ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%
+      # fix OpenURI
+      exec-once = ${pkgs.bash}/bin/bash -c "${pkgs.systemd}/bin/systemctl --user import-environment PATH && ${pkgs.systemd}/bin/systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-gtk.service"
     '';
   };
 }

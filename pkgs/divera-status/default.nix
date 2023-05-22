@@ -4,24 +4,29 @@
   rustPackages,
   pkg-config,
   openssl,
+  dbus,
 }:
 
 rustPackages.rustPlatform.buildRustPackage rec {
   pname = "divera-status";
-  version = "0.1.0";
+  version = "0.2.0";
 
   src = fetchFromGitHub {
     owner = "VAWVAW";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-WWaaVtAMmfC/QYZWqQQliEBDsILP0uWTMCNxxR1iCbo=";
+    sha256 = "sha256-sFfVIRMzy1MiPZ/r2rX2m5dZ8FG7o12REiD5bJl+uFQ=";
   };
 
-  cargoSha256 = "sha256-CPp1i93WxKZJmJ4RwpNQFNDvstwiSvjgd0R8Zn5agDA=";
+  cargoSha256 = "sha256-W8Wxq0brFxrRlpOX1J79L5YAJjn2wk3IlJsrqHtFvPs=";
 
   nativeBuildInputs = [ pkg-config ];
 
-  buildInputs = [ openssl ];
+  buildInputs = [ openssl dbus ];
+
+  buildFeatures = [ "i3blocks" "dbus-interface" ];
+
+  cargoBuildFlags = [ "--workspace" ];
 
   # no tests in repo
   doCheck = false;

@@ -54,6 +54,10 @@
         tooltip = false;
       };
 
+      "custom/divera" = {
+        return-type = "json";
+        exec = ''${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d '{{\"text\": \"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"class\": \"{status_name}\"}}' '';
+      };
       "mpris" = {
         player = "spotifyd";
         format-playing = "{title:.30}... - {artist:.20}...";
