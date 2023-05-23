@@ -24,7 +24,7 @@
     let
       default-job = {
         paths = [
-          "/persist"
+          "/persist_frozen"
         ];
         exclude = [
           "re:/\\.git/"
@@ -75,8 +75,8 @@
       pi = default-job;
       server = default-job // {
         extraPruneArgs = "--save-space";
-        repo = "/will/be/overridden";
-        startAt = [ "weekly" ];
+        repo = "will be:changed";
+        #startAt = [ "weekly" ];
         compression = "lzma";
         preHook = ''
           trap EXIT
@@ -97,8 +97,13 @@
   systemd.services =
     let
       borg_default = {
+        # create readonly snapshot before backup
+        wants = [ "snapshot-persist.service" ];
+        after = [ "snapshot-persist.service" ];
+
         serviceConfig.Restart = lib.mkForce "on-failure";
         serviceConfig.RestartSec = lib.mkForce 15;
+
         onFailure = [ "unit-status-notification@%n.service" ];
         environment = {
           BORG_RSH = "${pkgs.openssh}/bin/ssh -i /local_persist/etc/ssh/ssh_host_ed25519_key";
@@ -112,6 +117,13 @@
       borgbackup-job-server = borg_default // {
         serviceConfig = {
           RuntimeDirectory = "backup";
+        };
+      };
+      snapshot-persist = {
+        description = "creates readonly snapshot of /persist in /persist_frozen";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r /persist /persist_frozen";
         };
       };
       "unit-status-notification@" =
