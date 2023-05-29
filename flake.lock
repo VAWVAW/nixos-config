@@ -232,7 +232,9 @@
         "impermanence": "impermanence",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "vim-colorswatch": "vim-colorswatch",
+        "vim-inspecthi": "vim-inspecthi"
       }
     },
     "sops-nix": {
@@ -268,6 +270,38 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "vim-colorswatch": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1563520619,
+        "narHash": "sha256-IgS7BGSQNf7MkE8rwjmK257aE4FcJV+7cpO1l6uiVKM=",
+        "owner": "cocopon",
+        "repo": "colorswatch.vim",
+        "rev": "2e3f847fc0e493de8b119d3c8560e47ceeff595c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cocopon",
+        "repo": "colorswatch.vim",
+        "type": "github"
+      }
+    },
+    "vim-inspecthi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1640254756,
+        "narHash": "sha256-TVTOcP8rSvQv0EluEq/ChkK5p5yeOFkmBJg/berlg8Y=",
+        "owner": "cocopon",
+        "repo": "inspecthi.vim",
+        "rev": "b282d2529597250de0b1df67c49c214636bb38c1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cocopon",
+        "repo": "inspecthi.vim",
         "type": "github"
       }
     },

@@ -35,6 +35,16 @@
       url = github:outfoxxed/hy3;
       inputs.hyprland.follows = "hyprland";
     };
+
+    # neovim plugins
+    vim-inspecthi = {
+      url = github:cocopon/inspecthi.vim;
+      flake = false;
+    };
+    vim-colorswatch = {
+      url = github:cocopon/colorswatch.vim;
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
