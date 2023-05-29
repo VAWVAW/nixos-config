@@ -51,22 +51,11 @@
       precmd() {
         # Print the previously configured title
         print -Pnr -- "$TERM_TITLE"
-
-        # Print a new line before the prompt, but only if it is not the first line
-        if [ "$NEWLINE_BEFORE_PROMPT" = yes ]; then
-          if [ -z "$_NEW_LINE_BEFORE_PROMPT" ]; then
-            _NEW_LINE_BEFORE_PROMPT=1
-          else
-            print ""
-          fi
-        fi
       }
 
       VI_MODE="blue"
-      prompt_symbol=⏣
-      [ "$EUID" -eq 0 ] && prompt_symbol=🕱
-      PROMPT=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.${promptColor})}%n%F{%(#.white.${promptColor})}$prompt_symbol%(#. .)%F{%(#.red.${promptColor})}%m%b%F{%(#.blue.green)})-[%B%F{reset}%~%b%F{%(#.blue.green)}]\n└─%B%F{$VI_MODE}%(#.#.$)%b%F{reset} '
-      RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
+      prompt_symbol=" "
+      PROMPT=$'%F{green}┌──(%B%F{${promptColor}}%n%F{cyan}$prompt_symbol%F{${promptColor}}%m%b%F{green})-[%B%F{reset}%~%b%F{green}]\n└─%B%F{$VI_MODE}$%b%F{reset} '
 
       # start shell in vi mode
       bindkey -v
@@ -78,7 +67,7 @@
             (main|viins) VI_MODE="blue" ;;
             (*)          VI_MODE="blue" ;;
           esac
-          PS1=$'%F{%(#.blue.green)}┌──(%B%F{%(#.red.${promptColor})}%n%F{%(#.white.${promptColor})}$prompt_symbol%(#. .)%F{%(#.red.${promptColor})}%m%b%F{%(#.blue.green)})-[%B%F{reset}%~%b%F{%(#.blue.green)}]\n└─%B%F{$VI_MODE}%(#.#.$)%b%F{reset} '
+          PS1=$PROMPT
       }
 
       function zle-line-init zle-keymap-select {
