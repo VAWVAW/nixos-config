@@ -17,8 +17,8 @@
             name = "mail";
             executable = true;
             text = ''
-              notmuch new >/dev/null
-              notmuch count tag:unread | sed -E "s;(.+);mail: \1;" | sed "s;mail: 0;;"
+              notmuch new >/dev/null 2>/dev/null
+              notmuch count tag:unread 2>/dev/null | sed -E "s;(.+);mail: \1;" | sed "s;mail: 0;;"
             '';
           };
           spotify_script = pkgs.writeTextFile {
@@ -275,7 +275,7 @@
         [
           {
             name = "divera";
-            command = "${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token";
+            command = "${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d \"{{\\\"full_text\\\":\\\"{full_text} <span color=\\\\\\\"#{status_color}\\\\\\\">◼</span>\\\", \\\"short_text\\\":\\\"{short_text}\\\"}}\"";
             interval = "persist";
             format = "json";
             markup = "pango";
