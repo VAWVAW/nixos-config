@@ -262,7 +262,7 @@
       windowrulev2 = center, class:^(firefox)$,title:(Tor Browser)$
 
       # todo exclude alacritty
-      windowrulev2 = noborder, floating: 1
+      windowrulev2 = noborder, floating:1,class:^(?!Alacritty).*$
 
       # execs
       exec-once = ${pkgs.noisetorch}/bin/noisetorch -i
