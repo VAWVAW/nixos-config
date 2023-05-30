@@ -3,7 +3,7 @@
   programs.waybar = {
     enable = true;
     package = pkgs.waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];
+      mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
       postPatch = ''
         sed -i 's/zext_workspace_handle_v1_activate(workspace_handle_);/const std::string command = "hyprctl dispatch workspace " + name_;\n\tsystem(command.c_str());/g' src/modules/wlr/workspace_manager.cpp
       '';
@@ -22,7 +22,7 @@
         "hyprland/submap"
         "sway/mode"
       ];
-      modules-center = [];
+      modules-center = [ ];
       modules-right = [
         "custom/mail"
         "mpris"

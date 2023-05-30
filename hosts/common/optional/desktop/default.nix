@@ -13,7 +13,7 @@
 
   # enable backlight setting without password
   security.sudo.extraRules = [{
-      groups = [ "wheel" ];
-      commands = [ { command = "${pkgs.light}/bin/light"; options = [ "NOPASSWD" ]; } ];
+    groups = [ "wheel" ];
+    commands = [{ command = "${pkgs.light}/bin/light"; options = [ "NOPASSWD" ]; }];
   }];
 }

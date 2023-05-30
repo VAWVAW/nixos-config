@@ -28,7 +28,7 @@
       "192.168.2.101" = [ "vaw-pi" ];
     };
     networkmanager.insertNameservers = [
-#      "192.168.2.101"
+      #      "192.168.2.101"
     ];
   };
 

@@ -1,7 +1,7 @@
 { pkgs, lib, config, ... }:
 let
   mx-discord-home = "/var/lib/mx-discord";
-  discord-config = pkgs.writeText "mx-discord-config" (lib.generators.toYAML {} {
+  discord-config = pkgs.writeText "mx-discord-config" (lib.generators.toYAML { } {
     bridge = {
       port = 8080;
       bindAddress = "localhost";
@@ -29,7 +29,8 @@ let
       lineDateFormat = "MMM-D HH:mm:ss.SSS";
     };
   });
-in {
+in
+{
   imports = [
     ./nginx.nix
   ];
@@ -48,7 +49,7 @@ in {
 
   networking.firewall.allowedTCPPorts = [ 8080 ];
 
-  users.groups.matrix-discord = {};
+  users.groups.matrix-discord = { };
   users.users.matrix-discord = {
     isSystemUser = true;
     group = "matrix-discord";
@@ -100,8 +101,8 @@ in {
           listen = config.services.nginx.virtualHosts."server.vaw-valentin.de".listen;
 
           root = "/var/www/matrix";
-          locations."/_matrix".proxyPass = "http://[::1]:8008"; 
-          locations."/_synapse/client".proxyPass = "http://[::1]:8008"; 
+          locations."/_matrix".proxyPass = "http://[::1]:8008";
+          locations."/_synapse/client".proxyPass = "http://[::1]:8008";
         };
       };
     };

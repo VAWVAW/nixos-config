@@ -1,7 +1,8 @@
 { pkgs, lib, config, ... }:
 let
   configPath = "/var/lib/netcup-ddns";
-in {
+in
+{
   imports = [
     ../default.nix
   ];

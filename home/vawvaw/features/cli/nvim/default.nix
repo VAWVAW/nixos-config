@@ -4,74 +4,76 @@
     wl-clipboard
   ];
 
-  programs.neovim = let
-    formatLuaFileName = s: builtins.replaceStrings ["/nix/store/" ".lua"] ["" ""] s;
-  in {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [
-      vim-nix
+  programs.neovim =
+    let
+      formatLuaFileName = s: builtins.replaceStrings [ "/nix/store/" ".lua" ] [ "" "" ] s;
+    in
+    {
+      enable = true;
+      extraConfig = ''
+        source ${./theme.vim}
 
-      # completion
-      nvim-cmp
-      cmp-buffer
-      cmp-path
-      cmp_luasnip
+        set clipboard+=unnamed
+        set fileencoding=utf-8
+        set nobackup
+        set undofile
+        set updatetime=1000
 
-      # snippets
-      luasnip
-      friendly-snippets
+        set hlsearch
+        set ignorecase
+        set smartcase
 
-      # colorscheme display display
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "inspecthi.vim";
-        src = inputs.vim-inspecthi;
-      })
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "colorswatch.vim";
-        src = inputs.vim-colorswatch;
-      })
-    ];
-    extraConfig = ''
-      source ${./theme.vim}
+        set smartindent
 
-      set clipboard+=unnamed
-      set fileencoding=utf-8
-      set nobackup
-      set undofile
-      set updatetime=1000
+        set showtabline=2
+        set splitbelow
+        set splitright
 
-      set hlsearch
-      set ignorecase
-      set smartcase
+        set expandtab
+        set shiftwidth=2
+        set tabstop=2
 
-      set smartindent
+        set nowrap
+        set scrolloff=4
+        set sidescrolloff=8
 
-      set showtabline=2
-      set splitbelow
-      set splitright
+        set number
+        set signcolumn=number
 
-      set expandtab
-      set shiftwidth=2
-      set tabstop=2
+        set noshowmode
+        set completeopt=menuone,noselect
+        set pumheight=10
 
-      set nowrap
-      set scrolloff=4
-      set sidescrolloff=8
+        nnoremap <Space> i_<Esc>r
+        nnoremap <Return> o<Esc>
+      '';
+      extraLuaConfig = ''
+        package.path = package.path .. ";/nix/store/?.lua"
+        require "${formatLuaFileName (toString ./keybinds.lua)}"
+        require "${formatLuaFileName (toString ./cmp.lua)}"
+      '';
+      plugins = with pkgs.vimPlugins; [
+        vim-nix
 
-      set number
-      set signcolumn=number
+        # completion
+        nvim-cmp
+        cmp-buffer
+        cmp-path
+        cmp_luasnip
 
-      set noshowmode
-      set completeopt=menuone,noselect
-      set pumheight=10
+        # snippets
+        luasnip
+        friendly-snippets
 
-      nnoremap <Space> i_<Esc>r
-      nnoremap <Return> o<Esc>
-    '';
-    extraLuaConfig = ''
-      package.path = package.path .. ";/nix/store/?.lua"
-      require "${formatLuaFileName (toString ./keybinds.lua)}"
-      require "${formatLuaFileName (toString ./cmp.lua)}"
-    '';
-  };
+        # colorscheme display display
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "inspecthi.vim";
+          src = inputs.vim-inspecthi;
+        })
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "colorswatch.vim";
+          src = inputs.vim-colorswatch;
+        })
+      ];
+    };
 }

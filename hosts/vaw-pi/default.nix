@@ -1,7 +1,7 @@
 # System configuration for my raspberry pi 3b acting as server
 { pkgs, inputs, config, lib, ... }: {
   imports = [
-  #  ../common/optional/containers/netcup-ddns
+    #  ../common/optional/containers/netcup-ddns
     ../common/optional/sslh.nix
     ../common/optional/btrfs-swapfile.nix
     ../common/optional/boot-partition.nix
@@ -14,27 +14,27 @@
 
   networking = {
     hostName = "vaw-pi";
-  #  useDHCP = false;
-  #  nameservers = [
-  #    "1.1.1.1"
-  #  ];
-  #  hosts = {
-  #    "192.168.2.100" = [ "vaw-pc" ];
-  #  };
-  #  interfaces.eth0 = {
-  #    useDHCP = false;
-  #    ipv4 = {
-  #      addresses = [{
-  #        address = "192.168.2.101";
-  #        prefixLength = 24;
-  #      }];
-  #      routes = [{
-  #        address = "0.0.0.0";
-  #        prefixLength = 0;
-  #        via = "192.168.2.1";
-  #      }];
-  #    };
-  #  };
+    #  useDHCP = false;
+    #  nameservers = [
+    #    "1.1.1.1"
+    #  ];
+    #  hosts = {
+    #    "192.168.2.100" = [ "vaw-pc" ];
+    #  };
+    #  interfaces.eth0 = {
+    #    useDHCP = false;
+    #    ipv4 = {
+    #      addresses = [{
+    #        address = "192.168.2.101";
+    #        prefixLength = 24;
+    #      }];
+    #      routes = [{
+    #        address = "0.0.0.0";
+    #        prefixLength = 0;
+    #        via = "192.168.2.1";
+    #      }];
+    #    };
+    #  };
   };
 
   system.stateVersion = "22.11";
@@ -53,7 +53,7 @@
         # network driver
         "lan78xx"
       ];
-      kernelModules = [  ];
+      kernelModules = [ ];
       network = {
         enable = true;
         ssh = {
@@ -80,16 +80,16 @@
   };
 
   fileSystems = {
-  #  "/data" = {
-  #    device = "/dev/mapper/data";
-  #    fsType = "ext4";
-  #    encrypted = {
-  #      enable = true;
-  #      blkDev = "/dev/disk/by-label/data_crypt";
-  #      keyFile = "/mnt-root/local_persist/etc/hdd_crypt.key";
-  #      label = "data";
-  #    };
-  #  };
+    #  "/data" = {
+    #    device = "/dev/mapper/data";
+    #    fsType = "ext4";
+    #    encrypted = {
+    #      enable = true;
+    #      blkDev = "/dev/disk/by-label/data_crypt";
+    #      keyFile = "/mnt-root/local_persist/etc/hdd_crypt.key";
+    #      label = "data";
+    #    };
+    #  };
     "/".options = lib.mkForce [ "subvol=vaw-pi/root" "compress-force=zstd:5" ];
     "/nix".options = lib.mkForce [ "subvol=vaw-pi/nix" "compress-force=zstd:5" "noatime" ];
     "/persist".options = lib.mkForce [ "subvol=vaw-pi/persist" "compress-force=zstd:5" ];
