@@ -6,7 +6,7 @@
     ./shells.nix
     ./ssh.nix
     ./vim.nix
-    ./nvim.nix
+    ./nvim
   ];
 
   home.packages = with pkgs; [
