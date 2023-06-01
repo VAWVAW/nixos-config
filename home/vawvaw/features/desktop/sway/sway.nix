@@ -62,10 +62,13 @@
         output = {
           "*" = {
             res = "1920x1080";
-            bg = "${./wallpaper.png} fill";
+            bg = "${../wallpapers/kali-contours-mixed.png} fill";
           };
           "${primary_screen}" = { pos = "0 0"; };
-          "${secondary_screen}" = { pos = "1920 65"; };
+          "${secondary_screen}" = {
+            pos = "1920 65";
+            bg = "${../wallpapers/kali-contours-mixed2.png} fill";
+          };
         };
         seat = {
           "*" = {
