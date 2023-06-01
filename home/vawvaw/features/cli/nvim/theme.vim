@@ -19,7 +19,11 @@ hi! Identifier 				ctermfg=6 cterm=none
 hi! link StorageClass Statement
 hi! Special 					ctermfg=5
 
-hi! Constant					ctermfg=1
+hi! NormalFloat       ctermfg=0 ctermbg=8
+hi! Pmenu             ctermfg=15 ctermbg=235
+hi! PmenuSel          ctermfg=15 ctermbg=4
+
+hi! Constant					ctermfg=13
 hi! Statement					ctermfg=130
 hi! Function					ctermfg=136
 hi! Comment						ctermfg=4
@@ -43,7 +47,6 @@ hi! link nixInterpolationParam Special
 " rust
 hi! rustFuncName			ctermfg=226
 hi! rustAttribute			ctermfg=136
-hi! rustConstant			ctermfg=13
 hi! link rustTrait		rustConstant
 
 " python

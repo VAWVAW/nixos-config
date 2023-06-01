@@ -51,7 +51,11 @@
         package.path = package.path .. ";/nix/store/?.lua"
         require "${formatLuaFileName (toString ./keybinds.lua)}"
         require "${formatLuaFileName (toString ./cmp.lua)}"
+        require "${formatLuaFileName (toString ./lsp.lua)}"
       '';
+      extraPackages = with pkgs; [
+        pyright
+      ];
       plugins = with pkgs.vimPlugins; [
         vim-nix
 
@@ -64,6 +68,10 @@
         # snippets
         luasnip
         friendly-snippets
+
+        # lsp
+        nvim-lspconfig
+        cmp-nvim-lsp
 
         # colorscheme display display
         (pkgs.vimUtils.buildVimPlugin {
