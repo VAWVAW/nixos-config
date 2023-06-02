@@ -19,7 +19,6 @@ hi! Identifier 				ctermfg=6 cterm=none
 hi! link StorageClass Statement
 hi! Special 					ctermfg=5
 
-hi! NormalFloat       ctermfg=0 ctermbg=8
 hi! Pmenu             ctermfg=15 ctermbg=235
 hi! PmenuSel          ctermfg=15 ctermbg=4
 
