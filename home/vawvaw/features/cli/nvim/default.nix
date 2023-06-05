@@ -52,10 +52,8 @@
         require "${formatLuaFileName (toString ./keybinds.lua)}"
         require "${formatLuaFileName (toString ./cmp.lua)}"
         require "${formatLuaFileName (toString ./lsp.lua)}"
+        require "${formatLuaFileName (toString ./treesitter.lua)}"
       '';
-      extraPackages = with pkgs; [
-        pyright
-      ];
       plugins = with pkgs.vimPlugins; [
         vim-nix
 
@@ -72,6 +70,11 @@
         # lsp
         nvim-lspconfig
         cmp-nvim-lsp
+
+        # treesitter
+        nvim-treesitter.withAllGrammars
+        nvim-ts-rainbow
+        playground
 
         # colorscheme display display
         (pkgs.vimUtils.buildVimPlugin {
