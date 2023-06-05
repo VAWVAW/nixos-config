@@ -290,6 +290,7 @@
           {
             name = "spotify";
             command = "${spotify_script}";
+            short_text = "󰝚";
             interval = 5;
             signal = "11";
           }
@@ -303,6 +304,7 @@
           {
             name = "iface";
             command = "${iface_script}";
+            short_text = " ";
             color = "#00FF00";
             interval = 10;
             separator = "false";
