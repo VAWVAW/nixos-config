@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "cspell-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1684215963,
+        "narHash": "sha256-wPzivrgKK22baYEqCOTpPbeXNtwGWsN4z08OoKYcxPM=",
+        "owner": "davidmh",
+        "repo": "cspell.nvim",
+        "rev": "0e9c586bd7f7ab3f1f2f000a084121203e0ee62c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "davidmh",
+        "repo": "cspell.nvim",
+        "type": "github"
+      }
+    },
     "firefox-addons": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -223,6 +239,7 @@
     },
     "root": {
       "inputs": {
+        "cspell-nvim": "cspell-nvim",
         "firefox-addons": "firefox-addons",
         "flake-programs-sqlite": "flake-programs-sqlite",
         "hardware": "hardware",

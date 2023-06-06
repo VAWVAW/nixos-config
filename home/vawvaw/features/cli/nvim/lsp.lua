@@ -36,6 +36,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     nmap('K', vim.lsp.buf.hover, opts)
     nmap('<leader>k', vim.lsp.buf.signature_help, opts)
     nmap('<leader>a', vim.lsp.buf.code_action, opts)
+    nmap('<leader>f', vim.lsp.buf.format, opts)
     nmap('<F6>', vim.lsp.buf.rename, opts)
   end,
 })

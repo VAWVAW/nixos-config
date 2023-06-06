@@ -57,7 +57,11 @@
         require "${formatLuaFileName (toString ./gitsigns.lua)}"
         require "${formatLuaFileName (toString ./nvim-tree.lua)}"
         require "${formatLuaFileName (toString ./bufferline.lua)}"
+        require "${formatLuaFileName (toString ./null-ls.lua)}"
       '';
+      extraPackages = with pkgs; [
+        nodePackages.cspell
+      ];
       plugins = with pkgs.vimPlugins; [
         # misc
         comment-nvim
@@ -79,6 +83,11 @@
         # lsp
         nvim-lspconfig
         cmp-nvim-lsp
+        null-ls-nvim
+        (pkgs.vimUtils.buildVimPlugin {
+          name = "cspell.nvim";
+          src = inputs.cspell-nvim;
+        })
 
         # treesitter
         nvim-treesitter.withAllGrammars
