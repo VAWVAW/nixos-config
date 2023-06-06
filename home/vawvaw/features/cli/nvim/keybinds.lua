@@ -3,10 +3,10 @@ local opts = { noremap = true, silent = true }
 local term_opts = { silent = true }
 
 -- Shorten function name
-local keymap = vim.api.nvim_set_keymap
+local map = vim.api.nvim_set_keymap
 
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
+map("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -20,46 +20,46 @@ vim.g.maplocalleader = " "
 
 -- Normal --
 -- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+map("n", "<C-h>", "<C-w>h", opts)
+map("n", "<C-j>", "<C-w>j", opts)
+map("n", "<C-k>", "<C-w>k", opts)
+map("n", "<C-l>", "<C-w>l", opts)
 
-keymap("n", "<leader>e", ":NvimTreeFindFileToggle<CR>", opts)
+map("n", "<leader>e", ":NvimTreeFindFileToggle<CR>", opts)
 
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize +2<CR>", opts)
-keymap("n", "<C-Down>", ":resize -2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+map("n", "<C-Up>", ":resize +2<CR>", opts)
+map("n", "<C-Down>", ":resize -2<CR>", opts)
+map("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+map("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers (using bufferline)
-keymap("n", "<C-p>", ":BufferLineCycleNext<CR>", opts)
-keymap("n", "<C-n>", ":BufferLineCyclePrev<CR>", opts)
-keymap("n", "<A-p>", ":BufferLineMoveNext<CR>", opts)
-keymap("n", "<A-n>", ":BufferLineMovePrev<CR>", opts)
-keymap("n", "<C-x>", ":Bdelete! %<CR>", opts)
+map("n", "<C-p>", ":BufferLineCycleNext<CR>", opts)
+map("n", "<C-n>", ":BufferLineCyclePrev<CR>", opts)
+map("n", "<A-p>", ":BufferLineMoveNext<CR>", opts)
+map("n", "<A-n>", ":BufferLineMovePrev<CR>", opts)
+map("n", "<C-x>", ":Bdelete! %<CR>", opts)
 
 -- Visual --
 -- Stay in indent mode
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
+map("v", "<", "<gv", opts)
+map("v", ">", ">gv", opts)
 
 -- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "p", '"_dP', opts)
+map("v", "<A-j>", ":m .+1<CR>==", opts)
+map("v", "<A-k>", ":m .-2<CR>==", opts)
+map("v", "p", '"_dP', opts)
 
 -- Visual Block --
 -- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
+map("x", "J", ":move '>+1<CR>gv-gv", opts)
+map("x", "K", ":move '<-2<CR>gv-gv", opts)
 
 -- Terminal --
 -- Better terminal navigation
-keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
-keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
-keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+map("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
+map("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
+map("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
+map("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
 require("Comment").setup { }

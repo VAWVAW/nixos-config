@@ -13,26 +13,30 @@ for _, sign in ipairs(signs) do
 end
 
 -- keybinds
-local opts = { noremap = true, silent = true }
-vim.keymap.set('n', 'gl', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '<leader>p', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', '<leader>n', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
+local function nmap(l, r, opts)
+  opts = { noremap = true, silent = true }
+  vim.keymap.set("n", l, r, opts)
+end
+
+nmap('gl', vim.diagnostic.open_float)
+nmap('<leader>p', vim.diagnostic.goto_prev)
+nmap('<leader>n', vim.diagnostic.goto_next)
+nmap('<leader>q', vim.diagnostic.setloclist)
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(ev)
     -- Buffer local mappings
     local opts = { noremap = true, silent = true, buffer = ev.buf }
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', 'gk', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', '<F6>', vim.lsp.buf.rename, opts)
+    nmap('gd', vim.lsp.buf.definition, opts)
+    nmap('gD', vim.lsp.buf.declaration, opts)
+    nmap('gr', vim.lsp.buf.references, opts)
+    nmap('gi', vim.lsp.buf.implementation, opts)
+    nmap('gk', vim.lsp.buf.type_definition, opts)
+    nmap('K', vim.lsp.buf.hover, opts)
+    nmap('<leader>k', vim.lsp.buf.signature_help, opts)
+    nmap('<leader>a', vim.lsp.buf.code_action, opts)
+    nmap('<F6>', vim.lsp.buf.rename, opts)
   end,
 })
 
