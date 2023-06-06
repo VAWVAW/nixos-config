@@ -1,7 +1,5 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-local autopairs = require("nvim-autopairs")
-local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 require("luasnip/loaders/from_vscode").lazy_load()
 
@@ -111,7 +109,7 @@ cmp.setup {
   },
 }
 
-autopairs.setup {
+require("nvim-autopairs").setup {
   check_ts = true,
   fast_wrap = {
     map = "<C-e>",
@@ -124,4 +122,4 @@ autopairs.setup {
   },
 }
 
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
+cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done { map_char = { tex = "" } })

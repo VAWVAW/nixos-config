@@ -55,8 +55,6 @@
         require "${formatLuaFileName (toString ./treesitter.lua)}"
       '';
       plugins = with pkgs.vimPlugins; [
-        vim-nix
-
         # completion
         nvim-cmp
         cmp-buffer
@@ -76,6 +74,9 @@
         playground
         nvim-ts-rainbow
         nvim-autopairs
+
+        # comments
+        comment-nvim
 
         # colorscheme display display
         (pkgs.vimUtils.buildVimPlugin {
