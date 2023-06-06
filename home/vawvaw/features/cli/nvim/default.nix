@@ -54,11 +54,14 @@
         require "${formatLuaFileName (toString ./lsp.lua)}"
         require "${formatLuaFileName (toString ./treesitter.lua)}"
         require "${formatLuaFileName (toString ./gitsigns.lua)}"
+        require "${formatLuaFileName (toString ./nvim-tree.lua)}"
       '';
       plugins = with pkgs.vimPlugins; [
         # misc
         comment-nvim
         gitsigns-nvim
+        nvim-tree-lua
+        nvim-web-devicons
 
         # completion
         nvim-cmp

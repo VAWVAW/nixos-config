@@ -47,12 +47,25 @@ hi! GitSignsAdd       ctermfg=34
 hi! GitSignsDelete    ctermfg=1
 hi! GitSignsChange    ctermfg=39
 
+" nvim-tree
+hi! NvimTreeGitIgnored      ctermfg=136
+hi! NvimTreeGitNew          ctermfg=203
+hi! link NvimTreeGitRenamed GitSignsAdd
+hi! link NvimTreeGitDeleted GitSignsDelete
+hi! link NvimTreeGitStaged  GitSignsChange
+hi! link NvimTreeGitMerge   NvimTreeGitStaged
+hi! link NvimTreeGitDirty   NvimTreeGitNew
+
+hi! link NvimTreeFileDirty  NvimTreeGitStaged
+hi! link NvimTreeFileNew    GitSignsAdd
+hi! link NvimTreeModifiedFile Constant
+
 
 " nix
 hi! nixAttribute			ctermfg=6
-hi! link nixSimpleFunctionArgument nixAttribute
-hi! link nixArgumentDefinition nixAttribute
-hi! link nixInterpolationParam Special
+hi! link nixSimpleFunctionArgument  nixAttribute
+hi! link nixArgumentDefinition      nixAttribute
+hi! link nixInterpolationParam      Special
 
 " rust
 hi! rustFuncName			ctermfg=226
