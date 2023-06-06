@@ -2,8 +2,7 @@
   home.packages = with pkgs; [ wl-clipboard ];
 
   programs.neovim = let
-    formatLuaFileName = s:
-      builtins.replaceStrings [ "/nix/store/" ".lua" ] [ "" "" ] s;
+    formatLuaFileName = builtins.replaceStrings [ "/nix/store/" ".lua" ] [ "" "" ];
   in {
     enable = true;
     defaultEditor = true;

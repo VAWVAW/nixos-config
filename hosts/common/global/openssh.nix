@@ -46,7 +46,7 @@ in {
       # home.vaw-valentin.de is added to vaw-pi in default.nix
     } // builtins.mapAttrs (name: _: {
       publicKeyFile = pubKey name;
-      extraHostNames = (lib.optional (name == hostname) "localhost");
+      extraHostNames = lib.optional (name == hostname) "localhost";
     }) hosts;
   };
 

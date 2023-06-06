@@ -5,7 +5,7 @@
     description = lib.mdDoc "The color to display in the default zsh promt";
   };
 
-  config.programs.zsh = let promptColor = config.programs.zsh.promptColor;
+  config.programs.zsh = let inherit (config.programs.zsh) promptColor;
   in {
     enable = true;
     enableSyntaxHighlighting = true;
