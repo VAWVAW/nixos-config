@@ -33,9 +33,12 @@ keymap("n", "<C-Down>", ":resize -2<CR>", opts)
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
--- Navigate buffers
-keymap("n", "<A-l>", ":bnext<CR>", opts)
-keymap("n", "<A-h>", ":bprevious<CR>", opts)
+-- Navigate buffers (using bufferline)
+keymap("n", "<C-p>", ":BufferLineCycleNext<CR>", opts)
+keymap("n", "<C-n>", ":BufferLineCyclePrev<CR>", opts)
+keymap("n", "<A-p>", ":BufferLineMoveNext<CR>", opts)
+keymap("n", "<A-n>", ":BufferLineMovePrev<CR>", opts)
+keymap("n", "<C-x>", ":Bdelete! %<CR>", opts)
 
 -- Visual --
 -- Stay in indent mode

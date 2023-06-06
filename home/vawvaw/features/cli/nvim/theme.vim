@@ -60,6 +60,28 @@ hi! link NvimTreeFileDirty  NvimTreeGitStaged
 hi! link NvimTreeFileNew    GitSignsAdd
 hi! link NvimTreeModifiedFile Constant
 
+" bufferline
+hi! TabLine                           ctermfg=243 ctermbg=0 cterm=none
+
+hi! link BufferLineTab                TabLine
+hi! link BufferLineTabSelected        Normal
+hi! link BufferLineTabClose           Normal
+
+hi! link BufferLineFill               TabLine
+hi! link BufferLineBackground         TabLine
+hi! BufferLineBufferSelected          ctermfg=15 ctermbg=0 cterm=bold
+hi! BufferLineBufferVisible           ctermfg=243 ctermbg=0 cterm=bold
+
+hi! link BufferLineModified           NvimTreeModifiedFile
+hi! link BufferLineModifiedSelected   NvimTreeModifiedFile
+hi! link BufferLineModifiedVisible    NvimTreeModifiedFile
+
+hi! link BufferLineSeparator          BufferLineBackground
+hi! link BufferLineSeparatorSelected  BufferLineBufferSelected
+hi! link BufferLineSeparatorVisible   BufferLineBufferVisible
+
+hi! link BufferLineIndicatorSelected  BufferLineBufferSelected
+hi! link BufferLineIndicatorVisible   BufferLineBufferVisible
 
 " nix
 hi! nixAttribute			ctermfg=6

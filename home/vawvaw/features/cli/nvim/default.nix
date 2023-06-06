@@ -55,6 +55,7 @@
         require "${formatLuaFileName (toString ./treesitter.lua)}"
         require "${formatLuaFileName (toString ./gitsigns.lua)}"
         require "${formatLuaFileName (toString ./nvim-tree.lua)}"
+        require "${formatLuaFileName (toString ./bufferline.lua)}"
       '';
       plugins = with pkgs.vimPlugins; [
         # misc
@@ -68,6 +69,7 @@
         cmp-buffer
         cmp-path
         cmp_luasnip
+        vim-bbye
 
         # snippets
         luasnip
@@ -82,6 +84,9 @@
         playground
         nvim-ts-rainbow
         nvim-autopairs
+
+        # bufferline
+        bufferline-nvim
 
         # colorscheme display display
         (pkgs.vimUtils.buildVimPlugin {
