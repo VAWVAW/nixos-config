@@ -83,11 +83,11 @@ require("nvim-tree").setup {
     nmap("t", api.tree.toggle_hidden_filter)
     nmap("<C-k>", api.node.show_info_popup)
 
-    nmap("l", api.node.open.preview)
-    nmap("<CR>", function () api.node.open.edit(); api.tree.close() end)
     nmap("h", api.node.navigate.parent_close)
+    nmap("l", api.node.open.preview)
     nmap("<Tab>", api.node.open.preview)
-    nmap("v", api.node.open.vertical)
+    nmap("<CR>", function () api.node.open.edit(); api.tree.close() end)
+    nmap("v", function () api.node.open.vertical(); api.tree.close() end)
 
     nmap("a", api.fs.create)
     nmap("r", api.fs.rename)
@@ -100,5 +100,43 @@ require("nvim-tree").setup {
     nmap("<C-y>", api.fs.copy.filename)
     nmap("gy", api.fs.copy.relative_path)
     nmap("gY", api.fs.copy.absolute_path)
+
+    local function get_gs(node)
+      local gs = node.git_status.file
+
+      -- If the current node is a directory get children status
+      if gs == nil then
+        gs = (node.git_status.dir.direct ~= nil and node.git_status.dir.direct[1])
+        or (node.git_status.dir.indirect ~= nil and node.git_status.dir.indirect[1])
+      end
+      return gs
+    end
+
+    local function git_add()
+      local node = api.tree.get_node_under_cursor()
+      local gs = get_gs(node)
+
+      -- If the file is untracked, unstaged or partially staged, we stage it
+      if gs == "??" or gs == "MM" or gs == "AM" or gs == " M" then
+        vim.cmd("silent !git add " .. node.absolute_path)
+      end
+
+      api.tree.reload()
+    end
+
+    local function git_unstage()
+      local node = api.tree.get_node_under_cursor()
+      local gs = get_gs(node)
+
+        -- If the file is staged, we unstage
+      if gs == "M " or gs == "A " then
+        vim.cmd("silent !git restore --staged " .. node.absolute_path)
+      end
+
+      api.tree.reload()
+    end
+
+    nmap("gs", git_add)
+    nmap("gu", git_unstage)
   end
 }
