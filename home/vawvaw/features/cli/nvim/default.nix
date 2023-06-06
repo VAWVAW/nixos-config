@@ -10,6 +10,7 @@
     in
     {
       enable = true;
+      defaultEditor = true;
       extraConfig = ''
         source ${./theme.vim}
 
