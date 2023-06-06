@@ -1,13 +1,6 @@
 { pkgs, ... }: {
-  imports = [
-    ./btop.nix
-    ./git.nix
-    ./gpg.nix
-    ./shells.nix
-    ./ssh.nix
-    ./vim.nix
-    ./nvim
-  ];
+  imports =
+    [ ./btop.nix ./git.nix ./gpg.nix ./shells.nix ./ssh.nix ./vim.nix ./nvim ];
 
   home.packages = with pkgs; [
     ncdu # TUI disk usage

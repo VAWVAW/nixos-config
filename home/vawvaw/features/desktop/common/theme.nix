@@ -1,7 +1,7 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   home.file = {
-    ".icons/default".source = "${pkgs.gnome.adwaita-icon-theme}/share/icons/Adwaita";
+    ".icons/default".source =
+      "${pkgs.gnome.adwaita-icon-theme}/share/icons/Adwaita";
   };
 
   dconf.settings."org/gnome/desktop/interface" = {

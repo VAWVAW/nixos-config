@@ -1,39 +1,38 @@
 { pkgs, lib, config, ... }:
 let
   mx-discord-home = "/var/lib/mx-discord";
-  discord-config = pkgs.writeText "mx-discord-config" (lib.generators.toYAML { } {
-    bridge = {
-      port = 8080;
-      bindAddress = "localhost";
-      domain = "vaw-valentin.de";
-      homeserverUrl = "https://matrix.vaw-valentin.de";
-      displayname = "Discord Puppet Bridge";
-      enableGroupSync = true;
-    };
-    presence = {
-      enabled = true;
-      interval = 500;
-    };
-    provisioning.whitelist = [ "@vawvaw:vaw-valentin.de" ];
-    relay.whitelist = [ "@vawvaw:vaw-valentin.de" ];
-    selfService.whitelist = [ "@vawvaw:vaw-valentin.de" ];
-    namePatterns = {
-      user = ":name";
-      userOverride = ":displayname";
-      room = ":name";
-      group = ":name";
-    };
-    database.connString = "postgres://matrix-discord:discord@localhost/matrix-discord?sslmode=disable";
-    logging = {
-      console = "info";
-      lineDateFormat = "MMM-D HH:mm:ss.SSS";
-    };
-  });
-in
-{
-  imports = [
-    ./nginx.nix
-  ];
+  discord-config = pkgs.writeText "mx-discord-config"
+    (lib.generators.toYAML { } {
+      bridge = {
+        port = 8080;
+        bindAddress = "localhost";
+        domain = "vaw-valentin.de";
+        homeserverUrl = "https://matrix.vaw-valentin.de";
+        displayname = "Discord Puppet Bridge";
+        enableGroupSync = true;
+      };
+      presence = {
+        enabled = true;
+        interval = 500;
+      };
+      provisioning.whitelist = [ "@vawvaw:vaw-valentin.de" ];
+      relay.whitelist = [ "@vawvaw:vaw-valentin.de" ];
+      selfService.whitelist = [ "@vawvaw:vaw-valentin.de" ];
+      namePatterns = {
+        user = ":name";
+        userOverride = ":displayname";
+        room = ":name";
+        group = ":name";
+      };
+      database.connString =
+        "postgres://matrix-discord:discord@localhost/matrix-discord?sslmode=disable";
+      logging = {
+        console = "info";
+        lineDateFormat = "MMM-D HH:mm:ss.SSS";
+      };
+    });
+in {
+  imports = [ ./nginx.nix ];
 
   sops.secrets.synapse_shared_secret = {
     format = "binary";
@@ -98,7 +97,8 @@ in
         "matrix.vaw-valentin.de" = {
           enableACME = true;
           forceSSL = true;
-          listen = config.services.nginx.virtualHosts."server.vaw-valentin.de".listen;
+          listen =
+            config.services.nginx.virtualHosts."server.vaw-valentin.de".listen;
 
           root = "/var/www/matrix";
           locations."/_matrix".proxyPass = "http://[::1]:8008";
@@ -122,14 +122,10 @@ in
             compress = true;
           }];
         }];
-        app_service_config_files = [
-          "${mx-discord-home}/registration.yaml"
-        ];
+        app_service_config_files = [ "${mx-discord-home}/registration.yaml" ];
         enable_group_creation = true;
       };
-      extraConfigFiles = [
-        config.sops.secrets.synapse_shared_secret.path
-      ];
+      extraConfigFiles = [ config.sops.secrets.synapse_shared_secret.path ];
     };
   };
 }

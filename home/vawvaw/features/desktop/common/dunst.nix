@@ -1,7 +1,5 @@
-{ pkgs, ... }:
-{
-  imports = [
-  ];
+{ pkgs, ... }: {
+  imports = [ ];
 
   services.dunst = {
     enable = true;

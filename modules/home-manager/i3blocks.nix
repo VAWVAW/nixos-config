@@ -13,17 +13,13 @@ let
   formatBlocks = blocks:
     let
       formatBlock = block:
-        [
-          ''
+        [''
 
-          [${block.name or ""}]''
-        ]
+          [${block.name or ""}]'']
         ++ (formatSet (removeAttrs block [ "name" ]));
-    in
-    builtins.concatLists (map formatBlock blocks);
+    in builtins.concatLists (map formatBlock blocks);
 
-in
-{
+in {
   meta.maintainers = [ hm.maintainers.vawvaw ];
 
   options.programs.i3blocks = {

@@ -1,11 +1,7 @@
 { pkgs, lib, config, ... }:
-let
-  configPath = "/var/lib/netcup-ddns";
-in
-{
-  imports = [
-    ../default.nix
-  ];
+let configPath = "/var/lib/netcup-ddns";
+in {
+  imports = [ ../default.nix ];
 
   virtualisation.oci-containers.containers.netcup-ddns = {
     image = "localhost/netcup-dynamic-dns:latest";
@@ -13,9 +9,7 @@ in
 
     autoStart = false;
 
-    volumes = [
-      "${configPath}:/config"
-    ];
+    volumes = [ "${configPath}:/config" ];
   };
 
   systemd = {
@@ -30,9 +24,7 @@ in
         rm -rf ${configPath}
       '';
 
-      serviceConfig = {
-        Restart = lib.mkForce "on-failure";
-      };
+      serviceConfig = { Restart = lib.mkForce "on-failure"; };
     };
     timers.podman-netcup-ddns = {
       wantedBy = [ "timers.target" ];

@@ -1,3 +1,1 @@
-{
-  imports = [ ./global.nix ];
-}
+{ imports = [ ./global.nix ]; }

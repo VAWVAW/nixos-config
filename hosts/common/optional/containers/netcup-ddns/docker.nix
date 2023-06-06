@@ -1,9 +1,7 @@
 { pkgs ? import <nixpkgs> { }, ... }:
 
-let
-  package = pkgs.callPackage ./app { inherit pkgs; };
-in
-pkgs.dockerTools.buildImage {
+let package = pkgs.callPackage ./app { inherit pkgs; };
+in pkgs.dockerTools.buildImage {
   name = "netcup-dynamic-dns";
   tag = "latest";
 
@@ -18,8 +16,6 @@ pkgs.dockerTools.buildImage {
 
   config = {
     Cmd = [ "/bin/netcup-ddns" "--config" "/config/config.php" ];
-    Volumes = {
-      "/config" = { };
-    };
+    Volumes = { "/config" = { }; };
   };
 }

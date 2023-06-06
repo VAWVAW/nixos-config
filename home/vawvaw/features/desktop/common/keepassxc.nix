@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.firejail.wrappedBinaries = {
     keepassxc = {
       executable = "${pkgs.keepassxc}/bin/keepassxc";
@@ -14,9 +13,6 @@
   };
 
   home.persistence."/local_persist/home/vawvaw" = {
-    directories = [
-      ".config/keepassxc"
-      ".cache/keepassxc"
-    ];
+    directories = [ ".config/keepassxc" ".cache/keepassxc" ];
   };
 }

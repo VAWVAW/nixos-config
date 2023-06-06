@@ -1,19 +1,15 @@
 { pkgs, config, lib, outputs, ... }:
-let ifTheyExist = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
+let
+  ifTheyExist = groups:
+    builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in {
-  users.groups.vawvaw = {
-    gid = lib.mkDefault 1000;
-  };
+  users.groups.vawvaw = { gid = lib.mkDefault 1000; };
   users.users.vawvaw = {
     isNormalUser = true;
     uid = lib.mkDefault 1000;
     shell = pkgs.zsh;
     group = "vawvaw";
-    extraGroups = [
-      "wheel"
-      "video"
-      "audio"
-    ] ++ ifTheyExist [
+    extraGroups = [ "wheel" "video" "audio" ] ++ ifTheyExist [
       "adbusers"
       "network"
       "wireshark"

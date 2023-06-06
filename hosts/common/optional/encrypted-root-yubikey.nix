@@ -8,9 +8,7 @@ in {
         yubikey = {
           slot = 2;
           twoFactor = true;
-          storage = {
-            device = config.fileSystems."/boot".device;
-          };
+          storage = { device = config.fileSystems."/boot".device; };
         };
       };
     };

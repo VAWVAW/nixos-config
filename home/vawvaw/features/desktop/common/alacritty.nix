@@ -57,9 +57,11 @@
           white = "#656565";
         };
       };
-      key_bindings = [
-        { key = "Return"; mods = "Control|Shift"; action = "SpawnNewInstance"; }
-      ];
+      key_bindings = [{
+        key = "Return";
+        mods = "Control|Shift";
+        action = "SpawnNewInstance";
+      }];
     };
   };
 }

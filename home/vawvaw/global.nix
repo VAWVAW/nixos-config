@@ -1,5 +1,4 @@
-{ inputs, lib, pkgs, config, outputs, ... }:
-{
+{ inputs, lib, pkgs, config, outputs, ... }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.sops-nix.homeManagerModule
@@ -26,31 +25,21 @@
     defaultSopsFile = ./secrets.yaml;
   };
 
-  programs = {
-    home-manager.enable = true;
-  };
+  programs = { home-manager.enable = true; };
 
   home = {
     username = lib.mkDefault "vawvaw";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "22.11";
 
-    packages = with pkgs; [
-      sops
-      psmisc
-    ];
+    packages = with pkgs; [ sops psmisc ];
 
     persistence = {
       "/persist/home/vawvaw" = {
-        directories = [
-          "Documents"
-          "Downloads"
-        ];
+        directories = [ "Documents" "Downloads" ];
         allowOther = true;
       };
-      "/local_persist/home/vawvaw" = {
-        allowOther = true;
-      };
+      "/local_persist/home/vawvaw" = { allowOther = true; };
     };
   };
 }

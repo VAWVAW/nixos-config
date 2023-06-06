@@ -1,6 +1,5 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ lib, inputs, outputs, config, ... }:
-{
+{ lib, inputs, outputs, config, ... }: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
 
@@ -19,31 +18,32 @@
 
   home-manager = {
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; platform = config.nixpkgs.hostPlatform.system; };
+    extraSpecialArgs = {
+      inherit inputs outputs;
+      platform = config.nixpkgs.hostPlatform.system;
+    };
   };
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-    };
+    config = { allowUnfree = true; };
   };
 
-  networking = {
-    firewall.enable = lib.mkDefault true;
-  };
+  networking = { firewall.enable = lib.mkDefault true; };
 
   hardware.enableRedistributableFirmware = true;
 
   users.mutableUsers = false;
 
   system.activationScripts = {
-    generateMnt = ''[ ! -d /mnt ] && [[ ! "NIXOS_ACTION" == "dry-activate" ]] && mkdir /mnt'';
+    generateMnt = ''
+      [ ! -d /mnt ] && [[ ! "NIXOS_ACTION" == "dry-activate" ]] && mkdir /mnt'';
   };
 
   # not possible in openssh.nix because of attrset merge
   programs.ssh.knownHosts."vaw-pi".extraHostNames = [ "home.vaw-valentin.de" ];
-  programs.ssh.knownHosts."vserver".extraHostNames = [ "server.vaw-valentin.de" ];
+  programs.ssh.knownHosts."vserver".extraHostNames =
+    [ "server.vaw-valentin.de" ];
 
   security = {
     polkit.enable = true;

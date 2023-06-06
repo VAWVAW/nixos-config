@@ -1,10 +1,7 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ pkgs, inputs, ... }:
-{
+{ pkgs, inputs, ... }: {
   environment = {
-    systemPackages = with pkgs; [
-      xdg-utils
-    ];
+    systemPackages = with pkgs; [ xdg-utils ];
 
     shells = [ pkgs.bash pkgs.zsh ];
   };

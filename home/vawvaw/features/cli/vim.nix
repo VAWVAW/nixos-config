@@ -1,10 +1,7 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.vim = {
     enable = true;
-    plugins = [
-      pkgs.vimPlugins.vim-nix
-    ];
+    plugins = [ pkgs.vimPlugins.vim-nix ];
     settings = {
       number = true;
       tabstop = 2;

@@ -1,6 +1,1 @@
-{
-  imports = [
-    ./backup-repo.nix
-    ./nginx.nix
-  ];
-}
+{ imports = [ ./backup-repo.nix ./nginx.nix ]; }

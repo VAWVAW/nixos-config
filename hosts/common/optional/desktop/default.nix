@@ -1,11 +1,5 @@
-{ pkgs, ... }:
-{
-  imports = [
-    ./bluetooth.nix
-    ./pipewire.nix
-    ./fonts.nix
-    ./xdg.nix
-  ];
+{ pkgs, ... }: {
+  imports = [ ./bluetooth.nix ./pipewire.nix ./fonts.nix ./xdg.nix ];
 
   programs.dconf.enable = true;
   # gnome pinentry support
@@ -14,6 +8,9 @@
   # enable backlight setting without password
   security.sudo.extraRules = [{
     groups = [ "wheel" ];
-    commands = [{ command = "${pkgs.light}/bin/light"; options = [ "NOPASSWD" ]; }];
+    commands = [{
+      command = "${pkgs.light}/bin/light";
+      options = [ "NOPASSWD" ];
+    }];
   }];
 }

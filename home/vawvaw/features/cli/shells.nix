@@ -1,12 +1,7 @@
-{ pkgs, lib, ... }:
-{
-  imports = [
-    ./zsh.nix
-  ];
+{ pkgs, lib, ... }: {
+  imports = [ ./zsh.nix ];
 
-  programs = {
-    bash.enable = true;
-  };
+  programs = { bash.enable = true; };
 
   home.shellAliases = {
     l = "${pkgs.exa}/bin/exa -1";

@@ -19,12 +19,9 @@
     ../common/users/vawvaw
   ];
 
-  networking = {
-    hostName = "vaw-laptop";
-  };
+  networking = { hostName = "vaw-laptop"; };
 
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [ ];
 
   programs.firejail.enable = true;
 
@@ -35,7 +32,8 @@
   boot = {
     kernelModules = [ "kvm-amd" ];
     initrd = {
-      availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+      availableKernelModules =
+        [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
     };
     loader = {
       efi.canTouchEfiVariables = true;
@@ -51,9 +49,7 @@
   hardware = {
     opengl = {
       enable = true;
-      extraPackages = with pkgs; [
-        libvdpau-va-gl
-      ];
+      extraPackages = with pkgs; [ libvdpau-va-gl ];
       driSupport = true;
       driSupport32Bit = true;
     };

@@ -1,14 +1,8 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   home = {
-    packages = with pkgs; [
-      cinny-desktop
-    ];
+    packages = with pkgs; [ cinny-desktop ];
     persistence."/local_persist/home/vawvaw" = {
-      directories = [
-        ".cache/cinny"
-        ".local/share/in.cinny.app"
-      ];
+      directories = [ ".cache/cinny" ".local/share/in.cinny.app" ];
     };
   };
 }

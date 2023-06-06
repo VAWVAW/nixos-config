@@ -24,17 +24,13 @@
 
   networking = {
     hostName = "vaw-pc";
-    hosts = {
-      "192.168.2.101" = [ "vaw-pi" ];
-    };
+    hosts = { "192.168.2.101" = [ "vaw-pi" ]; };
     networkmanager.insertNameservers = [
       #      "192.168.2.101"
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    nvtop
-  ];
+  environment.systemPackages = with pkgs; [ nvtop ];
 
   programs.firejail.enable = true;
 
@@ -43,7 +39,8 @@
   boot = {
     kernelModules = [ "kvm-intel" ];
     initrd = {
-      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
+      availableKernelModules =
+        [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
     };
     loader = {
       efi.canTouchEfiVariables = true;
@@ -59,9 +56,7 @@
   hardware = {
     opengl = {
       enable = true;
-      extraPackages = with pkgs; [
-        libvdpau-va-gl
-      ];
+      extraPackages = with pkgs; [ libvdpau-va-gl ];
       driSupport = true;
       driSupport32Bit = true;
     };

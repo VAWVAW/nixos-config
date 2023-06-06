@@ -1,19 +1,10 @@
 {
-  networking.firewall.allowedTCPPorts = [
-    80
-    443
-  ];
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  environment.persistence."/persist" = {
-    directories = [
-      "/var/www"
-    ];
-  };
+  environment.persistence."/persist" = { directories = [ "/var/www" ]; };
 
   environment.persistence."/local_persist" = {
-    directories = [
-      "/var/lib/acme"
-    ];
+    directories = [ "/var/lib/acme" ];
   };
 
   services.nginx = {

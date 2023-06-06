@@ -1,5 +1,4 @@
-{ pkgs, config, inputs, ... }:
-{
+{ pkgs, config, inputs, ... }: {
   imports = [
     ./audio.nix
     ./alacritty.nix
@@ -15,24 +14,11 @@
     ./tor-browser.nix
   ];
 
-  home.packages = with pkgs; [
-    yubioath-flutter
-    libreoffice
-    dfeet
-  ];
+  home.packages = with pkgs; [ yubioath-flutter libreoffice dfeet ];
 
   home.persistence = {
-    "/persist/home/vawvaw" = {
-      directories = [
-        "Pictures"
-      ];
-    };
-    "/local_persist/home/vawvaw" = {
-      directories = [
-        "Games"
-        "Maildir"
-      ];
-    };
+    "/persist/home/vawvaw" = { directories = [ "Pictures" ]; };
+    "/local_persist/home/vawvaw" = { directories = [ "Games" "Maildir" ]; };
   };
 
   xdg = {

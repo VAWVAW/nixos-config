@@ -12,13 +12,10 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   propagatedBuildInputs = [
-    (php.withExtensions ({ all, enabled }:
-      enabled ++ (with all; [ curl ])))
+    (php.withExtensions ({ all, enabled }: enabled ++ (with all; [ curl ])))
   ];
 
-  patches = [
-    ./require_config.diff
-  ];
+  patches = [ ./require_config.diff ];
 
   postPatch = ''
     substituteInPlace update.php \
@@ -32,7 +29,8 @@ pkgs.stdenv.mkDerivation rec {
 
   meta = with lib; {
     homepage = "https://github.com/stecklars/dynamic-dns-netcup-api";
-    description = "A simple dynamic DNS client written in PHP for use with the netcup DNS API.";
+    description =
+      "A simple dynamic DNS client written in PHP for use with the netcup DNS API.";
     license = licenses.mit;
   };
 }

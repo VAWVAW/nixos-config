@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.waybar = {
     enable = true;
     package = pkgs.waybar.overrideAttrs (oldAttrs: {
@@ -16,12 +15,8 @@
       layer = "top";
       position = "bottom";
 
-      modules-left = [
-        "wlr/workspaces"
-        "sway/workspaces"
-        "hyprland/submap"
-        "sway/mode"
-      ];
+      modules-left =
+        [ "wlr/workspaces" "sway/workspaces" "hyprland/submap" "sway/mode" ];
       modules-center = [ ];
       modules-right = [
         "custom/mail"
@@ -57,12 +52,14 @@
 
       "custom/divera" = {
         return-type = "json";
-        exec = ''${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d '{{\"text\": \"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"class\": \"{status_name}\"}}' '';
+        exec = ''
+          ${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d '{{\"text\": \"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"class\": \"{status_name}\"}}' '';
       };
       "custom/mail" = {
         format = "mail: {}";
         exec = "notmuch count tag:unread";
-        exec-if = "bash -c 'notmuch new >/dev/null 2>/dev/null && notmuch count tag:unread | grep -v 0 >/dev/null'";
+        exec-if =
+          "bash -c 'notmuch new >/dev/null 2>/dev/null && notmuch count tag:unread | grep -v 0 >/dev/null'";
         interval = 30;
       };
       "mpris" = {
@@ -83,7 +80,8 @@
         format = "{ifname}: {ipaddr}";
         format-wifi = "{ifname}: {ipaddr} ({essid}: {signalStrength})";
         tooltip-format = "{ifname}: {ipaddr} via {gwaddr}";
-        tooltip-format-wifi = "{ifname}: {ipaddr} via {gwaddr} ({essid} {frequency}: {signalStrength})";
+        tooltip-format-wifi =
+          "{ifname}: {ipaddr} via {gwaddr} ({essid} {frequency}: {signalStrength})";
       };
       "network#bandwidth" = {
         interval = 5;

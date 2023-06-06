@@ -1,5 +1,4 @@
-{ inputs, config, lib, ... }:
-{
+{ inputs, config, lib, ... }: {
   nix = {
     gc = {
       automatic = true;
@@ -11,6 +10,7 @@
     registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
 
     # Map registries to channels
-    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
+    nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
+      config.nix.registry;
   };
 }

@@ -1,14 +1,6 @@
-{ lib
-, python3
-, pkgs
-, fetchFromGitHub
-, installShellFiles
-, spotifython ? python3.pkgs.spotifython
-, shtab ? python3.pkgs.shtab
-, sphinx-argparse ? python3.pkgs.sphinx-argparse
-, libnotify ? pkgs.libnotify
-,
-}:
+{ lib, python3, pkgs, fetchFromGitHub, installShellFiles
+, spotifython ? python3.pkgs.spotifython, shtab ? python3.pkgs.shtab
+, sphinx-argparse ? python3.pkgs.sphinx-argparse, libnotify ? pkgs.libnotify, }:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "spotifython-cli";
@@ -38,7 +30,8 @@ python3.pkgs.buildPythonApplication rec {
 
   meta = with lib; {
     homepage = "https://github.com/vawvaw/spotifython-cli";
-    description = "command line interface for spotifython intended for use with spotifyd";
+    description =
+      "command line interface for spotifython intended for use with spotifyd";
     license = licenses.gpl3;
     #maintainers = with maintainers; [ vawvaw ];
   };

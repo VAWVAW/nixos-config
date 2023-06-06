@@ -21,11 +21,8 @@ let
     umount /btrfs
     rmdir /btrfs
   '';
-in
-{
-  imports = [
-    inputs.impermanence.nixosModules.impermanence
-  ];
+in {
+  imports = [ inputs.impermanence.nixosModules.impermanence ];
 
   boot.initrd.supportedFilesystems = [ "btrfs" ];
 
@@ -63,10 +60,6 @@ in
   environment.persistence."/persist".hideMounts = true;
   environment.persistence."/local_persist" = {
     hideMounts = true;
-    directories = [
-      "/etc/nixos"
-      "/var/log"
-      "/var/lib/systemd/timers"
-    ];
+    directories = [ "/etc/nixos" "/var/log" "/var/lib/systemd/timers" ];
   };
 }

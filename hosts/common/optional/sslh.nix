@@ -1,12 +1,12 @@
 { config, lib, ... }:
 let
   getInterface = name: config.networking.interfaces.${name};
-  addresses = lib.lists.flatten (map (name: map (a: a.address) ((getInterface name).ipv4.addresses ++ (getInterface name).ipv6.addresses)) (lib.attrNames config.networking.interfaces));
-in
-{
-  networking.firewall.allowedTCPPorts = [
-    config.services.sslh.port
-  ];
+  addresses = lib.lists.flatten (map (name:
+    map (a: a.address)
+    ((getInterface name).ipv4.addresses ++ (getInterface name).ipv6.addresses))
+    (lib.attrNames config.networking.interfaces));
+in {
+  networking.firewall.allowedTCPPorts = [ config.services.sslh.port ];
 
   services.sslh = {
     enable = true;

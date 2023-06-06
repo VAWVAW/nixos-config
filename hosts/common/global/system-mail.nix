@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+{ config, ... }: {
   sops.secrets.mail-system = {
     sopsFile = ../secrets.yaml;
     mode = "0400";

@@ -6,8 +6,6 @@
   };
 
   environment.persistence = {
-    "/local_persist".directories = [
-      "/var/lib/containers"
-    ];
+    "/local_persist".directories = [ "/var/lib/containers" ];
   };
 }
