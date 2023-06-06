@@ -1,12 +1,7 @@
-local cmp_status_ok, cmp = pcall(require, "cmp")
-if not cmp_status_ok then
-  return
-end
-
-local snip_status_ok, luasnip = pcall(require, "luasnip")
-if not snip_status_ok then
-  return
-end
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+local autopairs = require("nvim-autopairs")
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 
 require("luasnip/loaders/from_vscode").lazy_load()
 
@@ -37,7 +32,6 @@ local kind_icons = {
   Operator = "󱓉",
   TypeParameter = "T",
 }
--- find more here: https://www.nerdfonts.com/cheat-sheet
 
 cmp.setup {
   snippet = {
@@ -116,3 +110,18 @@ cmp.setup {
     native_menu = false,
   },
 }
+
+autopairs.setup {
+  check_ts = true,
+  fast_wrap = {
+    map = "<C-e>",
+    pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
+    offset = 0,
+    keys = "qwertzuiopyxcvbnmasdfghjkl",
+    check_comma = true,
+    highlight = "PmenuSel",
+    highlight_grey = "LineNr",
+  },
+}
+
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })

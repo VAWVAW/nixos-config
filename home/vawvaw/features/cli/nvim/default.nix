@@ -73,8 +73,9 @@
 
         # treesitter
         nvim-treesitter.withAllGrammars
-        nvim-ts-rainbow
         playground
+        nvim-ts-rainbow
+        nvim-autopairs
 
         # colorscheme display display
         (pkgs.vimUtils.buildVimPlugin {

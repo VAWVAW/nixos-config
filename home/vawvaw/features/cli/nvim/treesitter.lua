@@ -18,4 +18,7 @@ treesitter.setup {
   playground = {
     enable = true,
   },
+  autopairs = {
+    enable = true,
+  },
 }
