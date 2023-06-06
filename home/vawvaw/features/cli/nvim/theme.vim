@@ -12,6 +12,7 @@ endif
 let g:colors_name = 'jetbrains-high-contrast'
 
 hi! LineNr						ctermfg=244
+hi! SignColumn        ctermfg=14 ctermbg=0
 
 hi! PreProc						ctermfg=26
 hi! Title	 						ctermfg=201
@@ -35,6 +36,16 @@ hi! Number						ctermfg=39
 hi! String						ctermfg=28
 hi! link Boolean		 	Statement
 hi! link Character		String
+
+" vimdiff
+hi! DiffAdd           ctermfg=0 ctermbg=34
+hi! DiffDelete        ctermfg=0 ctermbg=1
+hi! DiffChange        ctermfg=0 ctermbg=39
+
+" gitsigns
+hi! GitSignsAdd       ctermfg=34
+hi! GitSignsDelete    ctermfg=1
+hi! GitSignsChange    ctermfg=39
 
 
 " nix

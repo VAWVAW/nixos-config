@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set('n', 'gk', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>g', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<F6>', vim.lsp.buf.rename, opts)
   end,
 })

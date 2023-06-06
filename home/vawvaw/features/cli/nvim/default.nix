@@ -38,7 +38,7 @@
         set sidescrolloff=8
 
         set number
-        set signcolumn=number
+        set signcolumn=yes
 
         set noshowmode
         set completeopt=menuone,noselect
@@ -53,8 +53,13 @@
         require "${formatLuaFileName (toString ./cmp.lua)}"
         require "${formatLuaFileName (toString ./lsp.lua)}"
         require "${formatLuaFileName (toString ./treesitter.lua)}"
+        require "${formatLuaFileName (toString ./gitsigns.lua)}"
       '';
       plugins = with pkgs.vimPlugins; [
+        # misc
+        comment-nvim
+        gitsigns-nvim
+
         # completion
         nvim-cmp
         cmp-buffer
@@ -74,9 +79,6 @@
         playground
         nvim-ts-rainbow
         nvim-autopairs
-
-        # comments
-        comment-nvim
 
         # colorscheme display display
         (pkgs.vimUtils.buildVimPlugin {
