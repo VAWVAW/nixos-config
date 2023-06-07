@@ -54,23 +54,30 @@
       require "${formatLuaFileName (toString ./bufferline.lua)}"
       require "${formatLuaFileName (toString ./null-ls.lua)}"
       require "${formatLuaFileName (toString ./toggleterm.lua)}"
+      require "${formatLuaFileName (toString ./lualine.lua)}"
     '';
     extraPackages = with pkgs; [ nodePackages.cspell ];
     plugins = with pkgs.vimPlugins; [
       # misc
       comment-nvim
       gitsigns-nvim
-      nvim-tree-lua
-      nvim-web-devicons
-      project-nvim
       toggleterm-nvim
+
+      # nvim-tree
+      nvim-web-devicons
+      nvim-tree-lua
+      project-nvim
+
+      # lualine
+      lualine-nvim
+      lualine-lsp-progress
 
       # completion
       nvim-cmp
       cmp-buffer
       cmp-path
       cmp_luasnip
-      vim-bbye
+      cmp-nvim-lsp
 
       # snippets
       luasnip
@@ -78,7 +85,6 @@
 
       # lsp
       nvim-lspconfig
-      cmp-nvim-lsp
       null-ls-nvim
       (pkgs.vimUtils.buildVimPlugin {
         name = "cspell.nvim";
@@ -94,6 +100,7 @@
 
       # bufferline
       bufferline-nvim
+      vim-bbye
 
       # colorscheme display display
       (pkgs.vimUtils.buildVimPlugin {
