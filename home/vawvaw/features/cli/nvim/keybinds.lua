@@ -26,6 +26,7 @@ map("n", "<C-k>", "<C-w>k", opts)
 map("n", "<C-l>", "<C-w>l", opts)
 
 map("n", "<leader>e", ":NvimTreeFindFileToggle<CR>", opts)
+map("n", "<leader>w", ":AerialToggle<CR>", opts)
 
 -- Resize
 map("n", "<C-w>k", ":resize +2<CR>", opts)

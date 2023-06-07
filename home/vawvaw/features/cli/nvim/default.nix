@@ -56,6 +56,7 @@
       require "${formatLuaFileName (toString ./null-ls.lua)}"
       require "${formatLuaFileName (toString ./toggleterm.lua)}"
       require "${formatLuaFileName (toString ./lualine.lua)}"
+      require "${formatLuaFileName (toString ./aerial.lua)}"
     '';
     extraPackages = with pkgs; [ nodePackages.cspell ];
     plugins = with pkgs.vimPlugins; [
@@ -94,6 +95,7 @@
         name = "cspell.nvim";
         src = inputs.cspell-nvim;
       })
+      aerial-nvim
 
       # treesitter
       nvim-treesitter.withAllGrammars
