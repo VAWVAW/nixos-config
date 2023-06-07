@@ -61,6 +61,7 @@
       gitsigns-nvim
       nvim-tree-lua
       nvim-web-devicons
+      project-nvim
 
       # completion
       nvim-cmp

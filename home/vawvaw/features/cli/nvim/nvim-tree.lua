@@ -1,10 +1,12 @@
 require("nvim-tree").setup {
   disable_netrw = true,
   hijack_netrw = true,
+  sync_root_with_cwd = true,
+  respect_buf_cwd = true,
 
   update_focused_file = {
     enable = true,
-    update_cwd = true,
+    update_root = true,
   },
 
   filters = {
@@ -139,4 +141,8 @@ require("nvim-tree").setup {
     nmap("gs", git_add)
     nmap("gu", git_unstage)
   end
+}
+
+require("project_nvim").setup {
+  patterns = { ".git", ".svn", "venv" }
 }
