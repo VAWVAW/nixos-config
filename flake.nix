@@ -56,7 +56,8 @@
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
-    in {
+    in
+    {
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
@@ -64,6 +65,8 @@
 
       pkgs = forEachPkgs (pkgs: import ./pkgs { inherit pkgs; });
       formatter = forEachPkgs (pkgs: pkgs.nixfmt);
+
+      devShells = forEachPkgs (pkgs: import ./shells { inherit pkgs; });
 
       nixosConfigurations = {
         # Desktop
