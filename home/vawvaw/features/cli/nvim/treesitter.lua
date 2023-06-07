@@ -20,3 +20,7 @@ require("nvim-treesitter.configs").setup {
     enable = true,
   },
 }
+
+require("illuminate").configure({
+  min_count_to_highlight = 2,
+})
