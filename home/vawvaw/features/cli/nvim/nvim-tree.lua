@@ -71,7 +71,7 @@ require("nvim-tree").setup {
     side = "left",
   },
 
-  on_attach = function (bufnr)
+  on_attach = function(bufnr)
     local api = require("nvim-tree.api")
 
     local function get_gs(node)
@@ -80,7 +80,7 @@ require("nvim-tree").setup {
       -- If the current node is a directory get children status
       if gs == nil then
         gs = (node.git_status.dir.direct ~= nil and node.git_status.dir.direct[1])
-        or (node.git_status.dir.indirect ~= nil and node.git_status.dir.indirect[1])
+            or (node.git_status.dir.indirect ~= nil and node.git_status.dir.indirect[1])
       end
       return gs
     end
@@ -101,7 +101,7 @@ require("nvim-tree").setup {
       local node = api.tree.get_node_under_cursor()
       local gs = get_gs(node)
 
-        -- If the file is staged, we unstage
+      -- If the file is staged, we unstage
       if gs == "M " or gs == "A " then
         vim.cmd("silent !git restore --staged " .. node.absolute_path)
       end
@@ -123,8 +123,12 @@ require("nvim-tree").setup {
     nmap("h", api.node.navigate.parent_close)
     nmap("l", api.node.open.preview)
     nmap("<Tab>", api.node.open.preview)
-    nmap("<CR>", function () api.node.open.edit(); api.tree.close() end)
-    nmap("v", function () api.node.open.vertical(); api.tree.close() end)
+    nmap("<CR>", function()
+      api.node.open.edit(); api.tree.close()
+    end)
+    nmap("v", function()
+      api.node.open.vertical(); api.tree.close()
+    end)
 
     nmap("n", api.node.navigate.sibling.next)
     nmap("p", api.node.navigate.sibling.prev)

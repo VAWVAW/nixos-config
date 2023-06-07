@@ -30,7 +30,7 @@ local diff = {
   "diff",
   colored = false,
   symbols = { added = " ", modified = " ", removed = " " },
-  source = function ()
+  source = function()
     local gitsigns = vim.b.gitsigns_status_dict
     if gitsigns then
       return {
@@ -65,11 +65,11 @@ require("lualine").setup {
   sections = {
     lualine_a = { branch, diagnostics },
     lualine_b = { filename },
-    lualine_c = { },
+    lualine_c = {},
 
     lualine_x = { "lsp_progress" },
     lualine_y = { diff, spaces, "encoding", "fileformat", filetype, "progress" },
-    lualine_z = { },
+    lualine_z = {},
   },
   extensions = {
     "quickfix",

@@ -1,17 +1,17 @@
 require("toggleterm").setup {
   open_mapping = [[<C-t>]],
-	insert_mappings = true,
+  insert_mappings = true,
 
-	shade_terminals = false,
+  shade_terminals = false,
 
-	shell = vim.o.shell,
-	close_on_exit = true,
-	hide_numbers = true,
-	start_in_insert = true,
+  shell = vim.o.shell,
+  close_on_exit = true,
+  hide_numbers = true,
+  start_in_insert = true,
 
   size = 20,
-	direction = "float",
-	persist_size = true,
+  direction = "float",
+  persist_size = true,
 }
 
 function _G.set_terminal_keymaps()
@@ -21,4 +21,5 @@ function _G.set_terminal_keymaps()
   vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
   vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
 end
+
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")

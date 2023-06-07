@@ -97,7 +97,8 @@ in {
         "matrix.vaw-valentin.de" = {
           enableACME = true;
           forceSSL = true;
-          inherit (config.services.nginx.virtualHosts."server.vaw-valentin.de") listen;
+          inherit (config.services.nginx.virtualHosts."server.vaw-valentin.de")
+            listen;
 
           root = "/var/www/matrix";
           locations."/_matrix".proxyPass = "http://[::1]:8008";

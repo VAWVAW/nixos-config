@@ -56,4 +56,4 @@ map("v", "p", '"_dP', opts)
 map("x", "J", ":move '>+1<CR>gv-gv", opts)
 map("x", "K", ":move '<-2<CR>gv-gv", opts)
 
-require("Comment").setup { }
+require("Comment").setup {}

@@ -12,7 +12,7 @@ aerial.setup {
 
   keymaps = {
     ["?"] = "actions.show_help",
-    ["<CR>"] = function ()
+    ["<CR>"] = function()
       aerial.select()
       aerial.close()
     end,
