@@ -53,6 +53,7 @@
       require "${formatLuaFileName (toString ./nvim-tree.lua)}"
       require "${formatLuaFileName (toString ./bufferline.lua)}"
       require "${formatLuaFileName (toString ./null-ls.lua)}"
+      require "${formatLuaFileName (toString ./toggleterm.lua)}"
     '';
     extraPackages = with pkgs; [ nodePackages.cspell ];
     plugins = with pkgs.vimPlugins; [
@@ -62,6 +63,7 @@
       nvim-tree-lua
       nvim-web-devicons
       project-nvim
+      toggleterm-nvim
 
       # completion
       nvim-cmp
