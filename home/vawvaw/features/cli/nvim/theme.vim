@@ -37,6 +37,11 @@ hi! String						ctermfg=28
 hi! link Boolean		 	Statement
 hi! link Character		String
 
+" illuminate
+hi! IlluminatedWordText   ctermbg=235
+hi! link IlluminatedWordRead  IlluminatedWordText
+hi! link IlluminatedWordWrite IlluminatedWordText
+
 " vimdiff
 hi! DiffAdd           ctermfg=0 ctermbg=34
 hi! DiffDelete        ctermfg=0 ctermbg=1

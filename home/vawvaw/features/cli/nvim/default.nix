@@ -88,6 +88,7 @@
       playground
       nvim-ts-rainbow
       nvim-autopairs
+      vim-illuminate
 
       # bufferline
       bufferline-nvim
