@@ -74,5 +74,6 @@ require("lualine").setup {
   extensions = {
     "quickfix",
     "toggleterm",
+    "fugitive",
   }
 }

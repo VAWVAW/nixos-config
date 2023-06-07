@@ -2,7 +2,8 @@
   home.packages = with pkgs; [ wl-clipboard ];
 
   programs.neovim = let
-    formatLuaFileName = builtins.replaceStrings [ "/nix/store/" ".lua" ] [ "" "" ];
+    formatLuaFileName =
+      builtins.replaceStrings [ "/nix/store/" ".lua" ] [ "" "" ];
   in {
     enable = true;
     defaultEditor = true;
@@ -60,8 +61,11 @@
     plugins = with pkgs.vimPlugins; [
       # misc
       comment-nvim
-      gitsigns-nvim
       toggleterm-nvim
+
+      # git
+      gitsigns-nvim
+      vim-fugitive
 
       # nvim-tree
       nvim-web-devicons

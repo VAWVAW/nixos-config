@@ -38,8 +38,8 @@ require("gitsigns").setup {
     map('n', '<leader>gu', gs.undo_stage_hunk)
     map('n', '<leader>gl', gs.preview_hunk)
     map('n', '<leader>gb', function() gs.blame_line{full=true} end)
-    -- map('n', '<leader>gd', gs.diffthis)
-    -- map('n', '<leader>gD', function() gs.diffthis('~') end)
     map('n', '<leader>td', gs.toggle_deleted)
+
+    map("n", "<leader>gc", ":tab :Git commit")
   end
 }

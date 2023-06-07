@@ -74,35 +74,6 @@ require("nvim-tree").setup {
   on_attach = function (bufnr)
     local api = require("nvim-tree.api")
 
-    local function nmap(l, r, opts)
-      opts = { noremap = true, silent = true }
-      opts.buffer = bufnr
-      vim.keymap.set("n", l, r, opts)
-    end
-
-    nmap("q", api.tree.close)
-    nmap("/", api.tree.search_node)
-    nmap("t", api.tree.toggle_hidden_filter)
-    nmap("<C-k>", api.node.show_info_popup)
-
-    nmap("h", api.node.navigate.parent_close)
-    nmap("l", api.node.open.preview)
-    nmap("<Tab>", api.node.open.preview)
-    nmap("<CR>", function () api.node.open.edit(); api.tree.close() end)
-    nmap("v", function () api.node.open.vertical(); api.tree.close() end)
-
-    nmap("a", api.fs.create)
-    nmap("r", api.fs.rename)
-    nmap("R", api.fs.rename_sub)
-    nmap("d", api.fs.remove)
-    nmap("y", api.fs.copy.node)
-    nmap("x", api.fs.cut)
-    nmap("p", api.fs.paste)
-
-    nmap("<C-y>", api.fs.copy.filename)
-    nmap("gy", api.fs.copy.relative_path)
-    nmap("gY", api.fs.copy.absolute_path)
-
     local function get_gs(node)
       local gs = node.git_status.file
 
@@ -138,8 +109,42 @@ require("nvim-tree").setup {
       api.tree.reload()
     end
 
+    local function nmap(l, r, opts)
+      opts = { noremap = true, silent = true }
+      opts.buffer = bufnr
+      vim.keymap.set("n", l, r, opts)
+    end
+
+    nmap("q", api.tree.close)
+    nmap("/", api.tree.search_node)
+    nmap("t", api.tree.toggle_hidden_filter)
+    nmap("<C-k>", api.node.show_info_popup)
+
+    nmap("h", api.node.navigate.parent_close)
+    nmap("l", api.node.open.preview)
+    nmap("<Tab>", api.node.open.preview)
+    nmap("<CR>", function () api.node.open.edit(); api.tree.close() end)
+    nmap("v", function () api.node.open.vertical(); api.tree.close() end)
+
+    nmap("n", api.node.navigate.sibling.next)
+    nmap("p", api.node.navigate.sibling.prev)
+
+    nmap("a", api.fs.create)
+    nmap("r", api.fs.rename)
+    nmap("R", api.fs.rename_sub)
+    nmap("d", api.fs.remove)
+    nmap("y", api.fs.copy.node)
+    nmap("x", api.fs.cut)
+    nmap("p", api.fs.paste)
+
+    nmap("<C-y>", api.fs.copy.filename)
+    nmap("gy", api.fs.copy.relative_path)
+    nmap("gY", api.fs.copy.absolute_path)
+
     nmap("gs", git_add)
     nmap("gu", git_unstage)
+    nmap("gn", api.node.navigate.git.next)
+    nmap("gp", api.node.navigate.git.prev)
   end
 }
 
