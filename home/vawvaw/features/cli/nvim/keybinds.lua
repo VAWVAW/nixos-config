@@ -27,11 +27,11 @@ map("n", "<C-l>", "<C-w>l", opts)
 
 map("n", "<leader>e", ":NvimTreeFindFileToggle<CR>", opts)
 
--- Resize with arrows
-map("n", "<C-Up>", ":resize +2<CR>", opts)
-map("n", "<C-Down>", ":resize -2<CR>", opts)
-map("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-map("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+-- Resize
+map("n", "<C-w>k", ":resize +2<CR>", opts)
+map("n", "<C-w>j", ":resize -2<CR>", opts)
+map("n", "<C-w>h", ":vertical resize -2<CR>", opts)
+map("n", "<C-w>l", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers (using bufferline)
 map("n", "<C-p>", ":BufferLineCycleNext<CR>", opts)
