@@ -40,6 +40,6 @@ require("gitsigns").setup {
     map('n', '<leader>gb', function() gs.blame_line { full = true } end)
     map('n', '<leader>td', gs.toggle_deleted)
 
-    map("n", "<leader>gc", ":tab :Git commit")
+    map("n", "<leader>gc", ":tab :Git commit<CR>")
   end
 }
