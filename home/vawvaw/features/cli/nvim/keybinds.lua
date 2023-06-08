@@ -25,6 +25,8 @@ map("n", "<C-l>", "<C-w>l", opts)
 
 map("n", "<leader>e", ":NvimTreeFindFileToggle<CR>", opts)
 map("n", "<leader>w", ":AerialToggle<CR>", opts)
+map("n", "<leader>r", ":Telescope find_files previewer=false theme=dropdown<CR>", opts)
+map("n", "<C-f>", ":Telescope live_grep<CR>", opts)
 
 -- Resize
 map("n", "<C-w>k", ":resize +2<CR>", opts)

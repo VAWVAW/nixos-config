@@ -57,10 +57,12 @@
       require "${formatLuaFileName (toString ./toggleterm.lua)}"
       require "${formatLuaFileName (toString ./lualine.lua)}"
       require "${formatLuaFileName (toString ./aerial.lua)}"
+      require "${formatLuaFileName (toString ./telescope.lua)}"
     '';
-    extraPackages = with pkgs; [ nodePackages.cspell ];
+    extraPackages = with pkgs; [ nodePackages.cspell ripgrep ];
     plugins = with pkgs.vimPlugins; [
       # misc
+      plenary-nvim
       comment-nvim
       toggleterm-nvim
 
@@ -76,6 +78,10 @@
       # lualine
       lualine-nvim
       lualine-lsp-progress
+
+      # telescope
+      telescope-nvim
+      telescope-ui-select-nvim
 
       # completion
       nvim-cmp
