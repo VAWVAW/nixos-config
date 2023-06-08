@@ -38,6 +38,7 @@ telescope.setup {
         ["<Esc>"] = actions.close,
         ["q"] = actions.close,
         ["?"] = actions.which_key,
+        ["/"] = { "<cmd>startinsert<CR>", type = "command" },
 
         ["j"] = actions.move_selection_next,
         ["k"] = actions.move_selection_previous,

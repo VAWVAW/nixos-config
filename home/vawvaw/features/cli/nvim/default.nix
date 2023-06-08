@@ -82,6 +82,7 @@
       # telescope
       telescope-nvim
       telescope-ui-select-nvim
+      telescope-symbols-nvim
 
       # completion
       nvim-cmp
