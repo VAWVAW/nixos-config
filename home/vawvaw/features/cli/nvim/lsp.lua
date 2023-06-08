@@ -49,7 +49,7 @@ lspconfig.pyright.setup {}
 lspconfig.rust_analyzer.setup {}
 
 -- nix
-lspconfig.rnix.setup {}
+lspconfig.nil_ls.setup {}
 
 -- lua
 lspconfig.lua_ls.setup {
