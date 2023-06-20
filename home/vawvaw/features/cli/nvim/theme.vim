@@ -30,6 +30,7 @@ hi! Comment						ctermfg=4
 hi! Type 							ctermfg=2
 hi! link Include			Type
 hi! link Operator			Normal
+hi! DapBreakpoint     ctermfg=1
 
 " data types
 hi! Number						ctermfg=39

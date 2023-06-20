@@ -1,5 +1,7 @@
 local lspconfig = require("lspconfig")
 local telescope = require("telescope.builtin")
+local dap = require("dap")
+local dapui = require("dapui")
 
 -- signs
 local signs = {
@@ -7,6 +9,7 @@ local signs = {
   { name = "DiagnosticSignWarn",  text = "" },
   { name = "DiagnosticSignHint",  text = "" },
   { name = "DiagnosticSignInfo",  text = "" },
+  { name = "DapBreakpoint",       text = "󰃤" },
 }
 
 for _, sign in ipairs(signs) do
@@ -40,14 +43,70 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map('n', '<F6>', vim.lsp.buf.rename, opts)
     map('n', '<C-k>', vim.lsp.buf.signature_help, opts)
     map('i', '<C-k>', vim.lsp.buf.signature_help, opts)
+
+    -- debug mappings
+    map('n', '<leader>db', dap.toggle_breakpoint)
+    map('n', '<F7>', dap.step_into)
+    map('n', '<F8>', dap.step_over)
+    map('n', '<F9>', dap.step_out)
+    map('n', '<F10>', dap.continue)
+    map('n', '<leader>dl', dapui.toggle)
+    map('n', '<leader>dt', dap.terminate)
   end,
 })
+
+dapui.setup {
+  layouts = {
+    {
+      elements = {
+        {
+          id = "scopes",
+          size = 0.25,
+        },
+        {
+          id = "breakpoints",
+          size = 0.25
+        },
+        {
+          id = "stacks",
+          size = 0.25
+        },
+        {
+          id = "watches",
+          size = 0.25
+        }
+      },
+      position = "right",
+      size = 70
+    },
+    {
+      elements = {
+        {
+          id = "repl",
+          size = 0.5
+        },
+        {
+          id = "console",
+          size = 0.5
+        }
+      },
+      position = "bottom",
+      size = 10
+    }
+  },
+  mappings = {
+    expand = {"h", "l"},
+    open = "<CR>"
+  }
+}
 
 -- python
 lspconfig.pyright.setup {}
 
 -- rust
-lspconfig.rust_analyzer.setup {}
+local rust_tools = require("rust-tools")
+rust_tools.setup {
+}
 
 -- nix
 lspconfig.nil_ls.setup {}

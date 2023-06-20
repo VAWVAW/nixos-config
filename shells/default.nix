@@ -6,6 +6,10 @@
       clippy
       rustfmt
       rust-analyzer
+
+      # debugging
+      lldb
+
       # common dependencies
       pkg-config
       cmake

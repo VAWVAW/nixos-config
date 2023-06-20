@@ -94,12 +94,15 @@
 
       # lsp
       nvim-lspconfig
+      nvim-dap
+      nvim-dap-ui
       null-ls-nvim
       (pkgs.vimUtils.buildVimPlugin {
         name = "cspell.nvim";
         src = inputs.cspell-nvim;
       })
       aerial-nvim
+      rust-tools-nvim
 
       # treesitter
       nvim-treesitter.withAllGrammars
