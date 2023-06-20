@@ -27,6 +27,54 @@ map('n', '<leader>p', vim.diagnostic.goto_prev)
 map('n', '<leader>n', vim.diagnostic.goto_next)
 map('n', '<leader>q', telescope.diagnostics)
 
+
+local dapui_opts = {
+  layouts = {
+    {
+      elements = {
+        {
+          id = "scopes",
+          size = 0.35,
+        },
+        {
+          id = "breakpoints",
+          size = 0.25
+        },
+        {
+          id = "stacks",
+          size = 0.2
+        },
+        {
+          id = "watches",
+          size = 0.2
+        }
+      },
+      position = "right",
+      size = 70
+    },
+    {
+      elements = {
+        {
+          id = "repl",
+          size = 0.4
+        },
+        {
+          id = "console",
+          size = 0.6
+        }
+      },
+      position = "bottom",
+      size = 10
+    }
+  },
+  mappings = {
+    expand = { "h", "l" },
+    open = "<CR>"
+  }
+}
+dapui.setup(dapui_opts)
+
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(ev)
@@ -50,63 +98,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map('n', '<F8>', dap.step_over)
     map('n', '<F9>', dap.step_out)
     map('n', '<F10>', dap.continue)
-    map('n', '<leader>dl', dapui.toggle)
     map('n', '<leader>dt', dap.terminate)
+
+    map('n', '<leader>dl', dapui.toggle)
+    map('n', '<leader>dr', function()
+      dapui.setup(dapui_opts)
+    end)
   end,
 })
 
-dapui.setup {
-  layouts = {
-    {
-      elements = {
-        {
-          id = "scopes",
-          size = 0.25,
-        },
-        {
-          id = "breakpoints",
-          size = 0.25
-        },
-        {
-          id = "stacks",
-          size = 0.25
-        },
-        {
-          id = "watches",
-          size = 0.25
-        }
-      },
-      position = "right",
-      size = 70
-    },
-    {
-      elements = {
-        {
-          id = "repl",
-          size = 0.5
-        },
-        {
-          id = "console",
-          size = 0.5
-        }
-      },
-      position = "bottom",
-      size = 10
-    }
-  },
-  mappings = {
-    expand = {"h", "l"},
-    open = "<CR>"
-  }
-}
+-- rust in default.nix
 
 -- python
 lspconfig.pyright.setup {}
-
--- rust
-local rust_tools = require("rust-tools")
-rust_tools.setup {
-}
 
 -- nix
 lspconfig.nil_ls.setup {}

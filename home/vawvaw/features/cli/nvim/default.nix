@@ -55,8 +55,22 @@
       require "${formatLuaFileName (toString ./lualine.lua)}"
       require "${formatLuaFileName (toString ./aerial.lua)}"
       require "${formatLuaFileName (toString ./telescope.lua)}"
+
+      -- rust dap from lsp.lua
+      local extension_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/"
+      local codelldb_path = extension_path .. 'adapter/codelldb'
+      local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
+      require("rust-tools").setup {
+        dap = {
+          adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+        }
+      }
     '';
-    extraPackages = with pkgs; [ nodePackages.cspell ripgrep ];
+    extraPackages = with pkgs; [
+      nodePackages.cspell
+      ripgrep
+    ];
     plugins = with pkgs.vimPlugins; [
       # misc
       plenary-nvim
