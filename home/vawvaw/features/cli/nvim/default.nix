@@ -40,9 +40,6 @@
       set noshowmode
       set completeopt=menuone,noselect
       set pumheight=10
-
-      nnoremap <Space> i_<Esc>r
-      nnoremap <Return> o<Esc>
     '';
     extraLuaConfig = ''
       package.path = package.path .. ";/nix/store/?.lua"
