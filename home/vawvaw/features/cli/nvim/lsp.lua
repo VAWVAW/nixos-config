@@ -89,7 +89,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map('n', '<leader>a', vim.lsp.buf.code_action, opts)
     map('n', '<leader>f', vim.lsp.buf.format, opts)
     map('n', '<F6>', vim.lsp.buf.rename, opts)
-    map('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    map('n', '<leader>k', vim.lsp.buf.signature_help, opts)
     map('i', '<C-k>', vim.lsp.buf.signature_help, opts)
 
     -- debug mappings
