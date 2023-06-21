@@ -8,8 +8,6 @@
     enable = true;
     defaultEditor = true;
     extraConfig = ''
-      source ${./theme.vim}
-
       set clipboard+=unnamed
       set fileencoding=utf-8
       set nobackup
@@ -43,6 +41,7 @@
     '';
     extraLuaConfig = ''
       package.path = package.path .. ";/nix/store/?.lua"
+      require "${formatLuaFileName (toString ./colorscheme.lua)}"
       require "${formatLuaFileName (toString ./keybinds.lua)}"
       require "${formatLuaFileName (toString ./cmp.lua)}"
       require "${formatLuaFileName (toString ./lsp.lua)}"
@@ -67,10 +66,7 @@
         }
       }
     '';
-    extraPackages = with pkgs; [
-      nodePackages.cspell
-      ripgrep
-    ];
+    extraPackages = with pkgs; [ nodePackages.cspell ripgrep ];
     plugins = with pkgs.vimPlugins; [
       # misc
       plenary-nvim
