@@ -25,9 +25,6 @@
   networking = {
     hostName = "vaw-pc";
     hosts = { "192.168.2.101" = [ "vaw-pi" ]; };
-    networkmanager.insertNameservers = [
-      #      "192.168.2.101"
-    ];
   };
 
   environment.systemPackages = with pkgs; [ nvtop ];
@@ -49,6 +46,9 @@
         efiSupport = true;
         device = "nodev";
         splashImage = null;
+        extraConfig = ''
+          set timeout=1
+        '';
       };
     };
   };

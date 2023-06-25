@@ -30,7 +30,8 @@
     };
   };
 
-  systemd.user.services.spotifyd.Unit.After = [ "sops-nix.service" ];
+  systemd.user.services.spotifyd.Unit.After =
+    [ "sops-nix.service" "network-online.target" ];
 
   services.spotifyd = {
     enable = true;
@@ -46,7 +47,7 @@
         volume_controller = "alsa";
         on_song_change_hook =
           "${pkgs.spotifython-cli}/bin/spotifython-cli spotifyd";
-        device_name = lib.mkDefault "vawvaw_sptifyd";
+        device_name = lib.mkDefault "vawvaw_spotifyd";
         bitrate = 160;
         cache_path = "${config.xdg.dataHome}/spotifyd";
         no_audio_cache = false;
