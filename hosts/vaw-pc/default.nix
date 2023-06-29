@@ -41,14 +41,12 @@
     };
     loader = {
       efi.canTouchEfiVariables = true;
+      timeout = 1;
       grub = {
         enable = true;
         efiSupport = true;
         device = "nodev";
         splashImage = null;
-        extraConfig = ''
-          set timeout=1
-        '';
       };
     };
   };
