@@ -7,7 +7,6 @@
     recommendedEnvironment = true;
     plugins = [ inputs.hy3.packages."${platform}".hy3 ];
     extraConfig = let
-      right = "odiaeresis";
       terminal = "${pkgs.alacritty}/bin/alacritty";
       menu = "${pkgs.bemenu}/bin/bemenu-run";
     in ''
@@ -199,7 +198,7 @@
       bind = $mod, $up, hy3:movefocus, u
       bind = $mod, $down, hy3:movefocus, d
 
-      bind = $mod, a, hy3:raisefocus
+      bind = $mod, a, hy3:changefocus, raise
 
       # move window
       bind = $mod + SHIFT, $left, hy3:movewindow, l

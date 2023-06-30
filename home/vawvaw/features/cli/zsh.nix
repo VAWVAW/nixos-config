@@ -8,7 +8,7 @@
   config.programs.zsh = let inherit (config.programs.zsh) promptColor;
   in {
     enable = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
     enableCompletion = true;
     initExtra = ''
       ${lib.optionalString config.programs.tmux.enable ''

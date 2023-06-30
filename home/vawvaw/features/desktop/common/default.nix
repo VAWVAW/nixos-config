@@ -2,7 +2,7 @@
   imports = [
     ./audio.nix
     ./alacritty.nix
-    ./cinny.nix
+#    ./cinny.nix
     ./discord.nix
     ./font.nix
     ./firefox.nix
