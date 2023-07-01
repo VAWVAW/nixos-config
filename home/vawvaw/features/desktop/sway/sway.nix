@@ -6,6 +6,7 @@
   wayland.windowManager.sway = let
     primary_screen = "HDMI-A-1";
     secondary_screen = "HDMI-A-2";
+    mouse = "4119:24578:HID_1017:6002_Mouse";
   in {
     enable = true;
     extraSessionCommands = ''
@@ -200,6 +201,16 @@
         "${mod}+o" = "mode open";
         "${mod}+p" = "mode spotify";
 
+        # enable gaming mode
+        "${mod}+Ctrl+Shift+Tab" = builtins.replaceStrings [ "\n" ] [ "" ] ''
+          exec ${pkgs.bash}/bin/bash -c "
+            swaymsg -- seat '*' hide_cursor when-typing disable;
+            swaymsg -- output 'HDMI-A-2' pos 5000 5000;
+            swaymsg -- unbindsym --input-device=${mouse} --whole-window button8;
+            swaymsg -- unbindsym --input-device=${mouse} --whole-window button9;
+            swaymsg -- input 'type:keyboard' xkb_options altwin:menu_win;
+          "'';
+
         # move workspace
         "${mod}+Shift+Left" = "move workspace to output left";
         "${mod}+Shift+Down" = "move workspace to output down";
@@ -313,8 +324,7 @@
         };
       };
     };
-    extraConfig = let mouse = "4119:24578:HID_1017:6002_Mouse";
-    in ''
+    extraConfig = ''
       # bind mouse
       bindsym --input-device=${mouse} --whole-window button8 workspace next
       bindsym --input-device=${mouse} --whole-window button9 workspace prev
