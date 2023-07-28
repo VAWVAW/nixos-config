@@ -1,6 +1,6 @@
 { pkgs, ... }: {
   fonts = {
-    fonts = with pkgs; [ corefonts font-awesome ];
-    enableDefaultFonts = true;
+    packages = with pkgs; [ corefonts font-awesome ];
+    enableDefaultPackages = true;
   };
 }

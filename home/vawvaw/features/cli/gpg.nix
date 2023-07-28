@@ -4,8 +4,8 @@ let
     builtins.fetchurl { inherit sha256 url; };
 
   pinentry = if config.gtk.enable then {
-    package = pkgs.pinentry-qt;
-    name = "qt";
+    package = pkgs.pinentry-gnome;
+    name = "gnome3";
   } else {
     package = pkgs.pinentry-curses;
     name = "curses";
