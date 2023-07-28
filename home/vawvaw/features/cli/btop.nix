@@ -8,10 +8,10 @@
       rounded_corners = true;
       update_ms = 1000;
       proc_sorting = "memory";
-      proc_tree = false;
       proc_per_core = true;
       cpu_single_graph = true;
-      disks_filter = "exclude=/nix/store";
+      disks_filter = "exclude=/swap /var/lib/containers /var/lib/systemd/timers /var/lib/libvirt /etc/NetworkManager/system-connections /var/lib/NetworkManager/seen-bssids /etc/nixos /var/log /nix/store /nix /persist /local_persist";
+      swap_disk = false;
       use_fstab = false;
       net_upload = 5;
       net_auto = false;
