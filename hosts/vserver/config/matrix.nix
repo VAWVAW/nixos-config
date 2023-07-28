@@ -55,20 +55,20 @@ in {
     home = mx-discord-home;
   };
 
-  systemd.services.matrix-discord = {
-    description = "mx-discord-puppet bridge";
-    wantedBy = [ "multiuser.target" ];
-    serviceConfig = {
-      Type = "simple";
-      User = "matrix-discord";
-      Group = "matrix-discord";
-      WorkingDirectory = mx-discord-home;
-      Restart = "on-failure";
-      ExecStart = ''
-        ${pkgs.mx-puppet-discord}/bin/mx-puppet-discord -f ${mx-discord-home}/registration.yaml -c ${discord-config}
-      '';
-    };
-  };
+  # systemd.services.matrix-discord = {
+  #   description = "mx-discord-puppet bridge";
+  #   wantedBy = [ "multiuser.target" ];
+  #   serviceConfig = {
+  #     Type = "simple";
+  #     User = "matrix-discord";
+  #     Group = "matrix-discord";
+  #     WorkingDirectory = mx-discord-home;
+  #     Restart = "on-failure";
+  #     ExecStart = ''
+  #       ${pkgs.mx-puppet-discord}/bin/mx-puppet-discord -f ${mx-discord-home}/registration.yaml -c ${discord-config}
+  #     '';
+  #   };
+  # };
 
   services = {
     postgresql = {
