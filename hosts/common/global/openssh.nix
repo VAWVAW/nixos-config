@@ -35,15 +35,11 @@ in {
         publicKey =
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
       };
-      "vaw-pi-initrd" = {
-        hostNames = [ "vaw-pi" "home.vaw-valentin.de" ];
-        publicKeyFile = ../../vaw-pi/ssh_initrd_host_ed25519_key.pub;
-      };
       "vserver-initrd" = {
         hostNames = [ "vserver" "server.vaw-valentin.de" ];
         publicKeyFile = ../../vserver/ssh_initrd_host_ed25519_key.pub;
       };
-      # home.vaw-valentin.de is added to vaw-pi in default.nix
+      # explicit domains are added in default.nix
     } // builtins.mapAttrs (name: _: {
       publicKeyFile = pubKey name;
       extraHostNames = lib.optional (name == hostname) "localhost";

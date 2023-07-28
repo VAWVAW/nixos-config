@@ -41,7 +41,6 @@
   };
 
   # not possible in openssh.nix because of attrset merge
-  programs.ssh.knownHosts."vaw-pi".extraHostNames = [ "home.vaw-valentin.de" ];
   programs.ssh.knownHosts."vserver".extraHostNames =
     [ "server.vaw-valentin.de" ];
 

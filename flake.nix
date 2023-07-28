@@ -84,11 +84,6 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/vserver ];
         };
-        # Raspberry Pi 3 (server)
-        "vaw-pi" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/vaw-pi ];
-        };
       };
 
       homeConfigurations = {
@@ -118,15 +113,6 @@
             platform = "x86_64-linux";
           };
           modules = [ ./home/vawvaw/vserver.nix ];
-        };
-        # Raspberry Pi 3 (server)
-        "vawvaw@vaw-pi" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."aarch64-linux";
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            platform = "aarch64-linux";
-          };
-          modules = [ ./home/vawvaw/vaw-pi.nix ];
         };
         # Portable minimum configuration
         "vawvaw" = home-manager.lib.homeManagerConfiguration {

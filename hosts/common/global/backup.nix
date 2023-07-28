@@ -60,7 +60,6 @@
       };
     };
   in {
-    pi = default-job;
     server = default-job // {
       extraPruneArgs = "--save-space";
       repo = "will be:changed";
@@ -98,7 +97,6 @@
       };
     };
   in {
-    borgbackup-job-pi = borg_default // { enable = false; };
     borgbackup-job-server = borg_default // {
       serviceConfig = { RuntimeDirectory = "backup"; };
     };

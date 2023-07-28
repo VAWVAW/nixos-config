@@ -24,7 +24,6 @@
 
   networking = {
     hostName = "vaw-pc";
-    hosts = { "192.168.2.101" = [ "vaw-pi" ]; };
   };
 
   environment.systemPackages = with pkgs; [ nvtop ];
