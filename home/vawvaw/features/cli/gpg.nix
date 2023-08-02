@@ -36,12 +36,7 @@ in {
       enable = true;
       homedir = "${config.home.homeDirectory}/.local/share/gnupg";
       publicKeys = [{
-        source = fetchKey {
-          url =
-            "https://vaw-valentin.de/508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8.asc";
-          sha256 =
-            "sha256:f10490c9d06f8ba4333cc53d62bc4bf3af48c116938b293b4cb0e6f2de8b55d2";
-        };
+        source = ../../pubkey.txt;
         trust = "ultimate";
       }];
       settings = {
