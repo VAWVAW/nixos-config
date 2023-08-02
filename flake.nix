@@ -67,6 +67,8 @@
 
       devShells = forEachPkgs (pkgs: import ./shells { inherit pkgs; });
 
+      iso = outputs.nixosConfigurations.iso.config.system.build.isoImage;
+
       nixosConfigurations = {
         "iso" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
