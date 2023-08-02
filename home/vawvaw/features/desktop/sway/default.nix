@@ -2,7 +2,6 @@
   imports = [
     ./sway.nix
 
-    ../../cli/mail.nix
     ../common
     ../common/audio.nix
     ../common/i3blocks.nix

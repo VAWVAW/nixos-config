@@ -1,8 +1,8 @@
-{ pkgs, config, inputs, ... }: {
+{ pkgs, ... }: {
   imports = [
     ./audio.nix
     ./alacritty.nix
-#    ./cinny.nix
+    #./cinny.nix
     ./discord.nix
     ./font.nix
     ./firefox.nix
@@ -12,6 +12,9 @@
     ./spotify.nix
     ./theme.nix
     ./tor-browser.nix
+
+    ../../cli/mail.nix
+    ../../cli/iamb.nix
   ];
 
   home.packages = with pkgs; [ yubioath-flutter libreoffice dfeet ];
