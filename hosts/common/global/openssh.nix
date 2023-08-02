@@ -1,7 +1,7 @@
 { outputs, lib, config, ... }:
 
 let
-  hosts = outputs.nixosConfigurations;
+  hosts = removeAttrs outputs.nixosConfigurations [ "iso" ];
   hostname = config.networking.hostName;
   pubKey = host: ../../${host}/ssh_host_ed25519_key.pub;
 in {
