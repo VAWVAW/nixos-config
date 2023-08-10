@@ -1,13 +1,11 @@
 { config, lib, pkgs, ... }: {
   imports = [
-    ./features/cli
+    ./generic.nix
     ./features/cli/tmux.nix
-    ../../hosts/iso/home-dummy-persistence.nix
   ];
 
   programs = {
     zsh.promptColor = "green";
-    home-manager.enable = true;
   };
 
   home = {
