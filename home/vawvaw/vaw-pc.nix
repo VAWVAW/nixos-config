@@ -6,6 +6,7 @@
     ./features/desktop/hyprland
     ./features/desktop/common/steam.nix
     ./features/desktop/common/lutris.nix
+    ./features/desktop/common/syncthing.nix
   ];
 
   services.spotifyd.settings.global.device_name = "vaw-pc_spotifyd";
