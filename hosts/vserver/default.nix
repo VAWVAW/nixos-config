@@ -1,4 +1,4 @@
-{ pkgs, inputs, config, modulesPath, ... }: {
+{ modulesPath, ... }: {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
     ../common/optional/networkmanager.nix

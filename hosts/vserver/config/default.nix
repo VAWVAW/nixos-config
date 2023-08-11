@@ -1,1 +1,1 @@
-{ imports = [ ./matrix.nix ./nginx.nix ./phone.nix ]; }
+{ imports = [ ./matrix.nix ./nginx.nix ./phone.nix ./syncthing.nix ]; }
