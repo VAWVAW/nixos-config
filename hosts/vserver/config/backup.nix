@@ -1,26 +1,31 @@
 { pkgs, config, lib, ... }: {
-  imports = [ ./system-mail.nix ];
   environment.systemPackages = with pkgs; [ discord-sh sshfs ];
 
   sops.secrets = {
     backup-key = {
-      sopsFile = ../secrets.yaml;
+      sopsFile = ../../common/secrets.yaml;
       mode = "0400";
     };
     discord-webhook = {
-      sopsFile = ../secrets.yaml;
+      sopsFile = ../../common/secrets.yaml;
       mode = "0400";
     };
   };
 
   # change systemd units
-  services.borgbackup.jobs = let
-    default-job = {
+  services.borgbackup.jobs = {
+    server = {
       paths = [ "/persist_frozen" ];
       exclude = [ "re:/\\.git/" ];
       archiveBaseName = "${config.networking.hostName}";
       extraCreateArgs = "--exclude-caches --keep-exclude-tags";
+      extraPruneArgs = "--save-space";
       preHook = ''
+        trap EXIT
+        ${pkgs.sshfs}/bin/sshfs hosting124304@vaw-valentin.de:/backup $RUNTIME_DIRECTORY -o IdentityFile=/local_persist/etc/ssh/ssh_host_ed25519_key -v
+        trap on_exit EXIT
+
+        export BORG_REPO=$RUNTIME_DIRECTORY/backup
         realBorg="$(${pkgs.which}/bin/which borg)"
 
         # don't fail on warnings with exitcode 1
@@ -46,9 +51,10 @@
         if [ "$exitStatus" -eq "0" ]; then
           borg compact $extraArgs
         fi
+        /run/wrappers/bin/umount $RUNTIME_DIRECTORY
       '';
-      repo = "borg@home.vaw-valentin.de:.";
-      compression = "auto,zstd,10";
+      repo = "will be:changed";
+      compression = "lzma";
       encryption.mode = "repokey";
       encryption.passCommand = "cat ${config.sops.secrets.backup-key.path}";
       doInit = false;
@@ -59,46 +65,22 @@
         monthly = -1;
       };
     };
-  in {
-    server = default-job // {
-      extraPruneArgs = "--save-space";
-      repo = "will be:changed";
-      #startAt = [ "weekly" ];
-      compression = "lzma";
-      preHook = ''
-        trap EXIT
-        ${pkgs.sshfs}/bin/sshfs hosting124304@vaw-valentin.de:/backup $RUNTIME_DIRECTORY -o IdentityFile=/local_persist/etc/ssh/ssh_host_ed25519_key -v
-        trap on_exit EXIT
-
-        export BORG_REPO=$RUNTIME_DIRECTORY/backup
-      '' + default-job.preHook;
-      postHook = default-job.postHook + ''
-        /run/wrappers/bin/umount $RUNTIME_DIRECTORY
-      '';
-      prune.keep = {
-        weekly = 4;
-        monthly = 12;
-      };
-    };
   };
-  systemd.services = let
-    borg_default = {
+  systemd.services = {
+    borgbackup-job-server = {
       # create readonly snapshot before backup
       wants = [ "snapshot-persist.service" ];
       after = [ "snapshot-persist.service" ];
 
       serviceConfig.Restart = lib.mkForce "on-failure";
       serviceConfig.RestartSec = lib.mkForce 15;
+      serviceConfig = { RuntimeDirectory = "backup"; };
 
       onFailure = [ "unit-status-notification@%n.service" ];
       environment = {
         BORG_RSH =
           "${pkgs.openssh}/bin/ssh -i /local_persist/etc/ssh/ssh_host_ed25519_key";
       };
-    };
-  in {
-    borgbackup-job-server = borg_default // {
-      serviceConfig = { RuntimeDirectory = "backup"; };
     };
     snapshot-persist = {
       description = "creates readonly snapshot of /persist in /persist_frozen";

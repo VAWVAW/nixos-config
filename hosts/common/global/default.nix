@@ -4,7 +4,6 @@
     inputs.home-manager.nixosModules.home-manager
 
     ./acme.nix
-    ./backup.nix
     ./btrfs-optin-persistence.nix
     ./cli.nix
     ./encrypted-root.nix
@@ -13,6 +12,7 @@
     ./nix.nix
     ./openssh.nix
     ./sops.nix
+    ./system-mail.nix
     ./yubikey.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
 
