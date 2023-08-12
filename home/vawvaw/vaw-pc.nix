@@ -17,4 +17,8 @@
     nboot =
       "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild boot --flake /etc/nixos# && sudo umount /boot && sudo mount /boot";
   };
+
+  home.persistence."/persist/home/vawvaw".directories = [
+    "AndroidPictures"
+  ];
 }
