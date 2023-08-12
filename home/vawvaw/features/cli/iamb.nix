@@ -2,7 +2,7 @@
 # simple cli matrix client
 {
   home.packages = with pkgs; [ iamb ];
-  home.persistence."/local_persist/home/vawvaw" = {
+  home.persistence."/persist/home/vawvaw" = {
     directories = [ ".config/iamb/profiles" ];
   };
 

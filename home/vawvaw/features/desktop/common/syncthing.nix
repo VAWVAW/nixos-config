@@ -1,6 +1,6 @@
 {
   services.syncthing.enable = true;
 
-  home.persistence."/local_persist/home/vawvaw".directories =
+  home.persistence."/persist/home/vawvaw".directories =
     [ ".config/syncthing" ];
 }

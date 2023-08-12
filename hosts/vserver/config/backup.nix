@@ -15,14 +15,14 @@
   # change systemd units
   services.borgbackup.jobs = {
     server = {
-      paths = [ "/persist_frozen" ];
+      paths = [ "/backed_up_frozen" ];
       exclude = [ "re:/\\.git/" ];
       archiveBaseName = "${config.networking.hostName}";
       extraCreateArgs = "--exclude-caches --keep-exclude-tags";
       extraPruneArgs = "--save-space";
       preHook = ''
         trap EXIT
-        ${pkgs.sshfs}/bin/sshfs hosting124304@vaw-valentin.de:/backup $RUNTIME_DIRECTORY -o IdentityFile=/local_persist/etc/ssh/ssh_host_ed25519_key -v
+        ${pkgs.sshfs}/bin/sshfs hosting124304@vaw-valentin.de:/backup $RUNTIME_DIRECTORY -o IdentityFile=/persist/etc/ssh/ssh_host_ed25519_key -v
         trap on_exit EXIT
 
         export BORG_REPO=$RUNTIME_DIRECTORY/backup
@@ -69,8 +69,8 @@
   systemd.services = {
     borgbackup-job-server = {
       # create readonly snapshot before backup
-      wants = [ "snapshot-persist.service" ];
-      after = [ "snapshot-persist.service" ];
+      wants = [ "snapshot-backed-up.service" ];
+      after = [ "snapshot-backed-up.service" ];
 
       serviceConfig.Restart = lib.mkForce "on-failure";
       serviceConfig.RestartSec = lib.mkForce 15;
@@ -79,15 +79,15 @@
       onFailure = [ "unit-status-notification@%n.service" ];
       environment = {
         BORG_RSH =
-          "${pkgs.openssh}/bin/ssh -i /local_persist/etc/ssh/ssh_host_ed25519_key";
+          "${pkgs.openssh}/bin/ssh -i /persist/etc/ssh/ssh_host_ed25519_key";
       };
     };
-    snapshot-persist = {
-      description = "creates readonly snapshot of /persist in /persist_frozen";
+    snapshot-backed-up = {
+      description = "creates readonly snapshot of /backed_up in /backed_up_frozen";
       serviceConfig = {
         Type = "oneshot";
         ExecStart =
-          "${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r /persist /persist_frozen";
+          "${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r /backed_up /backed_up_frozen";
       };
     };
     "unit-status-notification@" = let

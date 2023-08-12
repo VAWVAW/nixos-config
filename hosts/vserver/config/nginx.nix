@@ -1,9 +1,9 @@
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  environment.persistence."/persist" = { directories = [ "/var/www" ]; };
+  environment.persistence."/backed_up" = { directories = [ "/var/www" ]; };
 
-  environment.persistence."/local_persist" = {
+  environment.persistence."/persist" = {
     directories = [ "/var/lib/acme" ];
   };
 

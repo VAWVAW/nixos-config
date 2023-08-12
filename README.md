@@ -10,14 +10,14 @@ boot partition
 - type: vfat
 
 luks2 partition
-- Label: "system_crypt"
-- conains: btrfs partition
-  - Label: "system_partition"
+- Label: "system\_crypt"
+- contains: btrfs partition
+  - Label: "system\_partition"
   - subvolumes:
     - "${hostname}"
       - "root": blank subvolume; mountpoint: "/"
       - "root-blank": readonly snapshot of "root"; not mounted
       - "nix": mountpoint: "/nix"
-      - "persist": persistent and backed up data; mountpoint: "/persist"
-      - "local_persist": persistent data; mountpoint: "/local_persist"
+      - "backed\_up": persistent and backed up data; mountpoint: "/backed\_up"
+      - "persist": persistent data; mountpoint: "/persist"
       - "swap": optional with "btrfs-swapfile.nix"; mountpoint: "/swap"; contains: "swapfile" swapfile

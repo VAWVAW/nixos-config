@@ -12,7 +12,7 @@
     };
   };
 
-  home.persistence."/local_persist/home/vawvaw" = {
+  home.persistence."/persist/home/vawvaw" = {
     directories = [ ".config/keepassxc" ".cache/keepassxc" ];
   };
 }

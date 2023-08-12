@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  environment.persistence."/persist" = {
+  environment.persistence."/backed_up" = {
     directories = [ "/home/phone/data" ];
   };
 

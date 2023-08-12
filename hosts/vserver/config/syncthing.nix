@@ -10,8 +10,8 @@
     };
   };
 
-  environment.persistence."/persist".directories =
+  environment.persistence."/backed_up".directories =
     [ config.services.syncthing.dataDir ];
-  environment.persistence."/local_persist".directories =
+  environment.persistence."/persist".directories =
     [ config.services.syncthing.configDir ];
 }

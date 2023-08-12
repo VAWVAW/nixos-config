@@ -40,7 +40,7 @@ in {
     owner = "matrix-synapse";
   };
 
-  environment.persistence."/persist".directories = [
+  environment.persistence."/backed_up".directories = [
     config.services.postgresql.dataDir
     config.services.matrix-synapse.dataDir
     mx-discord-home

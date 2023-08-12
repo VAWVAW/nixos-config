@@ -21,7 +21,7 @@
   };
 
   sops = {
-    age.keyFile = "/local_persist/home/vawvaw/.config/key.txt";
+    age.keyFile = "/persist/home/vawvaw/.config/key.txt";
     defaultSopsFile = ./secrets.yaml;
   };
 
@@ -39,7 +39,6 @@
         directories = [ "Documents" "Downloads" ];
         allowOther = true;
       };
-      "/local_persist/home/vawvaw" = { allowOther = true; };
     };
   };
 }

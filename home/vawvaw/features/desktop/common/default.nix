@@ -20,8 +20,9 @@
   home.packages = with pkgs; [ yubioath-flutter libreoffice dfeet ];
 
   home.persistence = {
-    "/persist/home/vawvaw" = { directories = [ "Pictures" ]; };
-    "/local_persist/home/vawvaw" = { directories = [ "Games" "Maildir" ]; };
+    "/persist/home/vawvaw" = {
+      directories = [ "Pictures" "Games" "Maildir" ];
+    };
   };
 
   xdg = {

@@ -33,7 +33,7 @@
     };
   };
 
-  home.persistence."/local_persist/home/vawvaw" = {
+  home.persistence."/persist/home/vawvaw" = {
     directories = [ ".mozilla/firefox/default" ];
   };
 

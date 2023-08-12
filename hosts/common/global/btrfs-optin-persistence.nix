@@ -48,17 +48,9 @@ in {
       options = [ "subvol=${hostname}/persist" "compress=zstd" ];
       neededForBoot = true;
     };
-
-    "/local_persist" = {
-      device = "/dev/disk/by-label/system_partition";
-      fsType = "btrfs";
-      options = [ "subvol=${hostname}/local_persist" "compress=zstd" ];
-      neededForBoot = true;
-    };
   };
 
-  environment.persistence."/persist".hideMounts = true;
-  environment.persistence."/local_persist" = {
+  environment.persistence."/persist" = {
     hideMounts = true;
     directories = [ "/etc/nixos" "/var/log" "/var/lib/systemd/timers" ];
   };

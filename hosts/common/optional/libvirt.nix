@@ -10,7 +10,7 @@
     };
   };
   environment.systemPackages = with pkgs; [ virt-manager ];
-  environment.persistence."/local_persist" = {
+  environment.persistence."/persist" = {
     directories = [ "/var/lib/libvirt" ];
   };
 }

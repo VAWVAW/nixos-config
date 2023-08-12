@@ -66,7 +66,7 @@ in {
     };
   };
 
-  home.persistence."/local_persist/home/vawvaw" = {
+  home.persistence."/persist/home/vawvaw" = {
     directories = [ ".local/share/gnupg" ];
   };
 }
