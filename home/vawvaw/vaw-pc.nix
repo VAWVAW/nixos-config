@@ -21,4 +21,6 @@
   home.persistence."/persist/home/vawvaw".directories = [
     "AndroidPictures"
   ];
+
+  wayland.windowManager.sway.colorscheme = "blue";
 }
