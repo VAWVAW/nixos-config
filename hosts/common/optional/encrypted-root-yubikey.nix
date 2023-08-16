@@ -1,9 +1,8 @@
-{ config, ... }:
-let hostname = config.networking.hostName;
-in {
-  boot.initrd = {
-    luks.yubikeySupport = true;
-    luks.devices = {
+{ config, ... }: {
+  boot.initrd.luks = {
+    yubikeySupport = true;
+    reusePassphrases = false;
+    devices = {
       system_partition = {
         yubikey = {
           slot = 2;
@@ -13,4 +12,5 @@ in {
       };
     };
   };
+
 }
