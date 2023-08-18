@@ -1,7 +1,7 @@
 # System configuration for my main desktop PC
 { pkgs, inputs, config, ... }: {
   imports = [
-    inputs.hardware.nixosModules.common-cpu-intel-cpu-only
+    inputs.hardware.nixosModules.common-cpu-amd-pstate
     inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.hardware.nixosModules.common-pc-ssd
 
@@ -33,7 +33,7 @@
   system.stateVersion = "22.11";
 
   boot = {
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [ "kvm-amd" ];
     initrd = {
       availableKernelModules =
         [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
