@@ -24,6 +24,7 @@
 
   networking = {
     hostName = "vaw-pc";
+    hosts = { "192.168.2.11" = [ "athena" ]; };
   };
 
   environment.systemPackages = with pkgs; [ nvtop ];

@@ -36,7 +36,13 @@
     };
   };
 
-  system.stateVersion = "23.05";
+  programs.ssh.knownHosts = {
+    "athena-initrd" = {
+      hostNames = config.programs.ssh.knownHosts."athena".extraHostNames;
+      publicKeyFile = ./ssh_initrd_host_ed25519_key.pub;
+    };
+    "athena".extraHostNames = [ "home.vaw-valentin.de" ];
+  };
 
   boot = {
     kernelParams =
@@ -85,5 +91,6 @@
     neededForBoot = true;
   };
 
+  system.stateVersion = "23.05";
   nixpkgs.hostPlatform.system = "x86_64-linux";
 }
