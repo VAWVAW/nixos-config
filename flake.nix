@@ -86,6 +86,11 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/vaw-laptop ];
         };
+        # home server
+        "athena" = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/athena ];
+        };
         # hosted server
         "vserver" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
@@ -111,6 +116,15 @@
             platform = "x86_64-linux";
           };
           modules = [ ./home/vawvaw/vaw-laptop.nix ];
+        };
+        # home server
+        "vawvaw@athena" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            platform = "x86_64-linux";
+          };
+          modules = [ ./home/vawvaw/athena.nix ];
         };
         # hosted server
         "vawvaw@vserver" = home-manager.lib.homeManagerConfiguration {
