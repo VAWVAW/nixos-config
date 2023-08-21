@@ -8,5 +8,5 @@
     audio.enable = true;
   };
   environment.variables.PULSE_COOKIE = "${pkgs.writeText "pulse-cookie"
-    (lib.concatStringsSep "" (map (i: "a") (lib.range 1 256)))}";
+    (lib.concatStringsSep "" (map (_: "a") (lib.range 1 256)))}";
 }

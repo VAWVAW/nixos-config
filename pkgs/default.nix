@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> { } }: {
   pythonPackagesExtensions = [
-    (python-final: python-prev: {
+    (python-final: _python-prev: {
       spotifython = python-final.callPackage ./spotifython { };
     })
   ];

@@ -1,4 +1,4 @@
-{ outputs, lib, ... }:
+{ outputs, ... }:
 let hostnames = builtins.attrNames outputs.nixosConfigurations;
 in {
   programs.ssh = {

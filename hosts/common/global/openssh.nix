@@ -45,7 +45,7 @@ in {
         "athena".extraHostNames = [ "home.vaw-valentin.de" ];
         "athena-initrd" = {
           inherit (cfg."athena") hostNames;
-          publicKeyFile = ./ssh_initrd_host_ed25519_key.pub;
+          publicKeyFile = ../../athena/ssh_initrd_host_ed25519_key.pub;
         };
       }
       (builtins.mapAttrs (name: _: {

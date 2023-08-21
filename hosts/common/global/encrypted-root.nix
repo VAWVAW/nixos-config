@@ -1,6 +1,4 @@
-{ config, ... }:
-let hostname = config.networking.hostName;
-in {
+{
   boot.initrd = {
     kernelModules = [ "vfat" "nls_cp437" "nls_iso8859-1" "usbhid" ];
     luks.devices = {
