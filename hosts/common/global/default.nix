@@ -40,10 +40,6 @@
       [ ! -d /mnt ] && [[ ! "NIXOS_ACTION" == "dry-activate" ]] && mkdir /mnt'';
   };
 
-  # not possible in openssh.nix because of attrset merge
-  programs.ssh.knownHosts."vserver".extraHostNames =
-    [ "server.vaw-valentin.de" ];
-
   security = {
     polkit.enable = true;
     sudo = {

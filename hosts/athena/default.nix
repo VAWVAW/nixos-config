@@ -36,14 +36,6 @@
     };
   };
 
-  programs.ssh.knownHosts = {
-    "athena-initrd" = {
-      hostNames = config.programs.ssh.knownHosts."athena".extraHostNames;
-      publicKeyFile = ./ssh_initrd_host_ed25519_key.pub;
-    };
-    "athena".extraHostNames = [ "home.vaw-valentin.de" ];
-  };
-
   boot = {
     kernelParams =
       [ "ip=192.168.2.11::192.168.2.1:255.255.255.0::enp0s31f6:off" ];

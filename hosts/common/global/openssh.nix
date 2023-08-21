@@ -25,25 +25,34 @@ in {
   };
 
   programs.ssh = {
-    # Each hosts public key
-    knownHosts = {
-      "vaw-valentin.de" = {
-        publicKey =
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICVjDeeECOjKK1H9x+R+ZS4pYx6CGJXGmmHNS83JEXUJ";
-      };
-      "github.com" = {
-        publicKey =
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
-      };
-      "vserver-initrd" = {
-        hostNames = [ "vserver" "server.vaw-valentin.de" ];
-        publicKeyFile = ../../vserver/ssh_initrd_host_ed25519_key.pub;
-      };
-      # explicit domains are added in default.nix
-    } // builtins.mapAttrs (name: _: {
-      publicKeyFile = pubKey name;
-      extraHostNames = lib.optional (name == hostname) "localhost";
-    }) hosts;
+    knownHosts = let cfg = config.programs.ssh.knownHosts;
+    in lib.mkMerge [
+      {
+        "vaw-valentin.de" = {
+          publicKey =
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICVjDeeECOjKK1H9x+R+ZS4pYx6CGJXGmmHNS83JEXUJ";
+        };
+        "github.com" = {
+          publicKey =
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
+        };
+
+        "vserver".extraHostNames = [ "server.vaw-valentin.de" ];
+        "vserver-initrd" = {
+          inherit (cfg."vserver") hostNames;
+          publicKeyFile = ../../vserver/ssh_initrd_host_ed25519_key.pub;
+        };
+        "athena".extraHostNames = [ "home.vaw-valentin.de" ];
+        "athena-initrd" = {
+          inherit (cfg."athena") hostNames;
+          publicKeyFile = ./ssh_initrd_host_ed25519_key.pub;
+        };
+      }
+      (builtins.mapAttrs (name: _: {
+        publicKeyFile = pubKey name;
+        extraHostNames = lib.optional (name == hostname) "localhost";
+      }) hosts)
+    ];
   };
 
   # Passwordless sudo when SSH'ing with keys
