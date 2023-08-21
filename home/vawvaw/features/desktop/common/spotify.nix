@@ -38,7 +38,7 @@
     package = pkgs.spotifyd.override { withMpris = true; };
     settings = {
       global = {
-        username = "vaw.valentin@gmx.de";
+        username = "spotify@vaw-valentin.de";
         password_cmd =
           "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/spotify-password";
         backend = "alsa";
