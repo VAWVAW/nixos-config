@@ -14,7 +14,6 @@
         exclude=
         /backed_up
         /etc/NetworkManager/system-connections
-        /etc/nixos
         /nix
         /nix/store
         /persist

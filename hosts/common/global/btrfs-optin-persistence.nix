@@ -52,6 +52,6 @@ in {
 
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = [ "/etc/nixos" "/var/log" "/var/lib/systemd/timers" ];
+    directories = [ "/var/log" "/var/lib/systemd/timers" ];
   };
 }
