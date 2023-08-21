@@ -8,13 +8,16 @@
     ../common/optional/btrfs-swapfile.nix
     ../common/optional/sslh.nix
 
+    ../common/optional/containers
+    ../common/optional/containers/pihole
+
     ../common/global
     ../common/users/vawvaw
   ];
 
   networking = {
     hostName = "athena";
-    nameservers = [ "192.168.2.1" ];
+    nameservers = [ "127.0.0.1" "192.168.2.1" ];
     interfaces."enp0s31f6" = {
       ipv4 = {
         addresses = [{
