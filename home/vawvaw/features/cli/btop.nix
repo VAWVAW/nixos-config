@@ -10,8 +10,24 @@
       proc_sorting = "memory";
       proc_per_core = true;
       cpu_single_graph = true;
-      disks_filter =
-        "exclude=/swap /var/lib/containers /var/lib/systemd/timers /var/lib/libvirt /etc/NetworkManager/system-connections /var/lib/NetworkManager/seen-bssids /etc/nixos /var/log /nix/store /nix /persist /backed_up";
+      disks_filter = builtins.replaceStrings [ "\n" ] [ " " ] ''
+        exclude=
+        /backed_up
+        /etc/NetworkManager/system-connections
+        /etc/nixos
+        /nix
+        /nix/store
+        /persist
+        /persist/var/lib/containers/storage/overlay
+        /swap
+        /var/lib/containers
+        /var/lib/containers/storage/overlay
+        /var/lib/libvirt
+        /var/lib/NetworkManager/seen-bssids
+        /var/lib/syncthing/config
+        /var/lib/systemd/timers
+        /var/log
+      '';
       use_fstab = false;
       net_upload = 5;
       net_auto = false;
