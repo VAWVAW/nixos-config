@@ -1,1 +1,1 @@
-{ imports = [ ./syncthing.nix ]; }
+{ imports = [ ./nginx.nix ./syncthing.nix ]; }
