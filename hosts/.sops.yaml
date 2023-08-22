@@ -8,6 +8,7 @@ keys:
     - &vaw-laptop age1ms8v5796f7ns83p7cgdf96jem54p3h7yw70wdkhacuz07qh5kspqrnm7wg
     - &vserver age13xalq5vdg9rnhtpf99yaplthsufnvnkeurqrz8jlcsqp3rrflaasys2vv0
     - &athena age1dr06wca7tc3yfp8qs3ha8pgl46p9rm3zukc2y626kd9a5ughtc3qt598fj
+    - &hades age13qscya8p0ckmxw9aq2uyrlsfgurrj97a5wplkczluaqcur4gxc2qq9spcr
 
 creation_rules:
   - path_regex: common/secrets.yaml$
@@ -17,6 +18,7 @@ creation_rules:
       - *vaw-laptop
       - *vserver
       - *athena
+      - *hades
       pgp:
       - *vawvaw
   - path_regex: common/optional/containers/.+/.*secret.*
