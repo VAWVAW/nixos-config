@@ -1,4 +1,4 @@
-{ inputs, config, ... }: {
+{ inputs, config, pkgs, ... }: {
   imports = [
     inputs.hardware.nixosModules.framework-13th-gen-intel
 
@@ -23,6 +23,8 @@
   powerManagement.cpuFreqGovernor = "powersave";
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
+
     kernelParams = [ "resume_offset=533760" ];
     resumeDevice = config.fileSystems."/swap".device;
 
