@@ -1,17 +1,15 @@
 { config, pkgs, lib, ... }:
 let
   colorschemes = {
-    blue = rec {
+    blue = {
       background = "#285577";
       border = "#4c7899";
       wallpaper = ../wallpapers/kali-contours-blue.png;
-      wallpaper2 = wallpaper;
     };
-    violet = rec {
+    violet = {
       background = "#420A55";
       border = "#800080";
       wallpaper = ../wallpapers/kali-contours-violet.png;
-      wallpaper2 = wallpaper;
     };
   };
   colorscheme = colorschemes."${config.wayland.windowManager.sway.colorscheme}";
@@ -89,16 +87,16 @@ in {
           };
         };
         output = {
-          "*" = {
-            res = "1920x1080";
-            bg = "${colorscheme.wallpaper} fill";
-          };
-          "${primary_screen}" = { pos = "0 0"; };
-          "${secondary_screen}" = {
-            pos = "1920 65";
-            bg = "${colorscheme.wallpaper2} fill";
-          };
-        };
+          "*" = { bg = "${colorscheme.wallpaper} fill"; };
+        } //
+          # use custom config.desktop module
+          (builtins.listToAttrs (builtins.map (s: {
+            inherit (s) name;
+            value = {
+              inherit (s) position scale;
+              resolution = s.size;
+            };
+          }) config.desktop.screens));
         seat = { "*" = { hide_cursor = "when-typing enable"; }; };
         window = {
           hideEdgeBorders = "both";
@@ -123,18 +121,13 @@ in {
           ];
         };
         assigns = { "10" = [{ class = "discord"; }]; };
-        startup = [
-          { command = "${pkgs.noisetorch}/bin/noisetorch -i"; }
-          { command = "discord"; }
-          {
-            command = ''
-              ${pkgs.bash}/bin/bash -c "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service"'';
-          }
-          {
-            command =
-              "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%";
-          }
-        ];
+        startup = [{
+          command = ''
+            ${pkgs.bash}/bin/bash -c "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service"'';
+        }] ++
+          # use custom config.desktop module
+          (builtins.map (cmd: { command = cmd; })
+            config.desktop.startup_commands);
 
         focus.followMouse = "no";
         workspaceAutoBackAndForth = true;
