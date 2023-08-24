@@ -9,7 +9,7 @@
     ./features/desktop/common/syncthing.nix
   ];
 
-  services.spotifyd.settings.global.device_name = "vaw-pc_spotifyd";
+  services.spotifyd.settings.global.device_name = "zeus_spotifyd";
 
   home.shellAliases = {
     nswitch =

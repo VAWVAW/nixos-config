@@ -77,9 +77,9 @@
         };
 
         # Desktop
-        "vaw-pc" = nixpkgs.lib.nixosSystem {
+        "zeus" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/vaw-pc ];
+          modules = [ ./hosts/zeus ];
         };
         # Framework 13 Laptop
         "hades" = nixpkgs.lib.nixosSystem {
@@ -105,13 +105,13 @@
 
       homeConfigurations = {
         # Desktop
-        "vawvaw@vaw-pc" = home-manager.lib.homeManagerConfiguration {
+        "vawvaw@zeus" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vawvaw/vaw-pc.nix ];
+          modules = [ ./home/vawvaw/zeus.nix ];
         };
         # Framework 13 Laptop
         "vawvaw@hades" = home-manager.lib.homeManagerConfiguration {

@@ -4,7 +4,7 @@ keys:
     - &vawvaw 508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8
   # Hosts
   - &hosts:
-    - &vaw-pc age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
+    - &zeus age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
     - &vaw-laptop age1ms8v5796f7ns83p7cgdf96jem54p3h7yw70wdkhacuz07qh5kspqrnm7wg
     - &vserver age13xalq5vdg9rnhtpf99yaplthsufnvnkeurqrz8jlcsqp3rrflaasys2vv0
     - &athena age1dr06wca7tc3yfp8qs3ha8pgl46p9rm3zukc2y626kd9a5ughtc3qt598fj
@@ -14,7 +14,7 @@ creation_rules:
   - path_regex: common/secrets.yaml$
     key_groups:
     - age:
-      - *vaw-pc
+      - *zeus
       - *vaw-laptop
       - *vserver
       - *athena
@@ -24,7 +24,7 @@ creation_rules:
   - path_regex: common/optional/containers/.+/.*secret.*
     key_groups:
     - age:
-      - *vaw-pc
+      - *zeus
       pgp:
       - *vawvaw
   - path_regex: vserver/config/synapse_shared_secret$

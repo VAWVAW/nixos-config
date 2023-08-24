@@ -23,7 +23,7 @@
   ];
 
   networking = {
-    hostName = "vaw-pc";
+    hostName = "zeus";
     hosts = { "192.168.2.11" = [ "athena" ]; };
   };
 
