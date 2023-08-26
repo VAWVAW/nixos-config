@@ -17,6 +17,9 @@
       fontconfig
     ];
   };
+  rust-dbus = pkgs.mkShell {
+    buildInputs = rust.buildInputs ++ (with pkgs; [ dbus ]);
+  };
   nix = pkgs.mkShell { buildInputs = with pkgs; [ nil nixfmt statix ]; };
   lua = pkgs.mkShell { buildInputs = with pkgs; [ lua-language-server ]; };
   nixos-config =
