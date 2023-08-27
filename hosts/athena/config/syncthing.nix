@@ -5,6 +5,9 @@
     dataDir = "/var/lib/syncthing/data";
     configDir = "/var/lib/syncthing/config";
 
+    overrideDevices = false;
+    overrideFolders = false;
+
     settings.options = { localAnnounceEnabled = false; };
   };
 
