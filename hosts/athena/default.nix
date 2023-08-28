@@ -21,6 +21,7 @@
     hostName = "athena";
     nameservers = [ "127.0.0.1" "192.168.2.1" ];
     interfaces."enp0s31f6" = {
+      wakeOnLan.enable = true;
       ipv4 = {
         addresses = [{
           address = "192.168.2.11";
