@@ -19,7 +19,10 @@
 
   networking = {
     hostName = "athena";
-    nameservers = [ "127.0.0.1" "192.168.2.1" ];
+
+    resolvconf.enable = true;
+    nameservers = [ "192.168.2.11" "192.168.2.1" ];
+
     interfaces."enp0s31f6" = {
       wakeOnLan.enable = true;
       ipv4 = {
