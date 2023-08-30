@@ -325,8 +325,6 @@ in {
             "s" = "exec ${pkgs.steam}/bin/steam; mode default";
             "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
             "t" = "exec tor-browser; mode default";
-            "p" =
-              "exec ${pkgs.jetbrains.pycharm-community}/bin/pycharm-community; mode default";
             "m" =
               "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
 
