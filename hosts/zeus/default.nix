@@ -14,6 +14,7 @@
     ../common/optional/btrfs-swapfile.nix
 
     ../common/optional/containers
+    ../common/optional/nixos-containers
 
     ../common/optional/desktop
     ../common/optional/desktop/hyprland.nix
@@ -25,6 +26,7 @@
   networking = {
     hostName = "zeus";
     hosts = { "192.168.2.11" = [ "athena" ]; };
+    nat.externalInterface = "eno1";
   };
 
   environment.systemPackages = with pkgs; [ nvtop ];
