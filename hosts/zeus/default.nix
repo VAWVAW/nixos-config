@@ -21,6 +21,8 @@
 
     ../common/global
     ../common/users/vawvaw
+
+    ./config
   ];
 
   networking = {
