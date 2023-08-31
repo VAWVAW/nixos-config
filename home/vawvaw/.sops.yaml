@@ -4,18 +4,18 @@ keys:
     - &vawvaw 508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8
   # Hosts
   - &hosts:
-    - &zeus age1p6ju0gfsmdd4l7u47rxnmqz6q4jsm480kf2r05dy2f666sflr5lqh770u2
+    - &hades age1p6ju0gfsmdd4l7u47rxnmqz6q4jsm480kf2r05dy2f666sflr5lqh770u2
+    - &zeus age1jgzl7nr0n67yh2gar2arkc47h8weus8xrd2ckd0wm0q27dtpxyyqj3ezn5
     - &vaw-laptop age127ntjlxgeprk2a3zjvlzem3en9pmn98kkj0mesqzvque8jwzxa8srkggnx
     - &vserver age1utm6tep8fwcgcvkwsmdsmz67jvtmp4j2yrae2ndxnhywaks80daq2xgts5
     - &athena age1xh0n98mhdqhxqjzs3grmdv686vudych4rwdju5srr7r33ess8d0qmyq04x
-    - &hades age1jgzl7nr0n67yh2gar2arkc47h8weus8xrd2ckd0wm0q27dtpxyyqj3ezn5
 
 creation_rules:
   - path_regex: secrets.yaml$
     key_groups:
     - age:
+      - *hades
       - *zeus
       - *vaw-laptop
-      - *hades
       pgp:
       - *vawvaw

@@ -1,57 +1,45 @@
-# System configuration for my main desktop PC
-{ pkgs, inputs, config, ... }: {
+{ inputs, config, pkgs, ... }: {
   imports = [
-    inputs.hardware.nixosModules.common-cpu-amd-pstate
-    inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
-    inputs.hardware.nixosModules.common-pc-ssd
+    inputs.hardware.nixosModules.framework-13th-gen-intel
 
     ../common/optional/apparmor.nix
-    ../common/optional/android.nix
     ../common/optional/encrypted-root-yubikey.nix
     ../common/optional/networkmanager.nix
-    ../common/optional/libvirt.nix
     ../common/optional/boot-partition.nix
     ../common/optional/btrfs-swapfile.nix
 
-    ../common/optional/containers
-    ../common/optional/nixos-containers
-
     ../common/optional/desktop
-    ../common/optional/desktop/hyprland.nix
 
     ../common/global
     ../common/users/vawvaw
-
-    ./config
   ];
 
-  networking = {
-    hostName = "zeus";
-    hosts = { "192.168.2.11" = [ "athena" ]; };
-    nat.externalInterface = "eno1";
-  };
-
-  environment.systemPackages = with pkgs; [ nvtop ];
+  networking.hostName = "zeus";
 
   programs.firejail.enable = true;
 
-  system.stateVersion = "22.11";
+  services.upower.enable = true;
+
+  powerManagement.cpuFreqGovernor = "powersave";
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelModules = [ "kvm-amd" ];
+
+    kernelParams = [ "resume_offset=533760" ];
+    resumeDevice = config.fileSystems."/swap".device;
+
+    kernelModules = [ "kvm-intel" ];
+
     initrd = {
       availableKernelModules =
-        [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
+        [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
     };
     loader = {
       efi.canTouchEfiVariables = true;
-      timeout = 1;
-      grub = {
+      systemd-boot = {
         enable = true;
-        efiSupport = true;
-        device = "nodev";
-        splashImage = null;
+        # editor = false;
+        configurationLimit = 40;
       };
     };
   };
@@ -59,17 +47,12 @@
   hardware = {
     opengl = {
       enable = true;
-      extraPackages = with pkgs; [ libvdpau-va-gl ];
       driSupport = true;
       driSupport32Bit = true;
     };
-    nvidia.modesetting.enable = true;
-    nvidia.powerManagement.enable = true;
     enableRedistributableFirmware = true;
   };
 
-  boot.kernelParams = [ "resume_offset=6328854" ];
-  boot.resumeDevice = config.fileSystems."/swap".device;
-
+  system.stateVersion = "23.05";
   nixpkgs.hostPlatform.system = "x86_64-linux";
 }

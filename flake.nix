@@ -77,14 +77,14 @@
         };
 
         # Desktop
-        "zeus" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/zeus ];
-        };
-        # Framework 13 Laptop
         "hades" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/hades ];
+        };
+        # Framework 13 Laptop
+        "zeus" = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/zeus ];
         };
         # Laptop
         "vaw-laptop" = nixpkgs.lib.nixosSystem {
@@ -105,15 +105,6 @@
 
       homeConfigurations = {
         # Desktop
-        "vawvaw@zeus" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = {
-            inherit inputs outputs;
-            platform = "x86_64-linux";
-          };
-          modules = [ ./home/vawvaw/zeus.nix ];
-        };
-        # Framework 13 Laptop
         "vawvaw@hades" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
@@ -121,6 +112,15 @@
             platform = "x86_64-linux";
           };
           modules = [ ./home/vawvaw/hades.nix ];
+        };
+        # Framework 13 Laptop
+        "vawvaw@zeus" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            platform = "x86_64-linux";
+          };
+          modules = [ ./home/vawvaw/zeus.nix ];
         };
         # Laptop
         "vawvaw@vaw-laptop" = home-manager.lib.homeManagerConfiguration {
