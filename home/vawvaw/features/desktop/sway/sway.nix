@@ -320,19 +320,23 @@ in {
             "${mod}+r" = "mode default";
             "q" = "mode default";
           };
-          open = {
-            "f" = "exec firefox; mode default";
-            "s" = "exec ${pkgs.steam}/bin/steam; mode default";
-            "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
-            "t" = "exec tor-browser; mode default";
-            "m" =
-              "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
+          open = lib.mkMerge [
+            {
+              "f" = "exec firefox; mode default";
+              "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
+              "t" = "exec tor-browser; mode default";
+              "m" =
+                "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
 
-            # back to normal
-            "Escape" = "mode default";
-            "BackSpace" = "mode default";
-            "${mod}+o" = "mode default";
-          };
+              # back to normal
+              "Escape" = "mode default";
+              "BackSpace" = "mode default";
+              "${mod}+o" = "mode default";
+            }
+            (lib.mkIf (builtins.elem pkgs.steam config.home.packages) {
+              "s" = "exec ${pkgs.steam}/bin/steam; mode default";
+            })
+          ];
           spotify = {
             "d" =
               "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu";
