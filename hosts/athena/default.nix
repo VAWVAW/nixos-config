@@ -19,6 +19,7 @@
 
   networking = {
     hostName = "athena";
+    hosts = { "192.168.2.10" = [ "hades" ]; };
 
     resolvconf.enable = true;
     nameservers = [ "192.168.2.11" "192.168.2.1" ];
