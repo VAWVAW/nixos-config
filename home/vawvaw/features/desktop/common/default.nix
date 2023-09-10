@@ -17,7 +17,7 @@
     ../../cli/iamb.nix
   ];
 
-  home.packages = with pkgs; [ yubioath-flutter libreoffice dfeet ];
+  home.packages = with pkgs; [ yubioath-flutter libreoffice dfeet qpdfview ];
 
   home.persistence = {
     "/persist/home/vawvaw" = {
@@ -26,7 +26,11 @@
   };
 
   xdg = {
-    mimeApps.enable = true;
+    mimeApps = {
+      enable = true;
+      defaultApplications."application/pdf" = "qpdfview.desktop";
+      associations.removed."application/pdf" = "draw.desktop";
+    };
     userDirs = {
       enable = true;
       createDirectories = true;
