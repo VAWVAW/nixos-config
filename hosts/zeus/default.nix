@@ -50,7 +50,6 @@
       driSupport = true;
       driSupport32Bit = true;
     };
-    enableRedistributableFirmware = true;
   };
 
   system.stateVersion = "23.05";

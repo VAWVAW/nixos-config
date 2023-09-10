@@ -88,7 +88,6 @@
     };
     nvidia.modesetting.enable = true;
     nvidia.powerManagement.enable = true;
-    enableRedistributableFirmware = true;
   };
 
   boot.kernelParams = [ "resume_offset=6328854" ];
