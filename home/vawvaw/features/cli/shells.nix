@@ -4,10 +4,10 @@
   programs = { bash.enable = true; };
 
   home.shellAliases = {
-    l = "${pkgs.eza}/bin/exa -1";
-    ll = "${pkgs.eza}/bin/exa -l --git --no-time";
-    la = "${pkgs.eza}/bin/exa -lag --git";
-    tree = "${pkgs.eza}/bin/exa -T";
+    l = "${pkgs.eza}/bin/eza -1 --group-directories-first";
+    ll = "${pkgs.eza}/bin/eza -lh --git --no-time --color-scale --group-directories-first --icons";
+    la = "${pkgs.eza}/bin/eza -lah -g --git --color-scale --group-directories-first --time-style=iso --icons";
+    tree = "${pkgs.eza}/bin/eza -T";
 
     ntest = lib.mkDefault "sudo nixos-rebuild test --flake /home/vawvaw/Documents/nixos-config#";
     nswitch = lib.mkDefault "sudo nixos-rebuild switch --flake /home/vawvaw/Documents/nixos-config#";
