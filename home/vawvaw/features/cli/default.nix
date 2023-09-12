@@ -4,7 +4,7 @@
 
   home.packages = with pkgs; [
     ncdu # TUI disk usage
-    exa # colorful ls
+    eza # colorful ls
     fd # colorful find
 
     wget
