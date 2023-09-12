@@ -3,7 +3,7 @@ let gpg-key = "508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8";
 in {
   sops.secrets = {
     "mail/ionos" = { };
-    "mail/iserv" = { };
+    "mail/fu-berlin" = { };
   };
 
   accounts.email.accounts = {
@@ -32,67 +32,77 @@ in {
         enable = true;
         mailboxName = "ionos";
         extraConfig = ''
-          unvirtual-mailboxes
-          virtual-mailboxes "ionos-Inbox" "notmuch://?query=folder:ionos/Inbox"
-          virtual-mailboxes "ionos-Drafts" "notmuch://?query=folder:ionos/Entwürfe"
-          virtual-mailboxes "ionos-Junk" "notmuch://?query=folder:ionos/Spam"
-          virtual-mailboxes "ionos-Sent" 'notmuch://?query=folder:"ionos/Gesendete Objekte"'
-          virtual-mailboxes "ionos-Trash" "notmuch://?query=folder:ionos/Papierkorb"
+          unvirtual-mailboxes *
+          virtual-mailboxes "Unified Inbox" "notmuch://?query=tag:inbox"
+          named-mailboxes "fu-berlin" "/home/vawvaw/Maildir/fu-berlin/Inbox"
+
+          named-mailboxes "ionos" "/home/vawvaw/Maildir/ionos/Inbox"
+          virtual-mailboxes "Drafts" "notmuch://?query=folder:ionos/Entwürfe"
+          virtual-mailboxes "Junk" "notmuch://?query=folder:ionos/Spam"
+          virtual-mailboxes "Sent" 'notmuch://?query=folder:"ionos/Gesendete Objekte"'
+          virtual-mailboxes "Trash" "notmuch://?query=folder:ionos/Papierkorb"
         '';
       };
       mbsync = {
         enable = true;
         create = "maildir";
-        extraConfig.channel = { Patterns = [ "INBOX" "*" "!Entwürfe" ]; };
       };
-      notmuch.enable = true;
+      notmuch = {
+        enable = true;
+        neomutt.virtualMailboxes = lib.mkForce [ ];
+      };
       msmtp.enable = true;
     };
-    iserv = rec {
-      address = "valentin.wiedekind@ghg.berlin";
+    fu-berlin = {
+      address = "valentin.wiedekind@fu-berlin.de";
       realName = "Valentin Wiedekind";
       imap = {
-        host = "ghg.berlin";
-        port = 143;
-        tls.useStartTls = true;
+        host = "mail.zedat.fu-berlin.de";
+        port = 993;
+        tls.enable = true;
       };
       smtp = {
-        host = "ghg.berlin";
+        host = "mail.zedat.fu-berlin.de";
         port = 587;
         tls.useStartTls = true;
       };
-      userName = "valentin.wiedekind";
+      userName = "vw7335fu@zedat.fu-berlin.de";
       passwordCommand =
-        "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/mail/iserv";
+        "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/mail/fu-berlin";
 
       folders = {
-        inbox = "INBOX";
-        drafts = "Drafts";
-        sent = "Sent";
-        trash = "Trash";
+        drafts = "Entw&APw-rfe";
+        sent = "Gesendet";
       };
 
       gpg = {
         key = gpg-key;
-        signByDefault = true;
+        # TODO readd after updating public key
+        #signByDefault = true;
       };
       neomutt = {
         enable = true;
-        mailboxName = "iserv";
+        mailboxName = "fu-berlin";
         extraConfig = ''
-          unvirtual-mailboxes
-          virtual-mailboxes "iserv-Inbox" "notmuch://?query=folder:iserv/INBOX"
-          virtual-mailboxes "iserv-Drafts" "notmuch://?query=folder:iserv/Drafts"
-          virtual-mailboxes "iserv-Junk" "notmuch://?query=folder:iserv/Junk"
-          virtual-mailboxes "iserv-Sent" "notmuch://?query=folder:iserv/Sent"
-          virtual-mailboxes "iserv-Trash" "notmuch://?query=folder:iserv/Trash"
+          unvirtual-mailboxes *
+
+          virtual-mailboxes "Unified Inbox" "notmuch://?query=tag:inbox"
+          named-mailboxes "ionos" "/home/vawvaw/Maildir/ionos/Inbox"
+
+          named-mailboxes "fu-berlin" "/home/vawvaw/Maildir/fu-berlin/Inbox"
+          virtual-mailboxes "Drafts" "notmuch://?query=folder:fu-berlin/Entwürfe"
+          virtual-mailboxes "Sent" "notmuch://?query=folder:fu-berlin/Gesendet"
+          virtual-mailboxes "Trash" "notmuch://?query=folder:fu-berlin/Trash"
         '';
       };
       mbsync = {
         enable = true;
         create = "maildir";
       };
-      notmuch.enable = true;
+      notmuch = {
+        enable = true;
+        neomutt.virtualMailboxes = lib.mkForce [ ];
+      };
       msmtp.enable = true;
     };
   };
