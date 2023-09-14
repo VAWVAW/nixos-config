@@ -182,8 +182,10 @@ in {
             "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
 
           # brightness
-          "XF86MonBrightnessUp" = "exec sudo ${pkgs.light}/bin/light -A 5";
-          "XF86MonBrightnessDown" = "exec sudo ${pkgs.light}/bin/light -U 5";
+          "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 5";
+          "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 5";
+          "${mod}+XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 1";
+          "${mod}+XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 1";
 
           # player control
           "XF86AudioPlay" =
