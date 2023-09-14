@@ -7,9 +7,9 @@
   programs.zsh.promptColor = "yellow";
   home.shellAliases = {
     nswitch =
-      "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild switch --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh && sudo umount /boot && sudo mount /boot";
+      "sudo mount /boot -o remount,rw && sudo nixos-rebuild switch --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh && sudo mount /boot -o remount";
     nboot =
-      "sudo umount /boot && sudo mount /boot -o rw && sudo nixos-rebuild boot --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh && sudo umount /boot && sudo mount /boot";
+      "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh && sudo mount /boot -o remount";
     nbuild =
       "nixos-rebuild build --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh";
     ntest =
