@@ -59,7 +59,6 @@
       }
 
       decoration {
-        blur = false
         drop_shadow = false
       }
 
