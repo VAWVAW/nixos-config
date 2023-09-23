@@ -52,6 +52,7 @@
         ];
       };
     };
+    dhcpcd.enable = false;
   };
 
   environment.systemPackages = with pkgs; [ nvtop ];
