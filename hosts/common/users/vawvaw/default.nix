@@ -26,7 +26,7 @@ in {
       keyFiles = [ ./home/pubkey_ssh.txt ];
     };
 
-    passwordFile = config.sops.secrets.vawvaw-password.path;
+    hashedPasswordFile = config.sops.secrets.vawvaw-password.path;
     packages = [ pkgs.home-manager ];
   };
 
