@@ -1,1 +1,1 @@
-{ imports = [ ]; }
+{ imports = [ ./ovmf.nix ]; }
