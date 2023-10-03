@@ -5,6 +5,7 @@
     ./features/desktop/sway
     ./features/desktop/hyprland
     ./features/desktop/common/steam.nix
+    ./features/desktop/common/minecraft.nix
     ./features/desktop/common/lutris.nix
     ./features/desktop/common/syncthing.nix
   ];
