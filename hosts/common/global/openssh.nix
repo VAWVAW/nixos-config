@@ -37,11 +37,6 @@ in {
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
         };
 
-        "vserver".extraHostNames = [ "server.vaw-valentin.de" ];
-        "vserver-initrd" = {
-          inherit (cfg."vserver") hostNames;
-          publicKeyFile = ../../vserver/ssh_initrd_host_ed25519_key.pub;
-        };
         "athena".extraHostNames = [ "home.vaw-valentin.de" ];
         "athena-initrd" = {
           inherit (cfg."athena") hostNames;
