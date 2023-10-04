@@ -26,7 +26,7 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
 
-    kernelParams = [ "resume_offset=533760" ];
+    kernelParams = [ "resume_offset=533760" "mem_sleep_default=deep" ];
     resumeDevice = config.fileSystems."/swap".device;
 
     kernelModules = [ "kvm-intel" ];
