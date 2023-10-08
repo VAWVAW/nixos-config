@@ -4,6 +4,7 @@
 
     ./features/desktop/sway
     ./features/desktop/common/syncthing.nix
+    ./features/desktop/common/obsidian.nix
   ];
 
   services.spotifyd.settings.global.device_name = "zeus_spotifyd";
