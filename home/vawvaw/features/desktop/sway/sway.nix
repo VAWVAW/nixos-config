@@ -327,6 +327,7 @@ in {
               "f" = "exec firefox; mode default";
               "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
               "t" = "exec tor-browser; mode default";
+              "o" = "exec ${pkgs.obsidian}/bin/obsidian; mode default";
               "m" =
                 "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
 
