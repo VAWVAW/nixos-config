@@ -8,6 +8,7 @@
     ../common/optional/boot-partition.nix
     ../common/optional/btrfs-swapfile.nix
     ../common/optional/secureboot.nix
+    ../common/optional/libvirt.nix
 
     ../common/optional/desktop
 
