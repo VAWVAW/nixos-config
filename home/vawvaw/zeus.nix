@@ -24,7 +24,7 @@
   desktop.screens = [{
     name = "BOE 0x0BCA Unknown";
     size = "2256x1504";
-    scale = "1.6";
+    scale = "1.5";
   }];
 
   wayland.windowManager.sway = {
