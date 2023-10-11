@@ -5,11 +5,6 @@
   environment.persistence."/persist" = {
     directories = [
       "/etc/NetworkManager/system-connections"
-      "/var/lib/NetworkManager/seen-bssids"
-    ];
-    files = [
-      "/var/lib/NetworkManager/secret_key"
-      "/var/lib/NetworkManager/timestamps"
     ];
   };
 }

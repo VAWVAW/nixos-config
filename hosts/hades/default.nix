@@ -7,7 +7,7 @@
 
     ../common/optional/apparmor.nix
     ../common/optional/android.nix
-    ../common/optional/encrypted-root-yubikey.nix
+    ../common/optional/systemd-initrd.nix
     ../common/optional/libvirt.nix
     ../common/optional/boot-partition.nix
     ../common/optional/btrfs-swapfile.nix
