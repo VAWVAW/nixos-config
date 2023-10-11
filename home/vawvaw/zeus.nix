@@ -27,5 +27,34 @@
     scale = "1.6";
   }];
 
-  wayland.windowManager.sway.colorscheme = "blue";
+  wayland.windowManager.sway = {
+    colorscheme = "blue";
+    config = {
+      keybindings = {
+        "XF86AudioMedia" = "input type:touchpad events toggle enabled disabled";
+      };
+      bars = lib.mkForce [{
+        statusCommand =
+          "/home/vawvaw/Documents/coding/rust/swayblocks/target/release/swayblocks";
+        trayOutput = "none";
+        position = "bottom";
+        colors = let inherit (config.wayland.windowManager.sway.config) colors;
+        in {
+          statusline = "#ffffff";
+          background = "#000000";
+          focusedWorkspace = {
+            inherit (colors.focused) background border text;
+          };
+          bindingMode = { inherit (colors.urgent) background border text; };
+          activeWorkspace = {
+            inherit (colors.focusedInactive) background border text;
+          };
+          inactiveWorkspace = {
+            inherit (colors.unfocused) background border text;
+          };
+        };
+      }];
+    };
+  };
+
 }
