@@ -197,6 +197,9 @@ in {
           "XF86AudioPrev" =
             "exec --no-startup-id ${pkgs.spotifython-cli}/bin/spotifython-cli prev";
 
+          # rfkill
+          "XF86RFKill" = "exec --no-startup-id ${pkgs.util-linux}/bin/rfkill toggle all";
+
           # change focus
           "${mod}+${left}" = "focus left";
           "${mod}+${down}" = "focus down";
