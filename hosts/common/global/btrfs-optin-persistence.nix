@@ -24,10 +24,25 @@ let
 in {
   imports = [ inputs.impermanence.nixosModules.impermanence ];
 
-  boot.initrd.supportedFilesystems = [ "btrfs" ];
+  boot.initrd = {
+    supportedFilesystems = [ "btrfs" ];
 
-  # Use postDeviceCommands if on old phase 1
-  boot.initrd.postDeviceCommands = lib.mkBefore wipeScript;
+    # Use postDeviceCommands if on old phase 1
+    postDeviceCommands = lib.mkBefore wipeScript;
+
+    # Use systemd service on new phase 1
+    systemd.services."rollback-root" = {
+      description = "Rollback BTRFS root subvolume to empty state";
+      wantedBy = [ "initrd.target" ];
+      after = [ "systemd-cryptsetup@system_partition.service" ];
+      before = [ "sysroot.mount" ];
+
+      unitConfig.DefaultDependencies = "no";
+      serviceConfig.Type = "oneshot";
+
+      script = wipeScript;
+    };
+  };
 
   fileSystems = {
     "/" = {
