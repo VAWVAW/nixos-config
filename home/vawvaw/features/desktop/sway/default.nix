@@ -36,10 +36,6 @@
     }];
     timeouts = [
       {
-        timeout = 600;
-        command = "${pkgs.swaylock}/bin/swaylock";
-      }
-      {
         timeout = 900;
         command = "${pkgs.systemd}/bin/systemctl suspend";
       }
