@@ -1,1 +1,1 @@
-{ imports = [ ./ovmf.nix ]; }
+{ imports = [ ./initrd-ssh.nix ./network.nix ./ovmf.nix ]; }

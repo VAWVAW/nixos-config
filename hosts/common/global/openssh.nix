@@ -42,6 +42,11 @@ in {
           inherit (cfg."athena") hostNames;
           publicKeyFile = ../../athena/ssh_initrd_host_ed25519_key.pub;
         };
+
+        "hades-initrd" = {
+          inherit (cfg."hades") hostNames;
+          publicKeyFile = ../../hades/ssh_initrd_host_ed25519_key.pub;
+        };
       }
       (builtins.mapAttrs (name: _: {
         publicKeyFile = pubKey name;

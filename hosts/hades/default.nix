@@ -24,36 +24,7 @@
     ./config
   ];
 
-  networking = {
-    hostName = "hades";
-    hosts = { "192.168.2.11" = [ "athena" ]; };
-
-    resolvconf.enable = true;
-    nameservers = [ "192.168.2.11" "192.168.2.1" ];
-
-    nat.externalInterface = "eno1";
-    interfaces."eno1" = {
-      wakeOnLan.enable = true;
-      ipv4 = {
-        addresses = [{
-          address = "192.168.2.10";
-          prefixLength = 24;
-        }];
-        routes = [
-          {
-            address = "0.0.0.0";
-            prefixLength = 0;
-            via = "192.168.2.1";
-          }
-          {
-            address = "192.168.2.0";
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
-    dhcpcd.enable = false;
-  };
+  networking.hostName = "hades";
 
   environment.systemPackages = with pkgs; [ nvtop ];
 
