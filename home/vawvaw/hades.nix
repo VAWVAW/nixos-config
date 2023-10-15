@@ -24,10 +24,12 @@
       {
         name = "Philips Consumer Electronics Company PHL 243V5 UK01639008163";
         position = "0 0";
+        workspaces = [ "1" ];
       }
       {
         name = "Philips Consumer Electronics Company PHL 223V5 ZVC1532001649";
         position = "1920 65";
+        workspaces = [ "9" "10" ];
       }
     ];
     startup_commands = [

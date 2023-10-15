@@ -33,6 +33,14 @@ with lib; {
             '';
             example = literalExpression "1920 0";
           };
+          workspaces = mkOption {
+            type = types.listOf types.str;
+            default = [ ];
+            description = ''
+              Workspaces to assign to this screen.
+            '';
+            example = literalExpression "[\"9\" \"10\"]";
+          };
         };
       });
     };

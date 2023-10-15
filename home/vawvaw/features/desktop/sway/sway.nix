@@ -24,10 +24,7 @@ in {
 
     home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
-    wayland.windowManager.sway = let
-      primary_screen = "HDMI-A-1";
-      secondary_screen = "HDMI-A-2";
-      mouse = "4119:24578:HID_1017:6002_Mouse";
+    wayland.windowManager.sway = let mouse = "4119:24578:HID_1017:6002_Mouse";
     in {
       enable = true;
       extraSessionCommands = ''
@@ -198,7 +195,8 @@ in {
             "exec --no-startup-id ${pkgs.spotifython-cli}/bin/spotifython-cli prev";
 
           # rfkill
-          "XF86RFKill" = "exec --no-startup-id ${pkgs.util-linux}/bin/rfkill toggle all";
+          "XF86RFKill" =
+            "exec --no-startup-id ${pkgs.util-linux}/bin/rfkill toggle all";
 
           # change focus
           "${mod}+${left}" = "focus left";
@@ -279,20 +277,11 @@ in {
         ) (builtins.genList (x: toString (x + 1)) 9));
 
         defaultWorkspace = "workspace --no-auto-back-and-forth 1";
-        workspaceOutputAssign = [
-          {
-            workspace = "1";
-            output = primary_screen;
-          }
-          {
-            workspace = "9";
-            output = secondary_screen;
-          }
-          {
-            workspace = "10";
-            output = secondary_screen;
-          }
-        ];
+        workspaceOutputAssign = builtins.concatMap (screen:
+          map (workspace: {
+            inherit workspace;
+            output = screen.name;
+          }) screen.workspaces) config.desktop.screens;
 
         modes = let
           inherit modifier left down up right;
