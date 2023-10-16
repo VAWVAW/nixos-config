@@ -92,7 +92,6 @@ in {
           named-mailboxes "fu-berlin" "/home/vawvaw/Maildir/fu-berlin/Inbox"
           virtual-mailboxes "Drafts" "notmuch://?query=folder:fu-berlin/Entwürfe"
           virtual-mailboxes "Sent" "notmuch://?query=folder:fu-berlin/Gesendet"
-          virtual-mailboxes "Trash" "notmuch://?query=folder:fu-berlin/Trash"
         '';
       };
       mbsync = {
