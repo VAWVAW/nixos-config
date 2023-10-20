@@ -8,6 +8,7 @@
     ./firefox.nix
     ./jetbrains.nix
     ./keepassxc.nix
+    ./mattermost.nix
     ./signal-desktop.nix
     ./spotify.nix
     ./theme.nix
