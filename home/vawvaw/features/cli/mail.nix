@@ -84,6 +84,8 @@ in {
         enable = true;
         mailboxName = "fu-berlin";
         extraConfig = ''
+          unset trash
+
           unvirtual-mailboxes *
 
           virtual-mailboxes "Unified Inbox" "notmuch://?query=tag:inbox"
