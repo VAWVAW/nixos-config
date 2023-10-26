@@ -72,7 +72,8 @@ in {
         input = {
           "type:keyboard" = {
             xkb_layout = "de";
-            xkb_options = "altwin:swap_lalt_lwin,caps:escape,altwin:menu_win";
+            xkb_variant = "us";
+            xkb_options = "altwin:swap_lalt_lwin,caps:escape,altwin:menu_win,ctrl:swap_rwin_rctl";
           };
           "type:touchpad" = {
             natural_scroll = "disabled";
@@ -133,7 +134,7 @@ in {
         left = "j";
         down = "k";
         up = "l";
-        right = "odiaeresis";
+        right = "semicolon";
         terminal = "${pkgs.alacritty}/bin/alacritty";
         menu =
           "${pkgs.bemenu}/bin/bemenu-run --no-exec | xargs swaymsg exec --";
@@ -147,7 +148,7 @@ in {
         in {
           "${mod}+Shift+r" = "reload";
           "${mod}+Return" = "exec ${terminal}";
-          "${mod}+Plus" = "exec firefox";
+          "${mod}+Bracketright" = "exec firefox";
           "${mod}+Shift+q" = "kill";
           "${mod}+d" = "exec --no-startup-id ${menu}";
           "${mod}+f" = "fullscreen";
