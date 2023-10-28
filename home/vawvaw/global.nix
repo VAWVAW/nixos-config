@@ -27,6 +27,8 @@
 
   programs = { home-manager.enable = true; };
 
+  xdg.enable = true;
+
   home = {
     username = lib.mkDefault "vawvaw";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
