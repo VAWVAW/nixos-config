@@ -50,7 +50,7 @@ in {
         };
         bars = [{
           statusCommand = "${pkgs.i3blocks}/bin/i3blocks";
-          trayOutput = "none";
+          trayOutput = "*";
           position = "bottom";
           colors =
             let inherit (config.wayland.windowManager.sway.config) colors;

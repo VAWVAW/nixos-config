@@ -36,7 +36,7 @@
       bars = lib.mkForce [{
         statusCommand =
           "/home/vawvaw/Documents/coding/rust/swayblocks/target/release/swayblocks";
-        trayOutput = "none";
+        trayOutput = "*";
         position = "bottom";
         colors = let inherit (config.wayland.windowManager.sway.config) colors;
         in {
