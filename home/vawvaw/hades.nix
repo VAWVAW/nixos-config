@@ -8,6 +8,7 @@
     ./features/desktop/common/minecraft.nix
     ./features/desktop/common/lutris.nix
     ./features/desktop/common/syncthing.nix
+    ./features/desktop/common/obsidian.nix
   ];
 
   services.spotifyd.settings.global.device_name = "hades_spotifyd";
