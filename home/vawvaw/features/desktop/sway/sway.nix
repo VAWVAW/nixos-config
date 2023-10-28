@@ -73,7 +73,7 @@ in {
           "type:keyboard" = {
             xkb_layout = "de";
             xkb_variant = "us";
-            xkb_options = "altwin:swap_lalt_lwin,caps:escape,altwin:menu_win,ctrl:swap_rwin_rctl";
+            xkb_options = "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl,custom:qwertz_y_z";
           };
           "type:touchpad" = {
             natural_scroll = "disabled";

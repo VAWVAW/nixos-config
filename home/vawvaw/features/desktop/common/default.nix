@@ -13,6 +13,7 @@
     ./spotify.nix
     ./theme.nix
     ./tor-browser.nix
+    ./xkb.nix
 
     ../../cli/mail.nix
     ../../cli/iamb.nix
