@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   imports = [
     ./global.nix
 
@@ -19,6 +19,9 @@
       "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
   };
 
+  programs.firejail.wrappedBinaries.mattermost-desktop.executable =
+    lib.mkForce "${pkgs.mattermost-desktop}/bin/mattermost-desktop --use-gl=desktop";
+
   desktop = {
     screens = [
       {
@@ -35,6 +38,7 @@
     startup_commands = [
       "${pkgs.noisetorch}/bin/noisetorch -i"
       "${pkgs.discord}/bin/discord"
+      "mattermost-desktop"
       "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%'"
     ];
   };
