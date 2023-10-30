@@ -29,10 +29,10 @@ map("n", "<leader>r", ":Telescope find_files previewer=false theme=dropdown<CR>"
 map("n", "<C-f>", ":Telescope live_grep<CR>", opts)
 
 -- Resize
-map("n", "<C-w>k", ":resize +2<CR>", opts)
-map("n", "<C-w>j", ":resize -2<CR>", opts)
-map("n", "<C-w>h", ":vertical resize -2<CR>", opts)
-map("n", "<C-w>l", ":vertical resize +2<CR>", opts)
+map("n", "<A-k>", ":resize +2<CR>", opts)
+map("n", "<A-j>", ":resize -2<CR>", opts)
+map("n", "<A-h>", ":vertical resize -2<CR>", opts)
+map("n", "<A-l>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers (using bufferline)
 map("n", "<C-p>", ":BufferLineCycleNext<CR>", opts)
