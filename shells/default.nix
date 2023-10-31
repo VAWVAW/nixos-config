@@ -17,14 +17,19 @@
       fontconfig
     ];
   };
-  rust-dbus = pkgs.mkShell {
-    buildInputs = rust.buildInputs ++ (with pkgs; [ dbus ]);
-  };
+  rust-dbus =
+    pkgs.mkShell { buildInputs = rust.buildInputs ++ (with pkgs; [ dbus ]); };
   nix = pkgs.mkShell { buildInputs = with pkgs; [ nil nixfmt statix ]; };
   lua = pkgs.mkShell { buildInputs = with pkgs; [ lua-language-server ]; };
   nixos-config =
     pkgs.mkShell { buildInputs = nix.buildInputs ++ lua.buildInputs; };
   python = pkgs.mkShell {
-    buildInputs = with pkgs; [ python311 python311Packages.pip pyright ];
+    buildInputs = with pkgs; [
+      python311
+      python311Packages.pip
+      pyright
+      pylint
+      black
+    ];
   };
 }
