@@ -4,7 +4,7 @@ in {
   programs.ssh = {
     enable = true;
     matchBlocks = {
-      net = {
+      "net" = {
         host = (builtins.concatStringsSep " " hostnames)
           + " home.vaw-valentin.de server.vaw-valentin.de";
         forwardAgent = true;
@@ -22,6 +22,15 @@ in {
               "/run/user/1000/gnupg/d.db6k4od13tuchts5jdmgus9t/S.gpg-agent.ssh";
           }
         ];
+      };
+      "andorra" = {
+        host = (builtins.concatStringsSep " "
+          outputs.nixosConfigurations."hades".config.programs.ssh.knownHosts."andorra".hostNames)
+          + " andorra";
+        hostname = "andorra.imp.fu-berlin.de";
+        user = "vw7335fu";
+
+        forwardAgent = true;
       };
     };
   };
