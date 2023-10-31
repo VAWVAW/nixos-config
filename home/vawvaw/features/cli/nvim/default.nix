@@ -69,6 +69,11 @@
           adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
         }
       }
+
+      -- python dap
+      require('dap-python').setup('${
+        pkgs.python311.withPackages (ps: with ps; [ debugpy ])
+      }/bin/python')
     '';
     extraPackages = with pkgs; [ nodePackages.cspell ripgrep ];
     plugins = with pkgs.vimPlugins; [
@@ -110,6 +115,7 @@
       nvim-lspconfig
       nvim-dap
       nvim-dap-ui
+      nvim-dap-python
       null-ls-nvim
       (pkgs.vimUtils.buildVimPlugin {
         name = "cspell.nvim";

@@ -15,17 +15,23 @@ null_ls.setup {
   debug = false,
   fallback_severity = vim.diagnostic.severity.HINT,
   sources = {
-    -- formatting
-    formatting.rustfmt,
-    formatting.nixfmt,
-
-    -- diagnostics
-    diagnostics.statix,
+    -- spell check
     cspell.diagnostics.with(cspell_config),
-
-    -- code actions
-    code_actions.statix,
-    code_actions.gitsigns,
     cspell.code_actions.with(cspell_config),
+
+    -- git
+    code_actions.gitsigns,
+
+    -- nix
+    formatting.nixfmt,
+    diagnostics.statix,
+    code_actions.statix,
+
+    -- rust
+    formatting.rustfmt,
+
+    -- python
+    formatting.black,
+    diagnostics.pylint,
   },
 }
