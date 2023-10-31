@@ -16,8 +16,8 @@ aerial.setup {
       aerial.select()
       aerial.close()
     end,
-    ["<C-j>"] = "actions.down_and_scroll",
-    ["<C-k>"] = "actions.up_and_scroll",
+    ["J"] = "actions.down_and_scroll",
+    ["K"] = "actions.up_and_scroll",
     ["{"] = "actions.prev",
     ["}"] = "actions.next",
     ["q"] = "actions.close",
@@ -39,9 +39,14 @@ aerial.setup {
 
     ["zx"] = "actions.tree_sync_folds",
     ["zX"] = "actions.tree_sync_folds",
+
+    ["<C-j>"] = false,
+    ["<C-k>"] = false,
   },
 
   filter_kind = false,
   highlight_on_hover = true,
   highlight_on_jump = 500,
+
+  update_events = "TextChanged,InsertLeave",
 }

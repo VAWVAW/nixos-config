@@ -39,6 +39,7 @@ require("nvim-tree").setup {
   renderer = {
     root_folder_modifier = ":t",
     highlight_git = true,
+    full_name = true,
     icons = {
       glyphs = {
         default = "",
@@ -118,17 +119,13 @@ require("nvim-tree").setup {
     nmap("q", api.tree.close)
     nmap("/", api.tree.search_node)
     nmap("t", api.tree.toggle_hidden_filter)
-    nmap("<C-k>", api.node.show_info_popup)
+    nmap("K", api.node.show_info_popup)
 
     nmap("h", api.node.navigate.parent_close)
     nmap("l", api.node.open.preview)
     nmap("<Tab>", api.node.open.preview)
-    nmap("<CR>", function()
-      api.node.open.edit(); api.tree.close()
-    end)
-    nmap("v", function()
-      api.node.open.vertical(); api.tree.close()
-    end)
+    nmap("<CR>", api.node.open.edit)
+    nmap("v", api.node.open.vertical)
 
     nmap("n", api.node.navigate.sibling.next)
     nmap("p", api.node.navigate.sibling.prev)
@@ -141,7 +138,7 @@ require("nvim-tree").setup {
     nmap("x", api.fs.cut)
     nmap("p", api.fs.paste)
 
-    nmap("<C-y>", api.fs.copy.filename)
+    nmap("Y", api.fs.copy.filename)
     nmap("gy", api.fs.copy.relative_path)
     nmap("gY", api.fs.copy.absolute_path)
 

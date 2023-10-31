@@ -24,6 +24,9 @@
       set splitbelow
       set splitright
 
+      set foldmethod=syntax
+      set foldlevelstart=99
+
       set expandtab
       set shiftwidth=2
       set tabstop=2
@@ -51,6 +54,7 @@
       require "${formatLuaFileName (toString ./lualine.lua)}"
       require "${formatLuaFileName (toString ./null-ls.lua)}"
       require "${formatLuaFileName (toString ./nvim-tree.lua)}"
+      require "${formatLuaFileName (toString ./status-split.lua)}"
       require "${formatLuaFileName (toString ./telescope.lua)}"
       require "${formatLuaFileName (toString ./toggleterm.lua)}"
       require "${formatLuaFileName (toString ./treesitter.lua)}"
