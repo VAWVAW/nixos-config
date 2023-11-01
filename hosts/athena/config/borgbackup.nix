@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ lib, config, pkgs, ... }: {
   imports = [ ../../common/optional/unit-fail-notification.nix ];
   environment.persistence."/persist".directories = [ "/var/lib/borg" ];
 
@@ -12,6 +12,13 @@
     users."syncthing".homeMode = "750";
   };
 
+  sops.secrets."borg-andorra" = {
+    sopsFile = ./secrets.yaml;
+
+    mode = "0400";
+    owner = config.users.users."borg".name;
+  };
+
   services.borgbackup = {
     repos."system" = {
       path = "/backup/borgbackup";
@@ -20,33 +27,58 @@
       authorizedKeys =
         [ (lib.readFile ../../common/users/vawvaw/home/pubkey_ssh.txt) ];
     };
-    jobs."local" = {
-      user = "borg";
-      group = "syncthing";
-      persistentTimer = true;
+    jobs = let
+      default = {
+        user = "borg";
+        group = "syncthing";
+        persistentTimer = true;
 
-      archiveBaseName = "syncthing";
-      paths = [ "/var/lib/syncthing/data" ];
-      compression = "lz4";
+        paths = [ "/var/lib/syncthing/data" ];
 
-      repo = "/backup/borgbackup";
-      encryption.mode = "none";
+        archiveBaseName = "syncthing";
+        compression = "lz4";
 
-      prune.keep = {
-        within = "1d";
-        daily = 7;
-        weekly = 4;
-        monthly = -1;
+        prune.keep = {
+          within = "1d";
+          daily = 7;
+          weekly = 4;
+          monthly = -1;
+        };
+      };
+    in {
+      "local" = default // {
+        repo = "/backup/borgbackup";
+        encryption.mode = "none";
+      };
+      "andorra" = default // {
+        startAt = "weekly";
+
+        environment."BORG_RSH" =
+          "${pkgs.openssh}/bin/ssh -i /persist/etc/ssh/ssh_borg_athena_key";
+        repo = "vw7335fu@andorra.imp.fu-berlin.de:backup";
+
+        encryption.mode = "repokey-blake2";
+        encryption.passCommand = "${pkgs.coreutils}/bin/cat ${config.sops.secrets."borg-andorra".path}";
       };
     };
   };
 
-  systemd.services."borgbackup-job-local" = {
-    serviceConfig = {
-      Restart = lib.mkForce "on-failure";
-      RestartSec = lib.mkForce 15;
-    };
+  systemd.services = {
+    "borgbackup-job-local" = {
+      serviceConfig = {
+        Restart = lib.mkForce "on-failure";
+        RestartSec = lib.mkForce 15;
+      };
 
-    onFailure = [ "unit-status-notification@%n.service" ];
+      onFailure = [ "unit-status-notification@%n.service" ];
+    };
+    "borgbackup-job-andorra" = {
+      serviceConfig = {
+        Restart = lib.mkForce "on-failure";
+        RestartSec = lib.mkForce 15;
+      };
+
+      onFailure = [ "unit-status-notification@%n.service" ];
+    };
   };
 }
