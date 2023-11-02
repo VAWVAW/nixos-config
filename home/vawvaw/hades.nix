@@ -22,6 +22,8 @@
 
   programs.firejail.wrappedBinaries.mattermost-desktop.executable =
     lib.mkForce "${pkgs.mattermost-desktop}/bin/mattermost-desktop --use-gl=desktop";
+  programs.firejail.wrappedBinaries.signal-desktop.executable =
+    lib.mkForce "${pkgs.signal-desktop}/bin/signal-desktop --use-gl=desktop";
 
   desktop = {
     screens = [
