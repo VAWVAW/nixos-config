@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ lib, config, pkgs, ... }: {
   imports = [
     ./global.nix
 
@@ -21,11 +21,19 @@
       "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
   };
 
-  desktop.screens = [{
-    name = "BOE 0x0BCA Unknown";
-    size = "2256x1504";
-    scale = "1.5";
-  }];
+  programs.firejail.wrappedBinaries.signal-desktop.executable =
+    lib.mkForce "${pkgs.signal-desktop}/bin/signal-desktop";
+
+  desktop = {
+    screens = [{
+      name = "BOE 0x0BCA Unknown";
+      size = "2256x1504";
+      scale = "1.5";
+    }];
+    startup_commands = [
+      "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 0%; ${pkgs.light}/bin/light -S 10%'"
+    ];
+  };
 
   wayland.windowManager.sway = {
     colorscheme = "blue";
