@@ -87,6 +87,7 @@ local theme = {
   Function                    = colors.gold,
   Comment                     = colors.cyan,
   Type                        = colors.green_pale,
+  LspInlayHints               = colors.gray,
 
   -- data types
   Number                      = colors.blue,
