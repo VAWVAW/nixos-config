@@ -6,10 +6,16 @@
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = (builtins.attrValues outputs.overlays) ++ [
+      # use old version of electron for obsidian until wayland bug is fixed
+      (final: prev: {
+        obsidian = prev.obsidian.override { electron = pkgs.electron_24; };
+      })
+    ];
     config = {
       allowUnfree = true;
       allowUnfreePredicate = _: true;
+      permittedInsecurePackages = [ "electron-24.8.6" ];
     };
   };
 
