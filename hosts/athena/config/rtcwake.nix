@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   systemd.services."rtc-sleep" = {
+    enable = false;
     description = "Makes the device sleep from 1 am to 11 am.";
     script = "${pkgs.util-linux}/bin/rtcwake --mode mem --seconds ${
         builtins.toString (10 * 3600)
