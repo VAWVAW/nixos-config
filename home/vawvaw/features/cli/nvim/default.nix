@@ -75,7 +75,7 @@
         pkgs.python311.withPackages (ps: with ps; [ debugpy ])
       }/bin/python')
     '';
-    extraPackages = with pkgs; [ nodePackages.cspell ripgrep ];
+    extraPackages = with pkgs; [ ripgrep ];
     plugins = with pkgs.vimPlugins; [
       # misc
       plenary-nvim
@@ -117,10 +117,6 @@
       nvim-dap-ui
       nvim-dap-python
       null-ls-nvim
-      (pkgs.vimUtils.buildVimPlugin {
-        name = "cspell.nvim";
-        src = inputs.cspell-nvim;
-      })
       aerial-nvim
       rust-tools-nvim
 

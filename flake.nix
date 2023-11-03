@@ -50,10 +50,6 @@
       url = "github:cocopon/colorswatch.vim";
       flake = false;
     };
-    cspell-nvim = {
-      url = "github:davidmh/cspell.nvim";
-      flake = false;
-    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
