@@ -17,6 +17,9 @@
         "--ignore=private-dev"
         # enable drm
         "--ignore=noexec \\\${HOME}"
+        # enable keepassxc browser plugin
+        "--noblacklist=\\\${RUNUSER}/app"
+        "--whitelist=\\\${RUNUSER}/app"
       ];
     };
     firefox-unsafe = {
@@ -51,6 +54,7 @@
         user-agent-string-switcher
         ublock-origin
         libredirect
+        keepassxc-browser
       ];
       settings = {
         "browser.startup.homepage" =
