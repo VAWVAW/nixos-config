@@ -7,6 +7,7 @@
     ../common/optional/boot-partition.nix
     ../common/optional/btrfs-swapfile.nix
     ../common/optional/sslh.nix
+    ../common/optional/systemd-initrd.nix
 
     ../common/optional/containers
     ../common/optional/containers/pihole
@@ -72,12 +73,10 @@
       luks.devices = {
         "data_partition" = {
           device = "/dev/disk/by-label/data_crypt";
-          fallbackToPassword = true;
           allowDiscards = true;
         };
         "backup_partition" = {
           device = "/dev/disk/by-label/backup_crypt";
-          fallbackToPassword = true;
           allowDiscards = true;
         };
       };
