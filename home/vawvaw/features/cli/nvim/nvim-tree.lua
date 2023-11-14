@@ -127,6 +127,8 @@ require("nvim-tree").setup {
     nmap("<CR>", api.node.open.edit)
     nmap("v", api.node.open.vertical)
 
+    nmap("o", api.node.run.system)
+
     nmap("n", api.node.navigate.sibling.next)
     nmap("p", api.node.navigate.sibling.prev)
 
