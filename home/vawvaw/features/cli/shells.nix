@@ -5,8 +5,8 @@
 
   home.shellAliases = {
     l = "${pkgs.eza}/bin/eza -1 --group-directories-first";
-    ll = "${pkgs.eza}/bin/eza -lh --git --no-time --color-scale --group-directories-first --icons";
-    la = "${pkgs.eza}/bin/eza -lah -g --git --color-scale --group-directories-first --time-style=iso --icons";
+    ll = "${pkgs.eza}/bin/eza -lh --git --no-time --color-scale --group-directories-first --icons=always";
+    la = "${pkgs.eza}/bin/eza -lah -g --git --color-scale --group-directories-first --time-style=iso --icons=always";
     tree = "${pkgs.eza}/bin/eza -T";
 
     ntest = lib.mkDefault "sudo nixos-rebuild test --flake /home/vawvaw/Documents/nixos-config#";
