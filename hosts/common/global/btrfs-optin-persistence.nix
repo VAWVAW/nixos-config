@@ -67,6 +67,7 @@ in {
 
   environment.persistence."/persist" = {
     hideMounts = true;
-    directories = [ "/var/log" "/var/lib/systemd/timers" ];
+    directories = [ "/var/log" "/var/lib/systemd/timers" "/var/lib/nixos" ];
+    files = [ "/etc/machine-id" ];
   };
 }
