@@ -1,6 +1,11 @@
 {
-  services.syncthing.enable = true;
+  services.syncthing = {
+    enable = true;
+    tray.enable = true;
+  };
 
-  home.persistence."/persist/home/vawvaw".directories =
-    [ ".config/syncthing" ];
+  home.persistence."/persist/home/vawvaw" = {
+    directories = [ ".config/syncthing" ];
+    files = [ ".config/syncthingtray.ini" ];
+  };
 }
