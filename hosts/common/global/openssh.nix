@@ -37,10 +37,16 @@ in {
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
         };
 
+        # FU berlin
         "andorra" = {
           publicKey =
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINgTtze6DGyz7hVaergSU1BCZeJqbd31vhFGpHqVUTo8";
-            hostNames = ["andorra.imp.fu-berlin.de" "telnet.imp.fu-berlin.de"];
+          hostNames = [ "andorra.imp.fu-berlin.de" "telnet.imp.fu-berlin.de" ];
+        };
+        "gitlab-fu" = {
+          publicKey =
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8fk9/xUeUqdjchrVrHvLRiPOvqRLI7B0FnsmnaoUlE";
+          hostNames = [ "git.imp.fu-berlin.de" ];
         };
 
         "athena".extraHostNames = [ "home.vaw-valentin.de" ];
