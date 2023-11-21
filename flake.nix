@@ -11,7 +11,7 @@
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.3.0";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -89,7 +89,11 @@
         };
         # home server
         "athena" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            "data_uid" = 400;
+            "data_gid" = 400;
+          };
           modules = [ ./hosts/athena ];
         };
       };

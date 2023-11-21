@@ -1,8 +1,5 @@
 {
-  environment.etc."resolv.conf".text = ''
-    nameserver 192.168.2.1
-    options edns0
-  '';
+  networking.firewall.enable = true;
 
   system.stateVersion = "23.05";
 }
