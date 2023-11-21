@@ -1,8 +1,11 @@
 { pkgs, config, lib, ... }: {
-  options.programs.zsh.promptColor = lib.mkOption {
-    type = lib.types.str;
-    default = "blue";
-    description = lib.mdDoc "The color to display in the default zsh promt";
+  options.programs.zsh = {
+    promptColor = lib.mkOption {
+      type = lib.types.str;
+      default = "blue";
+      description = lib.mdDoc "The color to display in the default zsh promt";
+    };
+    startTmux = lib.mkEnableOption "tmux";
   };
 
   config.programs.zsh = let inherit (config.programs.zsh) promptColor;
@@ -11,7 +14,7 @@
     syntaxHighlighting.enable = true;
     enableCompletion = true;
     initExtra = ''
-      ${lib.optionalString config.programs.tmux.enable ''
+      ${lib.optionalString config.programs.zsh.startTmux ''
         # start tmux
                 if [ -z "$TMUX" ]; then
                   exec ${pkgs.tmux}/bin/tmux attach

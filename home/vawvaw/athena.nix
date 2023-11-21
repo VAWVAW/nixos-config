@@ -1,10 +1,9 @@
 {
-  imports = [
-    ./global.nix
-
-    ./features/cli/tmux.nix
-  ];
-  programs.zsh.promptColor = "yellow";
+  imports = [ ./global.nix ];
+  programs.zsh = {
+    promptColor = "yellow";
+    startTmux = true;
+  };
   home.shellAliases = {
     nswitch =
       "sudo mount /boot -o remount,rw && sudo nixos-rebuild switch --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh && sudo mount /boot -o remount";
@@ -14,7 +13,8 @@
       "nixos-rebuild build --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh";
     ntest =
       "sudo nixos-rebuild test --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh";
-    hswitch = "home-manager switch --flake /var/lib/syncthing/data/Documents/nixos-config";
+    hswitch =
+      "home-manager switch --flake /var/lib/syncthing/data/Documents/nixos-config";
 
   };
 }

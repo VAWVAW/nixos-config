@@ -1,6 +1,15 @@
 { pkgs, ... }: {
-  imports =
-    [ ./btop.nix ./git.nix ./gpg.nix ./shells.nix ./ssh.nix ./vim.nix ./nvim ./direnv.nix ];
+  imports = [
+    ./btop.nix
+    ./direnv.nix
+    ./git.nix
+    ./gpg.nix
+    ./shells.nix
+    ./ssh.nix
+    ./tmux.nix
+    ./vim.nix
+    ./nvim
+  ];
 
   home.packages = with pkgs; [
     ncdu # TUI disk usage
@@ -12,5 +21,6 @@
     file
     lsof
     python311
+    unzip
   ];
 }
