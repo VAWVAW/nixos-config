@@ -24,7 +24,9 @@ in {
 
     home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
-    wayland.windowManager.sway = let mouse = "4119:24578:HID_1017:6002_Mouse";
+    wayland.windowManager.sway = let
+      mouse = "4119:24578:HID_1017:6002_Mouse";
+      first_screen = builtins.head config.desktop.screens;
     in {
       enable = true;
       extraSessionCommands = ''
@@ -73,7 +75,8 @@ in {
           "type:keyboard" = {
             xkb_layout = "de";
             xkb_variant = "us";
-            xkb_options = "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl,custom:qwertz_y_z";
+            xkb_options =
+              "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl,custom:qwertz_y_z";
           };
           "type:touchpad" = {
             natural_scroll = "disabled";
@@ -238,14 +241,11 @@ in {
           "${mod}+p" = "mode spotify";
 
           # enable gaming mode
-          "${mod}+Ctrl+Shift+Tab" = builtins.replaceStrings [ "\n" ] [ "" ] ''
-            exec ${pkgs.bash}/bin/bash -c "
-              swaymsg -- seat '*' hide_cursor when-typing disable;
-              swaymsg -- output 'HDMI-A-2' pos 5000 5000;
-              swaymsg -- unbindsym --input-device=${mouse} --whole-window button8;
-              swaymsg -- unbindsym --input-device=${mouse} --whole-window button9;
-              swaymsg -- input 'type:keyboard' xkb_options altwin:menu_win;
-            "'';
+          "${mod}+Ctrl+Shift+Tab" = builtins.replaceStrings [ "\n" ] [ "; " ] ''
+            seat '*' hide_cursor when-typing disable
+            output '${first_screen.name}' pos 5000 5000
+            input 'type:keyboard' xkb_options 'altwin:menu_win,custom:qwertz_y_z'
+            mode disabled'';
 
           # move workspace
           "${mod}+Shift+Left" = "move workspace to output left";
@@ -352,6 +352,22 @@ in {
             "BackSpace" = "mode default";
             "${mod}+p" = "mode default";
           };
+          disabled =
+            # get all keybinds that don't contain "Mod1"
+            builtins.removeAttrs keybindings
+            (builtins.filter (n: lib.hasInfix "Mod1" n)
+              (builtins.attrNames keybindings)) //
+            # and add the restore option
+            {
+              "${mod}+Ctrl+Shift+Tab" =
+                builtins.replaceStrings [ "\n" ] [ "; " ] ''
+                  seat '*' hide_cursor when-typing enable
+                  output '${first_screen.name}' pos ${first_screen.position}
+                  input 'type:keyboard' xkb_options '${
+                    input."type:keyboard".xkb_options
+                  }'
+                  mode default'';
+            };
         };
       };
       extraConfig = ''
