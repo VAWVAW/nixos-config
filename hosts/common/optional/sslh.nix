@@ -10,15 +10,24 @@ in {
 
   services.sslh = {
     enable = true;
-    transparent = true;
     port = 443;
     listenAddresses = lib.mkDefault addresses;
-    appendConfig = ''
-      protocols:
-      (
-        { name: "ssh"; service: "ssh"; host: "localhost"; port: "22"; },
-        { name: "tls"; host: "127.0.0.1"; port: "443"; },
-      );
-    '';
+
+    settings = {
+      transparent = true;
+      protocols = [
+        {
+          name = "ssh";
+          service = "ssh";
+          host = "localhost";
+          port = "22";
+        }
+        {
+          name = "tls";
+          host = "localhost";
+          port = "443";
+        }
+      ];
+    };
   };
 }

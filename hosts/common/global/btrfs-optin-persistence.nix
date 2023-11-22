@@ -28,7 +28,7 @@ in {
     supportedFilesystems = [ "btrfs" ];
 
     # Use postDeviceCommands if on old phase 1
-    postDeviceCommands = lib.mkBefore wipeScript;
+    postDeviceCommands = lib.mkIf (!config.boot.initrd.systemd.enable) (lib.mkBefore wipeScript);
 
     # Use systemd service on new phase 1
     systemd.services."rollback-root" = {
