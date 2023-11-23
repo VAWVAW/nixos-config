@@ -15,6 +15,7 @@
     ncdu # TUI disk usage
     eza # colorful ls
     fd # colorful find
+    freesweep # minesweeper
 
     wget
     nixfmt

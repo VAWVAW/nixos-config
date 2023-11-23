@@ -1,0 +1,52 @@
+diff --git c/drawing.c i/drawing.c
+index 9c7896d..d9dd18f 100644
+--- c/drawing.c
++++ i/drawing.c
+@@ -678,7 +678,7 @@ int DrawBoard(GameStats* Game)
+ 			switch (CellVal)
+ 			{
+ 				case UNKNOWN:
+-					waddch(Game->Board,'-');
++					waddch(Game->Board,CharSet.Unknown);
+ 					break;
+ 				case EMPTY:
+ 					waddch(Game->Board,CharSet.Space);
+diff --git c/game.c i/game.c
+index f9254d2..28b6de5 100644
+--- c/game.c
++++ i/game.c
+@@ -102,11 +102,12 @@ void Wipe(GameStats *Game)
+ 
+ void SetCharSet(int Value)
+ {
+-	CharSet.Mine='-';
+ 	CharSet.Space=' ';
+ 	CharSet.Bombed='*';
+ 	if (Value==1)
+ 	{
++	  CharSet.Mine=ACS_CKBOARD;
++	  CharSet.Unknown=ACS_CKBOARD;
+ 		CharSet.ULCorner=ACS_ULCORNER;
+ 		CharSet.URCorner=ACS_URCORNER;
+ 		CharSet.LLCorner=ACS_LLCORNER;
+@@ -122,6 +123,8 @@ void SetCharSet(int Value)
+ 	}
+ 	else
+ 	{
++	  CharSet.Mine='-';
++	  CharSet.Unknown='-';
+ 		CharSet.ULCorner='+';
+ 		CharSet.URCorner='+';
+ 		CharSet.LLCorner='+';
+diff --git c/sweep.h.in i/sweep.h.in
+index 7f398de..650c987 100644
+--- c/sweep.h.in
++++ i/sweep.h.in
+@@ -165,6 +165,7 @@ typedef struct _DrawChars
+ 	chtype LArrow;
+ 	chtype RArrow;
+ 	chtype Mine;
++	chtype Unknown;
+ 	chtype Space;
+ 	chtype Mark;
+ 	chtype FalseMark;
