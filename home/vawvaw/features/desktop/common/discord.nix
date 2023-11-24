@@ -1,4 +1,9 @@
 { pkgs, ... }: {
+  home.persistence."/persist/home/vawvaw".directories = [{
+    directory = ".config/discord";
+    method = "symlink";
+  }];
+
   programs.firejail.wrappedBinaries = {
     discord = {
       executable = "${
@@ -7,9 +12,5 @@
       profile = "${pkgs.firejail}/etc/firejail/discord.profile";
       extraArgs = [ "--dbus-user.talk=org.freedesktop.Notifications" ];
     };
-  };
-
-  home.persistence."/persist/home/vawvaw" = {
-    directories = [ ".config/discord" ];
   };
 }

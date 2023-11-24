@@ -31,7 +31,7 @@
     defaultSopsFile = ./secrets.yaml;
   };
 
-  programs = { home-manager.enable = true; };
+  programs.home-manager.enable = true;
 
   xdg.enable = true;
 
@@ -42,11 +42,19 @@
 
     packages = with pkgs; [ sops psmisc ];
 
-    persistence = {
-      "/persist/home/vawvaw" = {
-        directories = [ "Documents" "Downloads" ];
-        allowOther = true;
-      };
+    persistence."/persist/home/vawvaw" = {
+      allowOther = true;
+      directories = [
+        {
+          directory = "Documents";
+          method = "symlink";
+        }
+        {
+          directory = "Downloads";
+          method = "symlink";
+        }
+      ];
     };
+
   };
 }

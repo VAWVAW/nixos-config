@@ -5,10 +5,22 @@
 
   home.persistence."/persist/home/vawvaw" = {
     directories = [
-      ".config/spotify-tui"
-      ".cache/spotify-tui"
-      ".cache/spotifython-cli"
-      ".local/share/spotifyd"
+      {
+        directory = ".config/spotify-tui";
+        method = "symlink";
+      }
+      {
+        directory = ".cache/spotify-tui";
+        method = "symlink";
+      }
+      {
+        directory = ".cache/spotifython-cli";
+        method = "symlink";
+      }
+      {
+        directory = ".local/share/spotifyd";
+        method = "symlink";
+      }
     ];
   };
 

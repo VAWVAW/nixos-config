@@ -1,5 +1,11 @@
 { pkgs, inputs, ... }: {
-  home = { sessionVariables.BROWSER = "firefox"; };
+  home = {
+    persistence."/persist/home/vawvaw".directories = [{
+      directory = ".mozilla/firefox/default";
+      method = "bindfs"; # allow home-manager to manage profiles
+    }];
+    sessionVariables.BROWSER = "firefox";
+  };
 
   xdg.mimeApps.defaultApplications = {
     "text/html" = [ "firefox.desktop" ];
@@ -34,10 +40,6 @@
         "--private"
       ];
     };
-  };
-
-  home.persistence."/persist/home/vawvaw" = {
-    directories = [ ".mozilla/firefox/default" ];
   };
 
   programs.firefox = {

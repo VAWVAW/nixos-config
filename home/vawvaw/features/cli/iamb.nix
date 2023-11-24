@@ -2,9 +2,11 @@
 # simple cli matrix client
 {
   home.packages = with pkgs; [ iamb ];
-  home.persistence."/persist/home/vawvaw" = {
-    directories = [ ".config/iamb/profiles" ];
-  };
+
+  home.persistence."/persist/home/vawvaw".directories = [{
+    directory = ".config/iamb/profiles";
+    method = "symlink";
+  }];
 
   xdg.configFile."iamb/config.json".text = builtins.toJSON {
     "default_profile" = "vaw-valentin.de";

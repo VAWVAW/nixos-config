@@ -6,6 +6,11 @@ in {
     "mail/fu-berlin" = { };
   };
 
+  home.persistence."/persist/home/vawvaw".directories = [{
+    directory = "Maildir";
+    method = "symlink";
+  }];
+
   accounts.email.accounts = {
     ionos = rec {
       address = "valentin@wiedekind1.de";

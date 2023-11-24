@@ -10,6 +10,11 @@ let
 in {
   home.packages = [ pinentry.package ];
 
+  home.persistence."/persist/home/vawvaw".directories = [{
+    directory = ".local/share/gnupg";
+    method = "bindfs"; # allow home-manager to manage keyring
+  }];
+
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
@@ -61,9 +66,5 @@ in {
       };
       scdaemonSettings = { disable-ccid = true; };
     };
-  };
-
-  home.persistence."/persist/home/vawvaw" = {
-    directories = [ ".local/share/gnupg" ];
   };
 }

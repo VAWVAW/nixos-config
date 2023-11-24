@@ -1,4 +1,11 @@
 { pkgs, ... }: {
+  home.persistence."/persist/home/vawvaw" = {
+    directories = [{
+      directory = ".config/Signal";
+      method = "symlink";
+    }];
+  };
+
   programs.firejail.wrappedBinaries = {
     signal-desktop = {
       executable =
@@ -7,7 +14,4 @@
     };
   };
 
-  home.persistence."/persist/home/vawvaw" = {
-    directories = [ ".config/Signal" ];
-  };
 }

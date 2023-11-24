@@ -6,7 +6,6 @@
     ./discord.nix
     ./font.nix
     ./firefox.nix
-    ./jetbrains.nix
     ./keepassxc.nix
     ./mattermost.nix
     ./signal-desktop.nix
@@ -21,11 +20,16 @@
 
   home.packages = with pkgs; [ yubioath-flutter libreoffice dfeet qpdfview ];
 
-  home.persistence = {
-    "/persist/home/vawvaw" = {
-      directories = [ "Pictures" "Games" "Maildir" ];
-    };
-  };
+  home.persistence."/persist/home/vawvaw".directories = [
+    {
+      directory = "Pictures";
+      method = "symlink";
+    }
+    {
+      directory = "Games";
+      method = "symlink";
+    }
+  ];
 
   xdg = {
     mimeApps = {

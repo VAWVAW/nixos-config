@@ -1,7 +1,17 @@
 { config, ... }: {
-  home.persistence."/persist/home/vawvaw" = {
-    directories =
-      [ ".config/JetBrains" ".cache/JetBrains" ".local/share/JetBrains" ];
-  };
+  home.persistence."/persist/home/vawvaw".directories = [
+    {
+      directory = ".config/JetBrains";
+      method = "symlink";
+    }
+    {
+      directory = ".cache/JetBrains";
+      method = "symlink";
+    }
+    {
+      directory = ".local/share/JetBrains";
+      method = "symlink";
+    }
+  ];
   home.file.".ideavimrc".text = config.programs.vim.extraConfig;
 }

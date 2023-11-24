@@ -1,4 +1,15 @@
 { pkgs, ... }: {
+  home.persistence."/persist/home/vawvaw".directories = [
+    {
+      directory = ".config/keepassxc";
+      method = "symlink";
+    }
+    {
+      directory = ".cache/keepassxc";
+      method = "symlink";
+    }
+  ];
+
   programs.firejail.wrappedBinaries = {
     keepassxc = {
       executable = "${pkgs.keepassxc}/bin/keepassxc";
@@ -10,9 +21,5 @@
         "--protocol=netlink,unix"
       ];
     };
-  };
-
-  home.persistence."/persist/home/vawvaw" = {
-    directories = [ ".config/keepassxc" ".cache/keepassxc" ];
   };
 }
