@@ -8,7 +8,7 @@ in {
 
   home.persistence."/persist/home/vawvaw".directories = [{
     directory = "Maildir";
-    method = "symlink";
+    method = "bindfs"; # allow home-manager to manage mailboxes
   }];
 
   accounts.email.accounts = {
