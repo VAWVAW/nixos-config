@@ -38,7 +38,6 @@ in {
         mailboxName = "ionos";
         extraConfig = ''
           unvirtual-mailboxes *
-          virtual-mailboxes "Unified Inbox" "notmuch://?query=tag:inbox"
           named-mailboxes "fu-berlin" "/home/vawvaw/Maildir/fu-berlin/Inbox"
 
           named-mailboxes "ionos" "/home/vawvaw/Maildir/ionos/Inbox"
@@ -92,8 +91,6 @@ in {
           unset trash
 
           unvirtual-mailboxes *
-
-          virtual-mailboxes "Unified Inbox" "notmuch://?query=tag:inbox"
           named-mailboxes "ionos" "/home/vawvaw/Maildir/ionos/Inbox"
 
           named-mailboxes "fu-berlin" "/home/vawvaw/Maildir/fu-berlin/Inbox"
