@@ -96,9 +96,10 @@ local theme = {
   Boolean                     = colors.brown,
 
   -- vimdiff
-  DiffAdd                     = { fg = colors.black, bg = common.file.add },
-  DiffDelete                  = { fg = colors.black, bg = common.file.delete },
-  DiffChange                  = { fg = colors.black, bg = common.file.change },
+  DiffAdd                     = { fg = colors.black, bg =  65 },
+  DiffChange                  = { fg = colors.black, bg =  67 },
+  DiffDelete                  = { fg = colors.black, bg = 133 },
+  DiffText                    = { fg = colors.black, bg = 251 },
 
   -- plugins:
   -- gitsigns
