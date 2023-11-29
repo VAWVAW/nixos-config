@@ -1,35 +1,7 @@
-{ pkgs, ... }: rec {
-  rust = pkgs.mkShell {
-    buildInputs = with pkgs; [
-      rustc
-      cargo
-      clippy
-      rustfmt
-      rust-analyzer
-
-      # debugging
-      lldb
-
-      # common dependencies
-      pkg-config
-      cmake
-      openssl
-      fontconfig
-    ];
-  };
-  rust-dbus =
-    pkgs.mkShell { buildInputs = rust.buildInputs ++ (with pkgs; [ dbus ]); };
-  nix = pkgs.mkShell { buildInputs = with pkgs; [ nil nixfmt statix ]; };
-  lua = pkgs.mkShell { buildInputs = with pkgs; [ lua-language-server ]; };
-  nixos-config =
-    pkgs.mkShell { buildInputs = nix.buildInputs ++ lua.buildInputs; };
-  python = pkgs.mkShell {
-    buildInputs = with pkgs; [
-      python311
-      python311Packages.pip
-      pyright
-      pylint
-      black
-    ];
-  };
+{ pkgs, ... }: {
+  lua = import ./lua.nix { inherit pkgs; };
+  nix = import ./nix.nix { inherit pkgs; };
+  python = import ./python.nix { inherit pkgs; };
+  rust = import ./rust.nix { inherit pkgs; };
+  rust-dbus = import ./rust-dbus.nix { inherit pkgs; };
 }
