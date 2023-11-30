@@ -53,6 +53,10 @@
           directory = "Downloads";
           method = "symlink";
         }
+        {
+          directory = ".cargo";
+          method = "symlink";
+        }
       ];
     };
 
