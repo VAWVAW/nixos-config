@@ -21,8 +21,12 @@
       "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
   };
 
-  programs.firejail.wrappedBinaries.signal-desktop.executable =
-    lib.mkForce "${pkgs.signal-desktop}/bin/signal-desktop";
+  programs = {
+    firejail.wrappedBinaries.signal-desktop.executable =
+      lib.mkForce "${pkgs.signal-desktop}/bin/signal-desktop";
+    firejail.wrappedBinaries.mattermost-desktop.executable =
+      lib.mkForce "${pkgs.mattermost-desktop}/bin/mattermost-desktop";
+  };
 
   desktop = {
     screens = [{
