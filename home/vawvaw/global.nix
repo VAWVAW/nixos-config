@@ -57,6 +57,10 @@
           directory = ".cargo";
           method = "symlink";
         }
+        {
+          directory = ".rustup";
+          method = "symlink";
+        }
       ];
     };
 
