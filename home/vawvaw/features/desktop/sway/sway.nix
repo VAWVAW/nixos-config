@@ -116,6 +116,14 @@ in {
               criteria = { app_id = "firefox"; };
             }
             {
+              command = "border pixel 2";
+              criteria = { app_id = "librewolf"; };
+            }
+            {
+              command = "border pixel 2";
+              criteria = { app_id = "obsidian"; };
+            }
+            {
               command = "floating enable";
               criteria = { title = "Browser$"; };
             }
