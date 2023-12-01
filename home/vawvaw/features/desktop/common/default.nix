@@ -12,6 +12,7 @@
     ./spotify.nix
     ./theme.nix
     ./tor-browser.nix
+    ./xdg.nix
     ./xkb.nix
 
     ../../cli/mail.nix
@@ -30,21 +31,4 @@
       method = "symlink";
     }
   ];
-
-  xdg = {
-    mimeApps = {
-      enable = true;
-      defaultApplications."application/pdf" = "qpdfview.desktop";
-      associations.removed."application/pdf" = "draw.desktop";
-    };
-    userDirs = {
-      enable = true;
-      createDirectories = true;
-
-      music = null;
-      publicShare = null;
-      templates = null;
-      videos = null;
-    };
-  };
 }
