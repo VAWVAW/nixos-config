@@ -2,15 +2,15 @@ local lspconfig = require("lspconfig")
 local telescope = require("telescope.builtin")
 local dap = require("dap")
 local dapui = require("dapui")
+local metals_config = require("metals").bare_config()
 
 -- signs
 local signs = {
   { name = "DiagnosticSignError", text = "" },
-  { name = "DiagnosticSignWarn",  text = "" },
-  { name = "DiagnosticSignHint",  text = "" },
-  { name = "DiagnosticSignInfo",  text = "" },
-  { name = "DapBreakpoint",       text = "󰃤" },
-}
+  { name = "DiagnosticSignWarn", text = "" },
+  { name = "DiagnosticSignHint", text = "" },
+  { name = "DiagnosticSignInfo", text = "" },
+  { name = "DapBreakpoint", text = "󰃤" }, }
 
 for _, sign in ipairs(signs) do
   vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
@@ -107,7 +107,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- rust in default.nix
+-- configs without lspconfig in lsp.nix
 
 -- python
 lspconfig.pyright.setup {}

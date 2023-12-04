@@ -1,6 +1,8 @@
 { pkgs, inputs, ... }: {
   home.packages = with pkgs; [ wl-clipboard ];
 
+  imports = [ ./lsp.nix ];
+
   programs.neovim = let
     formatLuaFileName =
       builtins.replaceStrings [ "/nix/store/" ".lua" ] [ "" "" ];
@@ -58,27 +60,6 @@
       require "${formatLuaFileName (toString ./telescope.lua)}"
       require "${formatLuaFileName (toString ./toggleterm.lua)}"
       require "${formatLuaFileName (toString ./treesitter.lua)}"
-
-      -- rust dap from lsp.lua
-      local extension_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/"
-      local codelldb_path = extension_path .. 'adapter/codelldb'
-      local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
-
-      require("rust-tools").setup {
-        dap = {
-          adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-        },
-        tools = {
-          inlay_hints = {
-            highlight = "LspInlayHints",
-          },
-        },
-      }
-
-      -- python dap
-      require('dap-python').setup('${
-        pkgs.python311.withPackages (ps: with ps; [ debugpy ])
-      }/bin/python')
     '';
     extraPackages = with pkgs; [ ripgrep ];
     plugins = with pkgs.vimPlugins; [
@@ -124,6 +105,7 @@
       null-ls-nvim
       aerial-nvim
       rust-tools-nvim
+      nvim-metals
 
       # treesitter
       nvim-treesitter.withAllGrammars
