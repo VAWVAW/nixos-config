@@ -1,4 +1,4 @@
-{ data_uid, data_gid, ... }: {
+{ config, ... }: {
   containers."radicale" = let
     address = "192.168.101.11";
     port = 5232;
@@ -20,8 +20,8 @@
       networking.firewall.allowedTCPPorts = [ port ];
 
       users = {
-        users."radicale".uid = data_uid;
-        groups."radicale".gid = data_gid;
+        users."radicale".uid = config.ids.uids.syncthing;
+        groups."radicale".gid = config.ids.gids.syncthing;
       };
 
       services.radicale = {

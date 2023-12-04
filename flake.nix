@@ -89,11 +89,7 @@
         };
         # home server
         "athena" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-            "data_uid" = 400;
-            "data_gid" = 400;
-          };
+          specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/athena ];
         };
       };

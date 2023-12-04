@@ -3,13 +3,13 @@
   environment.persistence."/persist".directories = [ "/var/lib/borg" ];
 
   users = {
-    groups."borg" = { };
     users."borg" = {
       isSystemUser = true;
       group = "borg";
       home = "/var/lib/borg";
+      uid = config.ids.uids.syncthing;
     };
-    users."syncthing".homeMode = "750";
+    groups."borg".gid = config.ids.gids.syncthing;
   };
 
   sops.secrets."borg-andorra" = {
@@ -30,12 +30,12 @@
     jobs = let
       default = {
         user = "borg";
-        group = "syncthing";
+        group = "borg";
         persistentTimer = true;
 
-        paths = [ "/var/lib/syncthing/data" ];
+        paths = [ "/backed_up" ];
 
-        archiveBaseName = "syncthing";
+        archiveBaseName = "data";
         compression = "lz4";
 
         prune.keep = {
@@ -58,7 +58,9 @@
         repo = "vw7335fu@andorra.imp.fu-berlin.de:backup";
 
         encryption.mode = "repokey-blake2";
-        encryption.passCommand = "${pkgs.coreutils}/bin/cat ${config.sops.secrets."borg-andorra".path}";
+        encryption.passCommand = "${pkgs.coreutils}/bin/cat ${
+            config.sops.secrets."borg-andorra".path
+          }";
       };
     };
   };
