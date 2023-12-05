@@ -4,4 +4,5 @@
   python = import ./python.nix { inherit pkgs; };
   rust = import ./rust.nix { inherit pkgs; };
   rust-dbus = import ./rust-dbus.nix { inherit pkgs; };
+  scala = import ./scala.nix { inherit pkgs; };
 }
