@@ -81,8 +81,7 @@ in {
 
       gpg = {
         key = gpg-key;
-        # TODO readd after updating public key
-        #signByDefault = true;
+        signByDefault = true;
       };
       neomutt = {
         enable = true;
