@@ -3,8 +3,6 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = null;
-    recommendedEnvironment = true;
     plugins = [ inputs.hy3.packages."${platform}".hy3 ];
     extraConfig = let
       terminal = "${pkgs.alacritty}/bin/alacritty";

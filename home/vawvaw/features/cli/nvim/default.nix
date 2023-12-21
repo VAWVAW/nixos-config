@@ -110,7 +110,7 @@
       # treesitter
       nvim-treesitter.withAllGrammars
       playground
-      nvim-ts-rainbow
+      rainbow-delimiters-nvim
       nvim-autopairs
       vim-illuminate
 
