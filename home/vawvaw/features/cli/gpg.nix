@@ -38,7 +38,7 @@ in {
       enable = true;
       homedir = "${config.home.homeDirectory}/.local/share/gnupg";
       publicKeys = [{
-        source = ../../pubkey.txt;
+        source = ../../pubkey.pgp;
         trust = "ultimate";
       }];
       settings = {
