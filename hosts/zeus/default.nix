@@ -37,6 +37,27 @@
     initrd = {
       availableKernelModules =
         [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
+      systemd = {
+        services."print-info" = {
+          wantedBy = [ "initrd.target" ];
+          requires = [ "systemd-vconsole-setup.service" ];
+          after = [ "systemd-vconsole-setup.service" ];
+          before = [ "systemd-ask-password-console.service" ];
+
+          unitConfig.DefaultDependencies = "no";
+          serviceConfig.Type = "oneshot";
+
+          script = ''
+            echo "" > /dev/tty1
+            echo '###########################################################' > /dev/tty1
+            echo "" > /dev/tty1
+            echo 'This laptop belongs to Valentin <valentin@vaw-valentin.de>.' > /dev/tty1
+            echo "" > /dev/tty1
+            echo '###########################################################' > /dev/tty1
+            echo "" > /dev/tty1
+          '';
+        };
+      };
     };
     loader = {
       timeout = 1;
