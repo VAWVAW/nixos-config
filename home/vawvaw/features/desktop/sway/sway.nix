@@ -239,7 +239,7 @@ in {
 
           # power commands
           "${mod}+Shift+Escape" = "exec shutdown now";
-          "${mod}+Shift+Ctrl+Escape" = "exec reboot";
+          # "${mod}+Shift+Ctrl+Escape" = "exec reboot";
           "${mod}+Shift+F1" = "exec systemctl hibernate";
           "${mod}+Shift+F2" = "exec systemctl suspend";
 
