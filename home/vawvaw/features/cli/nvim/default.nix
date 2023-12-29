@@ -57,6 +57,7 @@
       require "${formatLuaFileName (toString ./null-ls.lua)}"
       require "${formatLuaFileName (toString ./nvim-tree.lua)}"
       require "${formatLuaFileName (toString ./status-split.lua)}"
+      require "${formatLuaFileName (toString ./symbols-outline.lua)}"
       require "${formatLuaFileName (toString ./telescope.lua)}"
       require "${formatLuaFileName (toString ./toggleterm.lua)}"
       require "${formatLuaFileName (toString ./treesitter.lua)}"
@@ -67,6 +68,7 @@
       plenary-nvim
       comment-nvim
       toggleterm-nvim
+      symbols-outline-nvim
 
       # git
       gitsigns-nvim
