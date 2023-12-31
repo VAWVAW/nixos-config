@@ -25,7 +25,7 @@
   };
 
   # keep a copy of the system configuration
-  environment.etc."nixos-current".source = ./.;
+  environment.etc."nixos-current".source = ./../../..;
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
