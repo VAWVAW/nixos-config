@@ -10,6 +10,8 @@
     ../common/optional/secureboot.nix
     ../common/optional/libvirt.nix
 
+    ../common/optional/containers
+
     ../common/optional/desktop
 
     ../common/global
