@@ -198,13 +198,13 @@ in {
 
           # player control
           "XF86AudioPlay" =
-            "exec --no-startup-id ${pkgs.spotifython-cli}/bin/spotifython-cli play-pause; exec 'sleep 2 && pkill -SIGRTMIN+11 i3blocks'";
+            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd play-pause";
           "XF86AudioStop" =
-            "exec --no-startup-id ${pkgs.spotifython-cli}/bin/spotifython-cli pause";
+            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd pause";
           "XF86AudioNext" =
-            "exec --no-startup-id ${pkgs.spotifython-cli}/bin/spotifython-cli next";
+            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd next";
           "XF86AudioPrev" =
-            "exec --no-startup-id ${pkgs.spotifython-cli}/bin/spotifython-cli prev";
+            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd previous";
 
           # rfkill
           "XF86RFKill" =
