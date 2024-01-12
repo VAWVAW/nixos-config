@@ -22,5 +22,11 @@ null_ls.setup {
     -- python
     formatting.black,
     diagnostics.pylint,
+
+    -- json
+    formatting.jq,
+
+    -- toml
+    formatting.taplo,
   },
 }
