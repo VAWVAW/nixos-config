@@ -93,6 +93,7 @@ in {
           named-mailboxes "ionos" "/home/vawvaw/Maildir/ionos/Inbox"
 
           named-mailboxes "fu-berlin" "/home/vawvaw/Maildir/fu-berlin/Inbox"
+          virtual-mailboxes "Abgaben" "notmuch://?query=folder:fu-berlin/Abgaben"
           virtual-mailboxes "Drafts" "notmuch://?query=folder:fu-berlin/Entwürfe"
           virtual-mailboxes "Sent" "notmuch://?query=folder:fu-berlin/Gesendet"
         '';
