@@ -69,6 +69,7 @@
       comment-nvim
       toggleterm-nvim
       symbols-outline-nvim
+      undotree
 
       # git
       gitsigns-nvim

@@ -23,6 +23,8 @@ map("n", "<C-j>", "<C-w>j", opts)
 map("n", "<C-k>", "<C-w>k", opts)
 map("n", "<C-l>", "<C-w>l", opts)
 
+map("n", "<leader>u", ":UndotreeToggle<CR>", opts)
+
 map("n", "<leader>r", ":Telescope find_files previewer=false theme=dropdown<CR>", opts)
 map("n", "<C-f>", ":Telescope live_grep<CR>", opts)
 
