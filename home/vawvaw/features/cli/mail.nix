@@ -113,8 +113,7 @@ in {
   programs = {
     neomutt = let
       get_i3block_signal = name:
-        (builtins.head (builtins.filter (block: block.name == name)
-          config.programs.i3blocks.blocks)).signal;
+        config.programs.i3blocks.bars."default"."${name}".data.signal;
     in {
       enable = true;
       binds = [

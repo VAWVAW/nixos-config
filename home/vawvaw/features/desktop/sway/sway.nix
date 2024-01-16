@@ -51,7 +51,7 @@ in {
           };
         };
         bars = [{
-          statusCommand = "${pkgs.i3blocks}/bin/i3blocks";
+          statusCommand = "${pkgs.i3blocks}/bin/i3blocks -c ~/.config/i3blocks/default";
           trayOutput = "*";
           position = "bottom";
           colors =
@@ -154,8 +154,7 @@ in {
           inherit modifier left down up right terminal menu;
           mod = modifier;
           get_i3block_signal = name:
-            (builtins.head (builtins.filter (block: block.name == name)
-              config.programs.i3blocks.blocks)).signal;
+            config.programs.i3blocks.bars."default"."${name}".data.signal;
         in {
           "${mod}+Shift+r" = "reload";
           "${mod}+Return" = "exec ${terminal}";

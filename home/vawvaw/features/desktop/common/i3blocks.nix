@@ -1,11 +1,11 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, lib, ... }: {
   sops.secrets = { divera-token = { }; };
 
   programs.i3blocks = let i3blocks_volume_signal = "10";
   in {
     enable = true;
     # scripts are derived from https://github.com/vivien/i3blocks-contrib
-    blocks = let
+    bars."default" = let
       mail_script = pkgs.writeTextFile {
         name = "mail";
         executable = true;
@@ -264,80 +264,69 @@
           }'
         '';
       };
-    in [
-      {
-        name = "divera";
+    in {
+      "divera" = {
         command = ''
           ${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d "{{\"full_text\":\"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"short_text\":\"{short_text}\"}}"'';
         interval = "persist";
         format = "json";
         markup = "pango";
-      }
-      {
-        name = "mail";
+      };
+      "mail" = lib.hm.dag.entryAfter [ "divera" ] {
         command = "${mail_script}";
         interval = 300;
         color = "#ff0000";
         signal = "12";
-      }
-      {
-        name = "spotify";
+      };
+      "spotify" = lib.hm.dag.entryAfter [ "mail" ]{
         command = "${spotify_script}";
         short_text = "󰝚";
         interval = 5;
         signal = "11";
-      }
-      {
-        name = "volume";
+      };
+      "volume" = lib.hm.dag.entryAfter [ "spotify" ]{
         command = "${volume_script}";
         align = "right";
         interval = 10;
         signal = i3blocks_volume_signal;
-      }
-      {
-        name = "iface";
+      };
+      "iface" = lib.hm.dag.entryAfter [ "volume" ]{
         command = "${iface_script}";
         short_text = " ";
         color = "#00FF00";
         interval = 10;
         separator = "false";
-      }
-      {
-        name = "bandwidth";
+      };
+      "bandwidth" = lib.hm.dag.entryAfter [ "iface" ]{
         command = "${bandwidth_script}";
         interval = "persist";
         markup = "pango";
-      }
-      {
-        name = "cpu_usage";
+      };
+      "cpu" = lib.hm.dag.entryAfter [ "bandwidth" ]{
         command = "${cpu_usage_script}";
         interval = "persist";
         min_width = "100%";
         align = "right";
         format = "json";
-      }
-      {
-        name = "battery";
+      };
+      "battery" = lib.hm.dag.entryAfter [ "cpu" ]{
         command =
           if config.battery.enable then "${battery_script}" else "echo ''";
         interval = 15;
-      }
-      {
-        name = "memory";
+      };
+      "memory" = lib.hm.dag.entryAfter [ "battery" ]{
         command = "${memory_script}";
         interval = 5;
-      }
-      {
-        name = "disk_root";
+      };
+      "disk" = lib.hm.dag.entryAfter [ "memory" ]{
         command = "${disk_script}";
         DIR = "/";
         interval = 10;
-      }
-      {
-        name = "time";
+      };
+      "time" = lib.hm.dag.entryAfter [ "disk" ]{
         command = "date '+%d.%m.%4Y %T'";
         interval = 1;
-      }
-    ];
+      };
+    };
   };
 }
