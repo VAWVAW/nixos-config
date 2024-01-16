@@ -4,7 +4,8 @@ pkgs.mkShell rec {
     libxkbcommon
     libGL
     vulkan-loader
-    libz.dev
+
+    libz
 
     # WINIT_UNIX_BACKEND=wayland
     wayland
