@@ -204,6 +204,7 @@
         "signon.rememberSignons" = false;
         "browser.toolbars.bookmarks.visibility" = "always";
         "general.autoScroll" = true;
+        "browser.display.use_document_fonts" = 0;
       };
     };
   };
