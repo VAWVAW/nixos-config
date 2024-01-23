@@ -6,6 +6,7 @@
     users."borg" = {
       isSystemUser = true;
       group = "borg";
+      extraGroups = [ config.users.users."nginx".group ];
       home = "/var/lib/borg";
       uid = config.ids.uids.syncthing;
     };
