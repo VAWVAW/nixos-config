@@ -66,22 +66,26 @@
     };
   };
 
-  systemd.services = {
-    "borgbackup-job-local" = {
-      serviceConfig = {
-        Restart = lib.mkForce "on-failure";
-        RestartSec = lib.mkForce 15;
-      };
+  systemd = {
+    services = {
+      "borgbackup-job-local" = {
+        serviceConfig = {
+          Restart = lib.mkForce "on-failure";
+          RestartSec = lib.mkForce 15;
+        };
 
-      onFailure = [ "unit-status-notification@%n.service" ];
-    };
-    "borgbackup-job-andorra" = {
-      serviceConfig = {
-        Restart = lib.mkForce "on-failure";
-        RestartSec = lib.mkForce 15;
+        onFailure = [ "unit-status-notification@%n.service" ];
       };
+      "borgbackup-job-andorra" = {
+        serviceConfig = {
+          Restart = lib.mkForce "on-failure";
+          RestartSec = lib.mkForce 15;
+        };
 
-      onFailure = [ "unit-status-notification@%n.service" ];
+        onFailure = [ "unit-status-notification@%n.service" ];
+        requires = [ "network-online.target" ];
+      };
     };
+    timers."borgbackup-job-andorra".wants = [ "network-online.target" ];
   };
 }
