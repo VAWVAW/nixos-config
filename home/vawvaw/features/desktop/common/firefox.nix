@@ -134,7 +134,7 @@
         "extensions.webservice.discoverURL" = "";
         "media.autoplay.default" = 0;
         "media.ffmpeg.vaapi.enabled" = true;
-        "media.autoplay.enabled" = true;
+        "media.autoplay.enabled" = false;
         "media.eme.enabled" = false;
         "media.gmp-widevinecdm.enabled" = false;
         "media.navigator.enabled" = false;
