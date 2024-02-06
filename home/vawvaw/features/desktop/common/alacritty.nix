@@ -31,7 +31,7 @@
           red = "#c21818";
           green = "#48c092";
           yellow = "#ff9f05";
-          blue = "#3f3fff";
+          blue = "#4f4fff";
           magenta = "#8c00c2";
           cyan = "#18b2b2";
           white = "#b2b2b2";

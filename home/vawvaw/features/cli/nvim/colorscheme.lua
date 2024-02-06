@@ -28,29 +28,29 @@ end
 
 local colors = {
   black = 16,
-  blue = 39,
-  brown = 173,
+  blue = 33,
+  blue_light = 39,
+  blue_dark = 26,
+  brown = 172,
   cyan = 51,
-  cyan_dark = 43,
-  gold = 184,
-  green = 34,
-  green_dark = 28,
-  green_pale = 78,
+  cyan_dark = 37,
+  gold = 220,
+  green = 47,
+  green_dark = 34,
   gray = 244,
-  gray_blue = 33,
   gray_dark = 235,
   gray_red = 203,
   magenta = 201,
   red = 196,
-  violet = 135,
+  violet = 165,
   white = 231,
 }
 local common = {
   file = {
-    add = colors.green,
+    add = 34,
     delete = colors.red,
-    change = colors.blue,
-    ignored = colors.gold,
+    change = colors.blue_light,
+    ignored = colors.gray,
     modified = colors.magenta,
   },
   errors = {
@@ -68,13 +68,14 @@ local theme = {
   LineNr                      = colors.gray,
   SignColumn                  = { bg = colors.black },
   DapBreakpoint               = colors.red,
+	NonText											= colors.blue,
 
   -- pmenu
   Pmenu                       = { fg = colors.white, bg = colors.gray_dark },
-  PmenuSel                    = { fg = colors.white, bg = colors.gray_blue },
+  PmenuSel                    = { fg = colors.white, bg = colors.blue },
 
   -- keywords
-  PreProc                     = colors.gray_blue,
+  PreProc                     = colors.blue,
   Title                       = colors.magenta,
   Identifier                  = { fg = colors.cyan_dark, style = "none" },
   Special                     = colors.violet,
@@ -82,26 +83,27 @@ local theme = {
   Include                     = { link = "Statement" },
   Operator                    = { link = "Normal" },
 
-  Constant                    = colors.violet,
   Statement                   = colors.brown,
   Function                    = colors.gold,
   Comment                     = colors.cyan,
-  Type                        = colors.green_pale,
+  Type                        = colors.green,
   LspInlayHints               = colors.gray,
 
   -- data types
-  Number                      = colors.blue,
-  String                      = colors.green_dark,
-  Character                   = { link = "String" },
-  Boolean                     = colors.brown,
+  Constant                    = colors.magenta,
+	String											= colors.green_dark,
+	Character										= { link = "String" },
 
   -- vimdiff
-  DiffAdd                     = { fg = colors.black, bg =  65 },
-  DiffChange                  = { fg = colors.black, bg =  67 },
+  DiffAdd                     = { fg = colors.black, bg = 65 },
+  DiffChange                  = { fg = colors.black, bg = 67 },
   DiffDelete                  = { fg = colors.black, bg = 133 },
   DiffText                    = { fg = colors.black, bg = 251 },
 
   -- plugins:
+	
+	RainbowDelimiterBlue				= colors.blue_dark,
+
   -- gitsigns
   GitSignsAdd                 = common.file.add,
   GitSignsDelete              = common.file.delete,
@@ -113,6 +115,11 @@ local theme = {
   IlluminatedWordWrite        = { bg = common.illuminate },
 
   -- nvim-tree
+  NvimTreeFolderIcon          = colors.blue_dark,
+	NvimTreeRootFolder					= colors.brown,
+	NvimTreeSpecialFile					= colors.brown,
+	NvimTreeImageFile						= colors.brown,
+
   NvimTreeGitNew              = common.errors.light,
   NvimTreeGitDirty            = common.errors.light,
   NvimTreeGitIgnored          = common.file.ignored,

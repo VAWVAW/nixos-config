@@ -38,6 +38,7 @@
       set sidescrolloff=8
 
       set number
+      set relativenumber
       set signcolumn=yes
 
       set noshowmode
