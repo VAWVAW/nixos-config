@@ -9,7 +9,10 @@
   console = { useXkbConfig = true; };
   services.xserver = {
     layout = lib.mkDefault "de";
-    xkbVariant = lib.mkDefault "us";
-    xkbOptions = lib.mkDefault "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl";
+    xkb = {
+      variant = lib.mkDefault "us";
+      options = lib.mkDefault
+        "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl";
+    };
   };
 }
