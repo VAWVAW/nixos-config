@@ -24,8 +24,6 @@
   programs = {
     firejail.wrappedBinaries.signal-desktop.executable =
       lib.mkForce "${pkgs.signal-desktop}/bin/signal-desktop";
-    firejail.wrappedBinaries.mattermost-desktop.executable =
-      lib.mkForce "${pkgs.mattermost-desktop}/bin/mattermost-desktop";
 
     alacritty.settings.font.size = lib.mkForce 8.0;
   };
