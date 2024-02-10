@@ -68,7 +68,7 @@ local theme = {
   LineNr                      = colors.gray,
   SignColumn                  = { bg = colors.black },
   DapBreakpoint               = colors.red,
-	NonText											= colors.blue,
+  NonText                     = colors.blue,
 
   -- pmenu
   Pmenu                       = { fg = colors.white, bg = colors.gray_dark },
@@ -91,8 +91,8 @@ local theme = {
 
   -- data types
   Constant                    = colors.magenta,
-	String											= colors.green_dark,
-	Character										= { link = "String" },
+  String                      = colors.green_dark,
+  Character                   = { link = "String" },
 
   -- vimdiff
   DiffAdd                     = { fg = colors.black, bg = 65 },
@@ -101,8 +101,8 @@ local theme = {
   DiffText                    = { fg = colors.black, bg = 251 },
 
   -- plugins:
-	
-	RainbowDelimiterBlue				= colors.blue_dark,
+
+  RainbowDelimiterBlue        = colors.blue_dark,
 
   -- gitsigns
   GitSignsAdd                 = common.file.add,
@@ -116,9 +116,10 @@ local theme = {
 
   -- nvim-tree
   NvimTreeFolderIcon          = colors.blue_dark,
-	NvimTreeRootFolder					= colors.brown,
-	NvimTreeSpecialFile					= colors.brown,
-	NvimTreeImageFile						= colors.brown,
+  NvimTreeRootFolder          = colors.brown,
+  NvimTreeSpecialFile         = colors.brown,
+  NvimTreeImageFile           = colors.brown,
+  NvimTreeWindowPicker        = { fg = colors.black, bg = colors.cyan },
 
   NvimTreeGitNew              = common.errors.light,
   NvimTreeGitDirty            = common.errors.light,
