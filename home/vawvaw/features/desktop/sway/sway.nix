@@ -50,13 +50,13 @@ in {
             text = "#ffffff";
           };
         };
-        bars = [];
+        bars = [ ];
         input = {
           "type:keyboard" = {
-            xkb_layout = "de";
-            xkb_variant = "us";
+            xkb_layout = config.home.keyboard.layout;
+            xkb_variant = config.home.keyboard.variant;
             xkb_options =
-              "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl,custom:qwertz_y_z";
+              builtins.concatStringsSep "," config.home.keyboard.options;
           };
           "type:touchpad" = {
             natural_scroll = "disabled";

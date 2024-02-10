@@ -19,16 +19,30 @@
     ../../cli/iamb.nix
   ];
 
-  home.packages = with pkgs; [ yubioath-flutter libreoffice dfeet qpdfview ];
+  home = {
+    packages = with pkgs; [ yubioath-flutter libreoffice dfeet qpdfview ];
 
-  home.persistence."/persist/home/vawvaw".directories = [
-    {
-      directory = "Pictures";
-      method = "symlink";
-    }
-    {
-      directory = "Games";
-      method = "symlink";
-    }
-  ];
+    persistence."/persist/home/vawvaw".directories = [
+      {
+        directory = "Pictures";
+        method = "symlink";
+      }
+      {
+        directory = "Games";
+        method = "symlink";
+      }
+    ];
+
+    keyboard = {
+      layout = "de";
+      variant = "us";
+      options = [
+        "altwin:swap_lalt_lwin"
+        "caps:escape"
+        "ctrl:menu_rctrl"
+        "ctrl:swap_rwin_rctl"
+        "custom:qwertz_y_z"
+      ];
+    };
+  };
 }

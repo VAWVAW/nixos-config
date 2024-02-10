@@ -42,10 +42,9 @@
       ];
 
       input = {
-        kb_layout = "de";
-        kb_variant = "us";
-        kb_options =
-          "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl,custom:qwertz_y_z";
+        kb_layout = config.home.keyboard.layout;
+        kb_variant = config.home.keyboard.variant;
+        kb_options = builtins.concatStringsSep "," config.home.keyboard.options;
 
         follow_mouse = 2;
         float_switch_override_focus = 0;
