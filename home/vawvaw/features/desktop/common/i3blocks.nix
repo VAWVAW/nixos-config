@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }: {
+{ pkgs, lib, ... }: {
   sops.secrets = { divera-token = { }; };
 
   programs.i3blocks = let i3blocks_volume_signal = "10";
@@ -191,34 +191,6 @@
           }' 
         '';
       };
-      battery_script = pkgs.writeTextFile {
-        name = "battery";
-        executable = true;
-        text = ''
-          bat_name="${config.battery.name}"
-
-          infos=$(${pkgs.upower}/bin/upower -i /org/freedesktop/UPower/devices/battery_$bat_name | grep -E "(time|percentage)"| cut -c26- |sed -E "s/ (.).+/\1/g")
-
-          percentage=$(echo $infos | cut -d " " -f2 | sed -E "s/%//")
-          time_left=$(echo $infos | cut -d " " -f1)
-
-          echo "$percentage% ($time_left)"
-          echo "$percentage% ($time_left)"
-
-          if [ $percentage -ge 30 ] ; then
-            echo "#00ff00"
-            exit
-          fi
-
-          if [ $percentage -lt 30 ] ; then
-            echo "#ffff00"
-          fi
-
-          if [ $percentage -lt 15 ] ; then
-            echo "#ff0000"
-          fi
-        '';
-      };
       memory_script = pkgs.writeTextFile {
         name = "memory";
         executable = true;
@@ -309,12 +281,7 @@
         align = "right";
         format = "json";
       };
-      "battery" = lib.hm.dag.entryAfter [ "cpu" ]{
-        command =
-          if config.battery.enable then "${battery_script}" else "echo ''";
-        interval = 15;
-      };
-      "memory" = lib.hm.dag.entryAfter [ "battery" ]{
+      "memory" = lib.hm.dag.entryAfter [ "cpu" ]{
         command = "${memory_script}";
         interval = 5;
       };

@@ -9,11 +9,6 @@
 
   services.spotifyd.settings.global.device_name = "zeus_spotifyd";
 
-  battery = {
-    enable = true;
-    name = "BAT1";
-  };
-
   home.shellAliases = {
     nswitch =
       "sudo mount /boot -o remount,rw && sudo nixos-rebuild switch --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
