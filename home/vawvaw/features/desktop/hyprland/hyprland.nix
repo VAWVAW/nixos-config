@@ -1,165 +1,257 @@
-{ pkgs, lib, inputs, platform, ... }: {
-  imports = [ inputs.hyprland.homeManagerModules.default ];
-
-  wayland.windowManager.hyprland = {
+{ config, pkgs, lib, ... }: {
+  wayland.windowManager.hyprland = let
+    mod = "SUPER";
+    left = "j";
+    right = "semicolon";
+    up = "l";
+    down = "k";
+    hyprland = config.wayland.windowManager.hyprland.package;
+  in {
     enable = true;
-    plugins = [ inputs.hy3.packages."${platform}".hy3 ];
-    extraConfig = let
-      terminal = "${pkgs.alacritty}/bin/alacritty";
-      menu = "${pkgs.bemenu}/bin/bemenu-run";
-    in ''
-      env = XDG_CURRENT_DESKTOP,Hyprland
-      env = XDG_SESSION_TYPE,wayland
-      env = XDG_SESSION_DESKTOP,Hyprland
 
-      env = QT_QPA_PLATFORM,wayland;xcb
-      env = GDK_BACKEND,wayland
-      env = SDL_VIDEODRIVER,wayland
-      env = CLUTTER_BACKEND,wayland
+    xwayland.enable = true;
 
-      env = BEMENU_BACKEND,wayland
-      env = MOZ_ENABLE_WAYLAND,1
-      env = MUTTER_DEBUG_DISABLE_HW_CURSORS,1
-      env = WLR_NO_HARDWARE_CURSORS,1
+    systemd = {
+      enable = true;
+      variables = [
+        "DISPLAY"
+        "HYPRLAND_INSTANCE_SIGNATURE"
+        "WAYLAND_DISPLAY"
+        "XDG_CURRENT_DESKTOP"
+      ];
+    };
 
-      env = GBM_BACKEND,nvidia-drm
-      env = __GLX_VENDOR_LIBRARY_NAME,nvidia
-      env = LIBVA_DRIVER_NAME,nvidia
-      env = WLR_DRM_NO_ATOMIC,1
+    plugins = with pkgs.hyprlandPlugins; [ hy3 ];
 
-      monitor = HDMI-A-1,preferred,0x0,1
-      monitor = HDMI-A-2,preferred,1920x65,1
+    settings = {
+      env = [
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
+        "XDG_SESSION_DESKTOP,Hyprland"
 
-      input {
-        kb_layout = de
-        kb_options = altwin:swap_lalt_lwin,caps:escape,altwin:menu_win
-        accel_profile = flat
-        sensitivity = 1.3
+        "QT_QPA_PLATFORM,wayland;xcb"
+        "GDK_BACKEND,wayland"
+        "SDL_VIDEODRIVER,wayland"
 
-        follow_mouse = 2
-        float_switch_override_focus = 0
+        "LIBVA_DRIVER_NAME,nvidia"
 
-        touchpad {
-          clickfinger_behavior = true
-          tap-and-drag = true
-        }
-      }
+        "BEMENU_BACKEND,wayland"
+        "MUTTER_DEBUG_DISABLE_HW_CURSORS,1"
+        "WLR_NO_HARDWARE_CURSORS,1"
+        "MOZ_ENABLE_WAYLAND,1"
+      ];
 
-      general {
-        layout = hy3
-        gaps_in = 0
-        gaps_out = 0
-        no_focus_fallback = true
-      }
+      input = {
+        kb_layout = "de";
+        kb_variant = "us";
+        kb_options =
+          "altwin:swap_lalt_lwin,caps:escape,ctrl:menu_rctrl,ctrl:swap_rwin_rctl,custom:qwertz_y_z";
 
-      misc {
-        disable_autoreload = true
-      }
+        follow_mouse = 2;
+        float_switch_override_focus = 0;
 
-      decoration {
-        drop_shadow = false
-      }
+        touchpad = {
+          disable_while_typing = true;
+          clickfinger_behavior = true;
+          tap-to-click = true;
+          tap-and-drag = true;
+        };
+      };
+      monitor = builtins.map (s:
+        "desc:${s.name}, ${builtins.replaceStrings [ " " ] [ "x" ] s.size}, ${
+          builtins.replaceStrings [ " " ] [ "x" ] s.position
+        }, ${s.scale}") config.desktop.screens;
 
-      animations {
-        enabled = false
-      }
+      general = {
+        layout = "hy3";
+        gaps_in = 0;
+        gaps_out = 0;
+        cursor_inactive_timeout = 5;
+      };
+      decoration.drop_shadow = false;
+      animations.enabled = false;
+      misc = {
+        disable_autoreload = true;
+        disable_hyprland_logo = true;
+      };
+      binds.workspace_back_and_forth = true;
 
-      dwindle {
-        force_split = 2
-        preserve_split = true
-      }
+      plugin.hy3 = {
+        tabs = {
+          padding = 1;
+          rounding = 0;
+        };
+      };
 
-      binds {
-        workspace_back_and_forth = true;
-      }
+      windowrulev2 = [
+        "noborder, class:^firefox$"
+        "noborder, class:^librewolf$"
 
-      # keybinds
-      $mod = SUPER
-      $left = j
-      $right = odiaeresis
-      $up = l
-      $down = k
+        "float, class:^Tor Browser$"
+      ];
 
-      # mouse
-      bindm = $mod, mouse:272, movewindow
-      bindm = $mod, mouse:273, resizewindow
+      workspace = builtins.concatMap
+        (s: map (ws: "${toString ws}, monitor:desc:${s.name}") s.workspaces)
+        config.desktop.screens;
 
-      bind = $mod + SHIFT, q, killactive, 
-      bind = $mod + SHIFT, r, exec, ${pkgs.hyprland}/bin/hyprctl reload
-      bind = $mod + CTRL, Delete, exit, 
-      bind = $mod, f, fullscreen, 0
+      exec-once = [
+        "${pkgs.swaybg}/bin/swaybg --image ${
+          ../wallpapers/kali-contours-blue.png
+        } --mode fill"
+      ] ++ config.desktop.startup_commands;
 
-      bind = $mod, d, exec, ${menu}
-      bind = $mod, Return, exec, ${terminal}
-      bind = $mod, Plus, exec, firefox
-      bind = ALT + SHIFT, s, exec, ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" $XDG_PICTURES_DIR/screens    hots/$(date '+%F-%T.png')
-      bind = ALT + SHIFT, a, exec, ${pkgs.wl-color-picker}/bin/wl-color-picker
+      bindm =
+        [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
+      bind = let
+        movefocus = pkgs.writeTextFile {
+          name = "movefocus";
+          executable = true;
+          text = ''
+            ThenWindow="$(${hyprland}/bin/hyprctl activewindow -j | ${pkgs.jq}/bin/jq ".address")"
+            ${hyprland}/bin/hyprctl dispatch hy3:movefocus "$1"
+            NowWindow="$(${hyprland}/bin/hyprctl activewindow -j | ${pkgs.jq}/bin/jq ".address")"
 
-      # power commands
-      bind = $mod + SHIFT, Escape, exec, shutdown now
-      bind = $mod + CTRL + SHIFT, Escape, exec, reboot
-      bind = $mod + SHIFT, F1, exec, systemctl hibernate
-      bind = $mod + SHIFT, F2, exec, systemctl suspend
+            if [ "$NowWindow" == "$ThenWindow" ]; then
+              ${hyprland}/bin/hyprctl dispatch movefocus "$1"
+            fi
 
-      # audio
-      bind = , XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-      bind = , XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-      bind = $mod, XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+
-      bind = $mod, XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-
-      bind = , XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-      bind = , XF86AudioMicMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+          '';
+        };
+      in [
+        "${mod}+Ctrl, Delete, exit"
+        "${mod}+Shift, q, killactive"
+        "${mod}+Shift, r, exec, ${hyprland}/bin/hyprctl reload"
+        "${mod}, f, fullscreen, 0"
+        "${mod} + Shift, Space, togglefloating, active"
 
-      # brightness
-      bind = , XF86MonBrightnessUp, exec, sudo ${pkgs.light}/bin/light -A 5
-      bind = , XF86MonBrightnessDown, exec, sudo ${pkgs.light}/bin/light -U 5
+        ", mouse:275, workspace, e+1"
+        ", mouse:276, workspace, e-1"
 
-      # player control
-      bind = , XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause
-      bind = , XF86AudioStop, exec, ${pkgs.playerctl}/bin/playerctl stop
-      bind = , XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next
-      bind = , XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
+        # change focus
+        "${mod}, ${left}, exec, ${movefocus} l"
+        "${mod}, ${right}, exec, ${movefocus} r"
+        "${mod}, ${up}, exec, ${movefocus} u"
+        "${mod}, ${down}, exec, ${movefocus} d"
 
+        "${mod}, a, hy3:changefocus, raise"
+        "${mod}, y, hy3:changefocus, lower"
+
+        # change layout
+        "${mod}, h, hy3:makegroup, h"
+        "${mod}, v, hy3:makegroup, v"
+        "${mod}, e, hy3:changegroup, opposite"
+        "${mod}, w, hy3:changegroup, tab"
+
+        # move window
+        "${mod} + Shift, ${left}, hy3:movewindow, l"
+        "${mod} + Shift, ${right}, hy3:movewindow, r"
+        "${mod} + Shift, ${up}, hy3:movewindow, u"
+        "${mod} + Shift, ${down}, hy3:movewindow, d"
+
+        # move workspaces
+        "${mod} + Shift, left, movecurrentworkspacetomonitor, l"
+        "${mod} + Shift, left, focusmonitor, l"
+        "${mod} + Shift, right, movecurrentworkspacetomonitor, r"
+        "${mod} + Shift, right, focusmonitor, r"
+        "${mod} + Shift, up, movecurrentworkspacetomonitor, u"
+        "${mod} + Shift, up, focusmonitor, u"
+        "${mod} + Shift, down, movecurrentworkspacetomonitor, d"
+        "${mod} + Shift, down, focusmonitor, d"
+
+        # common applications
+        "${mod}, Return, exec, ${pkgs.alacritty}/bin/alacritty"
+        "${mod}, d, exec, ${pkgs.bemenu}/bin/bemenu-run"
+        "${mod}, Bracketright, exec, firefox"
+        "Alt, Less, exec, killall firefox"
+
+        "Alt+Shift, s, exec, ${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')"
+        "Alt+Shift, a, exec, ${pkgs.wl-color-picker}/bin/wl-color-picker"
+
+        # power commands
+        "${mod} + Shift, Escape, exec, systemctl poweroff"
+        "${mod} + Shift, F1, exec, systemctl hibernate"
+        "${mod} + Shift, F2, exec, systemctl suspend"
+
+        # audio
+        ", XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        "${mod}, XF86AudioRaiseVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+"
+        "${mod}, XF86AudioLowerVolume, exec, ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-"
+        ", XF86AudioMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioMicMute, exec, ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+
+        # brightness
+        ", XF86MonBrightnessUp, exec, sudo ${pkgs.light}/bin/light -A 5"
+        ", XF86MonBrightnessDown, exec, sudo ${pkgs.light}/bin/light -U 5"
+        "${mod}, XF86MonBrightnessUp, exec, sudo ${pkgs.light}/bin/light -A 1"
+        "${mod}, XF86MonBrightnessDown, exec, sudo ${pkgs.light}/bin/light -U 1"
+
+        # player control
+        ", XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl -p spotifyd play-pause"
+        ", XF86AudioStop, exec, ${pkgs.playerctl}/bin/playerctl -p spotifyd stop"
+        ", XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl -p spotifyd next"
+        ", XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl -p spotifyd previous"
+
+        # rfkill
+        ", XF86RFKill, exec, ${pkgs.util-linux}/bin/rfkill toggle wifi"
+      ] ++ builtins.concatLists (builtins.genList (x:
+        let
+          ws = toString (x + 1);
+          key = toString (lib.mod (x + 1) 10);
+        in [
+          "${mod}, ${key}, workspace, ${ws}"
+          "${mod}+Shift, ${key}, movetoworkspace, ${ws}"
+          "${mod}+Ctrl+Shift, ${key}, movetoworkspacesilent, ${ws}"
+        ]) 10);
+    };
+
+    extraConfig = ''
       # resize mode
-      bind = $mod, r, submap, resize
+      bind = ${mod}, r, submap, resize
 
       submap = resize
-      bind = , $left, resizeactive, -10 0
-      bind = , $right, resizeactive, 10 0
-      bind = , $up, resizeactive, 0 10
-      bind = , $down, resizeactive, 0 -10
-      bind = SHIFT, $left, resizeactive, -1 0
-      bind = SHIFT, $right, resizeactive, 1 0
-      bind = SHIFT, $up, resizeactive, 0 1
-      bind = SHIFT, $down, resizeactive, 0 -1
+      bind = , ${left}, resizeactive, -10 0
+      bind = , ${right}, resizeactive, 10 0
+      bind = , ${up}, resizeactive, 0 10
+      bind = , ${down}, resizeactive, 0 -10
+      bind = Shift, ${left}, resizeactive, -1 0
+      bind = Shift, ${right}, resizeactive, 1 0
+      bind = Shift, ${up}, resizeactive, 0 1
+      bind = Shift, ${down}, resizeactive, 0 -1
 
       # back to normal
       bind = , Escape, submap, reset
       bind = , BackSpace, submap, reset
-      bind = $mod, r, submap, reset
+      bind = ${mod}, r, submap, reset
       bind = , q, submap, reset
       submap = reset
 
       # open mode
-      bind = $mod, o, submap, open
+      bind = ${mod}, o, submap, open
 
       submap = open
       bind = , f, exec, firefox
       bind = , f, submap, reset
-      bind = , s, exec, ${pkgs.steam}/bin/steam
+      bind = , s, exec, steam
       bind = , s, submap, reset
       bind = , t, exec, tor-browser
       bind = , t, submap, reset
-      bind = , m, exec, ${terminal} -e ${pkgs.neomutt}/bin/neomutt
+      bind = , l, exec, libreoffice
+      bind = , l, submap, reset
+      bind = , o, exec, obsidian
+      bind = , o, submap, reset
+      bind = , m, exec, ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt
       bind = , m, submap, reset
 
       # back to normal
       bind = , Escape, submap, reset
       bind = , BackSpace, submap, reset
+      bind = ${mod}, o, submap, reset
       bind = , q, submap, reset
       submap = reset
 
       # spotify mode
-      bind = $mod, p, submap, spotify
+      bind = ${mod}, p, submap, spotify
 
       submap = spotify
       bind = , d, exec, ${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu
@@ -180,85 +272,6 @@
       bind = , BackSpace, submap, reset
       bind = , q, submap, reset
       submap = reset
-
-      # gaming hack
-      bind = $mod + CTRL, Tab, exec, ${pkgs.hyprland}/bin/hyprctl --batch 'keyword monitor HDMI-A-2,preferred,3000x0,1; keyword input:kb_options altwin:menu_win; keyword unbind ,mouse:275; keyword unbind ,mouse:276'
-      bind = $mod + CTRL + SHIFT, Tab, exec, ${pkgs.hyprland}/bin/hyprctl --batch 'keyword monitor HDMI-A-2,preferred,1920x65,1; keyword input:kb_options altwin:swap_lalt_lwin,caps:escape,altwin:menu_win; keyword bind ,mouse:275,workspace,e+1; keyword bind ,mouse:276,workspace,e-1'
-
-
-      # floating
-      bind = $mod + SHIFT, Space, togglefloating, active
-
-      # change focus
-      bind = $mod, $left, hy3:movefocus, l
-      bind = $mod, $right, hy3:movefocus, r
-      bind = $mod, $up, hy3:movefocus, u
-      bind = $mod, $down, hy3:movefocus, d
-
-      bind = $mod, a, hy3:changefocus, raise
-
-      # move window
-      bind = $mod + SHIFT, $left, hy3:movewindow, l
-      bind = $mod + SHIFT, $right, hy3:movewindow, r
-      bind = $mod + SHIFT, $up, hy3:movewindow, u
-      bind = $mod + SHIFT, $down, hy3:movewindow, d
-
-      # change layout
-      bind = $mod, h, hy3:makegroup, h
-      bind = $mod, v, hy3:makegroup, v
-
-      # move workspaces
-      bind = $mod + SHIFT, left, movecurrentworkspacetomonitor, l
-      bind = $mod + SHIFT, right, movecurrentworkspacetomonitor, r
-      bind = $mod + SHIFT, up, movecurrentworkspacetomonitor, u
-      bind = $mod + SHIFT, down, movecurrentworkspacetomonitor, d
-
-      # workspaces
-      bind = , mouse:275, workspace, e+1
-      bind = , mouse:276, workspace, e-1
-
-      ${builtins.concatStringsSep "\n" (builtins.genList (x:
-        let
-          ws = toString (x + 1);
-          key = toString (lib.mod (x + 1) 10);
-        in ''
-          bind = $mod, ${key}, workspace, ${ws}
-          bind = $mod + SHIFT, ${key}, movetoworkspace, ${ws}
-          bind = $mod + CTRL + SHIFT, ${key}, movetoworkspacesilent, ${ws}
-        '') 10)}
-
-      workspace = 9,monitor:HDMI-A-2
-      workspace = 10,monitor:HDMI-A-2
-
-      # window rules
-
-      # league of legends
-      windowrulev2 = nomaxsize, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
-      windowrulev2 = float, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
-      windowrulev2 = size 1540 850, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
-      windowrulev2 = center, class:^(riotclientux.exe)$,title:^(Riot Client Main)$
-
-      windowrulev2 = nomaxsize, class:^(leagueclientux.exe)$,title:^(League of Legends)$
-      windowrulev2 = float, class:^(leagueclientux.exe)$,title:^(League of Legends)$
-      windowrulev2 = size 1280 720,class:^(leagueclientux.exe)$,title:^(League of Legends)$
-      windowrulev2 = center, class:^(leagueclientux.exe)$,title:^(League of Legends)$
-
-      windowrulev2 = float, class:^(league of legends.exe)$,title:^(League of Legends (TM) Client)$
-      windowrulev2 = nomaxsize, class:^(league of legends.exe)$,title:^(League of Legends (TM) Client)$
-      windowrulev2 = fullscreen, class:^(league of legends.exe)$,title:^(League of Legends (TM) Client)$
-
-      # tor browser
-      windowrulev2 = float, class:^(firefox)$,title:(Tor Browser)$
-      windowrulev2 = center, class:^(firefox)$,title:(Tor Browser)$
-
-      # todo exclude alacritty
-      windowrulev2 = noborder, floating:1,class:^(?!Alacritty).*$
-
-      # execs
-      exec-once = ${pkgs.noisetorch}/bin/noisetorch -i
-      exec-once = ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%
-      # fix OpenURI
-      exec-once = ${pkgs.bash}/bin/bash -c "${pkgs.systemd}/bin/systemctl --user import-environment PATH && ${pkgs.systemd}/bin/systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-gtk.service"
     '';
   };
 }
