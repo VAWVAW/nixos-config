@@ -4,33 +4,38 @@
     package = pkgs.waybar;
     systemd = {
       enable = true;
-      target = "hyprland-session.target";
+      target = "graphical-session.target";
     };
     settings = [{
       layer = "top";
       position = "bottom";
 
-      modules-left =
-        [ "wlr/workspaces" "sway/workspaces" "hyprland/submap" "sway/mode" ];
+      modules-left = [
+        "hyprland/workspaces"
+        "sway/workspaces"
+        "hyprland/submap"
+        "sway/mode"
+      ];
       modules-center = [ ];
       modules-right = [
         "custom/mail"
         "mpris"
-        "pulseaudio"
-        "network#iface"
-        "network#bandwidth"
+        "wireplumber"
+        "network"
         "cpu"
+        "battery"
         "memory"
         "disk"
         "clock"
         "tray"
+        "group/power"
       ];
 
-      "wlr/workspaces" = {
-        sort-by-number = true;
+      "hyprland/workspaces" = {
+        sort-by = "number";
         on-click = "activate";
-        on-scroll-up = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m-1";
-        on-scroll-down = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m+1";
+        on-scroll-up = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m-1 > /dev/null";
+        on-scroll-down = "${pkgs.hyprland}/bin/hyprctl dispatch workspace m+1 > /dev/null";
       };
       "sway/workspaces" = {
         disable-scroll-wraparound = true;
@@ -50,45 +55,67 @@
         exec = ''
           ${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d '{{\"text\": \"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"class\": \"{status_name}\"}}' '';
       };
-      "custom/mail" = {
-        format = "mail: {}";
-        exec = "notmuch count tag:unread";
-        exec-if =
-          "bash -c 'notmuch new >/dev/null 2>/dev/null && notmuch count tag:unread | grep -v 0 >/dev/null'";
-        interval = 30;
+      "custom/mail" = let signal = 1;
+      in {
+        inherit signal;
+        interval = 300;
+        exec =
+          "notmuch new >/dev/null 2>/dev/null && notmuch count tag:unread | sed -E 's/(.+)/mail: \\1/' | grep -v 'mail: 0'";
+        on-click = "pkill -SIGRTMIN+${toString signal} waybar";
+        tooltip = false;
       };
       "mpris" = {
         player = "spotifyd";
-        format-playing = "{title:.30}... - {artist:.20}...";
+        format-playing = "{title} - {artist}";
         format-paused = " ";
         format-stopped = " ";
+        title-len = 32;
+        artist-len = 20;
+        tooltip-format-playing =
+          "{player}: {title} - {artist} - {album} ({length})";
       };
-      "pulseaudio" = {
+      "wireplumber" = {
         format = "{volume}%";
         format-muted = "muted";
         tooltip = false;
         on-click = "${pkgs.playerctl}/bin/playerctl -p spotifyd play-pause";
         on-click-middle = "${pkgs.pavucontrol}/bin/pavucontrol";
       };
-      "network#iface" = {
-        interval = 15;
-        format = "{ifname}: {ipaddr}";
-        format-wifi = "{ifname}: {ipaddr} ({essid}: {signalStrength})";
-        tooltip-format = "{ifname}: {ipaddr} via {gwaddr}";
-        tooltip-format-wifi =
-          "{ifname}: {ipaddr} via {gwaddr} ({essid} {frequency}: {signalStrength})";
-      };
-      "network#bandwidth" = {
+      "network" = {
         interval = 5;
-        format = "{bandwidthDownBytes} {bandwidthUpBytes}";
+        format =
+          "<span color='#00ff00'>{ifname}: {ipaddr}</span>  {bandwidthDownBytes} {bandwidthUpBytes}";
+        format-wifi =
+          "<span color='#00ff00'>{ifname}: {ipaddr} ({essid})</span>  {bandwidthDownBytes} {bandwidthUpBytes}";
+        format-disconnected = "no connection";
+        tooltip-format = ''
+          {ipaddr}/{netmask} via {gwaddr}
+          Down: {bandwidthDownBits} Up: {bandwidthUpBits}'';
+        tooltip-format-wifi = ''
+          {ipaddr}/{netmask} via {gwaddr}
+          {essid} ({frequency}): {signalStrength}%
+          Down: {bandwidthDownBits} Up: {bandwidthUpBits}'';
+        tooltip-format-disconnected = " ";
       };
       "cpu" = {
-        interval = 2;
+        interval = 5;
         format = "{usage:3}%";
         states = {
           warning = 75;
           critical = 90;
         };
+      };
+      "battery" = {
+        interval = 30;
+        format = "{capacity}%{time}";
+        tooltip-format = "{timeTo} ({power:.3}W)";
+        format-time = "({H}:{m})";
+        full-at = 80;
+        states = {
+          warning = 30;
+          critical = 15;
+        };
+
       };
       "memory" = {
         interval = 10;
@@ -107,9 +134,54 @@
         };
       };
       "clock" = {
-        interval = 1;
+        interval = 5;
         format = "{:%d.%m.%Y %T}";
+        tooltip-format = "<tt><small>{calendar}</small></tt>";
+        calendar = {
+          mode = "month";
+          mode-mon-col = 3;
+          weeks-pos = "left";
+          on-scroll = 1;
+          format = {
+            months = "<span color='#ffead3'><b>{}</b></span>";
+            days = "<span color='#ecc6d9'><b>{}</b></span>";
+            weeks = "<span color='#99ffdd'><b>W{}</b></span>";
+            weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+            today = "<span color='#ffffff' background='#44e'><b>{}</b></span>";
+          };
+        };
+        actions = {
+          on-click-middle = "mode";
+          on-click = "shift_down";
+          on-scroll-up = "shift_down";
+          on-click-right = "shift_up";
+          on-scroll-down = "shift_up";
+        };
+      };
+      "group/power" = {
+        orientation = "inherit";
+        drawer = {
+          transition-duration = 100;
+          trasition-left-to-right = true;
+          children-class = "drawer-power";
+        };
+        modules = [ "custom/lock" "custom/shutdown" "custom/reboot" ];
+      };
+      "custom/lock" = {
+        format = "";
         tooltip = false;
+        on-click = "${pkgs.swaylock}/bin/swaylock && systemctl --user restart waybar";
+      };
+      "custom/shutdown" = {
+        format = "⏻";
+        tooltip = false;
+        on-click = "systemctl poweroff";
+      };
+      "custom/reboot" = {
+        format = "⏼";
+        tooltip = false;
+        on-click = "systemctl reboot";
+
       };
     }];
     style = ./style.css;

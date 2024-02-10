@@ -1,7 +1,7 @@
 * {
 	border: none;
 	border-radius: 0;
-	font-family: "pango:monospace";
+	font-family: "DejaVuSansM Nerd Font Mono", "DejaVu Sans Mono", "pango:monospace";
 	font-size: 11px;
 	min-height: 0;
 	margin: 0px;
@@ -21,8 +21,8 @@ window#waybar {
 	padding: 1px;
 	margin: 0px;
 	color: #777;
-	background: #323232;
-	border: 1px solid #222;
+	background: #222;
+	border: 1px solid #323232;
 }
 
 #workspaces button.visible {
@@ -54,10 +54,11 @@ window#waybar {
 
 /* modules on the right */
 #custom-mail,
-#mpris,
-#pulseaudio,
+#mpris.playing,
+#wireplumber,
 #network,
 #cpu,
+#battery,
 #memory,
 #disk,
 #clock {
@@ -65,27 +66,36 @@ window#waybar {
 	border-right: 2px solid #333;
 }
 
+#custom-lock,
+#custom-shutdown,
+#custom-reboot {
+  padding: 0 3px;
+  font-size: 15px;
+}
+
 #custom-mail {
 	color: #f33;
 }
 
-#mpris.paused,
-#mpris.stopped {
-	font-size: 8px;
-	margin: 0;
-	padding: 0;
-	border: none;
+#network.disconnected {
+  color: #f00;
 }
 
-#network.iface {
-	color: #00ff00;
-	padding-right: 5px;
-	border-right: none;
+#battery {
+  color: #0f0;
 }
 
 #clock {
 	border-right: none;
 }
+
+#custom-shutdown {
+  color: #c33;
+}
+#custom-reboot {
+  color: #f71;
+}
+
 
 .warning {
 	color: #ffa500;

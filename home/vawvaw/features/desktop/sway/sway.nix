@@ -50,27 +50,7 @@ in {
             text = "#ffffff";
           };
         };
-        bars = [{
-          statusCommand = "${pkgs.i3blocks}/bin/i3blocks -c ~/.config/i3blocks/default";
-          trayOutput = "*";
-          position = "bottom";
-          colors =
-            let inherit (config.wayland.windowManager.sway.config) colors;
-            in {
-              statusline = "#ffffff";
-              background = "#000000";
-              focusedWorkspace = {
-                inherit (colors.focused) background border text;
-              };
-              bindingMode = { inherit (colors.urgent) background border text; };
-              activeWorkspace = {
-                inherit (colors.focusedInactive) background border text;
-              };
-              inactiveWorkspace = {
-                inherit (colors.unfocused) background border text;
-              };
-            };
-        }];
+        bars = [];
         input = {
           "type:keyboard" = {
             xkb_layout = "de";
