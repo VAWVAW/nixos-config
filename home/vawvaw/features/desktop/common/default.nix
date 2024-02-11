@@ -102,16 +102,6 @@
 
       #audio
       {
-        key = "XF86AudioRaiseVolume";
-        command =
-          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
-      }
-      {
-        key = "XF86AudioLowerVolume";
-        command =
-          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
-      }
-      {
         mods = [ mod ];
         key = "XF86AudioRaiseVolume";
         command =
@@ -122,6 +112,32 @@
         key = "XF86AudioLowerVolume";
         command =
           "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-";
+      }
+
+      # brightness
+      {
+        mods = [ mod ];
+        key = "XF86MonBrightnessUp";
+        command = "sudo ${pkgs.light}/bin/light -A 1";
+      }
+      {
+        mods = [ mod ];
+        key = "XF86MonBrightnessDown";
+        command = "sudo ${pkgs.light}/bin/light -U 1";
+      }
+    ];
+
+    global-binds = [
+      #audio
+      {
+        key = "XF86AudioRaiseVolume";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+      }
+      {
+        key = "XF86AudioLowerVolume";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
       }
       {
         key = "XF86AudioMute";
@@ -142,16 +158,6 @@
       {
         key = "XF86MonBrightnessDown";
         command = "sudo ${pkgs.light}/bin/light -U 5";
-      }
-      {
-        mods = [ mod ];
-        key = "XF86MonBrightnessUp";
-        command = "sudo ${pkgs.light}/bin/light -A 1";
-      }
-      {
-        mods = [ mod ];
-        key = "XF86MonBrightnessDown";
-        command = "sudo ${pkgs.light}/bin/light -U 1";
       }
 
       # player control
@@ -178,6 +184,7 @@
         command = "${pkgs.util-linux}/bin/rfkill toggle wifi";
       }
     ];
+
     modes = {
       "resize" = {
         enter = {

@@ -59,7 +59,15 @@ with lib; {
     in {
       "binds" = mkOption {
         description = ''
-          Generic keybinds that should be implemented by all compositors.
+          Generic keybinds.
+        '';
+        type = types.listOf (types.submodule { options = keybindOpts; });
+        default = [ ];
+      };
+
+      "global-binds" = mkOption {
+        description = ''
+          Generic keybinds that work in all modes.
         '';
         type = types.listOf (types.submodule { options = keybindOpts; });
         default = [ ];
@@ -158,7 +166,8 @@ with lib; {
       # keybinds
       keybindings =
         # general exec binds
-        (generateKeybinds (bind: "exec " + bind.command) cfg.keybinds.binds) //
+        (generateKeybinds (bind: "exec " + bind.command)
+          (cfg.keybinds.binds ++ cfg.keybinds.global-binds)) //
         # mode enter binds
         (builtins.listToAttrs (builtins.attrValues (builtins.mapAttrs
           (name: mode: generateKeybind (_: "mode " + name) mode.enter)
@@ -175,19 +184,21 @@ with lib; {
           else
             "mode default")
 
-        (mode.binds ++ (lib.optionals mode.default-exit [
-          {
-            mods = [ ];
-            key = "escape";
-            command = null;
-          }
-          {
-            mods = [ ];
-            key = "backspace";
-            command = null;
-          }
-          (mode.enter // { command = null; })
-        ]))
+        (mode.binds
+          ++ (map (bind: bind // { exit = false; }) cfg.keybinds.global-binds)
+          ++ (lib.optionals mode.default-exit [
+            {
+              mods = [ ];
+              key = "escape";
+              command = null;
+            }
+            {
+              mods = [ ];
+              key = "backspace";
+              command = null;
+            }
+            (mode.enter // { command = null; })
+          ]))
 
       ) cfg.keybinds.modes;
     };
@@ -226,7 +237,7 @@ with lib; {
 
           # general exec binds
           (map (generateKeybind (bind: "exec, " + bind.command))
-            cfg.keybinds.binds) ++
+            (cfg.keybinds.binds ++ cfg.keybinds.global-binds)) ++
 
           # mode enter binds
           (builtins.attrValues (builtins.mapAttrs
@@ -244,6 +255,7 @@ with lib; {
 
         generateModeBinds = mode:
           builtins.concatLists (map generateModeBind (mode.binds
+            ++ (map (bind: bind // { exit = false; }) cfg.keybinds.global-binds)
             ++ (lib.optionals mode.default-exit [
               {
                 mods = [ ];
