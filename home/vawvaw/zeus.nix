@@ -35,7 +35,6 @@
   };
 
   wayland.windowManager.sway = {
-    colorscheme = "blue";
     config = {
       keybindings = {
         "XF86AudioMedia" = "input type:touchpad events toggle enabled disabled";

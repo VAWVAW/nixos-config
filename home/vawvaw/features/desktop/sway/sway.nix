@@ -1,24 +1,4 @@
-{ config, pkgs, lib, ... }:
-let
-  colorschemes = {
-    blue = {
-      background = "#285577";
-      border = "#4c7899";
-      wallpaper = ../wallpapers/kali-contours-blue.png;
-    };
-    violet = {
-      background = "#420A55";
-      border = "#800080";
-      wallpaper = ../wallpapers/kali-contours-violet.png;
-    };
-  };
-  colorscheme = colorschemes."${config.wayland.windowManager.sway.colorscheme}";
-in {
-
-  options.wayland.windowManager.sway.colorscheme = lib.mkOption {
-    type = lib.types.enum (builtins.attrNames colorschemes);
-    default = "blue";
-  };
+{ config, pkgs, lib, ... }: {
   config = {
     home.packages = with pkgs; [ light grim slurp wl-color-picker ];
 
@@ -47,14 +27,6 @@ in {
       '';
       extraOptions = [ "--unsupported-gpu" ];
       config = {
-        colors = {
-          focused = {
-            inherit (colorscheme) background border;
-            childBorder = colorscheme.background;
-            indicator = "#2e9ef4";
-            text = "#ffffff";
-          };
-        };
         bars = [ ];
         input = {
           "type:touchpad" = {
@@ -66,7 +38,6 @@ in {
             pointer_accel = "1";
           };
         };
-        output."*".bg = "${colorscheme.wallpaper} fill";
         seat."*".hide_cursor = "when-typing enable";
 
         window = {

@@ -20,27 +20,28 @@ window#waybar {
 #workspaces button {
 	padding: 1px;
 	margin: 0px;
-	color: #777;
-	background: #222;
-	border: 1px solid #323232;
+	color: $unfocused_text;
+	background: $unfocused_background;
+	border: 1px solid $unfocused_border;
 }
 
 #workspaces button.visible {
-	color: #eee;
-	background: #5f676a;
-	border-color: #455;
+	color: $secondary_text;
+	background: $secondary_background;
+	border-color: $secondary_border;
 }
 
 #workspaces button.urgent {
-	color: #fff;
-	background: #a01;
+	color: $urgent_text;
+	background: $urgent_background;
+	border-color: $urgent_border;
 }
 
 #workspaces button.focused,
 #workspaces button.active {
-	color: #fff;
-	background: #285577;
-	border-color: #479;
+	color: $focused_text;
+	background: $focused_background;
+	border-color: $focused_border;
 }
 
 /* keybind mode */

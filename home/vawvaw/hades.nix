@@ -45,6 +45,4 @@
       "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%'"
     ];
   };
-
-  wayland.windowManager.sway.colorscheme = "blue";
 }

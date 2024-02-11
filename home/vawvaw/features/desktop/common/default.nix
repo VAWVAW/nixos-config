@@ -46,6 +46,8 @@
     };
   };
 
+  desktop.theme.wallpaper = ../wallpapers/kali-contours-blue.png;
+
   desktop.keybinds = let mod = "super";
   in {
     generated = {

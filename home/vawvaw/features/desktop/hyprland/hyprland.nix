@@ -67,7 +67,7 @@
 
       plugin.hy3 = {
         tabs = {
-          padding = 1;
+          padding = 0;
           rounding = 0;
         };
       };
@@ -77,12 +77,6 @@
         "noborder, class:^librewolf$"
 
         "float, class:^Tor Browser$"
-      ];
-
-      exec-once = [
-        "${pkgs.swaybg}/bin/swaybg --image ${
-          ../wallpapers/kali-contours-blue.png
-        } --mode fill"
       ];
 
       bindm =

@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 with lib; {
   options.desktop = {
     screens = mkOption {
@@ -146,6 +146,86 @@ with lib; {
         [ "''${pkgs.noisetorch}/bin/noisetorch -i" ]
       '';
     };
+
+    theme = {
+      wallpaper = mkOption {
+        description = "the wallpaper to use";
+        type = types.nullOr types.path;
+        default = null;
+      };
+
+      focused = {
+        border = mkOption {
+          description = "the border color for focused items";
+          type = types.str;
+          default = "#4c7899";
+        };
+        background = mkOption {
+          description = "the background color for focused items";
+          type = types.str;
+          default = "#285577";
+        };
+        text = mkOption {
+          description = "the text color for focused items";
+          type = types.str;
+          default = "#ffffff";
+        };
+      };
+      secondary = {
+        border = mkOption {
+          description =
+            "the border color for secondary items like visible but inactive workspaces";
+          type = types.str;
+          default = "#333333";
+        };
+        background = mkOption {
+          description =
+            "the background color for secondary items like visible but inactive workspaces";
+          type = types.str;
+          default = "#5f676a";
+        };
+        text = mkOption {
+          description =
+            "the text color for secondary items like visible but inactive workspaces";
+          type = types.str;
+          default = "#ffffff";
+        };
+      };
+      unfocused = {
+        border = mkOption {
+          description = "the border color for unfocused items";
+          type = types.str;
+          default = "#333333";
+        };
+        background = mkOption {
+          description = "the background color for unfocused items";
+          type = types.str;
+          default = "#222222";
+        };
+        text = mkOption {
+          description = "the text color for unfocused items";
+          type = types.str;
+          default = "#888888";
+        };
+      };
+      urgent = {
+        border = mkOption {
+          description = "the border color for urgent items";
+          type = types.str;
+          default = "#c01010";
+        };
+        background = mkOption {
+          description = "the background color for urgent items";
+          type = types.str;
+          default = "#900000";
+        };
+        text = mkOption {
+          description = "the text color for urgent items";
+          type = types.str;
+          default = "#ffffff";
+        };
+      };
+    };
   };
 
   options.wayland.windowManager.hyprland.extraBinds = mkOption {
@@ -181,8 +261,13 @@ with lib; {
           inherit (s) position scale;
           resolution = s.size;
         };
-      }) cfg.screens);
-      # and workspaces
+      }) cfg.screens) //
+        # wallpaper
+        (mkIf (cfg.theme.wallpaper != null) {
+          "*".bg = "${toString cfg.theme.wallpaper} fill";
+        });
+
+      # workspaces
       workspaceOutputAssign = builtins.concatMap (screen:
         map (workspace: {
           inherit workspace;
@@ -191,6 +276,21 @@ with lib; {
 
       # startup commands
       startup = builtins.map (cmd: { command = cmd; }) cfg.startup_commands;
+
+      # theming
+      colors = let
+        genColor = variant: {
+          inherit (variant) background border text;
+          childBorder = variant.border;
+          indicator = variant.border;
+        };
+      in {
+        focused = genColor cfg.theme.focused;
+        focusedInactive = genColor cfg.theme.secondary;
+        unfocused = genColor cfg.theme.unfocused;
+        urgent = genColor cfg.theme.urgent;
+        background = "#000000";
+      };
 
       # keybinds
       keybindings =
@@ -236,6 +336,7 @@ with lib; {
       generateKeybind = dispatch: bind:
         let mods = builtins.concatStringsSep "+" bind.mods;
         in "${mods}, ${bind.key}, " + (dispatch bind);
+      formatColor = color: "rgb(${lib.removePrefix "#" color})";
     in mkIf config.wayland.windowManager.hyprland.enable {
       settings = {
         # keyboard layout
@@ -251,13 +352,30 @@ with lib; {
           "desc:${s.name}, ${builtins.replaceStrings [ " " ] [ "x" ] s.size}, ${
             builtins.replaceStrings [ " " ] [ "x" ] s.position
           }, ${s.scale}") cfg.screens;
-        # and workspaces
+        # workspaces
         workspace = builtins.concatMap
           (s: map (ws: "${toString ws}, monitor:desc:${s.name}") s.workspaces)
           cfg.screens;
 
         # startup commands
-        exec-once = cfg.startup_commands;
+        exec-once = cfg.startup_commands ++
+          # wallpaper
+          lib.optional (cfg.theme.wallpaper != null)
+          "${pkgs.swaybg}/bin/swaybg --image ${cfg.theme.wallpaper} --mode fill";
+
+        # theming
+        general = {
+          "col.active_border" = formatColor cfg.theme.focused.border;
+          "col.inactive_border" = formatColor cfg.theme.unfocused.border;
+        };
+        plugin.hy3.tabs = {
+          "col.active" = formatColor cfg.theme.focused.background;
+          "col.text.active" = formatColor cfg.theme.focused.text;
+          "col.inactive" = formatColor cfg.theme.unfocused.background;
+          "col.text.inactive" = formatColor cfg.theme.unfocused.text;
+          "col.urgent" = formatColor cfg.theme.urgent.background;
+          "col.text.urgent" = formatColor cfg.theme.urgent.text;
+        };
 
         # keybinds
         bind =
