@@ -30,14 +30,19 @@ in {
     in {
       enable = true;
       extraSessionCommands = ''
-        export BEMENU_BACKEND=wayland
+        export XDG_CURRENT_DESKTOP=sway
+        export XDG_SESSION_TYPE=wayland
+        export XDG_SESSION_DESKTOP=sway
+
         export QT_QPA_PLATFORM="wayland;xcb"
+        export GDK_BACKEND=wayland
+        export SDL_VIDEODRIVER=wayland
+
+        export BEMENU_BACKEND=wayland
         export MUTTER_DEBUG_DISABLE_HW_CURSORS=1
         export WLR_NO_HARDWARE_CURSORS=1
         export MOZ_ENABLE_WAYLAND=1
-        export XDG_CURRENT_DESKTOP=sway
-        export GDK_BACKEND=wayland
-        export SDL_VIDEODRIVER=wayland
+
         export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share
       '';
       extraOptions = [ "--unsupported-gpu" ];
@@ -52,12 +57,6 @@ in {
         };
         bars = [ ];
         input = {
-          "type:keyboard" = {
-            xkb_layout = config.home.keyboard.layout;
-            xkb_variant = config.home.keyboard.variant;
-            xkb_options =
-              builtins.concatStringsSep "," config.home.keyboard.options;
-          };
           "type:touchpad" = {
             natural_scroll = "disabled";
             tap = "enabled";
@@ -67,18 +66,9 @@ in {
             pointer_accel = "1";
           };
         };
-        output = {
-          "*" = { bg = "${colorscheme.wallpaper} fill"; };
-        } //
-          # use custom config.desktop module
-          (builtins.listToAttrs (builtins.map (s: {
-            inherit (s) name;
-            value = {
-              inherit (s) position scale;
-              resolution = s.size;
-            };
-          }) config.desktop.screens));
-        seat = { "*" = { hide_cursor = "when-typing enable"; }; };
+        output."*".bg = "${colorscheme.wallpaper} fill";
+        seat."*".hide_cursor = "when-typing enable";
+
         window = {
           hideEdgeBorders = "both";
           titlebar = true;
@@ -113,10 +103,7 @@ in {
         startup = [{
           command = ''
             ${pkgs.bash}/bin/bash -c "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service"'';
-        }] ++
-          # use custom config.desktop module
-          (builtins.map (cmd: { command = cmd; })
-            config.desktop.startup_commands);
+        }];
 
         focus.followMouse = "no";
         workspaceAutoBackAndForth = true;
@@ -131,63 +118,13 @@ in {
           "${pkgs.bemenu}/bin/bemenu-run --no-exec | xargs swaymsg exec --";
 
         keybindings = let
-          inherit modifier left down up right terminal menu;
+          inherit modifier left down up right;
           mod = modifier;
-          get_i3block_signal = name:
-            config.programs.i3blocks.bars."default"."${name}".data.signal;
         in {
           "${mod}+Shift+r" = "reload";
-          "${mod}+Return" = "exec ${terminal}";
-          "${mod}+Bracketright" = "exec firefox";
           "${mod}+Shift+q" = "kill";
-          "${mod}+d" = "exec --no-startup-id ${menu}";
           "${mod}+f" = "fullscreen";
           "${mod}+Ctrl+Delete" = "exit";
-          "Mod1+Shift+s" = ''
-            exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')'';
-          "Mod1+Shift+a" = "exec ${pkgs.wl-color-picker}/bin/wl-color-picker";
-
-          # audio
-          "XF86AudioRaiseVolume" =
-            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; exec pkill -SIGRTMIN+${
-              get_i3block_signal "volume"
-            } i3blocks";
-          "XF86AudioLowerVolume" =
-            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; exec pkill -SIGRTMIN+${
-              get_i3block_signal "volume"
-            } i3blocks";
-          "${mod}+XF86AudioRaiseVolume" =
-            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+; exec pkill -SIGRTMIN+${
-              get_i3block_signal "volume"
-            } i3blocks";
-          "${mod}+XF86AudioLowerVolume" =
-            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-; exec pkill -SIGRTMIN+${
-              get_i3block_signal "volume"
-            } i3blocks";
-          "XF86AudioMute" =
-            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
-          "XF86AudioMicMute" =
-            "exec --no-startup-id ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
-
-          # brightness
-          "XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 5";
-          "XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 5";
-          "${mod}+XF86MonBrightnessUp" = "exec ${pkgs.light}/bin/light -A 1";
-          "${mod}+XF86MonBrightnessDown" = "exec ${pkgs.light}/bin/light -U 1";
-
-          # player control
-          "XF86AudioPlay" =
-            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd play-pause";
-          "XF86AudioStop" =
-            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd pause";
-          "XF86AudioNext" =
-            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd next";
-          "XF86AudioPrev" =
-            "exec --no-startup-id ${pkgs.playerctl}/bin/playerctl -p spotifyd previous";
-
-          # rfkill
-          "XF86RFKill" =
-            "exec --no-startup-id ${pkgs.util-linux}/bin/rfkill toggle all";
 
           # change focus
           "${mod}+${left}" = "focus left";
@@ -214,19 +151,6 @@ in {
           "${mod}+Space" = "focus mode_toggle";
           "${mod}+Shift+Space" = "floating toggle";
 
-          "Mod1+less" = "exec killall firefox";
-
-          # power commands
-          "${mod}+Shift+Escape" = "exec shutdown now";
-          # "${mod}+Shift+Ctrl+Escape" = "exec reboot";
-          "${mod}+Shift+F1" = "exec systemctl hibernate";
-          "${mod}+Shift+F2" = "exec systemctl suspend";
-
-          # change mode
-          "${mod}+r" = "mode resize";
-          "${mod}+o" = "mode open";
-          "${mod}+p" = "mode spotify";
-
           # enable gaming mode
           "${mod}+Ctrl+Shift+Tab" = builtins.replaceStrings [ "\n" ] [ "; " ] ''
             seat '*' hide_cursor when-typing disable
@@ -239,43 +163,50 @@ in {
           "${mod}+Shift+Down" = "move workspace to output down";
           "${mod}+Shift+Up" = "move workspace to output up";
           "${mod}+Shift+Right" = "move workspace to output right";
-
-          # workspace 10
-          "${mod}+0" = "workspace 10";
-          "${mod}+Shift+0" = "move container to workspace 10; workspace 10";
-          "${mod}+Shift+Ctrl+0" = "move container to workspace 10";
         } //
-        # generate workspace configurations from list and append to keybindings
-        # remember to change workspace 10
-        builtins.listToAttrs (builtins.concatMap (n: [
-          {
-            name = "${mod}+${n}";
-            value = "workspace ${n}";
-          }
-          {
-            name = "${mod}+Shift+${n}";
-            value = "move container to workspace ${n}; workspace ${n}";
-          }
-          {
-            name = "${mod}+Shift+Ctrl+${n}";
-            value = "move container to workspace ${n}";
-          }
-        ]
-        # generate list [1..9]
-        ) (builtins.genList (x: toString (x + 1)) 9));
+        # generate workspace configurations
+        (builtins.listToAttrs (builtins.concatLists (builtins.genList (x:
+          let
+            ws = toString (x + 1);
+            key = toString (lib.mod (x + 1) 10);
+          in [
+            {
+              name = "${mod}+${key}";
+              value = "workspace ${ws}";
+            }
+            {
+              name = "${mod}+Shift+${key}";
+              value = "move container to workspace ${ws}; workspace ${ws}";
+            }
+            {
+              name = "${mod}+Shift+Ctrl+${key}";
+              value = "move container to workspace ${ws}";
+            }
+          ]) 10)));
 
         defaultWorkspace = "workspace --no-auto-back-and-forth 1";
-        workspaceOutputAssign = builtins.concatMap (screen:
-          map (workspace: {
-            inherit workspace;
-            output = screen.name;
-          }) screen.workspaces) config.desktop.screens;
 
         modes = let
           inherit modifier left down up right;
           mod = modifier;
         in {
-          resize = {
+          "disabled" =
+            # get all keybinds that don't contain "Mod1"
+            builtins.removeAttrs keybindings
+            (builtins.filter (n: lib.hasInfix "Mod1" n)
+              (builtins.attrNames keybindings)) //
+            # and add the restore option
+            {
+              "${mod}+Ctrl+Shift+Tab" =
+                builtins.replaceStrings [ "\n" ] [ "; " ] ''
+                  seat '*' hide_cursor when-typing enable
+                  output '${first_screen.name}' pos ${first_screen.position}
+                  input 'type:keyboard' xkb_options '${
+                    config.wayland.windowManager.sway.config.input."type:keyboard".xkb_options
+                  }'
+                  mode default'';
+            };
+          "resize" = {
             "${left}" = "resize shrink width 10 px or 10 ppt";
             "${right}" = "resize grow width 10 px or 10 ppt";
             "${down}" = "resize shrink height 10 px or 10 ppt";
@@ -295,66 +226,7 @@ in {
             "Shift+Right" = "resize grow width 1 px or 1 ppt";
             "Shift+Down" = "resize shrink height 1 px or 1 ppt";
             "Shift+Up" = "resize grow height 1 px or 1 ppt";
-
-            # back to normal
-            "Escape" = "mode default";
-            "BackSpace" = "mode default";
-            "${mod}+r" = "mode default";
-            "q" = "mode default";
           };
-          open = lib.mkMerge [
-            {
-              "f" = "exec firefox; mode default";
-              "l" = "exec ${pkgs.libreoffice}/bin/libreoffice; mode default";
-              "t" = "exec tor-browser; mode default";
-              "o" = "exec ${pkgs.obsidian}/bin/obsidian; mode default";
-              "m" =
-                "exec ${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt; mode default";
-
-              # back to normal
-              "Escape" = "mode default";
-              "BackSpace" = "mode default";
-              "${mod}+o" = "mode default";
-            }
-            (lib.mkIf (builtins.elem pkgs.steam config.home.packages) {
-              "s" = "exec ${pkgs.steam}/bin/steam; mode default";
-            })
-          ];
-          spotify = {
-            "d" =
-              "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu";
-            "p" =
-              "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t";
-            "o" =
-              "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s t --playlist-dmenu";
-            "i" =
-              "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f --playlist-dmenu";
-            "r" =
-              "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli play -s f -r t --playlist-dmenu";
-            "s" =
-              "mode default; exec ${pkgs.spotifython-cli}/bin/spotifython-cli pause";
-
-            # back to normal
-            "Escape" = "mode default";
-            "BackSpace" = "mode default";
-            "${mod}+p" = "mode default";
-          };
-          disabled =
-            # get all keybinds that don't contain "Mod1"
-            builtins.removeAttrs keybindings
-            (builtins.filter (n: lib.hasInfix "Mod1" n)
-              (builtins.attrNames keybindings)) //
-            # and add the restore option
-            {
-              "${mod}+Ctrl+Shift+Tab" =
-                builtins.replaceStrings [ "\n" ] [ "; " ] ''
-                  seat '*' hide_cursor when-typing enable
-                  output '${first_screen.name}' pos ${first_screen.position}
-                  input 'type:keyboard' xkb_options '${
-                    input."type:keyboard".xkb_options
-                  }'
-                  mode default'';
-            };
         };
       };
       extraConfig = ''

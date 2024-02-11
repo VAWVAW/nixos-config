@@ -45,4 +45,217 @@
       ];
     };
   };
+
+  desktop.keybinds = let mod = "super";
+  in {
+    binds = [
+      {
+        mods = [ mod ];
+        key = "return";
+        command = "${pkgs.alacritty}/bin/alacritty";
+      }
+      {
+        mods = [ mod ];
+        key = "d";
+        command = "${pkgs.bemenu}/bin/bemenu-run";
+      }
+      {
+        mods = [ mod ];
+        key = "Bracketright";
+        command = "firefox";
+      }
+      {
+        mods = [ "alt" ];
+        key = "less";
+        command = "${pkgs.psmisc}/bin/killall firefox";
+      }
+
+      # screenshots
+      {
+        mods = [ "alt" "shift" ];
+        key = "s";
+        command =
+          "${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')";
+      }
+      {
+        mods = [ "alt" "shift" ];
+        key = "a";
+        command = "${pkgs.wl-color-picker}/bin/wl-color-picker";
+      }
+
+      #power commands
+      {
+        mods = [ mod "shift" ];
+        key = "escape";
+        command = "systemctl poweroff";
+      }
+      {
+        mods = [ mod "shift" ];
+        key = "f1";
+        command = "systemctl hibernate";
+      }
+      {
+        mods = [ mod "shift" ];
+        key = "f2";
+        command = "systemctl suspend";
+      }
+
+      #audio
+      {
+        key = "XF86AudioRaiseVolume";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+      }
+      {
+        key = "XF86AudioLowerVolume";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+      }
+      {
+        mods = [ mod ];
+        key = "XF86AudioRaiseVolume";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+";
+      }
+      {
+        mods = [ mod ];
+        key = "XF86AudioLowerVolume";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-";
+      }
+      {
+        key = "XF86AudioMute";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+      }
+      {
+        key = "XF86AudioMicMute";
+        command =
+          "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+      }
+
+      # brightness
+      {
+        key = "XF86MonBrightnessUp";
+        command = "sudo ${pkgs.light}/bin/light -A 5";
+      }
+      {
+        key = "XF86MonBrightnessDown";
+        command = "sudo ${pkgs.light}/bin/light -U 5";
+      }
+      {
+        mods = [ mod ];
+        key = "XF86MonBrightnessUp";
+        command = "sudo ${pkgs.light}/bin/light -A 1";
+      }
+      {
+        mods = [ mod ];
+        key = "XF86MonBrightnessDown";
+        command = "sudo ${pkgs.light}/bin/light -U 1";
+      }
+
+      # player control
+      {
+        key = "XF86AudioPlay";
+        command = "${pkgs.playerctl}/bin/playerctl -p spotifyd play-pause";
+      }
+      {
+        key = "XF86AudioStop";
+        command = "${pkgs.playerctl}/bin/playerctl -p spotifyd stop";
+      }
+      {
+        key = "XF86AudioNext";
+        command = "${pkgs.playerctl}/bin/playerctl -p spotifyd next";
+      }
+      {
+        key = "XF86AudioPrev";
+        command = "${pkgs.playerctl}/bin/playerctl -p spotifyd previous";
+      }
+
+      # rfkill 
+      {
+        key = "XF86RFKill";
+        command = "${pkgs.util-linux}/bin/rfkill toggle wifi";
+      }
+    ];
+    modes = {
+      "resize" = {
+        enter = {
+          mods = [ mod ];
+          key = "r";
+        };
+        # binds are defined in compositor config
+        binds = [ ];
+      };
+      "open" = {
+        enter = {
+          mods = [ mod ];
+          key = "o";
+        };
+        binds = [
+          {
+            key = "f";
+            command = "firefox";
+          }
+          {
+            key = "s";
+            command = "steam";
+          }
+          {
+            key = "t";
+            command = "tor-browser";
+          }
+          {
+            key = "o";
+            command = "obsidian";
+          }
+          {
+            key = "l";
+            command = "libreoffice";
+          }
+          {
+            key = "m";
+            command =
+              "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt";
+          }
+        ];
+      };
+      "spotify" = {
+        enter = {
+          mods = [ mod ];
+          key = "p";
+        };
+        binds = [
+          {
+            key = "d";
+            command =
+              "${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu";
+          }
+          {
+            key = "p";
+            command = "${pkgs.spotifython-cli}/bin/spotifython-cli play -s t";
+          }
+          {
+            key = "o";
+            command =
+              "${pkgs.spotifython-cli}/bin/spotifython-cli play -s t --playlist-dmenu";
+          }
+          {
+            key = "i";
+            command =
+              "${pkgs.spotifython-cli}/bin/spotifython-cli play -s f --playlist-dmenu";
+          }
+          {
+            key = "r";
+            command =
+              "${pkgs.spotifython-cli}/bin/spotifython-cli play -s f -r t --playlist-dmenu";
+          }
+          {
+            key = "s";
+            command = "${pkgs.spotifython-cli}/bin/spotifython-cli pause";
+          }
+        ];
+      };
+    };
+  };
 }
