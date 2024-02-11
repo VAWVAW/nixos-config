@@ -46,11 +46,11 @@ in {
         export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share
       '';
       extraOptions = [ "--unsupported-gpu" ];
-      config = rec {
+      config = {
         colors = {
-          focused = rec {
+          focused = {
             inherit (colorscheme) background border;
-            childBorder = background;
+            childBorder = colorscheme.background;
             indicator = "#2e9ef4";
             text = "#ffffff";
           };
@@ -108,18 +108,10 @@ in {
         focus.followMouse = "no";
         workspaceAutoBackAndForth = true;
 
-        modifier = "Mod4";
-        left = "j";
-        down = "k";
-        up = "l";
-        right = "semicolon";
-        terminal = "${pkgs.alacritty}/bin/alacritty";
-        menu =
-          "${pkgs.bemenu}/bin/bemenu-run --no-exec | xargs swaymsg exec --";
-
         keybindings = let
-          inherit modifier left down up right;
-          mod = modifier;
+          inherit (config.desktop.keybinds.generated) left down up right;
+          mod = builtins.replaceStrings [ "super" "alt" ] [ "mod4" "mod1" ]
+            config.desktop.keybinds.generated.mod;
         in {
           "${mod}+Shift+r" = "reload";
           "${mod}+Shift+q" = "kill";
@@ -187,8 +179,10 @@ in {
         defaultWorkspace = "workspace --no-auto-back-and-forth 1";
 
         modes = let
-          inherit modifier left down up right;
-          mod = modifier;
+          inherit (config.wayland.windowManager.sway.config) keybindings;
+          inherit (config.desktop.keybinds.generated) left down up right;
+          mod = builtins.replaceStrings [ "super" "alt" ] [ "mod4" "mod1" ]
+            config.desktop.keybinds.generated.mod;
         in {
           "disabled" =
             # get all keybinds that don't contain "Mod1"

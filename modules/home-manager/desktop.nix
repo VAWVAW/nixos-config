@@ -46,10 +46,11 @@ with lib; {
     };
 
     keybinds = let
+      mods = types.enum [ "super" "alt" "ctrl" "shift" ];
       keyOpts = {
         "mods" = mkOption {
           description = "Modifiers for the keybind";
-          type = types.listOf (types.enum [ "super" "alt" "ctrl" "shift" ]);
+          type = types.listOf mods;
           default = [ ];
         };
 
@@ -103,6 +104,34 @@ with lib; {
             };
           };
         });
+      };
+
+      "generated" = {
+        "mod" = mkOption {
+          description = "The mod key to use in generated keybinds.";
+          type = mods;
+          default = "alt";
+        };
+        "left" = mkOption {
+          description = "The left key to use in generated keybinds";
+          type = types.str;
+          default = "h";
+        };
+        "down" = mkOption {
+          description = "The down key to use in generated keybinds";
+          type = types.str;
+          default = "j";
+        };
+        "up" = mkOption {
+          description = "The up key to use in generated keybinds";
+          type = types.str;
+          default = "k";
+        };
+        "right" = mkOption {
+          description = "The right key to use in generated keybinds";
+          type = types.str;
+          default = "l";
+        };
       };
     };
 

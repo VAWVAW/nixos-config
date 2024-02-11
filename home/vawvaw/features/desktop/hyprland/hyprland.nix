@@ -1,10 +1,6 @@
 { config, pkgs, lib, ... }: {
   wayland.windowManager.hyprland = let
-    mod = "SUPER";
-    left = "j";
-    right = "semicolon";
-    up = "l";
-    down = "k";
+    inherit (config.desktop.keybinds.generated) left down up right mod;
     hyprland = config.wayland.windowManager.hyprland.finalPackage;
   in {
     enable = true;

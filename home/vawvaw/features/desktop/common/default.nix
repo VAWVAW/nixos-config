@@ -48,6 +48,13 @@
 
   desktop.keybinds = let mod = "super";
   in {
+    generated = {
+      inherit mod;
+      left = "j";
+      down = "k";
+      up = "l";
+      right = "semicolon";
+    };
     binds = [
       {
         mods = [ mod ];
