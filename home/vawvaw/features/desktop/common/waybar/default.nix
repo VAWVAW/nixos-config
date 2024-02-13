@@ -62,7 +62,7 @@
         inherit signal;
         interval = 300;
         exec =
-          "notmuch new >/dev/null 2>/dev/null && notmuch count tag:unread | sed -E 's/(.+)/mail: \\1/' | grep -v 'mail: 0'";
+          "${pkgs.notmuch}/bin/notmuch new >/dev/null 2>/dev/null; ${pkgs.notmuch}/bin/notmuch count tag:unread | ${pkgs.gnused}/bin/sed -E 's/(.+)/mail: \\1/' | ${pkgs.gnugrep}/bin/grep -v 'mail: 0'";
         on-click = "pkill -SIGRTMIN+${toString signal} waybar";
         tooltip = false;
       };
