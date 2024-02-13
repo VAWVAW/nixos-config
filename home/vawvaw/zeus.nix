@@ -34,12 +34,20 @@
     ];
   };
 
-  wayland.windowManager.sway = {
-    config = {
-      keybindings = {
-        "XF86AudioMedia" = "input type:touchpad events toggle enabled disabled";
-      };
+  wayland.windowManager.sway.config = {
+    keybindings = {
+      "XF86AudioMedia" = "input type:touchpad events toggle enabled disabled";
     };
+
+    input."type:touchpad" = {
+      natural_scroll = "disabled";
+      tap = "enabled";
+      middle_emulation = "enabled";
+      dwt = "enabled";
+      accel_profile = "flat";
+      pointer_accel = "1";
+    };
+
   };
 
 }

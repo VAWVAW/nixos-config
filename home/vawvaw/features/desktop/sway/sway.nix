@@ -28,16 +28,6 @@
       extraOptions = [ "--unsupported-gpu" ];
       config = {
         bars = [ ];
-        input = {
-          "type:touchpad" = {
-            natural_scroll = "disabled";
-            tap = "enabled";
-            middle_emulation = "enabled";
-            dwt = "enabled";
-            accel_profile = "flat";
-            pointer_accel = "1";
-          };
-        };
         seat."*".hide_cursor = "when-typing enable";
 
         window = {
