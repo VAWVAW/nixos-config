@@ -12,6 +12,7 @@
     ./spotify.nix
     ./theme.nix
     ./tor-browser.nix
+    ./waybar
     ./xdg.nix
     ./xkb.nix
 
