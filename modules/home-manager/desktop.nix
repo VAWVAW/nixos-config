@@ -254,18 +254,21 @@ with lib; {
           builtins.concatStringsSep "," config.home.keyboard.options;
       };
 
-      # screens
-      output = builtins.listToAttrs (builtins.map (s: {
-        inherit (s) name;
-        value = {
-          inherit (s) position scale;
-          resolution = s.size;
-        };
-      }) cfg.screens) //
+      output = mkMerge [
+        # screens
+        (builtins.listToAttrs (builtins.map (s: {
+          inherit (s) name;
+          value = {
+            inherit (s) position scale;
+            resolution = s.size;
+          };
+        }) cfg.screens))
+
         # wallpaper
         (mkIf (cfg.theme.wallpaper != null) {
           "*".bg = "${toString cfg.theme.wallpaper} fill";
-        });
+        })
+      ];
 
       # workspaces
       workspaceOutputAssign = builtins.concatMap (screen:
