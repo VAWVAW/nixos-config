@@ -51,5 +51,11 @@
         Defaults lecture = never
       '';
     };
+
+    # Passwordless sudo when SSH'ing with keys
+    pam.sshAgentAuth = {
+      enable = true;
+      authorizedKeysFiles = lib.mkForce [ "/etc/ssh/authorized_keys.d/%u" ];
+    };
   };
 }
