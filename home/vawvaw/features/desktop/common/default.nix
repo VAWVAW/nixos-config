@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, ... }: {
   imports = [
     ./audio.nix
     ./alacritty.nix
@@ -231,8 +231,13 @@
           }
           {
             key = "m";
-            command =
-              "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt";
+            command = let
+              inherit ((builtins.head
+                config.programs.waybar.settings)."custom/mail")
+                signal;
+            in "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt && pkill -SIGRTMIN+${
+              toString signal
+            } waybar";
           }
         ];
       };
