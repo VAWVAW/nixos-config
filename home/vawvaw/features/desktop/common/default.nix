@@ -235,9 +235,9 @@
               inherit ((builtins.head
                 config.programs.waybar.settings)."custom/mail")
                 signal;
-            in "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt && pkill -SIGRTMIN+${
+            in "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt && killall -s -SIGRTMIN+${
               toString signal
-            } waybar";
+            } .waybar-wrapped";
           }
         ];
       };
