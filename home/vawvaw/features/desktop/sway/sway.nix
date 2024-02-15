@@ -31,36 +31,22 @@
         seat."*".hide_cursor = "when-typing enable";
 
         window = {
-          hideEdgeBorders = "both";
           titlebar = true;
           commands = [
             {
-              command = "border pixel 2";
-              criteria = { window_role = "browser"; };
-            }
-            {
-              command = "border pixel 2";
-              criteria = { class = "Steam"; };
-            }
-            {
-              command = "border pixel 2";
-              criteria = { app_id = "firefox"; };
-            }
-            {
-              command = "border pixel 2";
-              criteria = { app_id = "librewolf"; };
-            }
-            {
-              command = "border pixel 2";
-              criteria = { app_id = "obsidian"; };
-            }
-            {
+              criteria.app_id = "^Tor Browser$";
               command = "floating enable";
-              criteria = { title = "Browser$"; };
+            }
+            {
+              criteria.app_id = "^firefox$";
+              command = "border none";
+            }
+            {
+              criteria.app_id = "^librewolf$";
+              command = "border none";
             }
           ];
         };
-        assigns = { "10" = [{ class = "discord"; }]; };
         startup = [{
           command = ''
             ${pkgs.bash}/bin/bash -c "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service"'';
@@ -192,6 +178,9 @@
 
         # workspace layout
         workspace --no-auto-back-and-forth 10; layout stacking; workspace --no-auto-back-and-forth 1
+
+        # hide title bar
+        default_border pixel 1
       '';
     };
   };
