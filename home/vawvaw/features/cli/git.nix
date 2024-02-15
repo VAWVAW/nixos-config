@@ -4,8 +4,7 @@
     userEmail = "valentin@wiedekind1.de";
     userName = "vawvaw";
     aliases = {
-      a = "add -A";
-      ca = "commit -a";
+      blm = "blame -w -C -C -C";
       graph = "graph-branch --all";
       graph-branch =
         "log --graph --abbrev-commit --decorate=short --format=format:'%C(bold cyan)%h%C(reset) - %C(yellow)(%ar)%C(reset) %C(brightwhite)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'";
@@ -22,6 +21,7 @@
         tool = "vimdiff";
         mnemonicprefix = true;
       };
+      rerere.enabled = true;
     };
     ignores = [ "*~" "*.swp" "result" ];
   };
