@@ -34,10 +34,7 @@
       "hyprland/workspaces" = {
         sort-by = "number";
         on-click = "activate";
-        on-scroll-up =
-          "${pkgs.hyprland}/bin/hyprctl dispatch workspace m-1 > /dev/null";
-        on-scroll-down =
-          "${pkgs.hyprland}/bin/hyprctl dispatch workspace m+1 > /dev/null";
+        enable-bar-scroll = true;
       };
       "sway/workspaces" = {
         disable-scroll-wraparound = true;

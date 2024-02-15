@@ -1,0 +1,118 @@
+From 7fc828a3f29e95cb896e348e3b369483dcfac8ba Mon Sep 17 00:00:00 2001
+From: vawvaw <valentin@wiedekind1.de>
+Date: Tue, 13 Feb 2024 18:30:30 +0100
+Subject: [PATCH] hyprland/workspaces: Add `enable-bar-scroll` option
+
+---
+ include/modules/hyprland/workspaces.hpp |  4 +++
+ man/waybar-hyprland-workspaces.5.scd    |  5 +++
+ src/modules/hyprland/workspaces.cpp     | 43 +++++++++++++++++++++++++
+ 3 files changed, 52 insertions(+)
+
+diff --git a/include/modules/hyprland/workspaces.hpp b/include/modules/hyprland/workspaces.hpp
+index 53bc55fc..b9745e53 100644
+--- a/include/modules/hyprland/workspaces.hpp
++++ b/include/modules/hyprland/workspaces.hpp
+@@ -122,6 +122,7 @@ class Workspaces : public AModule, public EventHandler {
+   auto all_outputs() const -> bool { return all_outputs_; }
+   auto show_special() const -> bool { return show_special_; }
+   auto active_only() const -> bool { return active_only_; }
++  auto bar_scroll() const -> bool { return bar_scroll_; }
+ 
+   auto get_bar_output() const -> std::string { return bar_.output->name; }
+ 
+@@ -161,6 +162,9 @@ class Workspaces : public AModule, public EventHandler {
+ 
+   int window_rewrite_priority_function(std::string const& window_rule);
+ 
++  bool handleScroll(GdkEventScroll*) override;
++
++  bool bar_scroll_ = false;
+   bool all_outputs_ = false;
+   bool show_special_ = false;
+   bool active_only_ = false;
+diff --git a/man/waybar-hyprland-workspaces.5.scd b/man/waybar-hyprland-workspaces.5.scd
+index 278b2e12..e1d3eef1 100644
+--- a/man/waybar-hyprland-workspaces.5.scd
++++ b/man/waybar-hyprland-workspaces.5.scd
+@@ -47,6 +47,11 @@ Addressed by *hyprland/workspaces*
+ 	default: false ++
+ 	If set to false workspaces group will be shown only in assigned output. Otherwise, all workspace groups are shown.
+ 
++*enable-bar-scroll*: ++
++	typeof: bool ++
++	default: false ++
++	If set to false, you can't scroll to cycle throughout workspaces from the entire bar. If set to true this behaviour is enabled.
++
+ *active-only*: ++
+ 	typeof: bool ++
+ 	default: false ++
+diff --git a/src/modules/hyprland/workspaces.cpp b/src/modules/hyprland/workspaces.cpp
+index 91b6242e..265b94b8 100644
+--- a/src/modules/hyprland/workspaces.cpp
++++ b/src/modules/hyprland/workspaces.cpp
+@@ -85,6 +85,11 @@ auto Workspaces::parse_config(const Json::Value &config) -> void {
+     active_only_ = config_active_only.asBool();
+   }
+ 
++  auto configBarScroll = config_["enable-bar-scroll"];
++  if (configBarScroll.isBool()) {
++    bar_scroll_ = configBarScroll.asBool();
++  }
++
+   auto config_sort_by = config_["sort-by"];
+   if (config_sort_by.isString()) {
+     auto sort_by_str = config_sort_by.asString();
+@@ -619,6 +624,13 @@ void Workspaces::init() {
+     monitor_id_ = (*current_monitor)["id"].asInt();
+   }
+ 
++  if (bar_scroll()) {
++    auto &window = const_cast<Bar &>(bar_).window;
++    window.add_events(Gdk::SCROLL_MASK | Gdk::SMOOTH_SCROLL_MASK);
++    window.signal_scroll_event().connect(sigc::mem_fun(*this, &Workspaces::handleScroll));
++  }
++
++
+   const Json::Value workspaces_json = gIPC->getSocket1JsonReply("workspaces");
+   const Json::Value clients_json = gIPC->getSocket1JsonReply("clients");
+ 
+@@ -982,4 +994,35 @@ void WindowCreationPayload::move_to_worksace(std::string &new_workspace_name) {
+   workspace_name_ = new_workspace_name;
+ }
+ 
++bool Workspaces::handleScroll(GdkEventScroll *e) {
++  if (gdk_event_get_pointer_emulated((GdkEvent *)e)) {
++    /**
++     * Ignore emulated scroll events on window
++     */
++    return false;
++  }
++  auto dir = AModule::getScrollDir(e);
++  if (dir == SCROLL_DIR::NONE) {
++    return true;
++  }
++
++  bool increase;
++
++  if (dir == SCROLL_DIR::DOWN || dir == SCROLL_DIR::RIGHT) {
++    if (all_outputs()) {
++      gIPC->getSocket1Reply("dispatch workspace e+1");
++    } else {
++      gIPC->getSocket1Reply("dispatch workspace m+1");
++    }
++  } else if (dir == SCROLL_DIR::UP || dir == SCROLL_DIR::LEFT) {
++    if (all_outputs()) {
++      gIPC->getSocket1Reply("dispatch workspace e-1");
++    } else {
++      gIPC->getSocket1Reply("dispatch workspace m-1");
++    }
++  }
++
++  return true;
++}
++
+ }  // namespace waybar::modules::hyprland
+-- 
+2.43.0
+
