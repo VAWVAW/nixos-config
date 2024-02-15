@@ -40,8 +40,7 @@
       options = [
         "altwin:swap_lalt_lwin"
         "caps:escape"
-        "ctrl:menu_rctrl"
-        "ctrl:swap_rwin_rctl"
+        "ctrl:menu_win"
         "custom:qwertz_y_z"
       ];
     };

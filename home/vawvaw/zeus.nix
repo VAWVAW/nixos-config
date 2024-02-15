@@ -17,11 +17,13 @@
   };
 
   programs = {
-    firejail.wrappedBinaries.signal-desktop.executable =
-      lib.mkForce "${pkgs.signal-desktop}/bin/signal-desktop";
+    firejail.wrappedBinaries.signal-desktop.executable = lib.mkForce
+      "${pkgs.signal-desktop}/bin/signal-desktop --ozone-platform-hint=x11";
 
     alacritty.settings.font.size = lib.mkForce 8.0;
   };
+
+  home.keyboard.options = [ "ctrl:swap_rwin_rctl" ];
 
   desktop = {
     screens = [{
