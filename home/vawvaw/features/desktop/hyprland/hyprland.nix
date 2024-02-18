@@ -79,6 +79,12 @@
         "float, class:^Tor Browser$"
       ];
 
+      bindn = [
+        ", mouse:272, hy3:focustab, mouse"
+        ", mouse_up, hy3:focustab, right, require_hovered"
+        ", mouse_down, hy3:focustab, left, require_hovered"
+      ];
+
       bindm =
         [ "${mod}, mouse:272, movewindow" "${mod}, mouse:273, resizewindow" ];
     };
@@ -99,7 +105,7 @@
       };
     in [
       "${mod}+Ctrl, Delete, exit"
-      "${mod}+Shift, q, killactive"
+      "${mod}+Shift, q, hy3:killactive"
       "${mod}+Shift, r, exec, ${hyprland}/bin/hyprctl reload"
       "${mod}, f, fullscreen, 0"
       "${mod} + Shift, Space, togglefloating, active"
