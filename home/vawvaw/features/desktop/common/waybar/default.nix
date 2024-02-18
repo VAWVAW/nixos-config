@@ -173,7 +173,15 @@
           trasition-left-to-right = true;
           children-class = "drawer-power";
         };
-        modules = [ "custom/lock" "custom/shutdown" "custom/reboot" ];
+        modules =
+          [ "idle_inhibitor" "custom/shutdown" "custom/reboot" "custom/lock" ];
+      };
+      "idle_inhibitor" = {
+        format = "{icon}";
+        format-icons = {
+          activated = "󰐯";
+          deactivated = "󱠍";
+        };
       };
       "custom/lock" = {
         format = "";
