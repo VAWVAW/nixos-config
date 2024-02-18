@@ -1,0 +1,51 @@
+From 0e27aa8b6159cba5af5f480697e92bc6d50485fc Mon Sep 17 00:00:00 2001
+From: Genevieve <me@genevievemendoza.com>
+Date: Sun, 24 Sep 2023 15:01:45 -0400
+Subject: [PATCH] Enable dbus activation
+
+Waybar takes a while to advertise its tray capabilities, so applications will
+act as though no tray is available even if they are started AFTER waybar
+is finished launching (for example, systemd services with
+`After=waybar.service`.
+
+This change registers waybar for dbus activation, so it will be started if not
+present when an application requests a tray. Ideally it should also tell
+applications to wait for waybar's tray to be ready when they request one.
+
+[1] https://dbus.freedesktop.org/doc/dbus-specification.html
+[2] https://develop.kde.org/docs/features/d-bus/dbus_autostart_services/
+---
+ meson.build                                        | 6 ++++++
+ resources/org.kde.StatusNotifierWatcher.service.in | 4 ++++
+ 2 files changed, 10 insertions(+)
+ create mode 100644 resources/org.kde.StatusNotifierWatcher.service.in
+
+diff --git a/meson.build b/meson.build
+index 9ccd83d..1fc7f0e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -292,6 +292,12 @@ if dbusmenu_gtk.found()
+         'src/modules/sni/host.cpp',
+         'src/modules/sni/item.cpp'
+     )
++    configure_file(
++      configuration: conf_data,
++      input: './resources/org.kde.StatusNotifierWatcher.service.in',
++      output: '@BASENAME@',
++      install_dir: get_option('datadir') + '/dbus-1/services'
++    )
+ endif
+ 
+ if libudev.found() and (is_linux or libepoll.found())
+diff --git a/resources/org.kde.StatusNotifierWatcher.service.in b/resources/org.kde.StatusNotifierWatcher.service.in
+new file mode 100644
+index 0000000..544fedd
+--- /dev/null
++++ b/resources/org.kde.StatusNotifierWatcher.service.in
+@@ -0,0 +1,4 @@
++[D-BUS Service]
++Name=org.kde.StatusNotifierWatcher
++Exec=@prefix@/bin/waybar
++SystemdService=waybar.service
+-- 
+2.42.0
