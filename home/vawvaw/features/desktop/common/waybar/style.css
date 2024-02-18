@@ -54,6 +54,7 @@ window#waybar {
 }
 
 /* modules on the right */
+#custom-sync,
 #custom-mail,
 #mpris.playing,
 #wireplumber,
@@ -74,6 +75,7 @@ window#waybar {
   font-size: 15px;
 }
 
+#custom-sync,
 #custom-mail {
 	color: #f33;
 }
