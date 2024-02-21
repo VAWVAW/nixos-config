@@ -10,7 +10,6 @@
     ../common/optional/systemd-initrd.nix
 
     ../common/optional/containers
-    ../common/optional/containers/pihole
 
     ../common/global
     ../common/users/vawvaw
