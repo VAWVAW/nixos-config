@@ -120,6 +120,7 @@ local theme = {
   NvimTreeSpecialFile         = colors.brown,
   NvimTreeImageFile           = colors.brown,
   NvimTreeWindowPicker        = { fg = colors.black, bg = colors.cyan },
+  NvimTreeIndentMarker        = colors.gray,
 
   NvimTreeGitNew              = common.errors.light,
   NvimTreeGitDirty            = common.errors.light,
