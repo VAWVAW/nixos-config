@@ -13,11 +13,14 @@
 
   services.spotifyd.settings.global.device_name = "hades_spotifyd";
 
-  home.shellAliases = {
-    nswitch =
-      "sudo mount /boot -o remount,rw && sudo nixos-rebuild switch --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
-    nboot =
-      "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
+  home = {
+    shellAliases = {
+      nswitch =
+        "sudo mount /boot -o remount,rw && sudo nixos-rebuild switch --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
+      nboot =
+        "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
+    };
+    keyboard.options = [ "altwin:menu_win" ];
   };
 
   programs.firejail.wrappedBinaries.mattermost-desktop.executable =

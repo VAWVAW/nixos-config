@@ -37,12 +37,7 @@
     keyboard = {
       layout = "de";
       variant = "us";
-      options = [
-        "altwin:swap_lalt_lwin"
-        "caps:escape"
-        "ctrl:menu_win"
-        "custom:qwertz_y_z"
-      ];
+      options = [ "altwin:swap_lalt_lwin" "caps:escape" "custom:qwertz_y_z" ];
     };
   };
 
