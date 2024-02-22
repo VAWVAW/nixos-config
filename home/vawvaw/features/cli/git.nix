@@ -17,10 +17,15 @@
     };
     extraConfig = {
       init.defaultBranch = "main";
+      branch.sort = "-committerdate";
+
       diff = {
         tool = "vimdiff";
         mnemonicprefix = true;
+        algorithm = "histogram";
       };
+      merge.conflictstyle = "diff3";
+      rebase.autosquash = true;
       rerere.enabled = true;
     };
     ignores = [ "*~" "*.swp" "result" ];
