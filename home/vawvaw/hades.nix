@@ -23,10 +23,17 @@
     keyboard.options = [ "altwin:menu_win" ];
   };
 
-  programs.firejail.wrappedBinaries.mattermost-desktop.executable =
-    lib.mkForce "${pkgs.mattermost-desktop}/bin/mattermost-desktop --use-gl=desktop";
-  programs.firejail.wrappedBinaries.signal-desktop.executable =
-    lib.mkForce "${pkgs.signal-desktop}/bin/signal-desktop --use-gl=desktop";
+  programs = {
+    firejail.wrappedBinaries = {
+      mattermost-desktop.executable = lib.mkForce
+        "${pkgs.mattermost-desktop}/bin/mattermost-desktop --use-gl=desktop";
+      signal-desktop.executable = lib.mkForce
+        "${pkgs.signal-desktop}/bin/signal-desktop --use-gl=desktop";
+    };
+
+    # use system dns resolver (should be athena)
+    firefox.profiles."default".settings."network.trr.mode" = lib.mkForce 5;
+  };
 
   desktop = {
     screens = [
