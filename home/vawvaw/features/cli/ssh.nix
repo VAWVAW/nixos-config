@@ -32,6 +32,17 @@ in {
 
         forwardAgent = true;
       };
+      "serenity" = {
+        user = "sysvw02";
+        hostname = "160.45.110.40";
+        proxyJump = "andorra";
+        setEnv."TERM" = "xterm";
+        extraOptions = {
+          "HostKeyAlgorithms" = "+ssh-rsa";
+          "PubKeyAcceptedKeyTypes" = "+ssh-rsa";
+          "KexAlgorithms" = "+diffie-hellman-group-exchange-sha1";
+        };
+      };
     };
   };
 }
