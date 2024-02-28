@@ -24,7 +24,11 @@
 
   programs.firejail.enable = true;
 
-  services.upower.enable = true;
+  services = {
+    upower.enable = true;
+    logind.lidSwitch = "suspend-then-hibernate";
+  };
+  systemd.sleep.extraConfig = "HibernateDelaySec=1h";
 
   powerManagement.cpuFreqGovernor = "powersave";
 
