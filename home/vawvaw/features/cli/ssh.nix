@@ -24,9 +24,8 @@ in {
         ];
       };
       "andorra" = {
-        host = (builtins.concatStringsSep " "
-          outputs.nixosConfigurations."hades".config.programs.ssh.knownHosts."andorra".hostNames)
-          + " andorra";
+        host = "andorra " + (builtins.concatStringsSep " "
+          outputs.nixosConfigurations."hades".config.programs.ssh.knownHosts."andorra".hostNames);
         hostname = "andorra.imp.fu-berlin.de";
         user = "vw7335fu";
 
