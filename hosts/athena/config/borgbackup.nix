@@ -35,6 +35,7 @@
         persistentTimer = true;
 
         paths = [ "/backed_up" ];
+        exclude = [ "var/lib/syncthing/data/Documents/**/.git" ];
 
         archiveBaseName = "data";
         compression = "lz4";
