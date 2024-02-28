@@ -8,6 +8,7 @@
   ];
 
   services.spotifyd.settings.global.device_name = "zeus_spotifyd";
+  systemd.user.services."spotifyd".Install.WantedBy = lib.mkForce [ ];
 
   home.shellAliases = {
     nswitch =
