@@ -6,7 +6,7 @@ in {
     matchBlocks = {
       "net" = {
         host = (builtins.concatStringsSep " " hostnames)
-          + " home.vaw-valentin.de server.vaw-valentin.de";
+          + " home.vaw-valentin.de";
         forwardAgent = true;
         remoteForwards = [
           {
@@ -23,18 +23,20 @@ in {
           }
         ];
       };
-      "andorra" = {
-        host = "andorra " + (builtins.concatStringsSep " "
-          outputs.nixosConfigurations."hades".config.programs.ssh.knownHosts."andorra".hostNames);
-        hostname = "andorra.imp.fu-berlin.de";
+      "fu-login" = {
+        host = "andorra.imp.fu-berlin.de sanmarino.imp.fu-berlin.de";
         user = "vw7335fu";
-
-        forwardAgent = true;
+      };
+      "fu" = {
+        host = "compute*";
+        hostname = "%h.imp.fu-berlin.de";
+        user = "vw7335fu";
+        proxyJump = "sanmarino.imp.fu-berlin.de";
       };
       "serenity" = {
         user = "sysvw02";
         hostname = "160.45.110.40";
-        proxyJump = "andorra";
+        proxyJump = "sanmarino";
         setEnv."TERM" = "xterm";
         extraOptions = {
           "HostKeyAlgorithms" = "+ssh-rsa";
