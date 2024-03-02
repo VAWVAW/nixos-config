@@ -2,13 +2,13 @@
 
 buildPythonPackage rec {
   pname = "spotifython";
-  version = "0.2.4";
+  version = "0.2.5";
 
   disabled = pythonOlder "3.9";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "5c3b761c440a3f312c2f99413b797555184a327e5ee8681b36ff822d7df664b4";
+    sha256 = "a47a0a165440caa930a78deae711fdc047513374d9fb487af080e6215e1559eb";
   };
 
   propagatedBuildInputs = [ requests ];
