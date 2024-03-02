@@ -6,6 +6,7 @@
     ./gpg.nix
     ./shells.nix
     ./ssh.nix
+    ./starship.nix
     ./tmux.nix
     ./vim.nix
     ./nvim
