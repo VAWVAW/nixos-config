@@ -33,6 +33,13 @@ in {
         user = "vw7335fu";
         proxyJump = "sanmarino.imp.fu-berlin.de";
       };
+      "fob" = {
+        host = "fob fob.spline.de";
+        hostname = "fob.spline.de";
+        user = "vawvaw";
+        extraOptions."PubKeyAcceptedKeyTypes" = "+ssh-rsa";
+      };
+
       "serenity" = {
         user = "sysvw02";
         hostname = "160.45.110.40";
