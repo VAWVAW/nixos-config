@@ -1,4 +1,25 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  on_song_change_hook = pkgs.writeShellScript "spotifyd-song-change" ''
+    if [ "$PLAYER_EVENT" != "play" ]; then
+      exit
+    fi
+
+    IFS=';' read -r TITLE DESC URL <<< $(${pkgs.playerctl}/bin/playerctl -p spotifyd -f '{{xesam:title}};{{xesam:artist}} - {{xesam:album}};{{mpris:artUrl}}' metadata)
+
+    IMAGE_NAME=$(echo $URL | cut -d'/' -f5)
+
+    mkdir -p -m 700 /tmp/spotify-icons
+    FILE_NAME="/tmp/spotify-icons/$IMAGE_NAME"
+
+    if [ ! -f $FILE_NAME ]; then 
+      ${pkgs.curl}/bin/curl -o $FILE_NAME $URL 2>/dev/null
+    fi
+
+    ${pkgs.libnotify}/bin/notify-send --icon=$FILE_NAME "$TITLE" "$DESC"
+  '';
+
+in {
   imports = [ ./bemenu.nix ];
 
   home.packages = with pkgs; [ playerctl spotify-tui spotifython-cli ];
@@ -46,6 +67,8 @@
     package = pkgs.spotifyd.override { withMpris = true; };
     settings = {
       global = {
+        inherit on_song_change_hook;
+
         username = "spotify@vaw-valentin.de";
         password_cmd =
           "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/spotify-password";
@@ -53,8 +76,6 @@
         device = "default";
         mixer = "PCM";
         volume_controller = "alsa";
-        on_song_change_hook =
-          "${pkgs.spotifython-cli}/bin/spotifython-cli spotifyd";
         device_name = lib.mkDefault "vawvaw_spotifyd";
         bitrate = 160;
         cache_path = "${config.xdg.dataHome}/spotifyd";
