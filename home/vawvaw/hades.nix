@@ -50,7 +50,7 @@
     ];
     startup_commands = [
       "${pkgs.noisetorch}/bin/noisetorch -i"
-      "${pkgs.discord}/bin/discord"
+      "discord"
       "mattermost-desktop"
       "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%'"
     ];
