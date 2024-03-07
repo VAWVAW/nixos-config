@@ -43,13 +43,20 @@ in {
       "serenity" = {
         user = "sysvw02";
         hostname = "160.45.110.40";
-        proxyJump = "sanmarino";
+        proxyJump = "sanmarino.imp.fu-berlin.de";
         setEnv."TERM" = "xterm";
         extraOptions = {
           "HostKeyAlgorithms" = "+ssh-rsa";
           "PubKeyAcceptedKeyTypes" = "+ssh-rsa";
           "KexAlgorithms" = "+diffie-hellman-group-exchange-sha1";
         };
+      };
+      "ldom02" = {
+        host = "ldom02";
+        hostname = "10.10.40.102";
+        user = "sysvw02";
+        proxyJump = "serenity";
+        setEnv."TERM" = "xterm";
       };
     };
   };
