@@ -10,10 +10,6 @@
         method = "symlink";
       }
       {
-        directory = ".cache/spotify-tui";
-        method = "symlink";
-      }
-      {
         directory = ".cache/spotifython-cli";
         method = "symlink";
       }
