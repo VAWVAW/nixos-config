@@ -1,5 +1,5 @@
 { pkgs, inputs, ... }: {
-  home.packages = with pkgs; [ wl-clipboard jq taplo ];
+  home.packages = with pkgs; [ wl-clipboard jq taplo shellcheck ];
 
   imports = [ ./lsp.nix ];
 

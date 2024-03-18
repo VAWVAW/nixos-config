@@ -28,5 +28,9 @@ null_ls.setup {
 
     -- toml
     formatting.taplo,
+
+    -- shell
+    code_actions.shellcheck,
+    diagnostics.shellcheck,
   },
 }
