@@ -1,15 +1,8 @@
 { pkgs, config, ... }:
 let
-  pinentry = if config.gtk.enable then {
-    package = pkgs.pinentry-gnome;
-    name = "gnome3";
-  } else {
-    package = pkgs.pinentry-curses;
-    name = "curses";
-  };
+  pinentry =
+    if config.gtk.enable then pkgs.pinentry-gnome3 else pkgs.pinentry-curses;
 in {
-  home.packages = [ pinentry.package ];
-
   home.persistence."/persist/home/vawvaw".directories = [{
     directory = ".local/share/gnupg";
     method = "bindfs"; # allow home-manager to manage keyring
@@ -19,7 +12,7 @@ in {
     enable = true;
     enableSshSupport = true;
     sshKeys = [ "508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8" ];
-    pinentryFlavor = pinentry.name;
+    pinentryPackage = pinentry;
     enableExtraSocket = true;
   };
 

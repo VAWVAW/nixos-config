@@ -21,7 +21,7 @@
   ];
 
   home = {
-    packages = with pkgs; [ yubioath-flutter libreoffice dfeet qpdfview feh ];
+    packages = with pkgs; [ yubioath-flutter libreoffice d-spy qpdfview feh ];
 
     persistence."/persist/home/vawvaw".directories = [
       {

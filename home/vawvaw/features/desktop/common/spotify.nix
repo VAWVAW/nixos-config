@@ -22,14 +22,10 @@ let
 in {
   imports = [ ./bemenu.nix ];
 
-  home.packages = with pkgs; [ playerctl spotify-tui spotifython-cli ];
+  home.packages = with pkgs; [ playerctl spotifython-cli ];
 
   home.persistence."/persist/home/vawvaw" = {
     directories = [
-      {
-        directory = ".config/spotify-tui";
-        method = "symlink";
-      }
       {
         directory = ".cache/spotifython-cli";
         method = "symlink";
