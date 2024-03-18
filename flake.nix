@@ -83,6 +83,11 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/athena ];
         };
+        # hosted server
+        "artemis" = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/artemis ];
+        };
       };
 
       homeConfigurations = {
@@ -112,6 +117,15 @@
             platform = "x86_64-linux";
           };
           modules = [ ./home/vawvaw/athena.nix ];
+        };
+        # hosted server
+        "vawvaw@artemis" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."aarch64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            platform = "aarch64-linux";
+          };
+          modules = [ ./home/vawvaw/artemis.nix ];
         };
         # Portable minimum configuration
         "vawvaw" = home-manager.lib.homeManagerConfiguration {

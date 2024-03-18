@@ -7,6 +7,7 @@ keys:
     - &hades age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
     - &zeus age13qscya8p0ckmxw9aq2uyrlsfgurrj97a5wplkczluaqcur4gxc2qq9spcr
     - &athena age1dr06wca7tc3yfp8qs3ha8pgl46p9rm3zukc2y626kd9a5ughtc3qt598fj
+    - &artemis age1wa8vc5kql0230k2qfv6fvlcnwnhqme4wv25r7sac6q6pd9flw38sde7d3h
 
 creation_rules:
   - path_regex: common/secrets.yaml$
@@ -15,6 +16,7 @@ creation_rules:
       - *hades
       - *zeus
       - *athena
+      - *artemis
       pgp:
       - *vawvaw
   - path_regex: common/optional/containers/.+/.*secret.*
@@ -27,5 +29,11 @@ creation_rules:
     key_groups:
     - age:
       - *athena
+      pgp:
+      - *vawvaw
+  - path_regex: artemis/config/secrets.yaml$
+    key_groups:
+    - age:
+      - *artemis
       pgp:
       - *vawvaw

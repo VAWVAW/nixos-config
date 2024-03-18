@@ -43,6 +43,13 @@ in {
           publicKeyFile = ../../athena/ssh_initrd_host_ed25519_key.pub;
         };
 
+        "artemis".extraHostNames = [ "server.vaw-valentin.de" ];
+        "artemis-initrd" = {
+          inherit (cfg."artemis") hostNames;
+          publicKeyFile = ../../artemis/ssh_initrd_host_ed25519_key.pub;
+        };
+
+
         "hades-initrd" = {
           inherit (cfg."hades") hostNames;
           publicKeyFile = ../../hades/ssh_initrd_host_ed25519_key.pub;
