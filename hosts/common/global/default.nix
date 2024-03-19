@@ -1,12 +1,11 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ lib, inputs, outputs, config, ... }: {
+{ lib, outputs, ... }: {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
-
     ./acme.nix
     ./btrfs-optin-persistence.nix
     ./cli.nix
     ./encrypted-root.nix
+    ./home-manager.nix
     ./locale.nix
     ./mailcap.nix
     ./nix.nix
@@ -15,14 +14,6 @@
     ./system-mail.nix
     ./yubikey.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
-
-  home-manager = {
-    useUserPackages = true;
-    extraSpecialArgs = {
-      inherit inputs outputs;
-      platform = config.nixpkgs.hostPlatform.system;
-    };
-  };
 
   # keep a copy of the system configuration
   environment.etc."nixos-current".source = ./../../..;
