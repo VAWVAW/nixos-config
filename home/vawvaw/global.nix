@@ -20,11 +20,6 @@
     };
   };
 
-  sops = {
-    age.keyFile = "/persist/home/vawvaw/.config/key.txt";
-    defaultSopsFile = ./secrets.yaml;
-  };
-
   programs.home-manager.enable = true;
 
   xdg.enable = true;
@@ -34,7 +29,7 @@
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "22.11";
 
-    packages = with pkgs; [ sops psmisc ];
+    packages = with pkgs; [ psmisc ];
 
     persistence."/persist/home/vawvaw".allowOther = true;
   };

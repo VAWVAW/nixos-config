@@ -21,8 +21,13 @@
     ../../cli/iamb.nix
   ];
 
+  sops = {
+    age.keyFile = "/persist/home/vawvaw/.config/key.txt";
+    defaultSopsFile = ../secrets.yaml;
+  };
+
   home = {
-    packages = with pkgs; [ yubioath-flutter libreoffice d-spy qpdfview feh ];
+    packages = with pkgs; [ yubioath-flutter libreoffice d-spy qpdfview feh sops ];
 
     persistence."/persist/home/vawvaw".directories = [
       {
