@@ -36,27 +36,6 @@
 
     packages = with pkgs; [ sops psmisc ];
 
-    persistence."/persist/home/vawvaw" = {
-      allowOther = true;
-      directories = [
-        {
-          directory = "Documents";
-          method = "symlink";
-        }
-        {
-          directory = "Downloads";
-          method = "symlink";
-        }
-        {
-          directory = ".cargo";
-          method = "symlink";
-        }
-        {
-          directory = ".rustup";
-          method = "symlink";
-        }
-      ];
-    };
-
+    persistence."/persist/home/vawvaw".allowOther = true;
   };
 }

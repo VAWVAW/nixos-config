@@ -33,6 +33,22 @@
         directory = "Games";
         method = "symlink";
       }
+      {
+        directory = "Documents";
+        method = "symlink";
+      }
+      {
+        directory = "Downloads";
+        method = "symlink";
+      }
+      {
+        directory = ".cargo";
+        method = "symlink";
+      }
+      {
+        directory = ".rustup";
+        method = "symlink";
+      }
     ];
 
     keyboard = {
