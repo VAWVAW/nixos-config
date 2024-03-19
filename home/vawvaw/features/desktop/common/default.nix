@@ -16,6 +16,7 @@
     ./xdg.nix
     ./xkb.nix
 
+    ../../cli/nvim
     ../../cli/mail.nix
     ../../cli/iamb.nix
   ];

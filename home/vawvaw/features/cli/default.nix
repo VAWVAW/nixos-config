@@ -9,7 +9,6 @@
     ./starship.nix
     ./tmux.nix
     ./vim.nix
-    ./nvim
   ];
 
   home.packages = with pkgs; [
