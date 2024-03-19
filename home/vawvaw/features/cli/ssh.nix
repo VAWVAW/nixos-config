@@ -6,7 +6,7 @@ in {
     matchBlocks = {
       "net" = {
         host = (builtins.concatStringsSep " " hostnames)
-          + " home.vaw-valentin.de";
+          + " home.vaw-valentin.de server.vaw-valentin.de";
         forwardAgent = true;
         remoteForwards = [
           {
@@ -22,6 +22,10 @@ in {
               "/run/user/1000/gnupg/d.db6k4od13tuchts5jdmgus9t/S.gpg-agent.ssh";
           }
         ];
+      };
+      "artemis" = {
+        host = "artemis server.vaw-valentin.de";
+        hostname = "server.vaw-valentin.de";
       };
       "fu-login" = {
         host = "andorra.imp.fu-berlin.de sanmarino.imp.fu-berlin.de";
