@@ -1,3 +1,10 @@
+# TODO:
+# - swayidle/hypridle
+# - xdg-desktop-portal
+#   - PATH on hyprland
+#   - move to home-manager
+# - waybar signals
+
 {
   description = "My NixOS configuration";
 
