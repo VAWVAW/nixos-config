@@ -1,5 +1,6 @@
-{
-  programs.starship = {
+{ config, ... }: {
+  programs.starship = let inherit (config.programs.zsh) promptColor;
+  in {
     enable = true;
     settings = {
       format = ''
@@ -24,7 +25,7 @@
       username = {
         show_always = true;
         format = "[$user]($style)";
-        style_user = "bold blue";
+        style_user = "bold ${promptColor}";
       };
 
       os = {
@@ -36,7 +37,7 @@
       hostname = {
         ssh_only = false;
         format = "[$hostname]($style)";
-        style = "bold blue";
+        style = "bold ${promptColor}";
       };
 
       git_branch = {
@@ -51,7 +52,8 @@
       };
 
       git_status = {
-        format = "( [$ahead_behind](bold bright-purple)[$stashed$conflicted]($style))";
+        format =
+          "( [$ahead_behind](bold bright-purple)[$stashed$conflicted]($style))";
         ahead = "󰁞$count";
         behind = "󰁆$count";
         diverged = "󰁞$ahead_count󰁆$behind_count";

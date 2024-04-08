@@ -8,8 +8,7 @@
     startTmux = lib.mkEnableOption "tmux";
   };
 
-  config.programs.zsh = let inherit (config.programs.zsh) promptColor;
-  in {
+  config.programs.zsh = {
     enable = true;
     syntaxHighlighting.enable = true;
     enableCompletion = true;
