@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, ... }: {
   imports = [ ../../common/optional/unit-fail-notification.nix ];
   environment.persistence."/persist".directories = [ "/var/lib/borg" ];
 
@@ -11,13 +11,6 @@
       uid = config.ids.uids.syncthing;
     };
     groups."borg".gid = config.ids.gids.syncthing;
-  };
-
-  sops.secrets."borg-andorra" = {
-    sopsFile = ./secrets.yaml;
-
-    mode = "0400";
-    owner = config.users.users."borg".name;
   };
 
   services.borgbackup = {
@@ -52,18 +45,6 @@
         repo = "/backup/borgbackup";
         encryption.mode = "none";
       };
-      "andorra" = default // {
-        startAt = "weekly";
-
-        environment."BORG_RSH" =
-          "${pkgs.openssh}/bin/ssh -i /persist/etc/ssh/ssh_borg_key";
-        repo = "vw7335fu@andorra.imp.fu-berlin.de:backup";
-
-        encryption.mode = "repokey-blake2";
-        encryption.passCommand = "${pkgs.coreutils}/bin/cat ${
-            config.sops.secrets."borg-andorra".path
-          }";
-      };
     };
   };
 
@@ -77,20 +58,6 @@
 
         onFailure = [ "unit-status-notification@%n.service" ];
       };
-      "borgbackup-job-andorra" = {
-        serviceConfig = {
-          Restart = lib.mkForce "on-failure";
-          RestartSec = lib.mkForce 60;
-        };
-        unitConfig = {
-          StartLimitBurst = 5;
-          StartLimitIntervalSec = 600;
-        };
-
-        onFailure = [ "unit-status-notification@%n.service" ];
-        requires = [ "network-online.target" ];
-      };
     };
-    timers."borgbackup-job-andorra".wants = [ "network-online.target" ];
   };
 }
