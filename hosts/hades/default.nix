@@ -48,6 +48,7 @@
         splashImage = null;
       };
     };
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   hardware = {
