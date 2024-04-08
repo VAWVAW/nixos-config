@@ -29,6 +29,15 @@
         ];
 
         root = "/var/www/server";
+
+        # `nix-shell -p simple-http-server --run simple-http-server -p 8080 -ui -l 5000000000000000000`
+        #
+        # locations."/upload/" = {
+        #   proxyPass = "http://localhost:8080/";
+        #   extraConfig = ''
+        #     client_max_body_size 10G;
+        #   '';
+        # };
       };
       "caldav.vaw-valentin.de" = {
         enableACME = true;
