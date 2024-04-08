@@ -18,7 +18,7 @@
     freesweep # minesweeper
 
     wget
-    nixfmt
+    nixfmt-classic
     file
     lsof
     python311
