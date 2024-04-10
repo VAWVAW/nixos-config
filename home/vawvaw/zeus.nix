@@ -3,6 +3,7 @@
     ./global.nix
 
     ./features/desktop/sway
+    ./features/desktop/common/swayidle.nix
     ./features/desktop/common/syncthing.nix
     ./features/desktop/common/obsidian.nix
   ];

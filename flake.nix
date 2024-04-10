@@ -1,5 +1,4 @@
 # TODO:
-# - swayidle/hypridle
 # - xdg-desktop-portal
 #   - move to home-manager
 # - waybar signals
