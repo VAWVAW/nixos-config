@@ -47,10 +47,6 @@
             }
           ];
         };
-        startup = [{
-          command = ''
-            ${pkgs.bash}/bin/bash -c "systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service"'';
-        }];
 
         focus.followMouse = "no";
         workspaceAutoBackAndForth = true;
