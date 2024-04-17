@@ -62,6 +62,9 @@
     nvidia.powerManagement.enable = true;
   };
 
+  nix.settings.secret-key-files =
+    [ "/persist/var/lib/binary-cache/cache-key.pem" ];
+
   boot.kernelParams = [ "resume_offset=6328854" ];
   boot.resumeDevice = config.fileSystems."/swap".device;
 

@@ -1,7 +1,7 @@
-{
+{ config, ... }: {
   services.nix-serve = {
     enable = true;
-    secretKeyFile = "/persist/var/lib/binary-cache/cache-key.pem";
+    secretKeyFile = builtins.head config.nix.settings.secret-key-files;
     openFirewall = true;
   };
 }
