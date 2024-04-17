@@ -6,9 +6,9 @@
   };
   home.shellAliases = {
     nswitch =
-      "sudo mount /boot -o remount,rw && sudo nixos-rebuild switch --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh && sudo mount /boot -o remount";
+      "sudo nixos-rebuild switch --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh";
     nboot =
-      "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh && sudo mount /boot -o remount";
+      "sudo nixos-rebuild boot --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh";
     nbuild =
       "nixos-rebuild build --flake /var/lib/syncthing/data/Documents/nixos-config# --refresh";
     ntest =

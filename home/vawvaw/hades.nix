@@ -17,9 +17,9 @@
   home = {
     shellAliases = {
       nswitch =
-        "sudo mount /boot -o remount,rw && sudo nixos-rebuild switch --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
+        "sudo nixos-rebuild switch --flake /home/vawvaw/Documents/nixos-config#";
       nboot =
-        "sudo mount /boot -o remount,rw && sudo nixos-rebuild boot --flake /home/vawvaw/Documents/nixos-config# && sudo mount /boot -o remount";
+        "sudo nixos-rebuild boot --flake /home/vawvaw/Documents/nixos-config#";
     };
     keyboard.options = [ "altwin:menu_win" ];
   };

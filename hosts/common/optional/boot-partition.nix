@@ -2,6 +2,6 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/BOOT";
     fsType = "vfat";
-    options = [ "ro" ];
+    options = [ "umask=0077" ];
   };
 }
