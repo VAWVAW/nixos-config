@@ -15,6 +15,7 @@
       set nobackup
       set undofile
       set updatetime=1000
+      set mouse=
 
       set hlsearch
       set ignorecase
