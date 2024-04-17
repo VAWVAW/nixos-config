@@ -13,6 +13,7 @@
     ./sops.nix
     ./system-mail.nix
     ./yubikey.nix
+    ./zram.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
 
   # keep a copy of the system configuration
