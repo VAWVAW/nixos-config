@@ -93,6 +93,11 @@
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/artemis ];
         };
+        # raspberry pi 3b
+        "nyx" = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/nyx ];
+        };
       };
 
       homeConfigurations = {
@@ -131,6 +136,15 @@
             platform = "aarch64-linux";
           };
           modules = [ ./home/vawvaw/artemis.nix ];
+        };
+        # raspberry pi 3b
+        "vawvaw@nyx" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."aarch64-linux";
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            platform = "aarch64-linux";
+          };
+          modules = [ ./home/vawvaw/nyx.nix ];
         };
         # Portable minimum configuration
         "vawvaw" = home-manager.lib.homeManagerConfiguration {

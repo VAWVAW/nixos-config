@@ -19,7 +19,10 @@
 
   networking = {
     hostName = "athena";
-    hosts = { "192.168.2.10" = [ "hades" ]; };
+    hosts = {
+      "192.168.2.10" = [ "hades" ];
+      "192.168.2.20" = [ "nyx" ];
+    };
 
     resolvconf.enable = true;
     nameservers = [ "192.168.2.11" "192.168.2.1" ];

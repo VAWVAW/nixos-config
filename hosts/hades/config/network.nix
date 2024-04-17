@@ -1,6 +1,9 @@
 {
   networking = {
-    hosts = { "192.168.2.11" = [ "athena" ]; };
+    hosts = {
+      "192.168.2.11" = [ "athena" ];
+      "192.168.2.20" = [ "nyx" ];
+    };
 
     nameservers = [ "192.168.2.11" ];
 

@@ -37,7 +37,12 @@ in {
             "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
         };
 
-        "athena".extraHostNames = [ "home.vaw-valentin.de" ];
+        "nyx".extraHostNames = [ "home.vaw-valentin.de" ];
+        "nyx-initrd" = {
+          inherit (cfg."nyx") hostNames;
+          publicKeyFile = ../../nyx/ssh_initrd_host_ed25519_key.pub;
+        };
+
         "athena-initrd" = {
           inherit (cfg."athena") hostNames;
           publicKeyFile = ../../athena/ssh_initrd_host_ed25519_key.pub;
