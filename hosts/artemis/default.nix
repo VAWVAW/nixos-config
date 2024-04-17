@@ -81,8 +81,8 @@
       };
     };
   };
-  fileSystems = {
 
+  fileSystems = {
     "/backed_up" = {
       device = "/dev/disk/by-label/system_partition";
       fsType = "btrfs";

@@ -21,10 +21,10 @@
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
-    config = { allowUnfree = true; };
+    config.allowUnfree = true;
   };
 
-  networking = { firewall.enable = lib.mkDefault true; };
+  networking.firewall.enable = lib.mkDefault true;
 
   hardware.enableRedistributableFirmware = true;
 
