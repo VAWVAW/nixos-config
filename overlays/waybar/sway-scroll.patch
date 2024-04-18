@@ -1,0 +1,34 @@
+From 73df5b7bacf3f28162ec87bcc4b9e1be6f16366b Mon Sep 17 00:00:00 2001
+From: vawvaw <valentin@wiedekind1.de>
+Date: Thu, 18 Apr 2024 21:52:53 +0200
+Subject: [PATCH] sway/workspaces: Fix scroll on unfocused monitor
+
+---
+ src/modules/sway/workspaces.cpp | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/src/modules/sway/workspaces.cpp b/src/modules/sway/workspaces.cpp
+index 68f1ac45..26b9d621 100644
+--- a/src/modules/sway/workspaces.cpp
++++ b/src/modules/sway/workspaces.cpp
+@@ -428,9 +428,16 @@ bool Workspaces::handleScroll(GdkEventScroll *e) {
+   }
+   std::string name;
+   {
++    bool alloutputs = config_["all-outputs"].asBool();
+     std::lock_guard<std::mutex> lock(mutex_);
+     auto it = std::find_if(workspaces_.begin(), workspaces_.end(),
+-                           [](const auto &workspace) { return hasFlag(workspace, "focused"); });
++        [alloutputs](const auto &workspace) {
++          if (alloutputs) {
++            return hasFlag(workspace, "focused");
++          }
++          bool noNodes = workspace["nodes"].empty() && workspace["floating_nodes"].empty();
++          return hasFlag(workspace, "visible") || (workspace["output"].isString() && noNodes);
++        });
+     if (it == workspaces_.end()) {
+       return true;
+     }
+-- 
+2.44.0
+
