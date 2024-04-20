@@ -5,7 +5,7 @@
       "192.168.2.20" = [ "nyx" ];
     };
 
-    nameservers = [ "192.168.2.11" ];
+    nameservers = [ "192.168.2.20" ];
 
     nat.externalInterface = "eno1";
     interfaces."eno1" = {
