@@ -1,14 +1,16 @@
-{ lib, ... }: {
+{ lib, config, ... }: {
   imports = [
     ../common/optional/boot-partition.nix
     ../common/optional/btrfs-swapfile.nix
     ../common/optional/sslh.nix
     ../common/optional/systemd-initrd.nix
 
+    ../common/optional/nixos-containers
+
     ../common/global
+    ../common/users/vawvaw
 
     ./config
-    ../common/users/vawvaw
   ];
 
   networking = {
@@ -19,17 +21,9 @@
     };
 
     resolvconf.enable = true;
-    nameservers = [
-      # quad9
-      "9.9.9.10"
-      "149.112.112.10"
-      "2620:fe::10"
-      "2620:fe::fe:10"
-      # cloudflare
-      "1.1.1.1"
-      "2606:4700:4700::1111"
-    ];
+    nameservers = [ "127.0.0.1" ];
 
+    nat.externalInterface = "enu1u1u1";
     interfaces."enu1u1u1" = {
       ipv4 = {
         addresses = [{
@@ -81,6 +75,23 @@
         editor = true;
         configurationLimit = 40;
       };
+    };
+  };
+
+  fileSystems = {
+    "/backed_up" = {
+      device = "/dev/disk/by-label/system_partition";
+      fsType = "btrfs";
+      options =
+        [ "subvol=${config.networking.hostName}/backed_up" "compress=zstd" ];
+      neededForBoot = true;
+    };
+    "/backup" = {
+      device = "/dev/disk/by-label/system_partition";
+      fsType = "btrfs";
+      options =
+        [ "subvol=${config.networking.hostName}/backup" "compress=zstd" ];
+      neededForBoot = true;
     };
   };
 
