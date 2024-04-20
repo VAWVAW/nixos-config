@@ -1,7 +1,6 @@
 # TODO:
 # - xdg-desktop-portal
 #   - move to home-manager
-# - waybar signals
 
 {
   description = "My NixOS configuration";

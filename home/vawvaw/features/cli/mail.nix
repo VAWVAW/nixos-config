@@ -114,6 +114,8 @@ in {
     neomutt = let
       get_i3block_signal = name:
         config.programs.i3blocks.bars."default"."${name}".data.signal;
+      inherit ((builtins.head config.programs.waybar.settings)."custom/mail")
+        signal;
     in {
       enable = true;
       binds = [
@@ -261,11 +263,12 @@ in {
         color index blue black ~F
         color index yellow black "~N|~O"
 
-        startup-hook "exec ${pkgs.notmuch}/bin/notmuch new"
         ${lib.optionalString config.programs.i3blocks.enable ''
-          shutdown-hook "exec ${pkgs.procps}/bin/pkill -SIGRTMIN+${
+          shutdown-hook 'echo `${pkgs.procps}/bin/pkill -SIGRTMIN+${
             get_i3block_signal "mail"
-          } i3blocks"''}
+          } i3blocks`' ''}
+        ${lib.optionalString config.programs.waybar.enable ''
+          shutdown-hook 'echo `${pkgs.procps}/bin/pkill -SIGRTMIN+${builtins.toString signal} waybar`' ''}
       '';
     };
     mbsync.enable = true;
