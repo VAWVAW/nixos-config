@@ -51,7 +51,10 @@
       accel_profile = "flat";
       pointer_accel = "1";
     };
-
   };
 
+  programs.ssh.matchBlocks."nyx" = {
+    host = "nyx home.vaw-valentin.de";
+    hostname = "home.vaw-valentin.de";
+  };
 }

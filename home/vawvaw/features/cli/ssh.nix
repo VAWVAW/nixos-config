@@ -1,4 +1,4 @@
-{ outputs, ... }:
+{ outputs, lib, ... }:
 let hostnames = builtins.attrNames outputs.nixosConfigurations;
 in {
   programs.ssh = {
@@ -31,7 +31,12 @@ in {
         host = "andorra.imp.fu-berlin.de sanmarino.imp.fu-berlin.de";
         user = "vw7335fu";
       };
-      "fu" = {
+      "fu" = lib.hm.dag.entryAfter [ "fu-login" ] {
+        host = "*.imp.fu-berlin.de";
+        user = "vw7335fu";
+        proxyJump = "sanmarino.imp.fu-berlin.de";
+      };
+      "fu-compute" = {
         host = "compute*";
         hostname = "%h.imp.fu-berlin.de";
         user = "vw7335fu";
