@@ -1,4 +1,4 @@
-From efdfd884896f676d5a7fc0c6c0d495c54160027e Mon Sep 17 00:00:00 2001
+From fed413b53ac24f31df801b0ffbeb5cebeadf2321 Mon Sep 17 00:00:00 2001
 From: vawvaw <valentin@wiedekind1.de>
 Date: Tue, 13 Feb 2024 17:55:11 +0100
 Subject: [PATCH] hyprland/workspaces: Add `enable-bar-scroll` option
@@ -10,18 +10,18 @@ Subject: [PATCH] hyprland/workspaces: Add `enable-bar-scroll` option
  3 files changed, 51 insertions(+)
 
 diff --git a/include/modules/hyprland/workspaces.hpp b/include/modules/hyprland/workspaces.hpp
-index 91ea1653..ffba66f0 100644
+index 82872348..e69bd6b6 100644
 --- a/include/modules/hyprland/workspaces.hpp
 +++ b/include/modules/hyprland/workspaces.hpp
-@@ -126,6 +126,7 @@ class Workspaces : public AModule, public EventHandler {
-   auto allOutputs() const -> bool { return m_allOutputs; }
+@@ -128,6 +128,7 @@ class Workspaces : public AModule, public EventHandler {
    auto showSpecial() const -> bool { return m_showSpecial; }
    auto activeOnly() const -> bool { return m_activeOnly; }
+   auto moveToMonitor() const -> bool { return m_moveToMonitor; }
 +  auto barScroll() const -> bool { return m_barScroll; }
  
    auto getBarOutput() const -> std::string { return m_bar.output->name; }
  
-@@ -179,6 +180,9 @@ class Workspaces : public AModule, public EventHandler {
+@@ -181,6 +182,9 @@ class Workspaces : public AModule, public EventHandler {
    void loadPersistentWorkspacesFromConfig(Json::Value const& clientsJson);
    void loadPersistentWorkspacesFromWorkspaceRules(const Json::Value& clientsJson);
  
@@ -32,7 +32,7 @@ index 91ea1653..ffba66f0 100644
    bool m_showSpecial = false;
    bool m_activeOnly = false;
 diff --git a/man/waybar-hyprland-workspaces.5.scd b/man/waybar-hyprland-workspaces.5.scd
-index 12c1fe39..18de3354 100644
+index 2d0641b4..d77ad578 100644
 --- a/man/waybar-hyprland-workspaces.5.scd
 +++ b/man/waybar-hyprland-workspaces.5.scd
 @@ -47,6 +47,11 @@ Addressed by *hyprland/workspaces*
@@ -48,11 +48,11 @@ index 12c1fe39..18de3354 100644
  	typeof: bool ++
  	default: false ++
 diff --git a/src/modules/hyprland/workspaces.cpp b/src/modules/hyprland/workspaces.cpp
-index 882e3806..1b91cb9c 100644
+index 3c03c708..b442f0c7 100644
 --- a/src/modules/hyprland/workspaces.cpp
 +++ b/src/modules/hyprland/workspaces.cpp
-@@ -83,6 +83,11 @@ auto Workspaces::parseConfig(const Json::Value &config) -> void {
-     m_activeOnly = configActiveOnly.asBool();
+@@ -88,6 +88,11 @@ auto Workspaces::parseConfig(const Json::Value &config) -> void {
+     m_moveToMonitor = configMoveToMonitor.asBool();
    }
  
 +  auto configBarScroll = config_["enable-bar-scroll"];
@@ -63,7 +63,7 @@ index 882e3806..1b91cb9c 100644
    auto configSortBy = config_["sort-by"];
    if (configSortBy.isString()) {
      auto sortByStr = configSortBy.asString();
-@@ -774,6 +779,12 @@ void Workspaces::initializeWorkspaces() {
+@@ -803,6 +808,12 @@ void Workspaces::initializeWorkspaces() {
    auto const workspacesJson = gIPC->getSocket1JsonReply("workspaces");
    auto const clientsJson = gIPC->getSocket1JsonReply("clients");
  
@@ -76,7 +76,7 @@ index 882e3806..1b91cb9c 100644
    for (Json::Value workspaceJson : workspacesJson) {
      std::string workspaceName = workspaceJson["name"].asString();
      if ((allOutputs() || m_bar.output->name == workspaceJson["monitor"].asString()) &&
-@@ -1160,4 +1171,35 @@ void WindowCreationPayload::moveToWorksace(std::string &new_workspace_name) {
+@@ -1196,4 +1207,35 @@ void WindowCreationPayload::moveToWorksace(std::string &new_workspace_name) {
    m_workspaceName = new_workspace_name;
  }
  
@@ -113,5 +113,5 @@ index 882e3806..1b91cb9c 100644
 +
  }  // namespace waybar::modules::hyprland
 -- 
-2.43.1
+2.44.0
 

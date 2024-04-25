@@ -9,6 +9,7 @@
       first_screen = builtins.head config.desktop.screens;
     in {
       enable = true;
+      checkConfig = false;
       extraSessionCommands = ''
         export XDG_CURRENT_DESKTOP=sway
         export XDG_SESSION_TYPE=wayland
