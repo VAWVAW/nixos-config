@@ -23,5 +23,8 @@
     lsof
     python311
     unzip
+
+    man
+    man-pages
   ];
 }
