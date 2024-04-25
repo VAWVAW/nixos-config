@@ -134,3 +134,6 @@ lspconfig.lua_ls.setup {
     }
   }
 }
+
+-- c
+lspconfig.ccls.setup {}
