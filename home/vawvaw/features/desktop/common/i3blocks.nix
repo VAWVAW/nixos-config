@@ -1,5 +1,5 @@
-{ pkgs, lib, ... }: {
-  sops.secrets = { divera-token = { }; };
+{ config, pkgs, lib, ... }: {
+  sops.secrets."divera-token" = { };
 
   programs.i3blocks = let i3blocks_volume_signal = "10";
   in {
@@ -239,7 +239,9 @@
     in {
       "divera" = {
         command = ''
-          ${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d "{{\"full_text\":\"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"short_text\":\"{short_text}\"}}"'';
+          ${pkgs.divera-status}/bin/divera-status -f ${
+            config.sops.secrets."divera-token".path
+          } -s 800,801,802 -o 804,802,801,800 -e -d "{{\"full_text\":\"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"short_text\":\"{short_text}\"}}"'';
         interval = "persist";
         format = "json";
         markup = "pango";

@@ -19,8 +19,9 @@ in {
       imap.host = "imap.1und1.de";
       smtp.host = "smtp.1und1.de";
       userName = address;
-      passwordCommand =
-        "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/mail/ionos";
+      passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+          config.sops.secrets."mail/ionos".path
+        }";
 
       folders = {
         inbox = "Inbox";
@@ -71,8 +72,9 @@ in {
         tls.useStartTls = true;
       };
       userName = "vw7335fu@zedat.fu-berlin.de";
-      passwordCommand =
-        "${pkgs.coreutils-full}/bin/cat $XDG_RUNTIME_DIR/secrets/mail/fu-berlin";
+      passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+          config.sops.secrets."mail/fu-berlin".path
+        }";
 
       folders = {
         drafts = "Entw&APw-rfe";

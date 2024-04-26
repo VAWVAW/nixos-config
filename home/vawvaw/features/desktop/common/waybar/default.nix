@@ -53,7 +53,9 @@
       "custom/divera" = {
         return-type = "json";
         exec = ''
-          ${pkgs.divera-status}/bin/divera-status -f $XDG_RUNTIME_DIR/secrets/divera-token -s 800,801,802 -o 804,802,801,800 -e -d '{{\"text\": \"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"class\": \"{status_name}\"}}' '';
+          ${pkgs.divera-status}/bin/divera-status -f ${
+            config.sops.secrets."divera-token".path
+          } -s 800,801,802 -o 804,802,801,800 -e -d '{{\"text\": \"{full_text} <span color=\\\"#{status_color}\\\">◼</span>\", \"class\": \"{status_name}\"}}' '';
       };
       "custom/sync" = {
         format = "{}";
