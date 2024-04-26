@@ -8,7 +8,7 @@
     ../common/global/nix.nix
     ../common/global/yubikey.nix
 
-    ../common/users/vawvaw
+    ../common/users/vaw
 
     ./dummy-sops.nix
   ];
@@ -32,12 +32,12 @@
     hostName = lib.mkForce "nixos-iso";
   };
 
-  users.users.vawvaw = {
+  users.users.vaw = {
     initialHashedPassword = "";
     passwordFile = lib.mkForce null;
   };
 
-  services.getty.autologinUser = lib.mkForce "vawvaw";
+  services.getty.autologinUser = lib.mkForce "vaw";
 
   systemd.services.sshd.wantedBy = lib.mkForce [ "multi-user.target" ];
   programs = {

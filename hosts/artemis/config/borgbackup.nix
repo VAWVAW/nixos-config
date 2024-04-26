@@ -19,7 +19,7 @@
       user = "borg";
       group = "borg";
       authorizedKeys =
-        [ (lib.readFile ../../common/users/vawvaw/home/pubkey_ssh.txt) ];
+        [ (lib.readFile ../../common/users/vaw/home/pubkey_ssh.txt) ];
     };
     jobs = let
       default = {

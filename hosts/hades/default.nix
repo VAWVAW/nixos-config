@@ -18,7 +18,7 @@
     ../common/optional/desktop
 
     ../common/global
-    ../common/users/vawvaw
+    ../common/users/vaw
 
     ./config
   ];

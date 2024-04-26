@@ -1,7 +1,7 @@
 keys:
   # Users
   - &users:
-    - &vawvaw 508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8
+    - &vaw 508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8
   # Hosts
   - &hosts:
     - &hades age1c98lnjkgjfen7ld8u5a846vklqxzhw80srk3l8292kaf333c4egqtfl6gc
@@ -20,22 +20,22 @@ creation_rules:
       - *artemis
       - *nyx
       pgp:
-      - *vawvaw
+      - *vaw
   - path_regex: common/optional/containers/.+/.*secret.*
     key_groups:
     - age:
       - *hades
       pgp:
-      - *vawvaw
+      - *vaw
   - path_regex: athena/config/secrets.yaml$
     key_groups:
     - age:
       - *athena
       pgp:
-      - *vawvaw
+      - *vaw
   - path_regex: artemis/config/secrets.yaml$
     key_groups:
     - age:
       - *artemis
       pgp:
-      - *vawvaw
+      - *vaw

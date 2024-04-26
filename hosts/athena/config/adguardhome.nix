@@ -21,7 +21,7 @@
         settings = {
           http.address = "127.0.0.1:3000";
           users = [{
-            name = "vawvaw";
+            name = "vaw";
             password =
               "$2a$10$7lgiAG0iRnsUxNwXszn5TeRyQ6mSJvPNsQYFlbTxuuFF9oU6bPrwq";
           }];

@@ -101,58 +101,58 @@
 
       homeConfigurations = {
         # Desktop
-        "vawvaw@hades" = home-manager.lib.homeManagerConfiguration {
+        "vaw@hades" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vawvaw/hades.nix ];
+          modules = [ ./home/vaw/hades.nix ];
         };
         # Framework 13 Laptop
-        "vawvaw@zeus" = home-manager.lib.homeManagerConfiguration {
+        "vaw@zeus" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vawvaw/zeus.nix ];
+          modules = [ ./home/vaw/zeus.nix ];
         };
         # home server
-        "vawvaw@athena" = home-manager.lib.homeManagerConfiguration {
+        "vaw@athena" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vawvaw/athena.nix ];
+          modules = [ ./home/vaw/athena.nix ];
         };
         # hosted server
-        "vawvaw@artemis" = home-manager.lib.homeManagerConfiguration {
+        "vaw@artemis" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             platform = "aarch64-linux";
           };
-          modules = [ ./home/vawvaw/artemis.nix ];
+          modules = [ ./home/vaw/artemis.nix ];
         };
         # raspberry pi 3b
-        "vawvaw@nyx" = home-manager.lib.homeManagerConfiguration {
+        "vaw@nyx" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             platform = "aarch64-linux";
           };
-          modules = [ ./home/vawvaw/nyx.nix ];
+          modules = [ ./home/vaw/nyx.nix ];
         };
         # Portable minimum configuration
-        "vawvaw" = home-manager.lib.homeManagerConfiguration {
+        "vaw" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vawvaw/generic.nix ];
+          modules = [ ./home/vaw/generic.nix ];
         };
       };
     };

@@ -11,7 +11,7 @@
     ../common/optional/containers
 
     ../common/global
-    ../common/users/vawvaw
+    ../common/users/vaw
 
     ./config
   ];
@@ -68,7 +68,7 @@
           port = 443;
           hostKeys = [ /persist/etc/ssh/ssh_initrd_host_ed25519_key ];
           authorizedKeys =
-            [ (lib.readFile ../common/users/vawvaw/home/pubkey_ssh.txt) ];
+            [ (lib.readFile ../common/users/vaw/home/pubkey_ssh.txt) ];
         };
       };
     };
