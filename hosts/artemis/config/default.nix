@@ -1,8 +1,1 @@
-{
-  imports = [
-    ./borgbackup.nix
-    ./nginx.nix
-    ./radicale.nix
-    ./syncthing.nix
-  ];
-}
+{ imports = [ ./nginx.nix ./radicale.nix ./syncthing.nix ]; }

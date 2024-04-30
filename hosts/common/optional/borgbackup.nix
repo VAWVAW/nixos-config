@@ -28,7 +28,7 @@
         persistentTimer = true;
 
         paths = [ "/backed_up" ];
-        exclude = [ "var/lib/syncthing/data/Documents/**/.git" ];
+        exclude = [ "var/lib/syncthing/data/Documents/coding/**/.git" "var/lib/syncthing/data/Documents/studium/*/nextcloud/*/*.mp4" ];
 
         archiveBaseName = "data";
         compression = "lz4";
