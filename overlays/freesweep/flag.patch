@@ -1,0 +1,12 @@
+diff --git i/play.c w/play.c
+index 283d6e3..6af4fa2 100644
+--- i/play.c
++++ w/play.c
+@@ -104,6 +104,7 @@ int GetInput(GameStats* Game)
+ 		/* The non-motion keys. */
+ 		/* The accepted values for flagging a space as a mine. */
+ 		case 'f':
++		case 'm':
+ 		case KEY_B2:
+ 			if (Multiplier!=1)
+ 			{
