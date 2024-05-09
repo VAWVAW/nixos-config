@@ -14,6 +14,12 @@ let
 in {
   imports = [ ./bemenu.nix ];
 
+  desktop.keybinds.binds = [{
+    mods = [ "super" ];
+    key = "c";
+    command = "${pkgs.dunst}/bin/dunstctl context";
+  }];
+
   services.dunst = {
     enable = true;
     settings = {
