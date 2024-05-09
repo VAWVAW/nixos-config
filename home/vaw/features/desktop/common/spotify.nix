@@ -16,7 +16,7 @@ let
       ${pkgs.curl}/bin/curl -o $FILE_NAME $URL 2>/dev/null
     fi
 
-    ${pkgs.libnotify}/bin/notify-send --icon=$FILE_NAME "$TITLE" "$DESC"
+    ${pkgs.libnotify}/bin/notify-send --app-name=spotifyd --icon=$FILE_NAME "$TITLE" "$DESC"
   '';
 
 in {
