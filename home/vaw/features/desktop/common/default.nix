@@ -34,6 +34,7 @@
       qpdfview
       feh
       sops
+      freesweep
     ];
 
     persistence."/persist/home/vaw".directories = [
