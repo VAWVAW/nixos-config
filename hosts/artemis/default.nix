@@ -17,41 +17,7 @@
     ./config
   ];
 
-  networking = {
-    hostName = "artemis";
-
-    resolvconf.enable = true;
-    nameservers = [
-      # quad9
-      "9.9.9.10"
-      "149.112.112.10"
-      "2620:fe::10"
-      "2620:fe::fe:10"
-      # cloudflare
-      "1.1.1.1"
-      "2606:4700:4700::1111"
-    ];
-
-    interfaces."enp3s0" = {
-      ipv4 = {
-        addresses = [{
-          address = "152.53.18.121";
-          prefixLength = 22;
-        }];
-        routes = [
-          {
-            address = "0.0.0.0";
-            prefixLength = 0;
-            via = "152.53.16.1";
-          }
-          {
-            address = "152.53.16.0";
-            prefixLength = 22;
-          }
-        ];
-      };
-    };
-  };
+  networking.hostName = "artemis";
 
   boot = {
     kernelParams =

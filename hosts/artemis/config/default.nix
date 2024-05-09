@@ -1,1 +1,1 @@
-{ imports = [ ./nginx.nix ./radicale.nix ./syncthing.nix ]; }
+{ imports = [ ./network.nix ./nginx.nix ./radicale.nix ./syncthing.nix ]; }
