@@ -80,12 +80,9 @@
         vimcmd_symbol = "[\\$](bold yellow)";
       };
 
-      status = { disabled = false; };
+      status.disabled = false;
 
-      cmd_duration = {
-        format = "[󰥔 ]($style)[$duration](white)";
-        show_notifications = true;
-      };
+      cmd_duration.format = "[󰥔 ]($style)[$duration](white)";
 
       jobs = {
         format = "[$symbol]($style)( [$number](white))";
