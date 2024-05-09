@@ -13,7 +13,6 @@
     ../common/optional/btrfs-swapfile.nix
 
     ../common/optional/containers
-    ../common/optional/nixos-containers
 
     ../common/optional/desktop
 
@@ -23,7 +22,13 @@
     ./config
   ];
 
-  networking.hostName = "hades";
+  networking = {
+    hostName = "hades";
+    hosts = {
+      "192.168.2.11" = [ "athena" ];
+      "192.168.2.20" = [ "nyx" ];
+    };
+  };
 
   environment.systemPackages = with pkgs; [ nvtopPackages.full ];
 
