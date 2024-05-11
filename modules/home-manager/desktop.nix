@@ -237,8 +237,9 @@ with lib; {
   config.wayland.windowManager = let cfg = config.desktop;
   in {
     sway.config = let
+      transformMod = builtins.replaceStrings [ "super" "alt"] ["Mod4" "Mod1"];
       generateKeybind = genExec: bind: {
-        name = builtins.replaceStrings [ "super" "alt" ] [ "mod4" "mod1" ]
+        name = transformMod
           (builtins.concatStringsSep "+" (bind.mods ++ [ bind.key ]));
         value = genExec bind;
       };
@@ -246,6 +247,9 @@ with lib; {
         builtins.listToAttrs (map (generateKeybind genExec) binds);
 
     in mkIf config.wayland.windowManager.sway.enable {
+      inherit (cfg.keybinds.generated) left right up down;
+      modifier = transformMod cfg.keybinds.generated.mod;
+
       # keyboard layout
       input."type:keyboard" = {
         xkb_layout = config.home.keyboard.layout;
