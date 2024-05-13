@@ -32,7 +32,7 @@ in {
         user = "vw7335fu";
       };
       "fu" = lib.hm.dag.entryAfter [ "fu-login" ] {
-        host = "*.imp.fu-berlin.de";
+        host = "*.imp.fu-berlin.de !andorra.imp.fu-berlin.de !sanmarino.imp.fu-berlin.de";
         user = "vw7335fu";
         proxyJump = "sanmarino.imp.fu-berlin.de";
       };
