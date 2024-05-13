@@ -8,6 +8,7 @@
     ./firefox.nix
     ./keepassxc.nix
     ./mattermost.nix
+    ./ntfy.nix
     ./signal-desktop.nix
     ./spotify.nix
     ./theme.nix
@@ -35,6 +36,7 @@
       feh
       sops
       freesweep
+      libnotify
     ];
 
     persistence."/persist/home/vaw".directories = [

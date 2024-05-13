@@ -1,9 +1,10 @@
 { config, ... }: {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  environment.persistence."/backed_up" = { directories = [ "/var/www" ]; };
-
-  environment.persistence."/persist" = { directories = [ "/var/lib/acme" ]; };
+  environment.persistence = {
+    "/backed_up".directories = [ "/var/www" ];
+    "/persist".directories = [ "/var/lib/acme" ];
+  };
 
   services.nginx = {
     enable = true;
@@ -42,21 +43,31 @@
       "caldav.vaw-valentin.de" = {
         enableACME = true;
         forceSSL = true;
-        listen = [
-          {
-            addr = "0.0.0.0";
-            port = 80;
-          }
-          {
-            addr = "127.0.0.1";
-            port = 443;
-            ssl = true;
-          }
-        ];
+        listen = [{
+          addr = "127.0.0.1";
+          port = 443;
+          ssl = true;
+        }];
 
         locations."/" = {
-          proxyPass =
-            "http://${builtins.head config.containers.radicale.config.services.radicale.settings.server.hosts}/";
+          proxyPass = "http://${
+              builtins.head
+              config.containers.radicale.config.services.radicale.settings.server.hosts
+            }/";
+          proxyWebsockets = true;
+        };
+      };
+      "ntfy.nlih.de" = {
+        enableACME = true;
+        forceSSL = true;
+        listen = [{
+          addr = "127.0.0.1";
+          port = 443;
+          ssl = true;
+        }];
+
+        locations."/" = {
+          proxyPass = "http://${config.services.ntfy-sh.settings.listen-http}/";
           proxyWebsockets = true;
         };
       };
@@ -78,8 +89,7 @@
         root = "/var/www/divera/html";
         basicAuthFile = "/var/www/divera/auth/htpasswd";
         locations."/api/" = {
-          proxyPass =
-            "http://localhost:8000/";
+          proxyPass = "http://localhost:8000/";
           proxyWebsockets = true;
         };
       };
