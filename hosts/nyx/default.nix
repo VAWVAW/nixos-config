@@ -2,7 +2,6 @@
   imports = [
     ../common/optional/boot-partition.nix
     ../common/optional/btrfs-swapfile.nix
-    ../common/optional/sslh.nix
     ../common/optional/systemd-initrd.nix
     ../common/optional/borgbackup.nix
 

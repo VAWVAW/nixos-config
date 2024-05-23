@@ -10,8 +10,6 @@
     };
   };
 
-  services.sslh.listenAddresses = [ "152.53.18.121" ];
-
   services.resolved = {
     enable = true;
     dnsovertls = "true";

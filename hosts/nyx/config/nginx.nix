@@ -1,9 +1,10 @@
 {
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-  environment.persistence."/backed_up" = { directories = [ "/var/www" ]; };
-
-  environment.persistence."/persist" = { directories = [ "/var/lib/acme" ]; };
+  environment.persistence = {
+    "/backed_up".directories = [ "/var/www" ];
+    "/persist".directories = [ "/var/lib/acme" ];
+  };
 
   services.nginx = {
     enable = true;
@@ -22,7 +23,7 @@
             port = 80;
           }
           {
-            addr = "127.0.0.1";
+            addr = "0.0.0.0";
             port = 443;
             ssl = true;
           }
