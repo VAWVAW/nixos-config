@@ -37,6 +37,7 @@
       sops
       freesweep
       libnotify
+      foot
     ];
 
     persistence."/persist/home/vaw".directories = [
