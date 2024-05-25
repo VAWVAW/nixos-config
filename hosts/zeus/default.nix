@@ -73,6 +73,7 @@
         configurationLimit = 40;
       };
     };
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   hardware = {
@@ -82,6 +83,9 @@
       driSupport32Bit = true;
     };
   };
+
+  nix.settings.secret-key-files =
+    [ "/persist/var/lib/binary-cache/cache-key.pem" ];
 
   system.stateVersion = "23.05";
   nixpkgs.hostPlatform.system = "x86_64-linux";

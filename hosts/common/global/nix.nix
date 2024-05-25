@@ -13,14 +13,15 @@
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
       config.nix.registry;
 
-    # add hades as binary cache
     settings = {
       trusted-public-keys = [
+        # hades
         "cache.vaw-valentin.de:/8iA2reUED51lB6NGBfgwI5a1u1NCru1kL9BDKEdCjY="
+        # zeus
+        "zeus:iDYlA1HbAwIw3XqhMqPjCG2ihP7LLV0g16Gs9WPxfpU="
+
       ];
-      trusted-substituters = [
-        "http://192.168.2.10:5000"
-      ];
+      trusted-substituters = [ "http://192.168.2.10:5000" ];
     };
   };
 }
