@@ -303,6 +303,30 @@
             }
           ];
         };
+        "mirror" = {
+          enter = {
+            mods = [ mod ];
+            key = "m";
+          };
+          binds = [
+            {
+              key = "o";
+              command = "${pkgs.wl-mirror}/bin/wl-present mirror";
+            }
+            {
+              key = "s";
+              command = "${pkgs.wl-mirror}/bin/wl-present set-output";
+            }
+            {
+              key = "r";
+              command = "${pkgs.wl-mirror}/bin/wl-present set-region";
+            }
+            {
+              key = "f";
+              command = "${pkgs.wl-mirror}/bin/wl-present toggle-freeze";
+            }
+          ];
+        };
       };
     };
   };
