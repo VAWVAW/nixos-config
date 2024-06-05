@@ -42,11 +42,17 @@
         enable-bar-scroll = true;
       };
       "hyprland/submap" = {
-        on-click = "${pkgs.hyprland}/bin/hyprctl dispatch submap reset";
+        on-click = if config.wayland.windowManager.hyprland.enable then
+          "${pkgs.hyprland}/bin/hyprctl dispatch submap reset"
+        else
+          "";
         tooltip = false;
       };
       "sway/mode" = {
-        on-click = "${pkgs.sway}/bin/swaymsg mode default";
+        on-click = if config.wayland.windowManager.sway.enable then
+          "${pkgs.sway}/bin/swaymsg mode default"
+        else
+          "";
         tooltip = false;
       };
 

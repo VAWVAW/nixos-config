@@ -22,18 +22,16 @@
         event = "before-sleep";
         command = "${pkgs.systemd}/bin/loginctl lock-session";
       }
-      {
-        event = "after-resume";
-        command = "${pkgs.sway}/bin/swaymsg output \\* dpms on";
-      }
-      {
-        event = "after-resume";
-        command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-      }
     ] ++ lib.optionals config.services.spotifyd.enable [{
       event = "after-resume";
       command =
         "sleep 2 && ${pkgs.systemd}/bin/systemctl --user restart spotifyd.service";
+    }] ++ lib.optionals config.wayland.windowManager.sway.enable [{
+      event = "after-resume";
+      command = "${pkgs.sway}/bin/swaymsg output \\* dpms on";
+    }] ++ lib.optionals config.wayland.windowManager.hyprland.enable [{
+      event = "after-resume";
+      command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
     }];
 
     timeouts = [
@@ -43,23 +41,22 @@
         resumeCommand = "${pkgs.brightnessctl}/bin/brightnessctl -r";
       }
       {
-        timeout = 600;
-        command = "${pkgs.systemd}/bin/loginctl lock-session";
-      }
-      {
         timeout = 660;
         command = "${pkgs.sway}/bin/swaymsg output \\* dpms off";
         resumeCommand = "${pkgs.sway}/bin/swaymsg output \\* dpms on";
       }
       {
-        timeout = 660;
-        command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-        resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-      }
-      {
         timeout = 900;
         command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
       }
-    ];
+    ] ++ lib.optionals config.wayland.windowManager.sway.enable [{
+      timeout = 660;
+      command = "${pkgs.sway}/bin/swaymsg output \\* dpms off";
+      resumeCommand = "${pkgs.sway}/bin/swaymsg output \\* dpms on";
+    }] ++ lib.optionals config.wayland.windowManager.hyprland.enable [{
+      timeout = 660;
+      command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+      resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+    }];
   };
 }
