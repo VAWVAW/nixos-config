@@ -159,12 +159,12 @@
         {
           mods = [ mod ];
           key = "XF86MonBrightnessUp";
-          command = "sudo ${pkgs.light}/bin/light -A 1";
+          command = "${pkgs.brightnessctl}/bin/brightnessctl s 1%+";
         }
         {
           mods = [ mod ];
           key = "XF86MonBrightnessDown";
-          command = "sudo ${pkgs.light}/bin/light -U 1";
+          command = "${pkgs.brightnessctl}/bin/brightnessctl s 1%-";
         }
       ];
 
@@ -194,11 +194,11 @@
         # brightness
         {
           key = "XF86MonBrightnessUp";
-          command = "sudo ${pkgs.light}/bin/light -A 5";
+          command = "${pkgs.brightnessctl}/bin/brightnessctl s 5%+";
         }
         {
           key = "XF86MonBrightnessDown";
-          command = "sudo ${pkgs.light}/bin/light -U 5";
+          command = "${pkgs.brightnessctl}/bin/brightnessctl s 5%-";
         }
 
         # player control

@@ -34,7 +34,7 @@
       scale = "1.5";
     }];
     startup_commands = [
-      "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 0%; ${pkgs.light}/bin/light -S 10%'"
+      "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 0%; ${pkgs.brightnessctl}/bin/brightnessctl s 10%'"
     ];
   };
 
