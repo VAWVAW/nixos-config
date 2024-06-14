@@ -20,6 +20,7 @@
       python.disabled = true;
       scala.disabled = true;
       c.disabled = true;
+      zig.disabled = true;
 
       #modules
       username = {
