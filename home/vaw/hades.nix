@@ -22,6 +22,7 @@
         "sudo nixos-rebuild boot --flake /home/vaw/Documents/nixos-config#";
     };
     keyboard.options = [ "altwin:menu_win" ];
+    sessionVariables.NVK_I_WANT_A_BROKEN_VULKAN_DRIVER = "1";
   };
 
   programs = {

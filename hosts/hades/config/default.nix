@@ -1,1 +1,9 @@
-{ imports = [ ./binary-cache.nix ./initrd-ssh.nix ./network.nix ./ovmf.nix ]; }
+{
+  imports = [
+    ./binary-cache.nix
+    ./initrd-ssh.nix
+    ./network.nix
+    ./nvidia.nix
+    ./ovmf.nix
+  ];
+}

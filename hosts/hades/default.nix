@@ -2,7 +2,6 @@
 { pkgs, inputs, config, ... }: {
   imports = [
     inputs.hardware.nixosModules.common-cpu-amd-pstate
-    inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.hardware.nixosModules.common-pc-ssd
 
     ../common/optional/apparmor.nix
@@ -29,8 +28,6 @@
       "192.168.2.20" = [ "nyx" ];
     };
   };
-
-  environment.systemPackages = with pkgs; [ nvtopPackages.full ];
 
   programs.firejail.enable = true;
 
@@ -63,8 +60,6 @@
       driSupport = true;
       driSupport32Bit = true;
     };
-    nvidia.modesetting.enable = true;
-    nvidia.powerManagement.enable = true;
   };
 
   nix.settings.secret-key-files =
