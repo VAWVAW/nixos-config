@@ -4,6 +4,7 @@ in {
   sops.secrets = {
     "mail/ionos" = { };
     "mail/fu-berlin" = { };
+    "mail/spline" = { };
   };
 
   home.persistence."/persist/home/vaw".directories = [{
@@ -39,6 +40,7 @@ in {
         mailboxName = "ionos";
         extraConfig = ''
           unvirtual-mailboxes *
+          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
           named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
 
           named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
@@ -92,12 +94,58 @@ in {
           unset trash
 
           unvirtual-mailboxes *
+          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
           named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
 
           named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
           virtual-mailboxes "Abgaben" "notmuch://?query=folder:fu-berlin/Abgaben"
           virtual-mailboxes "Drafts" "notmuch://?query=folder:fu-berlin/Entwürfe"
           virtual-mailboxes "Sent" "notmuch://?query=folder:fu-berlin/Gesendet"
+        '';
+      };
+      mbsync = {
+        enable = true;
+        create = "maildir";
+      };
+      notmuch = {
+        enable = true;
+        neomutt.virtualMailboxes = lib.mkForce [ ];
+      };
+      msmtp.enable = true;
+    };
+    spline = {
+      address = "vawvaw@spline.de";
+      realName = "vawvaw";
+      imap = {
+        host = "imap.spline.de";
+        port = 993;
+        tls.enable = true;
+      };
+      smtp = {
+        host = "mail.spline.de";
+        port = 587;
+        tls.useStartTls = true;
+      };
+      userName = "vawvaw";
+      passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+          config.sops.secrets."mail/spline".path
+        }";
+
+      gpg = {
+        key = gpg-key;
+        signByDefault = true;
+      };
+      neomutt = {
+        enable = true;
+        mailboxName = "spline";
+        extraConfig = ''
+          unvirtual-mailboxes *
+          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
+          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
+
+          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
+          virtual-mailboxes "Sent" "notmuch://?query=folder:spline/Sent"
+          virtual-mailboxes "Trash" "notmuch://?query=folder:spline/Trash"
         '';
       };
       mbsync = {
