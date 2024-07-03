@@ -5,7 +5,7 @@
     ../common/optional/systemd-initrd.nix
     ../common/optional/borgbackup.nix
 
-    ../common/optional/nixos-containers
+    ../common/optional/containers
 
     ../common/global
     ../common/users/vaw
@@ -47,7 +47,7 @@
 
   boot = {
     kernelParams =
-      [ "ip=192.168.2.20::192.168.2.1:255.255.255.0::enp0s31f6:off" ];
+      [ "ip=192.168.2.20::192.168.2.1:255.255.255.0::enu1u1u1:off" ];
     blacklistedKernelModules = [ "onboard_usb_hub" ];
     initrd = {
       availableKernelModules = [
