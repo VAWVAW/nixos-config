@@ -12,17 +12,7 @@
     enable = true;
     syntaxHighlighting.enable = true;
     enableCompletion = true;
-    initExtra = ''
-      ${lib.optionalString config.programs.zsh.startTmux ''
-        # start tmux
-        if [ -z "$TMUX" ]; then
-          exec ${pkgs.tmux}/bin/tmux attach
-        fi
-      ''}
-
-      setopt promptsubst
-
-      # enable completion features
+    completionInit = ''
       autoload -Uz compinit
       compinit -d ~/.cache/zcompdump
       zstyle ':completion:*:*:*:*:*' menu select
@@ -38,58 +28,67 @@
       zstyle ':completion:*' use-compctl false
       zstyle ':completion:*' verbose true
       zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-
+    '';
+    initExtra = ''
+      ${lib.optionalString config.programs.zsh.startTmux ''
+        # start tmux
+        if [ -z "$TMUX" ]; then
+          exec ${pkgs.tmux}/bin/tmux attach
+        fi
+      ''}
 
       # start shell in vi mode
       bindkey -v
 
-      # notification on command completion
-      # based on zbell plugin
-      if [[ -o interactive ]] && zmodload zsh/datetime && autoload -Uz add-zsh-hook && autoload -Uz regexp-replace; then
-        znotify_timestamp=$EPOCHSECONDS
-        znotify_ignore=($EDITOR $PAGER ssh nix nix-shell)
-
-        # $1: command
-        # $2: duration in seconds
-        znotify_notify() {
-          ${pkgs.libnotify}/bin/notify-send --app-name=znotify "Command completed in ''${2}s:" $1
-        }
-
-        # $1: command
-        znotify_begin() {
+      ${lib.optionalString config.services.dunst.enable ''
+        # notification on command completion
+        # based on zbell plugin
+        if [[ -o interactive ]] && zmodload zsh/datetime && autoload -Uz add-zsh-hook && autoload -Uz regexp-replace; then
           znotify_timestamp=$EPOCHSECONDS
-          znotify_lastcmd=$1
-        }
+          znotify_ignore=($EDITOR $PAGER ssh nix nix-shell)
 
-        znotify_end() {
-          local cmd_duration=$(( $EPOCHSECONDS - $znotify_timestamp ))
-          local ran_long=$(( $cmd_duration >= 10 ))
+          # $1: command
+          # $2: duration in seconds
+          znotify_notify() {
+            ${pkgs.libnotify}/bin/notify-send --app-name=znotify "Command completed in ''${2}s:" $1
+          }
 
-          local lastcmd_tmp="$znotify_lastcmd"
-          regexp-replace lastcmd_tmp '^sudo ' ""
+          # $1: command
+          znotify_begin() {
+            znotify_timestamp=$EPOCHSECONDS
+            znotify_lastcmd=$1
+          }
 
-          [[ $znotify_last_timestamp == $znotify_timestamp ]] && return
+          znotify_end() {
+            local cmd_duration=$(( $EPOCHSECONDS - $znotify_timestamp ))
+            local ran_long=$(( $cmd_duration >= 10 ))
 
-          [[ $lastcmd_tmp == "" ]] && return
+            local lastcmd_tmp="$znotify_lastcmd"
+            regexp-replace lastcmd_tmp '^sudo ' ""
 
-          znotify_last_timestamp=$znotify_timestamp
+            [[ $znotify_last_timestamp == $znotify_timestamp ]] && return
 
-          local has_ignored_cmd=0
-          for cmd in ''${(s:;:)lastcmd_tmp//|/;}; do
-            words=(''${(z)cmd})
-            util=''${words[1]}
-            if (( ''${znotify_ignore[(i)$util]} <= ''${#znotify_ignore} )); then
-              has_ignored_cmd=1
-              break
-            fi
-          done
+            [[ $lastcmd_tmp == "" ]] && return
 
-          (( ! $has_ignored_cmd && ran_long)) && znotify_notify $znotify_lastcmd $cmd_duration
-        }
+            znotify_last_timestamp=$znotify_timestamp
 
-        add-zsh-hook preexec znotify_begin
-        add-zsh-hook precmd znotify_end
-      fi
+            local has_ignored_cmd=0
+            for cmd in ''${(s:;:)lastcmd_tmp//|/;}; do
+              words=(''${(z)cmd})
+              util=''${words[1]}
+              if (( ''${znotify_ignore[(i)$util]} <= ''${#znotify_ignore} )); then
+                has_ignored_cmd=1
+                break
+              fi
+            done
+
+            (( ! $has_ignored_cmd && ran_long)) && znotify_notify $znotify_lastcmd $cmd_duration
+          }
+
+          add-zsh-hook preexec znotify_begin
+          add-zsh-hook precmd znotify_end
+        fi
+      ''}
     '';
   };
 }
