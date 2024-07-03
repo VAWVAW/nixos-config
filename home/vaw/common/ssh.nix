@@ -1,28 +1,7 @@
-{ outputs, lib, ... }:
-let hostnames = builtins.attrNames outputs.nixosConfigurations;
-in {
+{ lib, ... }: {
   programs.ssh = {
     enable = true;
     matchBlocks = {
-      "net" = {
-        host = (builtins.concatStringsSep " " hostnames)
-          + " home.vaw-valentin.de server.vaw-valentin.de";
-        forwardAgent = true;
-        remoteForwards = [
-          {
-            bind.address =
-              "/run/user/1000/gnupg/d.dhpt8e5jayx45iqmq73jefpp/S.gpg-agent";
-            host.address =
-              "/run/user/1000/gnupg/d.dhpt8e5jayx45iqmq73jefpp/S.gpg-agent.extra";
-          }
-          {
-            bind.address =
-              "/run/user/1000/gnupg/d.dhpt8e5jayx45iqmq73jefpp/S.gpg-agent.ssh";
-            host.address =
-              "/run/user/1000/gnupg/d.dhpt8e5jayx45iqmq73jefpp/S.gpg-agent.ssh";
-          }
-        ];
-      };
       "artemis" = {
         host = "artemis server.vaw-valentin.de";
         hostname = "server.vaw-valentin.de";
@@ -32,7 +11,8 @@ in {
         user = "vw7335fu";
       };
       "fu" = lib.hm.dag.entryAfter [ "fu-login" ] {
-        host = "*.imp.fu-berlin.de !andorra.imp.fu-berlin.de !sanmarino.imp.fu-berlin.de";
+        host =
+          "*.imp.fu-berlin.de !andorra.imp.fu-berlin.de !sanmarino.imp.fu-berlin.de";
         user = "vw7335fu";
         proxyJump = "sanmarino.imp.fu-berlin.de";
       };
