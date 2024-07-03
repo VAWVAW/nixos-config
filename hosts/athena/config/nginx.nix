@@ -51,29 +51,6 @@
           proxyWebsockets = true;
         };
       };
-      "divera.nlih.de" = {
-        enableACME = true;
-        forceSSL = true;
-        listen = [
-          {
-            addr = "0.0.0.0";
-            port = 80;
-          }
-          {
-            addr = "127.0.0.1";
-            port = 443;
-            ssl = true;
-          }
-        ];
-
-        root = "/var/www/divera/html";
-        basicAuthFile = "/var/www/divera/auth/htpasswd";
-        locations."/api/" = {
-          proxyPass =
-            "http://localhost:8000/";
-          proxyWebsockets = true;
-        };
-      };
     };
   };
 }
