@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{
   programs.tmux = {
     enable = true;
     baseIndex = 1;
@@ -7,6 +7,5 @@
     customPaneNavigationAndResize = true;
     newSession = true;
     secureSocket = false;
-    shell = "${pkgs.zsh}/bin/zsh";
   };
 }
