@@ -5,6 +5,7 @@ in {
     "mail/ionos" = { };
     "mail/fu-berlin" = { };
     "mail/spline" = { };
+    "mail/subscriptions" = { };
   };
 
   home.persistence."/persist/home/vaw".directories = [{
@@ -40,10 +41,11 @@ in {
         mailboxName = "ionos";
         extraConfig = ''
           unvirtual-mailboxes *
+          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
           named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
           named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
-
           named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
+
           virtual-mailboxes "Drafts" "notmuch://?query=folder:ionos/Entwürfe"
           virtual-mailboxes "Junk" "notmuch://?query=folder:ionos/Spam"
           virtual-mailboxes "Sent" 'notmuch://?query=folder:"ionos/Gesendete Objekte"'
@@ -94,10 +96,11 @@ in {
           unset trash
 
           unvirtual-mailboxes *
+          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
           named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
+          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
           named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
 
-          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
           virtual-mailboxes "Abgaben" "notmuch://?query=folder:fu-berlin/Abgaben"
           virtual-mailboxes "Drafts" "notmuch://?query=folder:fu-berlin/Entwürfe"
           virtual-mailboxes "Sent" "notmuch://?query=folder:fu-berlin/Gesendet"
@@ -140,12 +143,54 @@ in {
         mailboxName = "spline";
         extraConfig = ''
           unvirtual-mailboxes *
-          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
-          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
-
+          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
           named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
+          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
+          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
+
           virtual-mailboxes "Sent" "notmuch://?query=folder:spline/Sent"
           virtual-mailboxes "Trash" "notmuch://?query=folder:spline/Trash"
+        '';
+      };
+      mbsync = {
+        enable = true;
+        create = "maildir";
+      };
+      notmuch = {
+        enable = true;
+        neomutt.virtualMailboxes = lib.mkForce [ ];
+      };
+      msmtp.enable = true;
+    };
+    subscriptions = {
+      address = "subscriptions@vaw-valentin.de";
+      realName = "vaw";
+      imap = {
+        host = "mx2fd8.netcup.net";
+        port = 993;
+        tls.enable = true;
+      };
+      smtp = {
+        host = "mx2fd8.netcup.net";
+        port = 587;
+        tls.useStartTls = true;
+      };
+      userName = "subscriptions@vaw-valentin.de";
+      passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+          config.sops.secrets."mail/subscriptions".path
+        }";
+      neomutt = {
+        enable = true;
+        mailboxName = "subscriptions";
+        extraConfig = ''
+          unset trash
+
+          unvirtual-mailboxes *
+          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
+          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
+          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
+          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
+
         '';
       };
       mbsync = {
@@ -281,6 +326,9 @@ in {
       extraConfig = ''
         set pager_stop
         set menu_scroll
+
+        set mail_check_stats=yes
+        set mail_check_stats_interval=300
 
         set forward_decode
         set reply_to
