@@ -5,5 +5,4 @@
     })
   ];
   spotifython-cli = pkgs.callPackage ./spotifython-cli { };
-  divera-status = pkgs.callPackage ./divera-status { };
 }
