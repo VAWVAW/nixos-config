@@ -1,5 +1,19 @@
-{ pkgs, ... }: {
-  programs.btop = {
+{ pkgs, outputs, ... }: {
+  programs.btop = let
+    persisted_paths = builtins.concatMap (config:
+      builtins.concatMap (dir:
+        builtins.concatLists [
+          (map (d: d.directory) dir.directories)
+          (map (f: f.file) dir.files)
+        ]) (builtins.attrValues config.config.environment.persistence or { }))
+      (builtins.attrValues outputs.nixosConfigurations);
+    extra_excluded = [
+      "/nix"
+      "/nix/store"
+      "/persist"
+      "/backed_up/var/lib/syncthing/.config/syncthing"
+    ];
+  in {
     enable = true;
     settings = {
       color_theme = "${pkgs.btop}/share/btop/themes/adapta.theme";
@@ -10,23 +24,8 @@
       proc_sorting = "memory";
       proc_per_core = true;
       cpu_single_graph = true;
-      disks_filter = builtins.replaceStrings [ "\n" ] [ " " ] ''
-        exclude=
-        /backed_up
-        /etc/NetworkManager/system-connections
-        /nix
-        /nix/store
-        /persist
-        /persist/var/lib/containers/storage/overlay
-        /swap
-        /var/lib/containers
-        /var/lib/containers/storage/overlay
-        /var/lib/libvirt
-        /var/lib/NetworkManager/seen-bssids
-        /var/lib/syncthing/config
-        /var/lib/systemd/timers
-        /var/log
-      '';
+      disks_filter = "exclude="
+        + (builtins.concatStringsSep " " (persisted_paths ++ extra_excluded));
       use_fstab = false;
       net_upload = 5;
       net_auto = false;
