@@ -1,4 +1,25 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
+
+  wayland.windowManager.sway.config.bars = [{
+    statusCommand =
+      "${pkgs.i3blocks}/bin/i3blocks -c ~/.config/i3blocks/default";
+    trayOutput = "*";
+    position = "bottom";
+    colors = let inherit (config.wayland.windowManager.sway.config) colors;
+    in {
+      statusline = "#ffffff";
+      background = "#000000";
+      focusedWorkspace = { inherit (colors.focused) background border text; };
+      bindingMode = { inherit (colors.urgent) background border text; };
+      activeWorkspace = {
+        inherit (colors.focusedInactive) background border text;
+      };
+      inactiveWorkspace = {
+        inherit (colors.unfocused) background border text;
+      };
+    };
+  }];
+
   programs.i3blocks = let i3blocks_volume_signal = "10";
   in {
     enable = true;
@@ -241,47 +262,47 @@
         color = "#ff0000";
         signal = "12";
       };
-      "spotify" = lib.hm.dag.entryAfter [ "mail" ]{
+      "spotify" = lib.hm.dag.entryAfter [ "mail" ] {
         command = "${spotify_script}";
         short_text = "󰝚";
         interval = 5;
         signal = "11";
       };
-      "volume" = lib.hm.dag.entryAfter [ "spotify" ]{
+      "volume" = lib.hm.dag.entryAfter [ "spotify" ] {
         command = "${volume_script}";
         align = "right";
         interval = 10;
         signal = i3blocks_volume_signal;
       };
-      "iface" = lib.hm.dag.entryAfter [ "volume" ]{
+      "iface" = lib.hm.dag.entryAfter [ "volume" ] {
         command = "${iface_script}";
         short_text = " ";
         color = "#00FF00";
         interval = 10;
         separator = "false";
       };
-      "bandwidth" = lib.hm.dag.entryAfter [ "iface" ]{
+      "bandwidth" = lib.hm.dag.entryAfter [ "iface" ] {
         command = "${bandwidth_script}";
         interval = "persist";
         markup = "pango";
       };
-      "cpu" = lib.hm.dag.entryAfter [ "bandwidth" ]{
+      "cpu" = lib.hm.dag.entryAfter [ "bandwidth" ] {
         command = "${cpu_usage_script}";
         interval = "persist";
         min_width = "100%";
         align = "right";
         format = "json";
       };
-      "memory" = lib.hm.dag.entryAfter [ "cpu" ]{
+      "memory" = lib.hm.dag.entryAfter [ "cpu" ] {
         command = "${memory_script}";
         interval = 5;
       };
-      "disk" = lib.hm.dag.entryAfter [ "memory" ]{
+      "disk" = lib.hm.dag.entryAfter [ "memory" ] {
         command = "${disk_script}";
         DIR = "/";
         interval = 10;
       };
-      "time" = lib.hm.dag.entryAfter [ "disk" ]{
+      "time" = lib.hm.dag.entryAfter [ "disk" ] {
         command = "date '+%d.%m.%4Y %T'";
         interval = 1;
       };

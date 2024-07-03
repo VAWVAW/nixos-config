@@ -1,22 +1,17 @@
 { lib, pkgs, ... }: {
   imports = [
-    ./global.nix
+    ../common
+    ../desktop
 
-    ./features/desktop/sway
-    ./features/desktop/common/swayidle.nix
-    ./features/desktop/common/syncthing.nix
-    ./features/desktop/common/obsidian.nix
+    ../desktop/optional/sway.nix
+    ../desktop/optional/swayidle.nix
+    ../desktop/optional/waybar
   ];
 
   services.spotifyd.settings.global.device_name = "zeus_spotifyd";
   systemd.user.services."spotifyd".Install.WantedBy = lib.mkForce [ ];
 
-  home.shellAliases = {
-    nswitch =
-      "sudo nixos-rebuild switch --flake /home/vaw/Documents/nixos-config#";
-    nboot =
-      "sudo nixos-rebuild boot --flake /home/vaw/Documents/nixos-config#";
-  };
+  home.keyboard.options = [ "ctrl:swap_rwin_rctl" ];
 
   programs = {
     firejail.wrappedBinaries.signal-desktop.executable = lib.mkForce
@@ -24,8 +19,6 @@
 
     alacritty.settings.font.size = lib.mkForce 8.0;
   };
-
-  home.keyboard.options = [ "ctrl:swap_rwin_rctl" ];
 
   desktop = {
     screens = [{

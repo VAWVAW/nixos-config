@@ -1,26 +1,21 @@
 { pkgs, lib, ... }: {
   imports = [
-    ./global.nix
+    ../common
+    ../desktop
 
-    ./features/desktop/sway
-    ./features/desktop/hyprland
-    ./features/desktop/common/swayidle.nix
-    ./features/desktop/common/steam.nix
-    ./features/desktop/common/minecraft.nix
-    ./features/desktop/common/lutris.nix
-    ./features/desktop/common/syncthing.nix
-    ./features/desktop/common/obsidian.nix
+    ../desktop/optional/sway.nix
+    ../desktop/optional/hyprland.nix
+    ../desktop/optional/swayidle.nix
+    ../desktop/optional/waybar
+
+    ../desktop/optional/steam.nix
+    ../desktop/optional/lutris.nix
+    ../desktop/optional/minecraft.nix
   ];
 
   services.spotifyd.settings.global.device_name = "hades_spotifyd";
 
   home = {
-    shellAliases = {
-      nswitch =
-        "sudo nixos-rebuild switch --flake /home/vaw/Documents/nixos-config#";
-      nboot =
-        "sudo nixos-rebuild boot --flake /home/vaw/Documents/nixos-config#";
-    };
     keyboard.options = [ "altwin:menu_win" ];
     sessionVariables.NVK_I_WANT_A_BROKEN_VULKAN_DRIVER = "1";
   };

@@ -107,7 +107,7 @@
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vaw/hades.nix ];
+          modules = [ ./home/vaw/hosts/hades.nix ];
         };
         # Framework 13 Laptop
         "vaw@zeus" = home-manager.lib.homeManagerConfiguration {
@@ -116,7 +116,7 @@
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vaw/zeus.nix ];
+          modules = [ ./home/vaw/hosts/zeus.nix ];
         };
         # home server
         "vaw@athena" = home-manager.lib.homeManagerConfiguration {
@@ -125,7 +125,7 @@
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vaw/athena.nix ];
+          modules = [ ./home/vaw/hosts/athena.nix ];
         };
         # hosted server
         "vaw@artemis" = home-manager.lib.homeManagerConfiguration {
@@ -134,7 +134,7 @@
             inherit inputs outputs;
             platform = "aarch64-linux";
           };
-          modules = [ ./home/vaw/artemis.nix ];
+          modules = [ ./home/vaw/hosts/artemis.nix ];
         };
         # raspberry pi 3b
         "vaw@nyx" = home-manager.lib.homeManagerConfiguration {
@@ -143,7 +143,7 @@
             inherit inputs outputs;
             platform = "aarch64-linux";
           };
-          modules = [ ./home/vaw/nyx.nix ];
+          modules = [ ./home/vaw/hosts/nyx.nix ];
         };
         # Portable minimum configuration
         "vaw" = home-manager.lib.homeManagerConfiguration {
@@ -152,7 +152,7 @@
             inherit inputs outputs;
             platform = "x86_64-linux";
           };
-          modules = [ ./home/vaw/generic.nix ];
+          modules = [ ./home/vaw/hosts/nixos-iso.nix ];
         };
       };
     };

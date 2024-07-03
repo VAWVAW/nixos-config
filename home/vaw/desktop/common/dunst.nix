@@ -12,8 +12,6 @@ let
     fi
   '';
 in {
-  imports = [ ./bemenu.nix ];
-
   desktop.keybinds.binds = [{
     mods = [ "super" ];
     key = "c";

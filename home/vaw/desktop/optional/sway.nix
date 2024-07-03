@@ -28,8 +28,9 @@
       '';
       extraOptions = [ "--unsupported-gpu" ];
       config = {
-        bars = [ ];
         seat."*".hide_cursor = "when-typing enable";
+
+        bars = [ ];
 
         window = {
           titlebar = true;

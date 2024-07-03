@@ -35,5 +35,6 @@ in {
     neededForUsers = true;
   };
 
-  home-manager.users.vaw = import ./home/${config.networking.hostName}.nix;
+  home-manager.users.vaw =
+    import ./home/hosts/${config.networking.hostName}.nix;
 }

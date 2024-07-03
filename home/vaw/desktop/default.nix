@@ -1,30 +1,14 @@
-{ pkgs, ... }: {
+{ inputs, pkgs, ... }: {
   imports = [
-    ./audio.nix
-    ./alacritty.nix
-    #./cinny.nix
-    ./discord.nix
-    ./font.nix
-    ./firefox.nix
-    ./keepassxc.nix
-    ./mattermost.nix
-    ./ntfy.nix
-    ./signal-desktop.nix
-    ./spotify.nix
-    ./theme.nix
-    ./tor-browser.nix
-    ./waybar
-    ./xdg.nix
-    ./xkb.nix
+    inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.sops-nix.homeManagerModule
 
-    ../../cli/nvim
-    ../../cli/mail.nix
-    ../../cli/iamb.nix
+    ./common
   ];
 
   sops = {
     age.keyFile = "/persist/home/vaw/.config/key.txt";
-    defaultSopsFile = ../secrets.yaml;
+    defaultSopsFile = ./secrets.yaml;
   };
 
   home = {
@@ -38,34 +22,38 @@
       freesweep
       libnotify
       foot
+      nixfmt-classic
     ];
 
-    persistence."/persist/home/vaw".directories = [
-      {
-        directory = "Pictures";
-        method = "symlink";
-      }
-      {
-        directory = "Games";
-        method = "symlink";
-      }
-      {
-        directory = "Documents";
-        method = "symlink";
-      }
-      {
-        directory = "Downloads";
-        method = "symlink";
-      }
-      {
-        directory = ".cargo";
-        method = "symlink";
-      }
-      {
-        directory = ".rustup";
-        method = "symlink";
-      }
-    ];
+    persistence."/persist/home/vaw" = {
+      allowOther = true;
+      directories = [
+        {
+          directory = "Pictures";
+          method = "symlink";
+        }
+        {
+          directory = "Games";
+          method = "symlink";
+        }
+        {
+          directory = "Documents";
+          method = "symlink";
+        }
+        {
+          directory = "Downloads";
+          method = "symlink";
+        }
+        {
+          directory = ".cargo";
+          method = "symlink";
+        }
+        {
+          directory = ".rustup";
+          method = "symlink";
+        }
+      ];
+    };
 
     keyboard = {
       layout = "de";
@@ -74,7 +62,7 @@
     };
   };
   desktop = {
-    theme.wallpaper = ../wallpapers/kali-contours-blue.png;
+    theme.wallpaper = ./wallpapers/kali-contours-blue.png;
 
     startup_commands = [
       "${pkgs.bash}/bin/bash -c 'systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service'"
@@ -263,7 +251,8 @@
             }
             {
               key = "m";
-              command = "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt";
+              command =
+                "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt";
             }
           ];
         };
