@@ -22,8 +22,6 @@
 
   programs = {
     firejail.wrappedBinaries = {
-      mattermost-desktop.executable = lib.mkForce
-        "${pkgs.mattermost-desktop}/bin/mattermost-desktop --use-gl=desktop";
       signal-desktop.executable = lib.mkForce
         "${pkgs.signal-desktop}/bin/signal-desktop --use-gl=desktop";
     };
@@ -48,7 +46,6 @@
     startup_commands = [
       "${pkgs.noisetorch}/bin/noisetorch -i"
       "discord"
-      "mattermost-desktop"
       "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%'"
     ];
   };
