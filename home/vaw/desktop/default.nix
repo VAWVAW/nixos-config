@@ -276,22 +276,22 @@
             }
             {
               key = "p";
-              command = "${pkgs.spotifython-cli}/bin/spotifython-cli play -s t";
+              command = "${pkgs.spotifython-cli}/bin/spotifython-cli play -s";
             }
             {
               key = "o";
               command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s t --playlist-dmenu";
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s --playlist-dmenu";
             }
             {
               key = "i";
               command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s f --playlist-dmenu";
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play --no-shuffle --playlist-dmenu";
             }
             {
               key = "r";
               command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s f -r t --playlist-dmenu";
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play --no-shuffle -r --playlist-dmenu";
             }
             {
               key = "s";
