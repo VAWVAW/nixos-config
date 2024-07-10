@@ -42,8 +42,10 @@
       };
 
       git_branch = {
-        format = "[$branch]($style)";
+        format =
+          "[$branch]($style)([->](bold white)[$remote_name/$remote_branch]($style))";
         style = "bold cyan";
+        only_attached = true;
       };
 
       git_commit = {
