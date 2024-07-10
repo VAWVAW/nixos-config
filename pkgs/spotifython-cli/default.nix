@@ -4,13 +4,13 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "spotifython-cli";
-  version = "0.2.1";
+  version = "0.2.2";
 
   src = fetchFromGitHub {
     owner = "vawvaw";
     repo = pname;
     rev = "v${version}";
-    sha256 = "1xk60r66xjgbl15dw1yv6s54yai96iy6g83fakhy0zlnf95qr5lm";
+    sha256 = "0yp3cwzz84hcy6i0s1xip9qna5hfdpwa8gimn3dzqavvy89hcvd4";
   };
 
   nativeBuildInputs = [ installShellFiles shtab sphinx-argparse ];
