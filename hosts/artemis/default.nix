@@ -19,16 +19,12 @@
   networking.hostName = "artemis";
 
   boot = {
-    kernelParams =
-      [ "ip=152.53.18.121::152.53.16.1:255.255.252.0::enp3s0:off" ];
     initrd = {
-      availableKernelModules = [
-        "xhci_pci"
-        "ahci"
-        "usbhid"
-      ];
+      availableKernelModules = [ "xhci_pci" "ahci" "usbhid" ];
+
+      systemd.network = config.systemd.network;
       network = {
-        enable = true;
+        enable = false;
         ssh = {
           enable = true;
           port = 443;

@@ -3,10 +3,16 @@
 
   systemd.network = {
     enable = true;
+    wait-online.extraArgs = [ "--interface=enp3s0:routable" ];
+
     networks."40-enp3s0" = {
       matchConfig.Name = "enp3s0";
-      address = [ "152.53.18.121/22" ];
-      routes = [{ routeConfig.Gateway = "152.53.16.1"; }];
+      address = [ "152.53.18.121/22" "2a0a:4cc0:1:104e::1/64" ];
+      routes = [
+        { routeConfig.Gateway = "152.53.16.1"; }
+        { routeConfig.Gateway = "fe80::1"; }
+      ];
+      linkConfig.RequiredForOnline = "routable";
     };
   };
 
