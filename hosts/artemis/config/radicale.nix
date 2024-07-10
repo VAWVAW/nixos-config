@@ -1,8 +1,10 @@
-{ config, ... }: {
-  containers."radicale" = let
-    address = "192.168.101.11";
-    port = 5232;
-  in {
+{ config, ... }:
+let
+  address = "192.168.101.11";
+  port = 5232;
+  host = "${address}:${builtins.toString port}";
+in {
+  containers."radicale" = {
     autoStart = true;
     privateNetwork = true;
     hostAddress = "192.168.101.10";
@@ -27,7 +29,7 @@
       services.radicale = {
         enable = true;
         settings = {
-          server.hosts = [ "${address}:${builtins.toString port}" ];
+          server.hosts = [ host ];
           auth = {
             type = "htpasswd";
             htpasswd_filename = "/var/lib/radicale/htpasswd";
@@ -36,5 +38,10 @@
         };
       };
     };
+  };
+
+  services.nginx.virtualHosts."caldav.vaw-valentin.de".locations."/" = {
+    proxyPass = "http://${host}/";
+    proxyWebsockets = true;
   };
 }

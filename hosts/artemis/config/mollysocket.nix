@@ -19,18 +19,8 @@ in {
     };
   };
 
-  services.nginx.virtualHosts."mollysocket.nlih.de" = {
-    enableACME = true;
-    forceSSL = true;
-    listen = [{
-      addr = "0.0.0.0";
-      port = 443;
-      ssl = true;
-    }];
-
-    locations."/" = {
-      proxyPass = "http://${host}:${builtins.toString port}/";
-      proxyWebsockets = true;
-    };
+  services.nginx.virtualHosts."mollysocket.nlih.de".locations."/" = {
+    proxyPass = "http://${host}:${builtins.toString port}/";
+    proxyWebsockets = true;
   };
 }

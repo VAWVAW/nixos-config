@@ -1,74 +1,51 @@
-{ config, ... }: {
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-
-  environment.persistence = {
-    "/backed_up".directories = [ "/var/www" ];
-    "/persist".directories = [ "/var/lib/acme" ];
+{ lib, ... }: {
+  options.services.nginx.virtualHosts = lib.mkOption {
+    type = lib.types.attrsOf (lib.types.submodule {
+      config = {
+        enableACME = lib.mkDefault true;
+        onlySSL = lib.mkDefault true;
+        listenAddresses = lib.mkDefault [ "0.0.0.0" ];
+      };
+    });
   };
 
-  services.nginx = {
-    enable = true;
-    recommendedTlsSettings = true;
-    recommendedOptimisation = true;
-    recommendedGzipSettings = true;
-    recommendedProxySettings = true;
+  config = {
+    networking.firewall.allowedTCPPorts = [ 80 443 ];
 
-    virtualHosts = {
-      "server.vaw-valentin.de" = {
-        enableACME = true;
-        forceSSL = true;
-        listen = [
-          {
-            addr = "0.0.0.0";
-            port = 80;
-          }
-          {
-            addr = "0.0.0.0";
-            port = 443;
-            ssl = true;
-          }
-        ];
+    environment.persistence = {
+      "/backed_up".directories = [ "/var/www" ];
+      "/persist".directories = [ "/var/lib/acme" ];
+    };
 
-        root = "/var/www/server";
+    services.nginx = {
+      enable = true;
+      recommendedTlsSettings = true;
+      recommendedOptimisation = true;
+      recommendedGzipSettings = true;
+      recommendedProxySettings = true;
 
-        # `nix-shell -p simple-http-server --run simple-http-server -p 8080 -ui -l 5000000000000000000`
-        #
-        # locations."/upload/" = {
-        #   proxyPass = "http://localhost:8080/";
-        #   extraConfig = ''
-        #     client_max_body_size 10G;
-        #   '';
-        # };
-      };
-      "caldav.vaw-valentin.de" = {
-        enableACME = true;
-        forceSSL = true;
-        listen = [{
-          addr = "0.0.0.0";
-          port = 443;
-          ssl = true;
-        }];
+      virtualHosts = {
+        "00_default" = {
+          serverName = "default.nlih.de";
+          onlySSL = false;
+          addSSL = true;
 
-        locations."/" = {
-          proxyPass = "http://${
-              builtins.head
-              config.containers.radicale.config.services.radicale.settings.server.hosts
-            }/";
-          proxyWebsockets = true;
+          globalRedirect = "server.vaw-valentin.de";
         };
-      };
-      "ntfy.nlih.de" = {
-        enableACME = true;
-        forceSSL = true;
-        listen = [{
-          addr = "0.0.0.0";
-          port = 443;
-          ssl = true;
-        }];
+        "server.vaw-valentin.de" = {
+          onlySSL = false;
+          forceSSL = true;
 
-        locations."/" = {
-          proxyPass = "http://${config.services.ntfy-sh.settings.listen-http}/";
-          proxyWebsockets = true;
+          root = "/var/www/server";
+
+          # `nix-shell -p simple-http-server --run simple-http-server -p 8080 -ui -l 5000000000000000000`
+          #
+          # locations."/upload/" = {
+          #   proxyPass = "http://localhost:8080/";
+          #   extraConfig = ''
+          #     client_max_body_size 10G;
+          #   '';
+          # };
         };
       };
     };
