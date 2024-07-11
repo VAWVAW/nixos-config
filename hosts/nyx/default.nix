@@ -19,35 +19,9 @@
       "192.168.2.10" = [ "hades" ];
       "192.168.2.11" = [ "athena" ];
     };
-
-    resolvconf.enable = true;
-    nameservers = [ "127.0.0.1" ];
-
-    nat.externalInterface = "enu1u1u1";
-    interfaces."enu1u1u1" = {
-      ipv4 = {
-        addresses = [{
-          address = "192.168.2.20";
-          prefixLength = 24;
-        }];
-        routes = [
-          {
-            address = "0.0.0.0";
-            prefixLength = 0;
-            via = "192.168.2.1";
-          }
-          {
-            address = "192.168.2.0";
-            prefixLength = 24;
-          }
-        ];
-      };
-    };
   };
 
   boot = {
-    kernelParams =
-      [ "ip=192.168.2.20::192.168.2.1:255.255.255.0::enu1u1u1:off" ];
     blacklistedKernelModules = [ "onboard_usb_hub" ];
     initrd = {
       availableKernelModules = [
@@ -57,8 +31,9 @@
         # network driver
         "lan78xx"
       ];
+      systemd.network = config.systemd.network;
       network = {
-        enable = true;
+        enable = false;
         ssh = {
           enable = true;
           port = 443;
