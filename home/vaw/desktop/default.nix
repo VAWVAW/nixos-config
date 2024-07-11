@@ -111,7 +111,7 @@
           mods = [ "alt" "shift" ];
           key = "s";
           command =
-            "${pkgs.grim}/bin/grim -g '$(${pkgs.slurp}/bin/slurp)' $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')";
+            "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')";
         }
         {
           mods = [ "alt" "shift" ];
