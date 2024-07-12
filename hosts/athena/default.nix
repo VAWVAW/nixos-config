@@ -4,10 +4,6 @@
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.hardware.nixosModules.common-pc-hdd
 
-    ../common/optional/boot-partition.nix
-    ../common/optional/btrfs-swapfile.nix
-    ../common/optional/systemd-initrd.nix
-
     ../common/optional/containers
 
     ../common/global
@@ -60,6 +56,7 @@
         # network driver
         "e1000e"
       ];
+      systemd.enable = true;
       network = {
         enable = true;
         ssh = {

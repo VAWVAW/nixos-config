@@ -1,5 +1,6 @@
 {
   imports = [
+    ./initrd.nix
     ./mollysocket.nix
     ./network.nix
     ./nginx.nix

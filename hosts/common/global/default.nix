@@ -2,6 +2,7 @@
 { lib, outputs, ... }: {
   imports = [
     ./acme.nix
+    ./boot-partition.nix
     ./btrfs-optin-persistence.nix
     ./cli.nix
     ./encrypted-root.nix

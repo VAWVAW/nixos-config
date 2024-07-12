@@ -1,8 +1,5 @@
-{ lib, config, ... }: {
+{ config, ... }: {
   imports = [
-    ../common/optional/boot-partition.nix
-    ../common/optional/btrfs-swapfile.nix
-    ../common/optional/systemd-initrd.nix
     ../common/optional/borgbackup.nix
 
     ../common/optional/containers
@@ -23,32 +20,15 @@
 
   boot = {
     blacklistedKernelModules = [ "onboard_usb_hub" ];
-    initrd = {
-      availableKernelModules = [
-        "usbhid"
-        "usb_storage"
 
-        # network driver
-        "lan78xx"
-      ];
-      systemd.network = config.systemd.network;
-      network = {
-        enable = false;
-        ssh = {
-          enable = true;
-          port = 443;
-          hostKeys = [ /persist/etc/ssh/ssh_initrd_host_ed25519_key ];
-          authorizedKeys =
-            [ (lib.readFile ../common/users/vaw/home/pubkey_ssh.txt) ];
-        };
-      };
-    };
+    initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
+
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot = {
         enable = true;
         editor = false;
-        configurationLimit = 40;
+        configurationLimit = 10;
       };
     };
   };

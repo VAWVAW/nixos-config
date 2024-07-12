@@ -2,7 +2,7 @@
   imports = [
     ./arduino.nix
     ./binary-cache.nix
-    ./initrd-ssh.nix
+    ./initrd.nix
     ./network.nix
     ./nvidia.nix
     ./ovmf.nix

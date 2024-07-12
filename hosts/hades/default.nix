@@ -6,10 +6,7 @@
 
     ../common/optional/apparmor.nix
     ../common/optional/android.nix
-    ../common/optional/systemd-initrd.nix
     ../common/optional/libvirt.nix
-    ../common/optional/boot-partition.nix
-    ../common/optional/btrfs-swapfile.nix
 
     ../common/optional/containers
 
@@ -31,15 +28,17 @@
 
   programs.firejail.enable = true;
 
-  system.stateVersion = "22.11";
-
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
+
+    kernelParams = [ "resume_offset=6328854" ];
+    resumeDevice = config.fileSystems."/swap".device;
+
     kernelModules = [ "kvm-amd" ];
-    initrd = {
-      availableKernelModules =
-        [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
-    };
+
+    initrd.availableKernelModules =
+      [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
+
     loader = {
       efi.canTouchEfiVariables = true;
       timeout = 1;
@@ -65,8 +64,6 @@
   nix.settings.secret-key-files =
     [ "/persist/var/lib/binary-cache/cache-key.pem" ];
 
-  boot.kernelParams = [ "resume_offset=6328854" ];
-  boot.resumeDevice = config.fileSystems."/swap".device;
-
+  system.stateVersion = "22.11";
   nixpkgs.hostPlatform.system = "x86_64-linux";
 }

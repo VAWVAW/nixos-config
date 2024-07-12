@@ -1,11 +1,8 @@
-{ inputs, config, lib, modulesPath, ... }: {
+{ inputs, config, modulesPath, ... }: {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.hardware.nixosModules.common-pc-ssd
 
-    ../common/optional/boot-partition.nix
-    ../common/optional/btrfs-swapfile.nix
-    ../common/optional/systemd-initrd.nix
     ../common/optional/borgbackup.nix
 
     ../common/optional/containers
@@ -19,27 +16,14 @@
   networking.hostName = "artemis";
 
   boot = {
-    initrd = {
-      availableKernelModules = [ "xhci_pci" "ahci" "usbhid" ];
+    initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" ];
 
-      systemd.network = config.systemd.network;
-      network = {
-        enable = false;
-        ssh = {
-          enable = true;
-          port = 443;
-          hostKeys = [ /persist/etc/ssh/ssh_initrd_host_ed25519_key ];
-          authorizedKeys =
-            [ (lib.readFile ../common/users/vaw/home/pubkey_ssh.txt) ];
-        };
-      };
-    };
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot = {
         enable = true;
         editor = false;
-        configurationLimit = 40;
+        configurationLimit = 10;
       };
     };
   };

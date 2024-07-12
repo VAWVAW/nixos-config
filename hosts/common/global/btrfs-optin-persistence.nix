@@ -63,6 +63,11 @@ in {
       options = [ "subvol=${hostname}/persist" "compress=zstd" ];
       neededForBoot = true;
     };
+    "/swap" = {
+      device = "/dev/disk/by-label/system_partition";
+      fsType = "btrfs";
+      options = [ "subvol=${hostname}/swap" "noatime" "compress=zstd" ];
+    };
   };
 
   environment.persistence."/persist" = {
@@ -70,4 +75,6 @@ in {
     directories = [ "/var/log" "/var/lib/systemd/timers" "/var/lib/nixos" ];
     files = [ "/etc/machine-id" ];
   };
+
+  swapDevices = [{ device = "/swap/swapfile"; }];
 }
