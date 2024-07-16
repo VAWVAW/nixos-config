@@ -14,7 +14,7 @@ in {
   }];
 
   accounts.email.accounts = {
-    ionos = rec {
+    "ionos" = rec {
       address = "valentin@wiedekind1.de";
       realName = "Valentin Wiedekind";
       primary = true;
@@ -39,22 +39,10 @@ in {
       neomutt = {
         enable = true;
         mailboxName = "ionos";
-        extraConfig = ''
-          unvirtual-mailboxes *
-          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
-          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
-          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
-          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
-
-          virtual-mailboxes "Drafts" "notmuch://?query=folder:ionos/Entwürfe"
-          virtual-mailboxes "Junk" "notmuch://?query=folder:ionos/Spam"
-          virtual-mailboxes "Sent" 'notmuch://?query=folder:"ionos/Gesendete Objekte"'
-          virtual-mailboxes "Trash" "notmuch://?query=folder:ionos/Papierkorb"
-        '';
       };
       mbsync = {
         enable = true;
-        create = "maildir";
+        create = "both";
       };
       notmuch = {
         enable = true;
@@ -62,7 +50,7 @@ in {
       };
       msmtp.enable = true;
     };
-    fu-berlin = {
+    "fu-berlin" = {
       address = "valentin.wiedekind@fu-berlin.de";
       realName = "Valentin Wiedekind";
       imap = {
@@ -92,23 +80,10 @@ in {
       neomutt = {
         enable = true;
         mailboxName = "fu-berlin";
-        extraConfig = ''
-          unset trash
-
-          unvirtual-mailboxes *
-          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
-          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
-          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
-          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
-
-          virtual-mailboxes "Abgaben" "notmuch://?query=folder:fu-berlin/Abgaben"
-          virtual-mailboxes "Drafts" "notmuch://?query=folder:fu-berlin/Entwürfe"
-          virtual-mailboxes "Sent" "notmuch://?query=folder:fu-berlin/Gesendet"
-        '';
       };
       mbsync = {
         enable = true;
-        create = "maildir";
+        create = "both";
       };
       notmuch = {
         enable = true;
@@ -116,7 +91,7 @@ in {
       };
       msmtp.enable = true;
     };
-    spline = {
+    "spline" = {
       address = "vawvaw@spline.de";
       realName = "vawvaw";
       imap = {
@@ -141,20 +116,12 @@ in {
       neomutt = {
         enable = true;
         mailboxName = "spline";
-        extraConfig = ''
-          unvirtual-mailboxes *
-          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
-          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
-          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
-          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
-
-          virtual-mailboxes "Sent" "notmuch://?query=folder:spline/Sent"
-          virtual-mailboxes "Trash" "notmuch://?query=folder:spline/Trash"
-        '';
       };
       mbsync = {
         enable = true;
-        create = "maildir";
+        create = "both";
+        expunge = "both";
+        remove = "both";
       };
       notmuch = {
         enable = true;
@@ -162,7 +129,7 @@ in {
       };
       msmtp.enable = true;
     };
-    subscriptions = {
+    "subscriptions" = {
       address = "subscriptions@vaw-valentin.de";
       realName = "vaw";
       imap = {
@@ -184,18 +151,11 @@ in {
         mailboxName = "subscriptions";
         extraConfig = ''
           unset trash
-
-          unvirtual-mailboxes *
-          named-mailboxes "subscriptions" "/home/vaw/Maildir/subscriptions/Inbox"
-          named-mailboxes "spline" "/home/vaw/Maildir/spline/Inbox"
-          named-mailboxes "fu-berlin" "/home/vaw/Maildir/fu-berlin/Inbox"
-          named-mailboxes "ionos" "/home/vaw/Maildir/ionos/Inbox"
-
         '';
       };
       mbsync = {
         enable = true;
-        create = "maildir";
+        create = "both";
       };
       notmuch = {
         enable = true;
@@ -206,13 +166,9 @@ in {
   };
 
   programs = {
-    neomutt = let
-      get_i3block_signal = name:
-        config.programs.i3blocks.bars."default"."${name}".data.signal;
-      inherit ((builtins.head config.programs.waybar.settings)."custom/mail")
-        signal;
-    in {
+    neomutt = {
       enable = true;
+      vimKeys = true;
       binds = [
         # sidebar navigation
         {
@@ -241,52 +197,16 @@ in {
           action = "collapse-thread";
           map = [ "index" ];
         }
-
         {
-          key = "\\CD";
-          action = "next-page";
-          map = [ "index" "attach" "pager" ];
+          key = "<return>";
+          action = "display-message";
+          map = [ "index" ];
         }
+        # file brower
         {
-          key = "\\CU";
-          action = "previous-page";
-          map = [ "index" "attach" "pager" ];
-        }
-        {
-          key = "g";
-          action = "noop";
-          map = [ "index" "attach" "pager" ];
-        }
-        {
-          key = "gg";
-          action = "first-entry";
-          map = [ "index" "attach" ];
-        }
-        {
-          key = "G";
-          action = "last-entry";
-          map = [ "index" "attach" ];
-        }
-        {
-          key = "gg";
-          action = "top";
-          map = [ "pager" ];
-        }
-        {
-          key = "G";
-          action = "bottom";
-          map = [ "pager" ];
-        }
-
-        {
-          key = "k";
-          action = "previous-line";
-          map = [ "pager" ];
-        }
-        {
-          key = "j";
-          action = "next-line";
-          map = [ "pager" ];
+          key = "e";
+          action = "descend-directory";
+          map = [ "browser" ];
         }
       ];
       macros = [
@@ -299,6 +219,11 @@ in {
           key = "\\CB";
           action = "<pipe-entry> ${pkgs.urlscan}/bin/urlscan<Enter>";
           map = [ "attach" "compose" ];
+        }
+        {
+          key = "y";
+          action = "<change-folder>?<toggle-mailboxes>";
+          map = [ "index" ];
         }
       ];
       sidebar = {
@@ -322,19 +247,17 @@ in {
         attribution = ''"On %d, %n wrote:"'';
         edit_headers = "yes";
         send_charset = "utf-8";
+
+        pager_stop = "yes";
+        menu_scroll = "yes";
+        mail_check_stats = "yes";
+        mail_check_stats_interval = "300";
+
+        forward_decode = "yes";
+        reverse_name = "yes";
+        forward_quote = "yes";
       };
       extraConfig = ''
-        set pager_stop
-        set menu_scroll
-
-        set mail_check_stats=yes
-        set mail_check_stats_interval=300
-
-        set forward_decode
-        set reply_to
-        set reverse_name
-        set include
-        set forward_quote
         unset markers
 
         # header
@@ -360,19 +283,25 @@ in {
         color tilde brightmagenta black
         color index blue black ~F
         color index yellow black "~N|~O"
-
-        ${lib.optionalString config.programs.i3blocks.enable ''
-          shutdown-hook 'echo `${pkgs.procps}/bin/pkill -SIGRTMIN+${
-            get_i3block_signal "mail"
-          } i3blocks`' ''}
-        ${lib.optionalString config.programs.waybar.enable ''
-          shutdown-hook 'echo `${pkgs.procps}/bin/pkill -SIGRTMIN+${builtins.toString signal} waybar`' ''}
       '';
     };
     mbsync.enable = true;
     notmuch = {
       enable = true;
-      hooks = { preNew = "${pkgs.isync}/bin/mbsync --all"; };
+      hooks = let
+        i3blocks_signal =
+          config.programs.i3blocks.bars."default"."mail".data.signal;
+        waybar_signal = builtins.toString
+          (builtins.head config.programs.waybar.settings)."custom/mail".signal;
+      in {
+        preNew = "${pkgs.isync}/bin/mbsync --all";
+        postNew = ''
+          ${lib.optionalString config.programs.i3blocks.enable
+          "${pkgs.procps}/bin/pkill -SIGRTMIN+${i3blocks_signal} i3blocks"}
+          ${lib.optionalString config.programs.waybar.enable
+          "${pkgs.procps}/bin/pkill -SIGRTMIN+${waybar_signal} waybar"}
+        '';
+      };
     };
     msmtp.enable = true;
   };
