@@ -2,6 +2,9 @@
   imports = [
     ./ntfy
     ./nvim
+
+    ./account_programs.nix
+    ./accounts.nix
     ./alacritty.nix
     ./audio.nix
     ./bemenu.nix
@@ -12,7 +15,6 @@
     ./font.nix
     ./gpg.nix
     ./keepassxc.nix
-    ./mail.nix
     ./obsidian.nix
     ./signal-desktop.nix
     ./spotify.nix
