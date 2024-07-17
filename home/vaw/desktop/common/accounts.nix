@@ -9,6 +9,9 @@ in {
     "dav/server" = { };
   };
 
+  programs.neomutt.extraConfig = ''
+    alternates '^valentin@wiedekind1.de$' '@vaw-valentin.de$' '@nlih.de$' '^vw7335fu@zedat.fu-berlin.de$' '^valentin.wiedekind@fu-berlin.de$'
+  '';
   accounts = {
     contact.accounts = let
       inherit (config.accounts.contact) basePath;
