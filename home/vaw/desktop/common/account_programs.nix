@@ -44,6 +44,7 @@
         }\"'"
       ];
     };
+    Install.WantedBy = [ "default.target" ];
   };
   systemd.user.timers."sync-dav" = {
     Unit.Description = "vdirsyncer and khal import";
