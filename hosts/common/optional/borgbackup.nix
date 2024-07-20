@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ pkgs, lib, config, ... }: {
   imports = [ ../../common/optional/unit-fail-notification.nix ];
   environment.persistence."/persist".directories = [ "/var/lib/borg" ];
 
@@ -21,14 +21,24 @@
       authorizedKeys =
         [ (lib.readFile ../../common/users/vaw/home/pubkey_ssh.txt) ];
     };
-    jobs = let
-      default = {
+    jobs = let path = "$STATE_DIRECTORY/snapshot";
+    in {
+      "local" = {
         user = "borg";
         group = "borg";
         persistentTimer = true;
 
-        paths = [ "/backed_up" ];
-        exclude = [ "/backed_up/var/lib/syncthing/data/Documents/coding/**/.git" "/backed_up/var/lib/syncthing/data/Documents/studium/*/nextcloud/*/*.mp4" ];
+        preHook = ''
+          export extraCreateArgs="$extraCreateArgs --paths-from-command"
+        '';
+        paths = [
+          (builtins.toString (pkgs.writeShellScript "borgbackup_paths"
+            ''${pkgs.findutils}/bin/find "${path}" 2>/dev/null''))
+        ];
+        exclude = [
+          "**/var/lib/syncthing/data/Documents/coding/**/.git"
+          "**/var/lib/syncthing/data/Documents/studium/*/nextcloud/*/*.mp4"
+        ];
 
         archiveBaseName = "data";
         compression = "lz4";
@@ -39,25 +49,29 @@
           weekly = 4;
           monthly = -1;
         };
-      };
-    in {
-      "local" = default // {
+
+        # more custom option
         repo = "/backup/borgbackup";
         encryption.mode = "none";
       };
     };
   };
 
-  systemd = {
-    services = {
-      "borgbackup-job-local" = {
-        serviceConfig = {
-          Restart = lib.mkForce "on-failure";
-          RestartSec = lib.mkForce 60;
-        };
+  systemd.services = builtins.listToAttrs (map (name: {
+    name = "borgbackup-job-${name}";
+    value = {
+      serviceConfig = {
+        Type = "oneshot";
+        Restart = lib.mkForce "on-failure";
+        RestartSec = lib.mkForce 60;
 
-        onFailure = [ "unit-status-notification@%n.service" ];
+        StateDirectory = "borgbackup-${name}";
+        ExecStartPre =
+          "+${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r /backed_up \${STATE_DIRECTORY}/snapshot";
+        ExecStopPost =
+          "+${pkgs.btrfs-progs}/bin/btrfs subvolume delete \${STATE_DIRECTORY}/snapshot";
       };
+      onFailure = [ "unit-status-notification@%n.service" ];
     };
-  };
+  }) (builtins.attrNames config.services.borgbackup.jobs));
 }
