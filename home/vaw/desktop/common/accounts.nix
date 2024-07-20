@@ -141,6 +141,7 @@ in {
         mbsync = {
           enable = true;
           create = "both";
+          expunge = "both";
         };
         notmuch = {
           enable = true;
@@ -182,6 +183,7 @@ in {
         mbsync = {
           enable = true;
           create = "both";
+          expunge = "both";
         };
         notmuch = {
           enable = true;
@@ -254,6 +256,7 @@ in {
         mbsync = {
           enable = true;
           create = "both";
+          expunge = "both";
         };
         notmuch = {
           enable = true;
