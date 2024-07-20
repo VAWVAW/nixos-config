@@ -58,7 +58,7 @@
       "custom/sync" = {
         format = "{}";
         exec = ''
-          ${pkgs.fd}/bin/fd -H .sync-conflict- ~/Documents | ${pkgs.gawk}/bin/awk 'BEGIN { ORS=""; num=0; print("{\"tooltip\": \"") }; { print($1); print("\n"); num+=1 }; END { printf("\",\"text\": \""); if (num == 0) print(""); else printf("sync-conflicts: %d", num); print("\"}\n") }' '';
+          ${pkgs.fd}/bin/fd -H .sync-conflict- ~/Documents | ${pkgs.gawk}/bin/awk 'BEGIN { ORS=""; num=0; print("{\"tooltip\": \"") }; { print($1); print("\n"); num+=1 }; END { printf("\",\"text\": \""); if (num == 0) print(""); else printf("sync-conflicts: %d", num); print("\"}\n") }' | tr '\n' '\t' | sed 's/\t/\\n/g' '';
         return-type = "json";
         interval = 600;
         on-click = "";
