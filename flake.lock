@@ -371,7 +371,8 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sops-nix": "sops-nix",
         "vim-colorswatch": "vim-colorswatch",
-        "vim-inspecthi": "vim-inspecthi"
+        "vim-inspecthi": "vim-inspecthi",
+        "wallpapers": "wallpapers"
       }
     },
     "rust-overlay": {
@@ -479,6 +480,22 @@
       "original": {
         "owner": "cocopon",
         "repo": "inspecthi.vim",
+        "type": "github"
+      }
+    },
+    "wallpapers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1721484845,
+        "narHash": "sha256-OHfHM6SWSWXAFToizRJxB5NnUPu+Uq2B0C7IY/6BYxI=",
+        "owner": "vawvaw",
+        "repo": "wallpapers",
+        "rev": "210605c09f5f0200ce9a36f338845995874aea3a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vawvaw",
+        "repo": "wallpapers",
         "type": "github"
       }
     }

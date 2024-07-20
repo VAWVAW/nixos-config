@@ -69,7 +69,7 @@
     };
   };
   desktop = {
-    theme.wallpaper = ./wallpapers/kali-contours-blue.png;
+    theme.wallpaper = "${inputs.wallpapers}/kali-contours-blue.png";
 
     startup_commands = [
       "${pkgs.bash}/bin/bash -c 'systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service'"
@@ -110,8 +110,8 @@
         {
           mods = [ "alt" "shift" ];
           key = "s";
-          command =
-            "${pkgs.grim}/bin/grim -g \"$(${pkgs.slurp}/bin/slurp)\" $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')";
+          command = ''
+            ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')'';
         }
         {
           mods = [ "alt" "shift" ];

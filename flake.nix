@@ -37,6 +37,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    wallpapers = {
+      url = "github:vawvaw/wallpapers";
+      flake = false;
+    };
+
     # neovim plugins
     vim-inspecthi = {
       url = "github:cocopon/inspecthi.vim";
