@@ -8,7 +8,7 @@
 
   sops = {
     age.keyFile = "/persist/home/vaw/.config/key.txt";
-    defaultSopsFile = ./secrets.yaml;
+    defaultSopsFile = ../../../secrets/desktop.yaml;
   };
 
   home = {

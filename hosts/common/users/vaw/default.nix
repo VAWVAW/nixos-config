@@ -31,7 +31,7 @@ in {
   };
 
   sops.secrets.vaw-password = {
-    sopsFile = ../../secrets.yaml;
+    sopsFile = ../../../../secrets/system.yaml;
     neededForUsers = true;
   };
 

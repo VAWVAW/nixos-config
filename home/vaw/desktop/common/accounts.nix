@@ -2,10 +2,10 @@
 let gpg-key = "508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8";
 in {
   sops.secrets = {
-    "mail/ionos" = { };
-    "mail/fu-berlin" = { };
-    "mail/spline" = { };
-    "mail/subscriptions" = { };
+    "mail/ionos" = { sopsFile = ../../../../secrets/mail.yaml; };
+    "mail/fu-berlin" = { sopsFile = ../../../../secrets/mail.yaml; };
+    "mail/spline" = { sopsFile = ../../../../secrets/mail.yaml; };
+    "mail/subscriptions" = { sopsFile = ../../../../secrets/mail.yaml; };
     "dav/server" = { };
   };
 

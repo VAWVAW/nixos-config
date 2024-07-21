@@ -1,7 +1,7 @@
 { pkgs, config, ... }: {
   sops.secrets = {
     "ntfy-unit-fail" = {
-      sopsFile = ../../common/secrets.yaml;
+      sopsFile = ../../../secrets/system.yaml;
       mode = "0400";
     };
   };
