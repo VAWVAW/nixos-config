@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, ... }: {
   imports = [ ./zsh.nix ];
 
   programs.bash.enable = true;
@@ -11,12 +11,6 @@
       "${pkgs.eza}/bin/eza -lah -g --git --color-scale --group-directories-first --time-style=iso --icons=always";
     tree = "${pkgs.eza}/bin/eza -T";
 
-    ntest = lib.mkDefault
-      "sudo nixos-rebuild test --flake /home/vaw/Documents/nixos-config#";
-    nswitch = lib.mkDefault
-      "sudo nixos-rebuild switch --flake /home/vaw/Documents/nixos-config#";
-    nboot = lib.mkDefault
-      "sudo nixos-rebuild boot --flake /home/vaw/Documents/nixos-config#";
     ".." = "cd ..";
     "..." = "cd ../..";
     q = "exit";

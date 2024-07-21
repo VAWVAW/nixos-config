@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, ... }: {
+{ inputs, pkgs, ... }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.sops-nix.homeManagerModule
@@ -24,13 +24,6 @@
       foot
       nixfmt-classic
     ];
-
-    shellAliases = {
-      nbuild = lib.mkDefault
-        "nixos-rebuild build --flake /home/vaw/Documents/nixos-config#";
-      hswitch = lib.mkDefault
-        "home-manager switch --flake /home/vaw/Documents/nixos-config";
-    };
 
     persistence."/persist/home/vaw" = {
       allowOther = true;

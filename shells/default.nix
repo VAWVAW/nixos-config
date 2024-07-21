@@ -1,4 +1,5 @@
 { pkgs, ... }: {
+  hosts = import ./hosts.nix { inherit pkgs; };
   lua = import ./lua.nix { inherit pkgs; };
   nix = import ./nix.nix { inherit pkgs; };
   python = import ./python.nix { inherit pkgs; };
