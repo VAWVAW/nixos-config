@@ -6,11 +6,12 @@ in {
     "mail/fu-berlin".sopsFile = ../../../../secrets/mail.yaml;
     "mail/spline".sopsFile = ../../../../secrets/mail.yaml;
     "mail/subscriptions".sopsFile = ../../../../secrets/mail.yaml;
+    "mail/feuerwehr".sopsFile = ../../../../secrets/mail.yaml;
     "dav/server" = { };
   };
 
   programs.neomutt.extraConfig = ''
-    alternates '^valentin@wiedekind1.de$' '@vaw-valentin.de$' '@nlih.de$' '^vw7335fu@zedat.fu-berlin.de$' '^valentin.wiedekind@fu-berlin.de$'
+    alternates '^valentin@wiedekind1.de$' '@vaw-valentin.de$' '@nlih.de$' '^vw7335fu@zedat.fu-berlin.de$' '^valentin.wiedekind@fu-berlin.de$' '^valentin.wiedekind@berliner-feuerwehr.de$'
   '';
   accounts = {
     contact.accounts = let
@@ -257,6 +258,43 @@ in {
         neomutt = {
           enable = true;
           mailboxName = "subscriptions";
+          extraConfig = ''
+            unset trash
+          '';
+        };
+        mbsync = {
+          enable = true;
+          create = "both";
+          expunge = "both";
+        };
+        notmuch = {
+          enable = true;
+          neomutt.virtualMailboxes = lib.mkForce [ ];
+        };
+        msmtp.enable = true;
+      };
+      "feuerwehr" = {
+        address = "feuerwehr@vaw-valentin.de";
+        realName = "vaw";
+        imap = {
+          host = "mx2fd8.netcup.net";
+          port = 993;
+          tls.enable = true;
+        };
+        smtp = {
+          host = "mx2fd8.netcup.net";
+          port = 587;
+          tls.useStartTls = true;
+        };
+        userName = "feuerwehr@vaw-valentin.de";
+        passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+            config.sops.secrets."mail/feuerwehr".path
+          }";
+        folders.inbox = "Inbox";
+
+        neomutt = {
+          enable = true;
+          mailboxName = "feuerwehr";
           extraConfig = ''
             unset trash
           '';
