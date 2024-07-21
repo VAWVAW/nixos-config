@@ -7,5 +7,6 @@
     ./ntfy.nix
     ./radicale.nix
     ./syncthing.nix
+    ./update-notify.nix
   ];
 }

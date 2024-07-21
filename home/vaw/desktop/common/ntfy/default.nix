@@ -3,15 +3,27 @@ let
   settingsFormat = pkgs.formats.yaml { };
 
   command = pkgs.writeShellScript "ntfy-command" ''
+    if [ "$NTFY_TOPIC" = "push-update" ]; then
+      case "$NTFY_MESSAGE" in
+        mail-*)
+          box=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed 's/^.*-//g')
+          ${pkgs.isync}/bin/mbsync "$box"
+          ${pkgs.notmuch}/bin/notmuch new --no-hooks
+          ${config.programs.notmuch.hooks.postNew}
+          ;;
+      esac
+      exit 0
+    fi
+
     case "$NTFY_PRIORITY" in
       1|2)
         URGENCY=low
         ;;
-      0|3)
-        URGENCY=normal
-        ;;
       4|5)
         URGENCY=critical
+        ;;
+      *)
+        URGENCY=normal
         ;;
     esac
 
@@ -31,7 +43,8 @@ let
   configuration = settingsFormat.generate "ntfy-config.yaml" {
     default-host = "https://ntfy.nlih.de";
     default-command = "${pkgs.bash}/bin/bash ${command}";
-    subscribe = [ { topic = "nina"; } { topic = "desktop"; } ];
+    subscribe =
+      [ { topic = "nina"; } { topic = "desktop"; } { topic = "push-update"; } ];
   };
 
   script = pkgs.writeShellScript "ntfy-script" ''

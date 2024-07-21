@@ -2,10 +2,10 @@
 let gpg-key = "508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8";
 in {
   sops.secrets = {
-    "mail/ionos" = { sopsFile = ../../../../secrets/mail.yaml; };
-    "mail/fu-berlin" = { sopsFile = ../../../../secrets/mail.yaml; };
-    "mail/spline" = { sopsFile = ../../../../secrets/mail.yaml; };
-    "mail/subscriptions" = { sopsFile = ../../../../secrets/mail.yaml; };
+    "mail/ionos".sopsFile = ../../../../secrets/mail.yaml;
+    "mail/fu-berlin".sopsFile = ../../../../secrets/mail.yaml;
+    "mail/spline".sopsFile = ../../../../secrets/mail.yaml;
+    "mail/subscriptions".sopsFile = ../../../../secrets/mail.yaml;
     "dav/server" = { };
   };
 
@@ -116,8 +116,12 @@ in {
         address = "valentin@wiedekind1.de";
         realName = "Valentin Wiedekind";
         primary = true;
-        imap.host = "imap.1und1.de";
         smtp.host = "smtp.1und1.de";
+        imap = {
+          host = "imap.1und1.de";
+          port = 993;
+          tls.enable = true;
+        };
         userName = address;
         passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
             config.sops.secrets."mail/ionos".path
@@ -168,6 +172,7 @@ in {
           }";
 
         folders = {
+          inbox = "Inbox";
           drafts = "Entw&APw-rfe";
           sent = "Gesendet";
         };
@@ -208,6 +213,7 @@ in {
         passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
             config.sops.secrets."mail/spline".path
           }";
+        folders.inbox = "Inbox";
 
         gpg = {
           key = gpg-key;
@@ -246,6 +252,8 @@ in {
         passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
             config.sops.secrets."mail/subscriptions".path
           }";
+        folders.inbox = "Inbox";
+
         neomutt = {
           enable = true;
           mailboxName = "subscriptions";

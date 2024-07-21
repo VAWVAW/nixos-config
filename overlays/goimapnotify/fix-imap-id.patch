@@ -1,0 +1,41 @@
+From 93d1a492d71437121fd4b61373fb55b253c123ef Mon Sep 17 00:00:00 2001
+From: vaw <valentin@wiedekind1.de>
+Date: Sun, 21 Jul 2024 17:08:43 +0200
+Subject: [PATCH] fix: Only use imap ID if it is supported
+
+---
+ client.go | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/client.go b/client.go
+index a6656b6..8388397 100644
+--- a/client.go
++++ b/client.go
+@@ -77,13 +77,19 @@ func newClient(conf NotifyConfig) (c *client.Client, err error) {
+ 		}
+ 	}
+ 
+-	idClient := imapid.NewClient(c)
+-	if _, err := idClient.ID(imapid.ID{
+-		imapid.FieldName:    "goimapnotify",
+-		imapid.FieldVersion: gittag,
+-	}); err != nil {
++	hasID, err := c.Support("ID")
++	if err != nil {
+ 		return nil, err
+ 	}
++	if hasID {
++		idClient := imapid.NewClient(c)
++		if _, err := idClient.ID(imapid.ID{
++			imapid.FieldName:    "goimapnotify",
++			imapid.FieldVersion: gittag,
++		}); err != nil {
++			return nil, err
++		}
++	}
+ 
+ 	if conf.XOAuth2 {
+ 		okBearer, err := c.SupportAuth(sasl.OAuthBearer)
+-- 
+2.44.1
+
