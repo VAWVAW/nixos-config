@@ -1,29 +1,25 @@
-{ lib, python3, pkgs, fetchFromGitHub, installShellFiles
-, spotifython ? python3.pkgs.spotifython, shtab ? python3.pkgs.shtab
-, sphinx-argparse ? python3.pkgs.sphinx-argparse, libnotify ? pkgs.libnotify, }:
+{ lib, python3, fetchFromGitHub, installShellFiles
+, spotifython ? python3.pkgs.spotifython, }:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "spotifython-cli";
-  version = "0.2.2";
+  version = "0.3.1";
 
   src = fetchFromGitHub {
     owner = "vawvaw";
     repo = pname;
     rev = "v${version}";
-    sha256 = "0yp3cwzz84hcy6i0s1xip9qna5hfdpwa8gimn3dzqavvy89hcvd4";
+    sha256 = "0mdrcr2kndj6d12r2zj2g60hnh4i7x0ykhjana8z44dlw2482jw6";
   };
 
-  nativeBuildInputs = [ installShellFiles shtab sphinx-argparse ];
-  propagatedBuildInputs = [ spotifython libnotify ];
+  nativeBuildInputs = [ installShellFiles ];
+  propagatedBuildInputs = [ spotifython python3.pkgs.click ];
 
-  postBuild = ''
-    python -m shtab 'spotifython_cli.generate_parser' -s bash > completion.bash
-    python -m shtab 'spotifython_cli.generate_parser' -s zsh > completion.zsh
-    make --directory docs man
-  '';
   postInstall = ''
-    installShellCompletion --cmd ${pname} completion.{bash,zsh}
-    installManPage docs/_build/man/spotifython-cli.1.gz
+    _SPOTIFYTHON_CLI_COMPLETE=bash_source $out/bin/spotifython-cli > completion.bash
+    _SPOTIFYTHON_CLI_COMPLETE=zsh_source $out/bin/spotifython-cli > completion.zsh
+    _SPOTIFYTHON_CLI_COMPLETE=fish_source $out/bin/spotifython-cli > completion.fish
+    installShellCompletion --cmd ${pname} completion.{bash,zsh,fish}
   '';
 
   doCheck = false;

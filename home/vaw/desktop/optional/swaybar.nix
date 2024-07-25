@@ -39,9 +39,9 @@
         text = ''
           case $button in
             1)
-              ${pkgs.spotifython-cli}/bin/spotifython-cli previous ;;
+              ${pkgs.spotifython-cli}/bin/spotifython-cli prev ;;
             2)
-              ${pkgs.spotifython-cli}/bin/spotifython-cli play-pause -c ;;
+              ${pkgs.spotifython-cli}/bin/spotifython-cli play-pause ;;
             3)
               ${pkgs.spotifython-cli}/bin/spotifython-cli next ;;
             4)
@@ -50,7 +50,7 @@
               ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-; pkill -SIGRTMIN+${i3blocks_volume_signal} i3blocks ;;
           esac
 
-          metadata=$(${pkgs.spotifython-cli}/bin/spotifython-cli metadata -c -j title artist_name is_playing)
+          metadata=$(${pkgs.spotifython-cli}/bin/spotifython-cli metadata -j title artist_name is_playing)
 
           is_playing=$(echo $metadata | ${pkgs.python3}/bin/python3 -c "import sys, json; print(json.load(sys.stdin)['is_playing'])")
           if [[ "$is_playing" == "False" ]]
@@ -80,9 +80,9 @@
         text = ''
           case $button in
             1)
-              ${pkgs.spotifython-cli}/bin/spotifython-cli previous ;;
+              ${pkgs.spotifython-cli}/bin/spotifython-cli prev ;;
             2)
-              ${pkgs.spotifython-cli}/bin/spotifython-cli play-pause -c ;;
+              ${pkgs.spotifython-cli}/bin/spotifython-cli play-pause ;;
             3)
               ${pkgs.spotifython-cli}/bin/spotifython-cli next ;;
             4)

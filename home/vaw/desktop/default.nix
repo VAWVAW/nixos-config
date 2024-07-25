@@ -263,32 +263,50 @@
           };
           binds = [
             {
-              key = "d";
-              command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli queue playlist --playlist-dmenu --dmenu";
-            }
-            {
-              key = "p";
-              command = "${pkgs.spotifython-cli}/bin/spotifython-cli play -s";
-            }
-            {
               key = "o";
               command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s --playlist-dmenu";
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s saved@#ask@#all";
             }
             {
               key = "i";
               command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play --no-shuffle --playlist-dmenu";
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play saved@#ask@#all";
             }
             {
               key = "r";
               command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play --no-shuffle -r --playlist-dmenu";
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play -r saved@#ask@#all";
+            }
+            {
+              key = "question";
+              command =
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play search@#ask@#all";
+            }
+            {
+              key = "slash";
+              command =
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play --queue search@#ask@#ask";
+            }
+            {
+              key = "d";
+              command =
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play --queue saved@#ask@#ask";
+            }
+            {
+              key = "p";
+              command = "${pkgs.spotifython-cli}/bin/spotifython-cli play";
             }
             {
               key = "s";
               command = "${pkgs.spotifython-cli}/bin/spotifython-cli pause";
+            }
+            {
+              key = "n";
+              command = "${pkgs.spotifython-cli}/bin/spotifython-cli next";
+            }
+            {
+              key = "b";
+              command = "${pkgs.spotifython-cli}/bin/spotifython-cli prev";
             }
           ];
         };

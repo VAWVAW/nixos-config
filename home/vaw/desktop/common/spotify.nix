@@ -52,7 +52,7 @@ in {
       };
       spotifyd.notify = true;
       interface.dmenu_cmdline =
-        "${pkgs.bemenu}/bin/bemenu -i -l 50 -m 1 -p {prompt}";
+        "${pkgs.bemenu}/bin/bemenu -i -l {lines} -m 1 -p {prompt}";
     };
   };
 
