@@ -29,7 +29,7 @@
   programs.firejail.enable = true;
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages;
 
     kernelParams = [ "resume_offset=6328854" ];
     resumeDevice = config.fileSystems."/swap".device;
