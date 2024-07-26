@@ -1,5 +1,5 @@
 # System configuration for my main desktop PC
-{ pkgs, inputs, config, ... }: {
+{ pkgs, pkgs-unstable, inputs, config, ... }: {
   imports = [
     inputs.hardware.nixosModules.common-cpu-amd-pstate
     inputs.hardware.nixosModules.common-pc-ssd
@@ -29,7 +29,7 @@
   programs.firejail.enable = true;
 
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = pkgs-unstable.linuxPackages;
 
     kernelParams = [ "resume_offset=6328854" ];
     resumeDevice = config.fileSystems."/swap".device;

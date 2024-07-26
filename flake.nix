@@ -58,6 +58,11 @@
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
+      pkgs-unstable = system:
+        import inputs.nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
     in {
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
@@ -80,27 +85,42 @@
 
         # Desktop
         "hades" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-unstable = pkgs-unstable "x86_64-linux";
+          };
           modules = [ ./hosts/hades ];
         };
         # Framework 13 Laptop
         "zeus" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-unstable = pkgs-unstable "x86_64-linux";
+          };
           modules = [ ./hosts/zeus ];
         };
         # home server
         "athena" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-unstable = pkgs-unstable "x86_64-linux";
+          };
           modules = [ ./hosts/athena ];
         };
         # hosted server
         "artemis" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-unstable = pkgs-unstable "aarch64-linux";
+          };
           modules = [ ./hosts/artemis ];
         };
         # raspberry pi 3b
         "nyx" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-unstable = pkgs-unstable "aarch64-linux";
+          };
           modules = [ ./hosts/nyx ];
         };
       };
