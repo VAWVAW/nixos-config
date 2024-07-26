@@ -6,5 +6,11 @@ let
 in {
   imports = [ inputs.sops-nix.nixosModules.sops ];
 
-  sops = { age.sshKeyPaths = [ key.path ]; };
+  sops = {
+    age.sshKeyPaths = [ key.path ];
+    secrets."ntfy-desktop" = {
+      sopsFile = ../../../secrets/system.yaml;
+      mode = "0400";
+    };
+  };
 }

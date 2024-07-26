@@ -1,4 +1,4 @@
-{ outputs, lib, config, ... }:
+{ outputs, pkgs, lib, config, ... }:
 
 let
   hosts = removeAttrs outputs.nixosConfigurations [ "iso" ];
@@ -22,6 +22,24 @@ in {
       path = "/persist/etc/ssh/ssh_host_ed25519_key";
       type = "ed25519";
     }];
+  };
+
+  security.pam.services.sshd.rules.session."ssh-notify" = let
+    script = pkgs.writeShellScript "ssh-notify" ''
+      if [ "$PAM_TYPE" != "open_session" ]; then
+        exit 0
+      fi
+
+      ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat ${
+        config.sops.secrets."ntfy-desktop".path
+      })" --tags "desktop_computer" --title "SSH Login ''${PAM_USER}@${config.networking.hostName}" https://ntfy.nlih.de/desktop "$PAM_USER logged in from ''${PAM_RHOST}"
+    '';
+  in {
+    enable = true;
+    control = "optional";
+    modulePath = "pam_exec.so";
+    args = [ "seteuid" "${script}" ];
+    order = 15000;
   };
 
   programs.ssh = {

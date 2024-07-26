@@ -1,11 +1,4 @@
 { pkgs, config, ... }: {
-  sops.secrets = {
-    "ntfy-unit-fail" = {
-      sopsFile = ../../../secrets/system.yaml;
-      mode = "0400";
-    };
-  };
-
   systemd.services."unit-status-notification@" = let
     script = pkgs.writeScript "unit-status-notification" ''
       UNIT=$1
@@ -22,7 +15,7 @@
       fi
 
       ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat ${
-        config.sops.secrets."ntfy-unit-fail".path
+        config.sops.secrets."ntfy-desktop".path
       })" --tags warning,computer --title "$UNIT failed on $HOST" https://ntfy.nlih.de/desktop "$(${pkgs.systemd}/bin/journalctl -b0 -u "$UNIT" -o cat -n 50)"
     '';
   in {
