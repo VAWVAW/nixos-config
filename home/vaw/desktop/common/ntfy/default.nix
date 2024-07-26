@@ -5,14 +5,17 @@ let
   command = pkgs.writeShellScript "ntfy-command" ''
     if [ "$NTFY_TOPIC" = "push-update" ]; then
       case "$NTFY_MESSAGE" in
-        mail-*)
-          box=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed 's/^.*-//g')
+        email-*)
+          box=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed 's/^[^-]*-[^-]*-//')
           ${pkgs.isync}/bin/mbsync "$box"
           ${pkgs.notmuch}/bin/notmuch new --no-hooks
           ${config.programs.notmuch.hooks.postNew}
+          echo "finished email update"
+          exit 0
           ;;
       esac
-      exit 0
+      echo unknown message: $NTFY_MESSAGE
+      exit 1
     fi
 
     case "$NTFY_PRIORITY" in
