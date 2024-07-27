@@ -1,5 +1,5 @@
 { lib, python3, fetchFromGitHub, installShellFiles
-, spotifython ? python3.pkgs.spotifython, }:
+, spotifython ? (python3.pkgs.callPackage ../spotifython { }), }:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "spotifython-cli";

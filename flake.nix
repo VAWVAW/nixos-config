@@ -69,7 +69,7 @@
 
       overlays = import ./overlays { inherit inputs outputs; };
 
-      pkgs = forEachPkgs (pkgs: import ./pkgs { inherit pkgs; });
+      packages = forEachPkgs (pkgs: import ./pkgs { inherit pkgs; });
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-classic);
 
       devShells = forEachPkgs (pkgs: import ./shells { inherit pkgs; });
