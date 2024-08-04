@@ -41,22 +41,29 @@
         resumeCommand = "${pkgs.brightnessctl}/bin/brightnessctl -r";
       }
       {
+        timeout = 900;
+        command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+      }
+    ] ++ lib.optionals config.wayland.windowManager.sway.enable [
+      {
         timeout = 660;
         command = "${pkgs.sway}/bin/swaymsg output \\* dpms off";
         resumeCommand = "${pkgs.sway}/bin/swaymsg output \\* dpms on";
       }
       {
-        timeout = 900;
-        command = "${pkgs.systemd}/bin/systemctl suspend-then-hibernate";
+        timeout = 899;
+        command = "${pkgs.sway}/bin/swaymsg output \\* dpms on";
       }
-    ] ++ lib.optionals config.wayland.windowManager.sway.enable [{
-      timeout = 660;
-      command = "${pkgs.sway}/bin/swaymsg output \\* dpms off";
-      resumeCommand = "${pkgs.sway}/bin/swaymsg output \\* dpms on";
-    }] ++ lib.optionals config.wayland.windowManager.hyprland.enable [{
-      timeout = 660;
-      command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
-      resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
-    }];
+    ] ++ lib.optionals config.wayland.windowManager.hyprland.enable [
+      {
+        timeout = 899;
+        command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+      }
+      {
+        timeout = 660;
+        command = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+        resumeCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
+      }
+    ];
   };
 }
