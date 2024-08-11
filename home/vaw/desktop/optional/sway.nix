@@ -5,7 +5,6 @@
     home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
     wayland.windowManager.sway = let
-      mouse = "4119:24578:HID_1017:6002_Mouse";
       first_screen = builtins.head config.desktop.screens;
     in {
       enable = true;
@@ -169,14 +168,6 @@
         };
       };
       extraConfig = ''
-        # bind mouse
-        bindsym --input-device=${mouse} --whole-window button8 workspace next
-        bindsym --input-device=${mouse} --whole-window button9 workspace prev
-        bindcode 152 exec --no-startup-id ${pkgs.bash}/bin/bash -c "for i in {1..4}; do swaymsg seat - cursor press button1 && swaymsg seat - cursor release button1; done"
-
-        # workspace layout
-        workspace --no-auto-back-and-forth 10; layout stacking; workspace --no-auto-back-and-forth 1
-
         # hide title bar
         default_border pixel 1
       '';
