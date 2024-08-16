@@ -59,28 +59,26 @@ in {
   systemd.user.services.spotifyd.Unit.After =
     [ "sops-nix.service" "network-online.target" ];
 
-  services.spotifyd = {
+  services.spotifyd = let
+  cache_path = "${config.xdg.dataHome}/spotifyd";
+  in{
     enable = true;
     package = pkgs.spotifyd.override { withMpris = true; };
     settings = {
       global = {
-        inherit on_song_change_hook;
+        inherit on_song_change_hook cache_path;
 
-        username = "spotify@vaw-valentin.de";
-        password_cmd = "${pkgs.coreutils-full}/bin/cat ${
-            config.sops.secrets."spotify-password".path
-          }";
+        username_cmd = "${pkgs.jq}/bin/jq -r .username '${cache_path}/credentials.json'";
         backend = "alsa";
         device = "default";
         mixer = "PCM";
         volume_controller = "alsa";
         device_name = lib.mkDefault "vaw_spotifyd";
         bitrate = 160;
-        cache_path = "${config.xdg.dataHome}/spotifyd";
         no_audio_cache = false;
         initial_volume = "0";
         volume_normalisation = true;
-        normalisation_pregain = -21;
+        normalisation_pregain = -15;
         autoplay = false;
         zeroconf_port = 2575;
         device_type = "computer";
