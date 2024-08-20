@@ -170,6 +170,9 @@
         width = 24;
       };
       settings = {
+        crypt_opportunistic_encrypt = "yes";
+        fcc_clear = "yes";
+
         query_command =
           ''"echo %s | xargs ${pkgs.khard}/bin/khard email --parsable --"'';
 
