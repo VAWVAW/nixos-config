@@ -1,0 +1,42 @@
+From 75fe2c58c8cb60ee7d406d59ec9479a67c43eea7 Mon Sep 17 00:00:00 2001
+From: vaw <valentin@wiedekind1.de>
+Date: Tue, 20 Aug 2024 16:07:35 +0200
+Subject: [PATCH] add custom
+
+---
+ rules/0042-o_s.part |  2 ++
+ symbols/custom      | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100644 symbols/custom
+
+diff --git a/rules/0042-o_s.part b/rules/0042-o_s.part
+index c047f3e..c25815b 100644
+--- a/rules/0042-o_s.part
++++ b/rules/0042-o_s.part
+@@ -1,4 +1,6 @@
+ ! option			= symbols
++  custom:qwerty_y_z		= +custom(qwerty_y_z)
++  custom:qwertz_y_z		= +custom(qwertz_y_z)
+   altwin:menu			= +altwin(menu)
+   altwin:menu_win		= +altwin(menu_win)
+   altwin:meta_alt		= +altwin(meta_alt)
+diff --git a/symbols/custom b/symbols/custom
+new file mode 100644
+index 0000000..0b92f56
+--- /dev/null
++++ b/symbols/custom
+@@ -0,0 +1,11 @@
++hidden partial alphanumeric_keys
++xkb_symbols "qwertz_y_z" {
++  key <AD06>  {[      z,      Z ]};
++  key <AB01>  {[      y,      Y ]};
++};
++
++hidden partial alphanumeric_keys
++xkb_symbols "qwerty_y_z" {
++  key <AD06>  {[      y,      Y ]};
++  key <AB01>  {[      z,      Z ]};
++};
+-- 
+2.44.1
+
