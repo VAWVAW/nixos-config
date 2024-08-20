@@ -1,65 +1,52 @@
-{ inputs, outputs, config, lib, ... }: {
+{ inputs, lib, ... }: {
   imports = [
-    "${inputs.nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
-    inputs.home-manager.nixosModules.home-manager
+    (inputs.nixpkgs
+      + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-base.nix")
 
-    ../common/global/cli.nix
-    ../common/global/locale.nix
-    ../common/global/nix.nix
-    ../common/global/yubikey.nix
-
+    ../common/global
+    ../common/optional/desktop
     ../common/users/vaw
 
-    ./dummy-sops.nix
+    ./config.nix
   ];
 
-  home-manager = {
-    useUserPackages = true;
-    extraSpecialArgs = {
-      inherit inputs outputs;
-      platform = config.nixpkgs.hostPlatform.system;
+  disabledModules = [
+    "${inputs.self}/hosts/common/global/boot-partition.nix"
+    "${inputs.self}/hosts/common/global/btrfs-optin-persistence.nix"
+    "${inputs.self}/hosts/common/global/encrypted-root.nix"
+    "${inputs.self}/hosts/common/global/sops.nix"
+    "${inputs.self}/hosts/common/global/system-mail.nix"
+  ];
+
+  # dummy sops config for user
+  options.sops = lib.mkOption { type = lib.types.anything; };
+  config.sops.secrets.vaw-password.path = null;
+
+  config = {
+    # fix openssh.nix
+    services.openssh = {
+      hostKeys = lib.mkForce [
+        {
+          bits = 4096;
+          path = "/etc/ssh/ssh_host_rsa_key";
+          type = "rsa";
+        }
+        {
+          path = "/etc/ssh/ssh_host_ed25519_key";
+          type = "ed25519";
+        }
+      ];
+      settings.PermitRootLogin = lib.mkForce "yes";
     };
-  };
 
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config = { allowUnfree = true; };
-  };
-
-  networking = {
-    networkmanager.enable = true;
-    wireless.enable = lib.mkForce false;
-    hostName = lib.mkForce "nixos-iso";
-  };
-
-  users.users.vaw = {
-    initialHashedPassword = "";
-    passwordFile = lib.mkForce null;
-  };
-
-  services.getty.autologinUser = lib.mkForce "vaw";
-
-  systemd.services.sshd.wantedBy = lib.mkForce [ "multi-user.target" ];
-  programs = {
-    command-not-found.enable = true;
-
-    ssh = {
-      knownHosts = {
-        "github.com" = {
-          publicKey =
-            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
-        };
-      };
+    security.pam.services.sshd.rules.session."ssh-notify" = {
+      enable = lib.mkForce false;
+      args = lib.mkForce [ ];
     };
-  };
 
-  security = {
-    polkit.enable = true;
-    sudo = {
-      enable = true;
-      extraConfig = ''
-        Defaults lecture = never
-      '';
-    };
+    # fix installer defaults
+    services.xserver.enable = lib.mkForce false;
+    hardware.pulseaudio.enable = lib.mkForce false;
+    boot.plymouth.enable = lib.mkForce false;
   };
 }

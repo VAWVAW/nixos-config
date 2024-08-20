@@ -74,10 +74,16 @@
 
       devShells = forEachPkgs (pkgs: import ./shells { inherit pkgs; });
 
-      iso = outputs.nixosConfigurations.iso.config.system.build.isoImage;
+      iso = outputs.nixosConfigurations."iso-x86_64".config.system.build.isoImage;
+      iso-aarch64 = outputs.nixosConfigurations."iso-aarch64".config.system.build.isoImage;
 
       nixosConfigurations = {
-        "iso" = nixpkgs.lib.nixosSystem {
+        "iso-aarch64" = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/iso ];
+          system = "aarch64-linux";
+        };
+        "iso-x86_64" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
           modules = [ ./hosts/iso ];
           system = "x86_64-linux";
