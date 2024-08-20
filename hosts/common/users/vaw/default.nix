@@ -3,8 +3,8 @@ let
   ifTheyExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in {
-  users.groups.vaw = { gid = lib.mkDefault 1000; };
-  users.users.vaw = {
+  users.groups."vaw".gid = lib.mkDefault 1000;
+  users.users."vaw" = {
     isNormalUser = true;
     uid = lib.mkDefault 1000;
     shell = pkgs.zsh;
