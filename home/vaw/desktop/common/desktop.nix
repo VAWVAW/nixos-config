@@ -10,6 +10,8 @@
     libnotify
     foot
     nixfmt-classic
+    wlr-randr
+    brightnessctl
   ];
 
   desktop = {
