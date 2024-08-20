@@ -6,4 +6,6 @@
   services.dbus.packages = [ pkgs.gcr ];
 
   security.pam.services.swaylock = { };
+
+  programs.firejail.enable = true;
 }

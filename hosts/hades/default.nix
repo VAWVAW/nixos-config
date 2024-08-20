@@ -26,8 +26,6 @@
     };
   };
 
-  programs.firejail.enable = true;
-
   boot = {
     kernelPackages = pkgs-unstable.linuxPackages;
 

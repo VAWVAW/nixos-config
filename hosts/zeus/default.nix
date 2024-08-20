@@ -19,8 +19,6 @@
 
   networking.hostName = "zeus";
 
-  programs.firejail.enable = true;
-
   services = {
     upower.enable = true;
     logind.lidSwitch = "suspend-then-hibernate";
