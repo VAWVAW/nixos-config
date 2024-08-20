@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ pkgs, lib, ... }: {
   imports = [
     ../common
     ../desktop
@@ -13,18 +13,11 @@
 
   home.keyboard.options = [ "ctrl:swap_rwin_rctl" ];
 
-  programs = {
-    firejail.wrappedBinaries.signal-desktop.executable = lib.mkForce
-      "${pkgs.signal-desktop}/bin/signal-desktop --ozone-platform-hint=x11";
-
-    alacritty.settings.font.size = lib.mkForce 8.0;
-  };
-
   desktop = {
     screens = [{
       name = "BOE 0x0BCA Unknown";
       size = "2256x1504";
-      scale = "1.5";
+      scale = "1.25";
     }];
     startup_commands = [
       "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 0%; ${pkgs.brightnessctl}/bin/brightnessctl s 10%'"
