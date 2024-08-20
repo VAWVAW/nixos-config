@@ -8,6 +8,7 @@
     ./alacritty.nix
     ./audio.nix
     ./bemenu.nix
+    ./desktop.nix
     ./direnv.nix
     ./discord.nix
     ./dunst.nix

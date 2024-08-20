@@ -8,4 +8,6 @@
   security.pam.services.swaylock = { };
 
   programs.firejail.enable = true;
+
+  hardware.opengl.enable = true;
 }

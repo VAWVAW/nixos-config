@@ -1,4 +1,10 @@
 {
+  home.keyboard = {
+    layout = "de";
+    variant = "us";
+    options = [ "altwin:swap_lalt_lwin" "caps:escape" "custom:qwertz_y_z" ];
+  };
+
   xdg.configFile = {
     "xkb/rules/evdev".text = ''
       ! option                =       symbols

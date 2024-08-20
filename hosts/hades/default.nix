@@ -50,13 +50,9 @@
     binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
-  hardware = {
-    opengl = {
-      enable = true;
-      extraPackages = with pkgs; [ libvdpau-va-gl ];
-      driSupport = true;
-      driSupport32Bit = true;
-    };
+  hardware.opengl = {
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [ libvdpau-va-gl ];
   };
 
   nix.settings.secret-key-files =

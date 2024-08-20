@@ -50,13 +50,7 @@
     binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
-  hardware = {
-    opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
-    };
-  };
+  hardware.opengl.driSupport32Bit = true;
 
   nix.settings.secret-key-files =
     [ "/persist/var/lib/binary-cache/cache-key.pem" ];
