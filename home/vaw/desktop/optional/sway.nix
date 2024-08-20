@@ -5,7 +5,10 @@
     home.sessionVariables = { NIXOS_OZONE_WL = "1"; };
 
     wayland.windowManager.sway = let
-      first_screen = builtins.head config.desktop.screens;
+      first_screen = if (builtins.length config.desktop.screens) > 0 then
+        builtins.head config.desktop.screens
+      else
+        null;
     in {
       enable = true;
       checkConfig = false;
@@ -99,7 +102,8 @@
           # enable gaming mode
           "${mod}+Ctrl+Shift+Tab" = builtins.replaceStrings [ "\n" ] [ "; " ] ''
             seat '*' hide_cursor when-typing disable
-            output '${first_screen.name}' pos 5000 5000
+            ${lib.optionalString (!builtins.isNull first_screen)
+            "output '${first_screen.name}' pos 5000 5000"}
             input 'type:keyboard' xkb_options 'altwin:menu_win,custom:qwertz_y_z'
             mode disabled'';
 
@@ -146,12 +150,13 @@
             {
               "${mod}+Ctrl+Shift+Tab" =
                 builtins.replaceStrings [ "\n" ] [ "; " ] ''
-                  seat '*' hide_cursor when-typing enable
-                  output '${first_screen.name}' pos ${first_screen.position}
-                  input 'type:keyboard' xkb_options '${
-                    config.wayland.windowManager.sway.config.input."type:keyboard".xkb_options
-                  }'
-                  mode default'';
+                    seat '*' hide_cursor when-typing enable
+                  ${lib.optionalString (!builtins.isNull first_screen)
+                  "output '${first_screen.name}' pos ${first_screen.position}"}
+                    input 'type:keyboard' xkb_options '${
+                      config.wayland.windowManager.sway.config.input."type:keyboard".xkb_options
+                    }'
+                    mode default'';
             };
           "resize" = {
             "${left}" = "resize shrink width 10 px or 10 ppt";
