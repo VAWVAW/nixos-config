@@ -1,5 +1,6 @@
 {
   imports = [
+  ./borgbackup.nix
     ./initrd.nix
     ./mollysocket.nix
     ./network.nix
