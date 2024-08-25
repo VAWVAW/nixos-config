@@ -66,7 +66,7 @@
 
         keybindings = let
           inherit (config.desktop.keybinds.generated) left down up right;
-          mod = builtins.replaceStrings [ "super" "alt" ] [ "mod4" "mod1" ]
+          mod = builtins.replaceStrings [ "Super" "Alt" ] [ "Mod4" "Mod1" ]
             config.desktop.keybinds.generated.mod;
         in {
           "${mod}+Shift+r" = "reload";
@@ -138,7 +138,7 @@
         modes = let
           inherit (config.wayland.windowManager.sway.config) keybindings;
           inherit (config.desktop.keybinds.generated) left down up right;
-          mod = builtins.replaceStrings [ "super" "alt" ] [ "mod4" "mod1" ]
+          mod = builtins.replaceStrings [ "Super" "Alt" ] [ "Mod4" "Mod1" ]
             config.desktop.keybinds.generated.mod;
         in {
           "disabled" =

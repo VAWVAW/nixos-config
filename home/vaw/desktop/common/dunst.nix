@@ -13,7 +13,7 @@ let
   '';
 in {
   desktop.keybinds.binds = [{
-    mods = [ "super" ];
+    mods = [ "Super" ];
     key = "c";
     command = "${pkgs.dunst}/bin/dunstctl context";
   }];

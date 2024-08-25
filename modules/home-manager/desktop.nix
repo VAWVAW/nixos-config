@@ -46,7 +46,7 @@ with lib; {
     };
 
     keybinds = let
-      mods = types.enum [ "super" "alt" "ctrl" "shift" ];
+      mods = types.enum [ "Super" "Alt" "Ctrl" "Shift" ];
       keyOpts = {
         "mods" = mkOption {
           description = "Modifiers for the keybind";
@@ -110,7 +110,7 @@ with lib; {
         "mod" = mkOption {
           description = "The mod key to use in generated keybinds.";
           type = mods;
-          default = "alt";
+          default = "Alt";
         };
         "left" = mkOption {
           description = "The left key to use in generated keybinds";
@@ -237,7 +237,7 @@ with lib; {
   config.wayland.windowManager = let cfg = config.desktop;
   in {
     sway.config = let
-      transformMod = builtins.replaceStrings [ "super" "alt"] ["Mod4" "Mod1"];
+      transformMod = builtins.replaceStrings [ "Super" "Alt"] ["Mod4" "Mod1"];
       generateKeybind = genExec: bind: {
         name = transformMod
           (builtins.concatStringsSep "+" (bind.mods ++ [ bind.key ]));

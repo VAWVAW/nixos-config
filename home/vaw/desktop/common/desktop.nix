@@ -21,19 +21,19 @@
       "${pkgs.bash}/bin/bash -c 'systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service'"
     ];
 
-    keybinds = let mod = "super";
+    keybinds = let mod = "Super";
     in {
       generated = {
         inherit mod;
         left = "j";
         down = "k";
         up = "l";
-        right = "semicolon";
+        right = "Semicolon";
       };
       binds = [
         {
           mods = [ mod ];
-          key = "return";
+          key = "Return";
           command = "${pkgs.alacritty}/bin/alacritty";
         }
         {
@@ -47,37 +47,37 @@
           command = "firefox";
         }
         {
-          mods = [ "alt" ];
-          key = "less";
+          mods = [ "Alt" ];
+          key = "Less";
           command = "${pkgs.psmisc}/bin/killall firefox";
         }
 
         # screenshots
         {
-          mods = [ "alt" "shift" ];
+          mods = [ "Alt" "Shift" ];
           key = "s";
           command = ''
             ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" $XDG_PICTURES_DIR/screenshots/$(date '+%F-%T.png')'';
         }
         {
-          mods = [ "alt" "shift" ];
+          mods = [ "Alt" "Shift" ];
           key = "a";
           command = "${pkgs.wl-color-picker}/bin/wl-color-picker";
         }
 
         #power commands
         {
-          mods = [ mod "shift" ];
-          key = "escape";
+          mods = [ mod "Shift" ];
+          key = "Escape";
           command = "systemctl poweroff";
         }
         {
-          mods = [ mod "shift" ];
+          mods = [ mod "Shift" ];
           key = "f1";
           command = "systemctl hibernate";
         }
         {
-          mods = [ mod "shift" ];
+          mods = [ mod "Shift" ];
           key = "f2";
           command = "systemctl suspend";
         }
@@ -231,12 +231,12 @@
                 "${pkgs.spotifython-cli}/bin/spotifython-cli play -r saved@#ask@#all";
             }
             {
-              key = "question";
+              key = "Question";
               command =
                 "${pkgs.spotifython-cli}/bin/spotifython-cli play search@#ask@#all";
             }
             {
-              key = "slash";
+              key = "Slash";
               command =
                 "${pkgs.spotifython-cli}/bin/spotifython-cli play --queue search@#ask@#ask";
             }
