@@ -1,12 +1,5 @@
 { pkgs, lib, ... }: {
-  imports = [
-    ../common
-    ../desktop
-
-    ../desktop/optional/sway.nix
-    ../desktop/optional/swayidle.nix
-    ../desktop/optional/waybar
-  ];
+  imports = [ ../common ];
 
   services.spotifyd.settings.global.device_name = "zeus_spotifyd";
   systemd.user.services."spotifyd".Install.WantedBy = lib.mkForce [ ];
@@ -14,6 +7,7 @@
   home.keyboard.options = [ "ctrl:swap_rwin_rctl" ];
 
   desktop = {
+    enable = true;
     screens = [{
       name = "BOE 0x0BCA Unknown";
       size = "2256x1504";
@@ -24,8 +18,11 @@
     ];
   };
 
+  wayland.windowManager.sway.enable = true;
   wayland.windowManager.sway.config.keybindings."XF86AudioMedia" =
     "input type:touchpad events toggle enabled disabled";
+  services.swayidle.enable = true;
+  programs.waybar.enable = true;
 
   programs.ssh.matchBlocks."nyx" = {
     host = "nyx home.vaw-valentin.de";

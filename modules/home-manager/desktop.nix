@@ -115,22 +115,22 @@ with lib; {
         "left" = mkOption {
           description = "The left key to use in generated keybinds";
           type = types.str;
-          default = "h";
+          default = "j";
         };
         "down" = mkOption {
           description = "The down key to use in generated keybinds";
           type = types.str;
-          default = "j";
+          default = "k";
         };
         "up" = mkOption {
           description = "The up key to use in generated keybinds";
           type = types.str;
-          default = "k";
+          default = "l";
         };
         "right" = mkOption {
           description = "The right key to use in generated keybinds";
           type = types.str;
-          default = "l";
+          default = "Semicolon";
         };
       };
     };
@@ -237,7 +237,8 @@ with lib; {
   config.wayland.windowManager = let cfg = config.desktop;
   in {
     sway.config = let
-      transformMod = builtins.replaceStrings [ "Super" "Alt"] ["Mod4" "Mod1"];
+      transformMod =
+        builtins.replaceStrings [ "Super" "Alt" ] [ "Mod4" "Mod1" ];
       generateKeybind = genExec: bind: {
         name = transformMod
           (builtins.concatStringsSep "+" (bind.mods ++ [ bind.key ]));
@@ -252,10 +253,13 @@ with lib; {
 
       # keyboard layout
       input."type:keyboard" = {
-        xkb_layout = config.home.keyboard.layout;
-        xkb_variant = config.home.keyboard.variant;
+        xkb_layout = lib.mkIf (config.home.keyboard.layout != null)
+          config.home.keyboard.layout;
+        xkb_variant = lib.mkIf (config.home.keyboard.variant != null)
+          config.home.keyboard.variant;
         xkb_options =
-          builtins.concatStringsSep "," config.home.keyboard.options;
+          lib.mkIf (builtins.length config.home.keyboard.options > 0)
+          (builtins.concatStringsSep "," config.home.keyboard.options);
       };
 
       output = mkMerge [

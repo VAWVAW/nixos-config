@@ -1,5 +1,7 @@
 { lib, pkgs, config, outputs, ... }: {
   imports = [
+    ./desktop
+
     ./btop.nix
     ./git.nix
     ./shells.nix

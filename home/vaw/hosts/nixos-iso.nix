@@ -1,37 +1,31 @@
 { pkgs, lib, ... }: {
-  imports = [
-    ../common
+  imports = [ ../common ];
 
-    ../desktop/common/nvim
+  home.persistence = lib.mkForce { };
+  sops.secrets = lib.mkForce { };
 
-    ../desktop/common/alacritty.nix
-    ../desktop/common/audio.nix
-    ../desktop/common/bemenu.nix
-    ../desktop/common/desktop.nix
-    ../desktop/common/direnv.nix
-    ../desktop/common/dunst.nix
-    ../desktop/common/firefox.nix
-    ../desktop/common/font.nix
-    ../desktop/common/gpg.nix
-    ../desktop/common/keepassxc.nix
-    ../desktop/common/theme.nix
-    ../desktop/common/tor-browser.nix
-    ../desktop/common/xdg.nix
-    ../desktop/common/xkb.nix
+  home.packages = with pkgs; [ age ssh-to-age ];
 
-    ../desktop/optional/sway.nix
-    ../desktop/optional/waybar
-    ../desktop/optional/swayidle.nix
-  ];
+  desktop.enable = true;
+  wayland.windowManager.sway.enable = true;
 
-  # dummy impermanence config
-  options.home.persistence."/persist/home/vaw".directories = lib.mkOption {
-    type = lib.types.listOf lib.types.anything;
+  programs = {
+    waybar.enable = true;
+
+    discord.enable = false;
+    neomutt.enable = false;
+    khard.enable = false;
+    khal.enable = false;
+    spotifython-cli.enable = false;
+
+    zsh.promptColor = "green";
+    ssh.matchBlocks."nyx" = {
+      host = "nyx home.vaw-valentin.de";
+      hostname = "home.vaw-valentin.de";
+    };
   };
-
-  config = {
-    programs.zsh.promptColor = "green";
-
-    home.packages = with pkgs; [ age ssh-to-age ];
+  services = {
+    ntfy.enable = false;
+    syncthing.enable = false;
   };
 }

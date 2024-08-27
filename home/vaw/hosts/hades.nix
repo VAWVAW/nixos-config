@@ -7,38 +7,36 @@ let
     workspaces = [ "1" ];
   };
 in {
-  imports = [
-    ../common
-    ../desktop
-
-    ../desktop/optional/sway.nix
-    ../desktop/optional/hyprland.nix
-    ../desktop/optional/swayidle.nix
-    ../desktop/optional/waybar
-
-    ../desktop/optional/steam.nix
-    ../desktop/optional/lutris.nix
-    ../desktop/optional/minecraft.nix
-  ];
-
-  services.spotifyd.settings.global.device_name = "hades_spotifyd";
-
-  home = {
-    keyboard.options = [ "altwin:menu_win" ];
-    sessionVariables.NVK_I_WANT_A_BROKEN_VULKAN_DRIVER = "1";
-  };
+  imports = [ ../common ];
 
   programs = {
+    waybar.enable = true;
+    steam.enable = true;
+    lutris.enable = true;
+    minecraft.enable = true;
+
     firejail.wrappedBinaries = {
       signal-desktop.executable = lib.mkForce
         "${pkgs.signal-desktop}/bin/signal-desktop --use-gl=desktop";
     };
 
-    # use system dns resolver (should be athena)
+    # use system dns resolver (should be nyx)
     firefox.profiles."default".settings."network.trr.mode" = lib.mkForce 5;
   };
 
+  services = {
+    swayidle.enable = true;
+
+    spotifyd.settings.global.device_name = "hades_spotifyd";
+  };
+
+  home = {
+    keyboard.options = [ "altwin:menu_win" ];
+    sessionVariables."NVK_I_WANT_A_BROKEN_VULKAN_DRIVER" = "1";
+  };
+
   desktop = {
+    enable = true;
     screens = [
       first_screen
       {
@@ -54,7 +52,9 @@ in {
     ];
   };
 
+  wayland.windowManager.hyprland.enable = true;
   wayland.windowManager.sway = {
+    enable = true;
     config = {
       seat."*".hide_cursor = lib.mkForce "0";
       keybindings."Mod4+Ctrl+Shift+Tab" = lib.mkForce
@@ -80,7 +80,6 @@ in {
 
       # workspace layout
       workspace --no-auto-back-and-forth 10; layout stacking; workspace --no-auto-back-and-forth 1
-
     '';
   };
 }
