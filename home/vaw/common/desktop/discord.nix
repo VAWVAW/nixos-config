@@ -6,8 +6,11 @@ in {
   config = lib.mkIf cfg.enable {
     home.persistence."/persist/home/vaw".directories = [{
       directory = ".config/discord";
-      method = "symlink";
+      method = "bindfs";
     }];
+
+    xdg.configFile."discord/settings.json".text =
+      ''{ "SKIP_HOST_UPDATE": true }'';
 
     programs.firejail.wrappedBinaries."discord" = {
       executable =
