@@ -47,12 +47,3 @@ autocmd(
     end
   }
 )
-autocmd("VimEnter", {
-  group = FormatOptions,
-  pattern = "*",
-  desc = "Open status split",
-  callback = function()
-    nvim_tree.tree.focus()
-    vim.cmd("wincmd l")
-  end,
-})
