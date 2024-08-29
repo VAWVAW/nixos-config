@@ -219,12 +219,12 @@
             "${pkgs.vdirsyncer}/bin/vdirsyncer metasync"
             "${pkgs.vdirsyncer}/bin/vdirsyncer sync"
           ] ++ lib.optionals config.programs.khal.enable [
-            "/bin/sh -c '${pkgs.curl}/bin/curl $(cat ${
+            "/bin/sh -c '${pkgs.curl}/bin/curl $(${pkgs.coreutils}/bin/cat ${
               config.sops.secrets."dav/fu-url".path
             }) | ${pkgs.khal}/bin/khal import --batch -a \"${
               calendar_accounts."FU".name
             }\"'"
-            "/bin/sh -c '${pkgs.curl}/bin/curl $(cat ${
+            "/bin/sh -c '${pkgs.curl}/bin/curl $(${pkgs.coreutils}/bin/cat ${
               config.sops.secrets."dav/divera-url".path
             }) | ${pkgs.khal}/bin/khal import --batch -a \"${
               calendar_accounts."Divera".name
