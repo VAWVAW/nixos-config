@@ -1,9 +1,6 @@
-{ inputs, outputs, config, ... }: {
+{ inputs, outputs, ... }: {
   home-manager = {
     useUserPackages = true;
-    extraSpecialArgs = {
-      inherit inputs outputs;
-      platform = config.nixpkgs.hostPlatform.system;
-    };
+    extraSpecialArgs = { inherit inputs outputs; };
   };
 }
