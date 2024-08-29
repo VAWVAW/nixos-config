@@ -18,7 +18,7 @@
     };
 
     config = {
-      imports = [ ../../common/optional/nixos-containers/basic-config.nix ];
+      imports = [ ../../common/nixos-containers/basic-config.nix ];
 
       services.syncthing = {
         inherit dataDir configDir;

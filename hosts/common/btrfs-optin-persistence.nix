@@ -1,4 +1,4 @@
-{ lib, config, inputs, ... }:
+{ lib, config, ... }:
 let
   hostname = config.networking.hostName;
   wipeScript = ''
@@ -22,13 +22,12 @@ let
     rmdir /btrfs
   '';
 in {
-  imports = [ inputs.impermanence.nixosModules.impermanence ];
-
   boot.initrd = {
     supportedFilesystems = [ "btrfs" ];
 
     # Use postDeviceCommands if on old phase 1
-    postDeviceCommands = lib.mkIf (!config.boot.initrd.systemd.enable) (lib.mkBefore wipeScript);
+    postDeviceCommands =
+      lib.mkIf (!config.boot.initrd.systemd.enable) (lib.mkBefore wipeScript);
 
     # Use systemd service on new phase 1
     systemd.services."rollback-root" = {

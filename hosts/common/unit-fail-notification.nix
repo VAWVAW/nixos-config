@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: {
+{ config, pkgs, lib, ... }: {
   systemd.services."unit-status-notification@" = let
     script = pkgs.writeScript "unit-status-notification" ''
       UNIT=$1
@@ -19,6 +19,7 @@
       })" --tags warning,computer --title "$UNIT failed on $HOST" https://ntfy.nlih.de/desktop "$(${pkgs.systemd}/bin/journalctl -b0 -u "$UNIT" -o cat -n 50)"
     '';
   in {
+    enable = lib.mkDefault false;
     serviceConfig = {
       Type = "simple";
       ExecStart = "${pkgs.bash}/bin/bash ${script} %I %H";
@@ -28,5 +29,4 @@
       After = "network.target";
     };
   };
-
 }

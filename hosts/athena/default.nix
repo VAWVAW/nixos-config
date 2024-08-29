@@ -4,9 +4,7 @@
     inputs.hardware.nixosModules.common-pc-ssd
     inputs.hardware.nixosModules.common-pc-hdd
 
-    ../common/optional/containers
-
-    ../common/global
+    ../common
     ../common/users/vaw
 
     ./config

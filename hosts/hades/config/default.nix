@@ -7,4 +7,5 @@
     ./nvidia.nix
     ./ovmf.nix
   ];
+  programs.adb.enable = true;
 }

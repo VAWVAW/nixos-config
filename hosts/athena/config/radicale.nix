@@ -15,7 +15,7 @@
     };
 
     config = {
-      imports = [ ../../common/optional/nixos-containers/basic-config.nix ];
+      imports = [ ../../common/nixos-containers/basic-config.nix ];
 
       networking.firewall.allowedTCPPorts = [ port ];
 

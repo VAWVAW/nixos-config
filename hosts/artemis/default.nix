@@ -3,11 +3,7 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     inputs.hardware.nixosModules.common-pc-ssd
 
-    ../common/optional/borgbackup.nix
-
-    ../common/optional/containers
-
-    ../common/global
+    ../common
     ../common/users/vaw
 
     ./config

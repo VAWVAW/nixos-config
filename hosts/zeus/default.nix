@@ -1,23 +1,18 @@
 { inputs, config, pkgs, ... }: {
   imports = [
     inputs.hardware.nixosModules.framework-13th-gen-intel
-
-    ../common/optional/apparmor.nix
-    ../common/optional/networkmanager.nix
-    ../common/optional/secureboot.nix
-    ../common/optional/libvirt.nix
-
-    ../common/optional/containers
-
-    ../common/optional/desktop
-
-    ../common/global
+    ../common
     ../common/users/vaw
 
     ./config
   ];
 
-  networking.hostName = "zeus";
+  networking = {
+    hostName = "zeus";
+    networkmanager.enable = true;
+  };
+
+  desktop.enable = true;
 
   services = {
     upower.enable = true;
@@ -38,11 +33,15 @@
     initrd.availableKernelModules =
       [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
 
+    lanzaboote = {
+      enable = true;
+      pkiBundle = "/etc/secureboot";
+    };
     loader = {
       timeout = 1;
       efi.canTouchEfiVariables = true;
       systemd-boot = {
-        enable = true;
+        enable = false;
         editor = false;
         configurationLimit = 30;
       };
@@ -51,6 +50,9 @@
   };
 
   hardware.opengl.driSupport32Bit = true;
+
+  virtualisation.libvirtd.enable = true;
+  virtualisation.podman.enable = true;
 
   nix.settings.secret-key-files =
     [ "/persist/var/lib/binary-cache/cache-key.pem" ];

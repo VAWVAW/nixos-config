@@ -1,10 +1,6 @@
 { config, ... }: {
   imports = [
-    ../common/optional/borgbackup.nix
-
-    ../common/optional/containers
-
-    ../common/global
+    ../common
     ../common/users/vaw
 
     ./config

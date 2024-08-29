@@ -9,7 +9,7 @@ in {
   sops = {
     age.sshKeyPaths = [ key.path ];
     secrets."ntfy-desktop" = {
-      sopsFile = ../../../secrets/system.yaml;
+      sopsFile = ../../secrets/system.yaml;
       mode = "0400";
     };
   };

@@ -1,6 +1,8 @@
 { lib, ... }: {
   networking.hostName = lib.mkForce "nixos-iso";
 
+  desktop.enable = true;
+
   programs.command-not-found.enable = true;
 
   users.mutableUsers = lib.mkForce true;

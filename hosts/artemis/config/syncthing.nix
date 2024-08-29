@@ -18,7 +18,7 @@
     };
 
     config = {
-      imports = [ ../../common/optional/nixos-containers/basic-config.nix ];
+      imports = [ ../../common/nixos-containers/basic-config.nix ];
 
       services.syncthing = {
         inherit dataDir configDir;
@@ -29,13 +29,13 @@
         overrideDevices = false;
         overrideFolders = false;
 
-        settings.options = { localAnnounceEnabled = false; };
+        settings.options.localAnnounceEnabled = false;
       };
     };
   };
 
   environment.persistence."/backed_up".directories =
-    [ config.services.syncthing.dataDir ];
+    [ config.services."syncthing".dataDir ];
   environment.persistence."/persist".directories =
-    [ config.services.syncthing.configDir ];
+    [ config.services."syncthing".configDir ];
 }

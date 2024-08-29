@@ -1,9 +1,10 @@
 { outputs, pkgs, lib, config, ... }:
 
 let
-  hosts = removeAttrs outputs.nixosConfigurations [ "iso-x86_64" "iso-aarch64" ];
+  hosts =
+    removeAttrs outputs.nixosConfigurations [ "iso-x86_64" "iso-aarch64" ];
   hostname = config.networking.hostName;
-  pubKey = host: ../../${host}/ssh_host_ed25519_key.pub;
+  pubKey = host: ../${host}/ssh_host_ed25519_key.pub;
 in {
   services.openssh = {
     enable = true;
@@ -58,23 +59,23 @@ in {
         "nyx".extraHostNames = [ "home.vaw-valentin.de" ];
         "nyx-initrd" = {
           inherit (cfg."nyx") hostNames;
-          publicKeyFile = ../../nyx/ssh_initrd_host_ed25519_key.pub;
+          publicKeyFile = ../nyx/ssh_initrd_host_ed25519_key.pub;
         };
 
         "athena-initrd" = {
           inherit (cfg."athena") hostNames;
-          publicKeyFile = ../../athena/ssh_initrd_host_ed25519_key.pub;
+          publicKeyFile = ../athena/ssh_initrd_host_ed25519_key.pub;
         };
 
         "artemis".extraHostNames = [ "server.vaw-valentin.de" ];
         "artemis-initrd" = {
           inherit (cfg."artemis") hostNames;
-          publicKeyFile = ../../artemis/ssh_initrd_host_ed25519_key.pub;
+          publicKeyFile = ../artemis/ssh_initrd_host_ed25519_key.pub;
         };
 
         "hades-initrd" = {
           inherit (cfg."hades") hostNames;
-          publicKeyFile = ../../hades/ssh_initrd_host_ed25519_key.pub;
+          publicKeyFile = ../hades/ssh_initrd_host_ed25519_key.pub;
         };
       }
       (builtins.mapAttrs (name: _: {

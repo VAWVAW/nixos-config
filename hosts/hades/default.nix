@@ -1,18 +1,10 @@
 # System configuration for my main desktop PC
-{ pkgs, pkgs-unstable, inputs, config, ... }: {
+{ inputs, config, pkgs, pkgs-unstable, ... }: {
   imports = [
     inputs.hardware.nixosModules.common-cpu-amd-pstate
     inputs.hardware.nixosModules.common-pc-ssd
 
-    ../common/optional/apparmor.nix
-    ../common/optional/android.nix
-    ../common/optional/libvirt.nix
-
-    ../common/optional/containers
-
-    ../common/optional/desktop
-
-    ../common/global
+    ../common
     ../common/users/vaw
 
     ./config
@@ -25,6 +17,8 @@
       "192.168.2.20" = [ "nyx" ];
     };
   };
+
+  desktop.enable = true;
 
   boot = {
     kernelPackages = pkgs-unstable.linuxPackages;
@@ -55,6 +49,9 @@
     driSupport32Bit = true;
     extraPackages = with pkgs; [ libvdpau-va-gl ];
   };
+
+  virtualisation.libvirtd.enable = true;
+  virtualisation.podman.enable = true;
 
   nix.settings.secret-key-files =
     [ "/persist/var/lib/binary-cache/cache-key.pem" ];

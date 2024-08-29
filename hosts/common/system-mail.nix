@@ -1,6 +1,6 @@
 { config, ... }: {
   sops.secrets."mail-system" = {
-    sopsFile = ../../../secrets/system.yaml;
+    sopsFile = ../../secrets/system.yaml;
     mode = "0400";
   };
   programs.msmtp = {

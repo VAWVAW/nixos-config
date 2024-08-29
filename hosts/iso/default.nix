@@ -3,24 +3,26 @@
     (inputs.nixpkgs
       + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-base.nix")
 
-    ../common/global
-    ../common/optional/desktop
+    ../common
     ../common/users/vaw
 
     ./config.nix
   ];
 
   disabledModules = [
-    "${inputs.self}/hosts/common/global/boot-partition.nix"
-    "${inputs.self}/hosts/common/global/btrfs-optin-persistence.nix"
-    "${inputs.self}/hosts/common/global/encrypted-root.nix"
-    "${inputs.self}/hosts/common/global/sops.nix"
-    "${inputs.self}/hosts/common/global/system-mail.nix"
+    "${inputs.self}/hosts/common/boot-partition.nix"
+    "${inputs.self}/hosts/common/btrfs-optin-persistence.nix"
+    "${inputs.self}/hosts/common/encrypted-root.nix"
+    "${inputs.self}/hosts/common/sops.nix"
+    "${inputs.self}/hosts/common/system-mail.nix"
   ];
 
   # dummy sops config for user
   options.sops = lib.mkOption { type = lib.types.anything; };
-  config.sops.secrets.vaw-password.path = null;
+  config.sops.secrets = {
+    "vaw-password".path = null;
+    "ntfy-desktop".path = "";
+  };
 
   config = {
     # fix openssh.nix
