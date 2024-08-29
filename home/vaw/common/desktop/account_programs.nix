@@ -23,12 +23,24 @@
             preNew = "${pkgs.isync}/bin/mbsync --all";
             postNew = ''
               ${lib.optionalString config.programs.i3blocks.enable
-              "${pkgs.procps}/bin/pkill -SIGRTMIN+${i3blocks_signal} i3blocks"}
+              "${pkgs.procps}/bin/pkill -SIGRTMIN+${i3blocks_signal} i3blocks || ${pkgs.coreutils}/bin/true"}
               ${lib.optionalString config.programs.waybar.enable
-              "${pkgs.procps}/bin/pkill -SIGRTMIN+${waybar_signal} waybar"}
+              "${pkgs.procps}/bin/pkill -SIGRTMIN+${waybar_signal} waybar || ${pkgs.coreutils}/bin/true"}
             '';
           };
         };
+      };
+
+      systemd.user.services."mail-sync" = {
+        Unit = {
+          Description = "run `notmuch new` on login";
+          After = [ "sops-nix.service" ];
+        };
+        Service = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.notmuch}/bin/notmuch new";
+        };
+        Install.WantedBy = [ "default.target" ];
       };
     })
 
