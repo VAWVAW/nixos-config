@@ -63,7 +63,7 @@ in {
     systemd.user.services."ntfy" = {
       Unit = {
         Description = "ntfy desktop notifications";
-        After = [ "network-online.target" "sops-nix.service" ];
+        After = [ "sops-nix.service" ];
       };
       Service = {
         ExecStart = "${script}";

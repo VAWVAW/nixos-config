@@ -59,8 +59,7 @@
         method = "symlink";
       }];
 
-      systemd.user.services.spotifyd.Unit.After =
-        [ "sops-nix.service" "network-online.target" ];
+      systemd.user.services.spotifyd.Unit.After = [ "sops-nix.service" ];
 
       services.spotifyd = {
         package = pkgs.spotifyd.override { withMpris = true; };

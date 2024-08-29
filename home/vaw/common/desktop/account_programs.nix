@@ -209,7 +209,7 @@
       systemd.user.services."sync-dav" = {
         Unit = {
           Description = "vdirsyncer and khal import";
-          PartOf = [ "network-online.target" ];
+          After = [ "sops-nix.service" ];
         };
         Service = {
           Type = "oneshot";
