@@ -1,5 +1,17 @@
 { config, pkgs, lib, ... }: {
 
+  home.packages = lib.optional config.wayland.windowManager.sway.enable
+    (pkgs.runCommandLocal "sway-wrapped" { meta.priority = -5; } ''
+      mkdir -p $out/bin
+      cat <<EOF >$out/bin/sway
+      #!${pkgs.runtimeShell}
+      ${config.wayland.windowManager.sway.package}/bin/sway "\$@"
+      ${pkgs.systemd}/bin/systemctl --user stop sway-session.target
+      EOF
+
+      chmod +x $out/bin/sway
+    '');
+
   xdg.portal = lib.mkIf config.wayland.windowManager.sway.enable {
     extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
     config."sway".default = [ "wlr" "gtk" "*" ];
