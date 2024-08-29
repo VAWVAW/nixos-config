@@ -1,7 +1,19 @@
-{
-  boot.initrd.systemd = {
+{ config, lib, ... }: {
+
+  boot.initrd.network.ssh = {
     enable = true;
+    port = 443;
+    hostKeys = [ /persist/etc/ssh/ssh_initrd_host_ed25519_key ];
+    authorizedKeys =
+      [ (lib.readFile ./users/vaw/home/pubkey_ssh.txt) ];
+  };
+
+  boot.initrd.systemd = {
+    enable = lib.mkDefault true;
+    network = config.systemd.network // { enable = lib.mkDefault false; };
+
     services."print-info" = {
+      enable = lib.mkDefault false;
       wantedBy = [ "initrd.target" ];
       requires = [ "systemd-vconsole-setup.service" ];
       after = [ "systemd-vconsole-setup.service" ];
@@ -14,11 +26,12 @@
         echo "" > /dev/tty1
         echo '###########################################################' > /dev/tty1
         echo "" > /dev/tty1
-        echo 'This laptop belongs to Valentin <valentin@vaw-valentin.de>.' > /dev/tty1
+        echo 'This device belongs to Valentin <valentin@vaw-valentin.de>.' > /dev/tty1
         echo "" > /dev/tty1
         echo '###########################################################' > /dev/tty1
         echo "" > /dev/tty1
       '';
     };
+
   };
 }

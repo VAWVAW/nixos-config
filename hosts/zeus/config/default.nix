@@ -1,1 +1,1 @@
-{ imports = [ ./initrd.nix ./ssl-certs.nix ./tlp.nix ]; }
+{ imports = [ ./ssl-certs.nix ./tlp.nix ]; }

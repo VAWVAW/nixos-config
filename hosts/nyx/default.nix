@@ -17,7 +17,12 @@
   boot = {
     blacklistedKernelModules = [ "onboard_usb_hub" ];
 
-    initrd.availableKernelModules = [ "usbhid" "usb_storage" ];
+    initrd.availableKernelModules = [
+      "usbhid"
+      "usb_storage"
+      "lan78xx" # network driver
+    ];
+    initrd.systemd.network.enable = true;
 
     loader = {
       efi.canTouchEfiVariables = true;
@@ -46,6 +51,7 @@
     };
   };
 
+  services.syncthing-container.enable = true;
   services.borgbackup.repos."system".authorizedKeys = [
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDW8KqMDzTeIuvDoPa/8JnQMpIkN/7W/w3k5CInO8u/4 artemis-nyx-borg"
   ];

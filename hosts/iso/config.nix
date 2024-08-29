@@ -12,4 +12,6 @@
   };
 
   services.getty.autologinUser = lib.mkForce "vaw";
+
+  boot.initrd.systemd.enable = false;
 }

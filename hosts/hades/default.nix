@@ -28,8 +28,15 @@
 
     kernelModules = [ "kvm-amd" ];
 
-    initrd.availableKernelModules =
-      [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "nvme"
+      "usbhid"
+      "usb_storage"
+      "r8169" # network driver
+    ];
+    initrd.systemd.network.enable = true;
 
     loader = {
       efi.canTouchEfiVariables = true;

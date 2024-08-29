@@ -13,16 +13,19 @@
     ./desktop.nix
     ./encrypted-root.nix
     ./home-manager.nix
+    ./initrd.nix
     ./libvirt.nix
     ./locale.nix
     ./mailcap.nix
     ./networkmanager.nix
+    ./nginx.nix
     ./nix.nix
     ./openssh.nix
     ./pipewire.nix
     ./podman.nix
     ./secureboot.nix
     ./sops.nix
+    ./syncthing.nix
     ./system-mail.nix
     ./unit-fail-notification.nix
     ./yubikey.nix

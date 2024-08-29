@@ -13,6 +13,7 @@
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" ];
+    initrd.systemd.network.enable = true;
 
     loader = {
       efi.canTouchEfiVariables = true;
@@ -40,6 +41,8 @@
       neededForBoot = true;
     };
   };
+
+  services.syncthing-container.enable = true;
 
   system.stateVersion = "23.11";
   nixpkgs.hostPlatform.system = "aarch64-linux";

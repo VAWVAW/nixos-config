@@ -1,13 +1,11 @@
 {
   imports = [
-  ./borgbackup.nix
-    ./initrd.nix
+    ./borgbackup.nix
     ./mollysocket.nix
     ./network.nix
     ./nginx.nix
     ./ntfy.nix
     ./radicale.nix
-    ./syncthing.nix
     ./update-notify.nix
   ];
 }
