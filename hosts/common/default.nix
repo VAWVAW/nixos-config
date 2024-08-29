@@ -25,7 +25,6 @@
     ./sops.nix
     ./system-mail.nix
     ./unit-fail-notification.nix
-    ./xdg.nix
     ./yubikey.nix
     ./zram.nix
   ] ++ (builtins.attrValues outputs.nixosModules);

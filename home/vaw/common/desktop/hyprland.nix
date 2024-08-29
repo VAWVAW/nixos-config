@@ -1,4 +1,9 @@
 { config, pkgs, lib, ... }: {
+  xdg.portal = lib.mkIf config.wayland.windowManager.hyprland.enable {
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    config."hyprland".default = [ "hyprland" "gtk" "*" ];
+  };
+
   wayland.windowManager.hyprland = let
     inherit (config.desktop.keybinds.generated) left down up right mod;
     hyprland = config.wayland.windowManager.hyprland.finalPackage;

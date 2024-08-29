@@ -1,4 +1,10 @@
-{ config, lib, ... }: {
+{ config, pkgs, lib, ... }: {
+
+  xdg.portal = lib.mkIf config.wayland.windowManager.sway.enable {
+    extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    config."sway".default = [ "wlr" "gtk" "*" ];
+  };
+
   wayland.windowManager.sway = let
     first_screen = if (builtins.length config.desktop.screens) > 0 then
       builtins.head config.desktop.screens

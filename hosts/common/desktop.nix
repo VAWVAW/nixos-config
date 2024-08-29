@@ -15,9 +15,6 @@
       enableDefaultPackages = true;
     };
 
-    xdg.portal.enable = true;
-    xdg.portal.wlr.enable = true;
-
     programs.firejail.enable = true;
     programs.dconf.enable = true;
 

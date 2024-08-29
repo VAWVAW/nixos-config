@@ -1,7 +1,3 @@
-# TODO:
-# - xdg-desktop-portal
-#   - move to home-manager
-
 {
   description = "My NixOS configuration";
 
