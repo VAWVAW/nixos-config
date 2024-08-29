@@ -50,6 +50,7 @@
     binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
+  hardware.steam-hardware.enable = true;
   hardware.opengl = {
     driSupport32Bit = true;
     extraPackages = with pkgs; [ libvdpau-va-gl ];
