@@ -1,4 +1,33 @@
 {
   # Import all your configuration modules here
   imports = [ ./bufferline.nix ];
+
+  clipboard.register = "unnamed";
+  opts = {
+    mouse = "";
+    ignorecase = true;
+    smartcase = true;
+    smartindent = true;
+
+    splitbelow = true;
+    splitright = true;
+
+    foldmethod = "syntax";
+    foldlevelstart = 99;
+
+    expandtab = true;
+    shiftwidth = 2;
+    tabstop = 2;
+
+    wrap = false;
+    scrolloff = 3;
+    sidescrolloff = 8;
+
+    number = true;
+    relativenumber = true;
+    signcolumn = "yes";
+
+    showmode = false;
+    completeopt = [ "menuone" "noselect" ];
+  };
 }
