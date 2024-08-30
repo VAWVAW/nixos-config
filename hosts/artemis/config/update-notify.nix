@@ -1,9 +1,10 @@
 { config, pkgs, lib, ... }:
 let
-  inherit ((builtins.head (import ../../../home/vaw/common/desktop/accounts.nix {
-    inherit pkgs lib;
-    config = { programs.mbsync.enable = true; };
-  }).config.contents).content.accounts.email)
+  inherit ((builtins.head
+    (import ../../../home/vaw/common/desktop/accounts.nix {
+      inherit pkgs lib;
+      config = { programs.mbsync.enable = true; };
+    }).config.contents).content.accounts.email)
     accounts;
 
   accountNames = builtins.attrNames accounts;

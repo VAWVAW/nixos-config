@@ -32,7 +32,7 @@
 
     initrd.availableKernelModules =
       [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" ];
-      initrd.systemd.services."print-info".enable = true;
+    initrd.systemd.services."print-info".enable = true;
 
     lanzaboote = {
       enable = true;

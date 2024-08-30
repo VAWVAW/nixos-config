@@ -46,8 +46,10 @@
         ];
 
         locations."/" = {
-          proxyPass =
-            "http://${builtins.head config.containers.radicale.config.services.radicale.settings.server.hosts}/";
+          proxyPass = "http://${
+              builtins.head
+              config.containers.radicale.config.services.radicale.settings.server.hosts
+            }/";
           proxyWebsockets = true;
         };
       };

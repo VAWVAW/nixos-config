@@ -1,7 +1,1 @@
-{
-  imports = [
-    ./adguardhome.nix
-    ./network.nix
-    ./nginx.nix
-  ];
-}
+{ imports = [ ./adguardhome.nix ./network.nix ./nginx.nix ]; }
