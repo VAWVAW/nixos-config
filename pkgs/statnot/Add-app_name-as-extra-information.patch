@@ -1,0 +1,67 @@
+From 5361175711bc158263d8b09492922c19f860f8cd Mon Sep 17 00:00:00 2001
+From: vaw <valentin@wiedekind1.de>
+Date: Fri, 30 Aug 2024 13:17:22 +0200
+Subject: [PATCH 2/2] Add app_name as extra information
+
+---
+ statnot | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/statnot b/statnot
+index 4b4d338..fe7a8d9 100755
+--- a/statnot
++++ b/statnot
+@@ -51,7 +51,7 @@ USE_STATUSTEXT=True
+ QUEUE_NOTIFICATIONS=True
+ 
+ # dwm
+-def update_text(text):
++def update_text(text, app_name):
+     # Get first line
+     first_line = text.splitlines()[0] if text else ''
+     subprocess.call(["xsetroot", "-name", first_line])
+@@ -197,14 +197,16 @@ def message_thread(dummy):
+         if update_status:
+             if notif:
+                 current_notification_text = notif[1]
++                current_notification_app = notif[3]
+             else:
+                 current_notification_text = ''
++                current_notification_app = ''
+ 
+             if USE_STATUSTEXT:
+-                update_text(get_statustext(current_notification_text))
++                update_text(get_statustext(current_notification_text), current_notification_app)
+             else:
+                 if current_notification_text != '':
+-                    update_text(current_notification_text)
++                    update_text(current_notification_text, current_notification_app)
+ 
+             last_status_update = current_time
+ 
+@@ -225,10 +227,11 @@ class NotificationFetcher(dbus.service.Object):
+             self._id += 1
+             notification_id = self._id
+ 
+-        text = (f"{summary} {body}").strip()
++        text = (f"{summary}\n{body}").strip()
+         add_notification( [notification_id,
+                           text[:NOTIFICATION_MAX_LENGTH],
+-                          int(expire_timeout) / 1000.0] )
++                          int(expire_timeout) / 1000.0,
++                          app_name] )
+         return notification_id
+ 
+     @dbus.service.method("org.freedesktop.Notifications", in_signature='', out_signature='as')
+@@ -297,7 +300,7 @@ if __name__ == '__main__':
+                    "\n"
+                    "      # dwm statusbar update\n"
+                    "      import subprocess\n"
+-                   "      def update_text(text):\n"
++                   "      def update_text(text, app_name):\n"
+                    "          subprocess.call(['xsetroot', '-name', text])\n")
+             sys.exit(1)
+         else:
+-- 
+2.44.1
+

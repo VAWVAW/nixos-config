@@ -1,0 +1,30 @@
+From c8e5c909696f68f1cdc57742d6e6421620d58799 Mon Sep 17 00:00:00 2001
+From: vaw <valentin@wiedekind1.de>
+Date: Fri, 30 Aug 2024 13:09:39 +0200
+Subject: [PATCH 1/2] Replace deprecated imp with importlib
+
+---
+ statnot | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/statnot b/statnot
+index e3cde56..4b4d338 100755
+--- a/statnot
++++ b/statnot
+@@ -64,9 +64,11 @@ def _getconfigvalue(configmodule, name, default):
+     return default
+ 
+ def readconfig(filename):
+-    import imp
++    import importlib.util
+     try:
+-        config = imp.load_source("config", filename)
++        spec = importlib.util.spec_from_file_location("config", filename)
++        config = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(config)
+     except Exception as e:
+         print(f"Error: failed to read config file {filename}")
+         print(e)
+-- 
+2.44.1
+
