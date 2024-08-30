@@ -27,6 +27,7 @@
     ./obsidian.nix
     ./signal-desktop.nix
     ./spotify.nix
+    ./statnot.nix
     ./steam.nix
     ./sway.nix
     ./swaybar.nix
@@ -122,6 +123,7 @@
 
     services = {
       dunst.enable = lib.mkDefault true;
+      statnot.enable = lib.mkDefault true;
       ntfy.enable = lib.mkDefault true;
       spotifyd.enable = lib.mkDefault true;
       syncthing.enable = lib.mkDefault true;

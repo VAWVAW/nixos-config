@@ -40,7 +40,7 @@
       # start shell in vi mode
       bindkey -v
 
-      ${lib.optionalString config.services.dunst.enable ''
+      ${lib.optionalString config.desktop.enable ''
         # notification on command completion
         # based on zbell plugin
         if [[ -o interactive ]] && zmodload zsh/datetime && autoload -Uz add-zsh-hook && autoload -Uz regexp-replace; then

@@ -70,7 +70,7 @@ in {
         Restart = "on-failure";
         RestartSec = 15;
       };
-      Install.WantedBy = [ "graphical-session.target" ];
+      Install.WantedBy = [ "default.target" ];
     };
   };
 }
