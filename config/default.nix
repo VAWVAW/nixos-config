@@ -1,6 +1,7 @@
 {
-  # Import all your configuration modules here
-  imports = [ ./bufferline.nix ];
+  imports = [ ./bufferline.nix ./keybinds.nix ];
+
+# TODO: add plugin specific keybinds
 
   clipboard.register = "unnamed";
   opts = {
