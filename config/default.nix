@@ -3,6 +3,7 @@
 
   # TODO: add plugin specific keybinds
 
+  colorscheme = "elflord";
   clipboard.register = "unnamed";
   opts = {
     mouse = "";
