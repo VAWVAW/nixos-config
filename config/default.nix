@@ -1,6 +1,7 @@
 {
   imports = [
     ./buffer.nix
+    ./cmp.nix
     ./git.nix
     ./keybinds.nix
     ./lsp.nix
@@ -42,6 +43,9 @@
     completeopt = [ "menuone" "noselect" ];
   };
 
-  plugins.project-nvim.enable = true;
-  plugins.comment.enable = true;
+  plugins = {
+    comment.enable = true;
+    nvim-autopairs.enable = true;
+    project-nvim.enable = true;
+  };
 }
