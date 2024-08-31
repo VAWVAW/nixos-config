@@ -34,4 +34,5 @@
   };
 
   plugins.project-nvim.enable = true;
+  plugins.comment.enable = true;
 }
