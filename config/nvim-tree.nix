@@ -87,7 +87,7 @@
 
           -- If the file is untracked, unstaged or partially staged, we stage it
           if gs == "??" or gs == "MM" or gs == "AM" or gs == " M" then
-            vim.cmd("silent G add " .. node.absolute_path)
+            vim.cmd("silent Git add " .. node.absolute_path)
           end
 
           api.tree.reload()
@@ -99,7 +99,7 @@
 
           -- If the file is staged, we unstage
           if gs == "M " or gs == "A " then
-            vim.cmd("silent G restore --staged " .. node.absolute_path)
+            vim.cmd("silent Git restore --staged " .. node.absolute_path)
           end
 
           api.tree.reload()
