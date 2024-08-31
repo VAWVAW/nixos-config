@@ -1,5 +1,5 @@
 {
-  imports = [ ./bufferline.nix ./keybinds.nix ];
+  imports = [ ./buffer.nix ./keybinds.nix ];
 
 # TODO: add plugin specific keybinds
 
