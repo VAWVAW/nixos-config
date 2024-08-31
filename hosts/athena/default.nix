@@ -2,7 +2,6 @@
   imports = [
     inputs.hardware.nixosModules.common-cpu-intel-cpu-only
     inputs.hardware.nixosModules.common-pc-ssd
-    inputs.hardware.nixosModules.common-pc-hdd
 
     ../common
     ../common/users/vaw
@@ -55,6 +54,7 @@
         "e1000e"
       ];
       systemd.enable = true;
+      systemd.network.enable = false;
       network = {
         enable = true;
         ssh = {

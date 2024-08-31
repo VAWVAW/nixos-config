@@ -1,8 +1,7 @@
 { outputs, pkgs, lib, config, ... }:
 
 let
-  hosts =
-    removeAttrs outputs.nixosConfigurations [ "iso-x86_64" "iso-aarch64" ];
+  hosts = removeAttrs outputs.nixosConfigurations [ "iso" ];
   hostname = config.networking.hostName;
   pubKey = host: ../${host}/ssh_host_ed25519_key.pub;
 in {
