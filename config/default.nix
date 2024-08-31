@@ -1,5 +1,5 @@
 {
-  imports = [ ./buffer.nix ./keybinds.nix ./lualine.nix ];
+  imports = [ ./buffer.nix ./keybinds.nix ./lualine.nix ./nvim-tree.nix ];
 
   # TODO: add plugin specific keybinds
 
@@ -31,4 +31,6 @@
     showmode = false;
     completeopt = [ "menuone" "noselect" ];
   };
+
+  plugins.project-nvim.enable = true;
 }
