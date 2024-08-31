@@ -1,5 +1,5 @@
 {
-  imports = [ ./buffer.nix ./git.nix ./keybinds.nix ./lualine.nix ./nvim-tree.nix ];
+  imports = [ ./buffer.nix ./git.nix ./keybinds.nix ./lsp.nix ./lualine.nix ./nvim-tree.nix ];
 
   # TODO: add plugin specific keybinds
 
