@@ -1,7 +1,7 @@
 {
-  imports = [ ./buffer.nix ./keybinds.nix ];
+  imports = [ ./buffer.nix ./keybinds.nix ./lualine.nix ];
 
-# TODO: add plugin specific keybinds
+  # TODO: add plugin specific keybinds
 
   clipboard.register = "unnamed";
   opts = {
