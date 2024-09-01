@@ -60,8 +60,8 @@
       src = pkgs.fetchFromGitHub {
         owner = "vawvaw";
         repo = "nvim-colorscheme";
-        rev = "493a025f96de086107e2b4fc5e5222e28feb7f47";
-        hash = "sha256-8xkIUrrvhPyKLtritZ1rBMRWkjVKnA1705E0tYwy0J8=";
+        rev = "93875eb30659912424cfffa53bb368eb24f1219f";
+        hash = "sha256-f2IXMkcGGLP9DofT6uXlEIQ7s0Z1M+NXmliievImwh4=";
       };
     })
   ];
