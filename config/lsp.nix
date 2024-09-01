@@ -10,7 +10,6 @@
       jsonls.enable = true;
       nil-ls.enable = true;
       # nixd.enable = true;
-      marksman.enable = true;
       pyright.enable = true;
       yamlls.enable = true;
     };
