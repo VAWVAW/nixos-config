@@ -9,6 +9,7 @@
     ./none-ls.nix
     ./nvim-tree.nix
     ./telescope.nix
+    ./toggleterm.nix
   ];
 
   # TODO: add plugin specific keybinds
