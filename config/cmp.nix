@@ -9,11 +9,12 @@
     sources = [
       { name = "nvim_lsp"; }
       { name = "emoji"; }
+      { name = "latex_symbols"; }
+      { name = "path"; }
       {
         name = "buffer";
         option.get_bufnrs = helpers.mkRaw "vim.api.nvim_list_bufs";
       }
-      { name = "path"; }
     ];
 
     formatting = {
@@ -54,6 +55,8 @@
             nvim_lsp = '[LSP]',
             buffer = '[Buffer]',
             path = '[Path]',
+            emoji = '[Emoji]',
+            latex_symbols = '[Latex]',
           })[entry.source.name]
           return vim_item
         end'';
