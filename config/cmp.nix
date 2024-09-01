@@ -8,8 +8,6 @@
 
     sources = [
       { name = "nvim_lsp"; }
-      { name = "emoji"; }
-      { name = "latex_symbols"; }
       { name = "path"; }
       {
         name = "buffer";
@@ -55,8 +53,6 @@
             nvim_lsp = '[LSP]',
             buffer = '[Buffer]',
             path = '[Path]',
-            emoji = '[Emoji]',
-            latex_symbols = '[Latex]',
           })[entry.source.name]
           return vim_item
         end'';

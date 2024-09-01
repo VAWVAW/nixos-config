@@ -1,5 +1,6 @@
 { pkgs, helpers, ... }: {
   extraPackages = [ pkgs.ripgrep ];
+  extraPlugins = [ pkgs.vimPlugins.telescope-symbols-nvim ];
 
   plugins.telescope = {
     enable = true;
