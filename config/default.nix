@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   imports = [
     ./buffer.nix
     ./cmp.nix
@@ -16,7 +16,6 @@
 
   # TODO: add plugin specific keybinds
 
-  colorscheme = "elflord";
   clipboard.register = "unnamed";
   opts = {
     mouse = "";
@@ -50,4 +49,17 @@
     nvim-autopairs.enable = true;
     project-nvim.enable = true;
   };
+
+  colorscheme = "vaw-colors";
+  extraPlugins = [
+    (pkgs.vimUtils.buildVimPlugin {
+      name = "vaw-colors";
+      src = pkgs.fetchFromGitHub {
+        owner = "vawvaw";
+        repo = "nvim-colorscheme";
+        rev = "493a025f96de086107e2b4fc5e5222e28feb7f47";
+        hash = "sha256-8xkIUrrvhPyKLtritZ1rBMRWkjVKnA1705E0tYwy0J8=";
+      };
+    })
+  ];
 }
