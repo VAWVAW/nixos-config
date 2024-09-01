@@ -131,6 +131,10 @@
           api.node.open.horizontal()
           api.tree.close()
         end)
+        nmap("i", function()
+          api.node.open.edit()
+          api.tree.open()
+        end)
 
         nmap("o", api.node.run.system)
 
