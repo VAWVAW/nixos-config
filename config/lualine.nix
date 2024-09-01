@@ -68,7 +68,6 @@
               end'';
         };
       };
-      spaces = ''"spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")'';
       filetype = {
         name = "filetype";
         icons_enabled = false;
@@ -80,7 +79,7 @@
       lualine_c = [ "" ];
 
       lualine_x = [ "lsp_progress" ];
-      lualine_y = [ diff spaces "encoding" "fileformat" filetype "progress" ];
+      lualine_y = [ diff "encoding" "fileformat" filetype "progress" ];
       lualine_z = [ "" ];
     };
   };
