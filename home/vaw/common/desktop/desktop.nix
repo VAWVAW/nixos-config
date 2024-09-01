@@ -110,7 +110,7 @@
         {
           key = "XF86AudioMute";
           command =
-            "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+            "${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
         }
         {
           key = "XF86AudioMicMute";
