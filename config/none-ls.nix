@@ -8,7 +8,6 @@
       };
       diagnostics = {
         deadnix.enable = true;
-        pylint.enable = true;
         statix.enable = true;
         yamllint.enable = true;
       };
