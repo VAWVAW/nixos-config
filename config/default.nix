@@ -10,6 +10,7 @@
     ./nvim-tree.nix
     ./telescope.nix
     ./toggleterm.nix
+    ./treesitter.nix
     ./undotree.nix
   ];
 
@@ -26,7 +27,6 @@
     splitbelow = true;
     splitright = true;
 
-    foldmethod = "syntax";
     foldlevelstart = 99;
 
     expandtab = true;
