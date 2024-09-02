@@ -64,4 +64,18 @@
       ];
     };
   };
+
+  extraConfigLua = let
+    signs = helpers.toLuaObject {
+      "DiagnosticSignError" = "";
+      "DiagnosticSignWarn" = "";
+      "DiagnosticSignHint" = "";
+      "DiagnosticSignInfo" = "";
+    };
+  in ''
+    local signs = ${signs}
+    for name, text in pairs(signs) do
+      vim.fn.sign_define(name, { texthl = name, text = text, numhl = "" })
+    end
+  '';
 }
