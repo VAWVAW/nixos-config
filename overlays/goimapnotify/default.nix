@@ -1,4 +1,4 @@
-final: prev: {
+final: _prev: {
   goimapnotify-patched = final.buildGoModule {
     pname = "goimapnotify";
     version = "2.3.15-git";

@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }: {
   options.services.borgbackup.jobs = lib.mkOption {
-    type = lib.types.attrsOf (lib.types.submodule ({ name, config, ... }: {
+    type = lib.types.attrsOf (lib.types.submodule ({ config, ... }: {
       options = {
         backupSnapshot = lib.mkEnableOption "backup a snapshot of /backed_up";
       };
@@ -37,7 +37,7 @@
   };
 
   options.services.borgbackup.repos = lib.mkOption {
-    type = lib.types.attrsOf (lib.types.submodule ({ name, config, ... }: {
+    type = lib.types.attrsOf (lib.types.submodule ({ config, ... }: {
       config = {
         path = lib.mkDefault "/backup/borgbackup";
         user = lib.mkDefault "borg";

@@ -2,7 +2,7 @@ _: {
   # Adds my custom packages
   additions = final: _prev: import ../pkgs { pkgs = final; };
 
-  pythonPackages = final: prev: {
+  pythonPackages = _final: _prev: {
     pythonPackagesExtensions = [
       (python-final: _python-prev: {
         spotifython = python-final.callPackage ../pkgs/spotifython { };
