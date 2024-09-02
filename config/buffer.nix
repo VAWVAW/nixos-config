@@ -41,7 +41,7 @@
     }
     {
       key = "<C-x>";
-      action = ":bdelete! %<CR>";
+      action = ":Bdelete! %<CR>";
     }
   ];
 }

@@ -44,22 +44,22 @@
         {
           mode = "n";
           key = "gd";
-          action = ":Telescope lsp_definitions";
+          action = ":Telescope lsp_definitions<CR>";
         }
         {
           mode = "n";
           key = "gD";
-          action = ":Telescope lsp_references";
+          action = ":Telescope lsp_references<CR>";
         }
         {
           mode = "n";
           key = "gi";
-          action = ":Telescope lsp_implementation";
+          action = ":Telescope lsp_implementation<CR>";
         }
         {
           mode = "n";
           key = "gt";
-          action = ":Telescope lsp_type_definitions";
+          action = ":Telescope lsp_type_definitions<CR>";
         }
       ];
     };
