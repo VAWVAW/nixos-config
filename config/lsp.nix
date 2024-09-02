@@ -5,12 +5,7 @@
 
     servers = {
       bashls.enable = true;
-      ccls.enable = true;
-      digestif.enable = true;
       jsonls.enable = true;
-      nil-ls.enable = true;
-      # nixd.enable = true;
-      pyright.enable = true;
       yamlls.enable = true;
     };
 
@@ -72,7 +67,7 @@
       "DiagnosticSignHint" = "";
       "DiagnosticSignInfo" = "";
     };
-  in ''
+  in lib.mkIf config.plugins.lsp.enable ''
     local signs = ${signs}
     for name, text in pairs(signs) do
       vim.fn.sign_define(name, { texthl = name, text = text, numhl = "" })

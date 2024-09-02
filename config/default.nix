@@ -1,5 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, helpers, ... }: {
   imports = [
+    ./languages
+
     ./buffer.nix
     ./cmp.nix
     ./git.nix
@@ -13,6 +15,7 @@
     ./treesitter.nix
     ./undotree.nix
   ];
+  languages.all.enable = true;
 
   # TODO: add plugin specific keybinds
 
