@@ -51,10 +51,7 @@
   };
 
   colorscheme = "vaw-colors";
-  extraConfigLua = "require('nabla').enable_virt()";
   extraPlugins = [
-    pkgs.vimPlugins.nabla-nvim
-
     (pkgs.vimUtils.buildVimPlugin {
       name = "vaw-colors";
       src = pkgs.fetchFromGitHub {
@@ -64,5 +61,13 @@
         hash = "sha256-f2IXMkcGGLP9DofT6uXlEIQ7s0Z1M+NXmliievImwh4=";
       };
     })
+
+    pkgs.vimPlugins.nabla-nvim
   ];
+
+  autoCmd = [{
+    event = "FileType";
+    pattern = "markdown";
+    callback = helpers.mkRaw ''require("nabla").enable_virt'';
+  }];
 }
