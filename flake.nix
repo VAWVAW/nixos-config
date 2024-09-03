@@ -2,15 +2,15 @@
   description = "A nixvim configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-24.05";
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, nixvim, ... }@inputs:
+  outputs = { nixpkgs, nixvim, ... }@inputs:
     let
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
       nixvimModule = pkgs: {
@@ -24,7 +24,7 @@
           pkgs = nixpkgs.legacyPackages.${system};
           nixvimpkgs = nixvim.legacyPackages.${system};
         in rec {
-          default = nixvim;
+          default = nixvim.extend { languages.all.enable = true; };
           nixvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs);
         });
       checks = forEachSystem (system:

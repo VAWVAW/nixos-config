@@ -2,16 +2,18 @@
   plugins.bufferline = {
     enable = true;
 
-    themable = true;
-    indicator = {
-      style = "icon";
-      icon = "▎";
+    settings.options = {
+      themable = true;
+      indicator = {
+        style = "icon";
+        icon = "▎";
+      };
+      max_name_length = 25;
+      tab_size = 20;
+      show_buffer_close_icons = false;
+      separator_style = "thin";
+      enforce_regular_tabs = true;
     };
-    maxNameLength = 25;
-    tabSize = 20;
-    showBufferCloseIcons = false;
-    separatorStyle = "thin";
-    enforceRegularTabs = true;
   };
 
   plugins.vim-bbye.enable = true;

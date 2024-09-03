@@ -12,11 +12,11 @@
       enable = true;
 
       gccPackage = null;
-      # nodejsPackage = null;
-      # treesitterPackage = null;
+      nodejsPackage = null;
+      treesitterPackage = null;
 
       folding = true;
-      indent = true;
+      settings.indent.enable = true;
     };
   };
 }

@@ -15,7 +15,6 @@
     ./treesitter.nix
     ./undotree.nix
   ];
-  languages.all.enable = true;
 
   # TODO: add plugin specific keybinds
 
@@ -60,8 +59,8 @@
       src = pkgs.fetchFromGitHub {
         owner = "vawvaw";
         repo = "nvim-colorscheme";
-        rev = "93875eb30659912424cfffa53bb368eb24f1219f";
-        hash = "sha256-f2IXMkcGGLP9DofT6uXlEIQ7s0Z1M+NXmliievImwh4=";
+        rev = "15fc2e316316db6c4d8033e23fbee11ad197316d";
+        hash = "sha256-NHf+i5zrFhYGQHj//2HGAYS+jm8K8e2LBhfDR6lCOUM=";
       };
     })
 

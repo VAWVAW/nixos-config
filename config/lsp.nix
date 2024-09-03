@@ -1,7 +1,7 @@
 { config, lib, helpers, ... }: {
   plugins.lsp = {
     enable = true;
-    # inlayHints = true;
+    inlayHints = true;
 
     servers = {
       bashls.enable = true;
