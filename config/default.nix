@@ -4,6 +4,7 @@
 
     ./buffer.nix
     ./cmp.nix
+    ./dap.nix
     ./git.nix
     ./keybinds.nix
     ./lsp.nix
