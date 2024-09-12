@@ -51,7 +51,7 @@ let
   };
 
   script = pkgs.writeShellScript "ntfy-script" ''
-    ${pkgs.ntfy-sh}/bin/ntfy sub --token "$(${pkgs.coreutils}/bin/cat ${
+    PATH=/bin ${pkgs.ntfy-sh}/bin/ntfy sub --token "$(${pkgs.coreutils}/bin/cat ${
       config.sops.secrets."ntfy-token".path
     })" --from-config --config ${configuration}
   '';
