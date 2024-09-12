@@ -6,6 +6,8 @@
     67
   ];
 
+  services.resolved.enable = false;
+
   containers."adguardhome" = {
     autoStart = true;
 
