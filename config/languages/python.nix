@@ -12,6 +12,10 @@
         enable = true;
         sources.formatting.black.enable = true;
       };
+      dap = {
+        enabled = true;
+        extensions.dap-python.enable = true;
+      };
     };
   };
 }
