@@ -1,27 +1,29 @@
 { helpers, ... }: {
   plugins.lualine = {
     enable = true;
-    globalstatus = true;
-    ignoreFocus = [ "NvimTree" "aerial" ];
-    extensions = [ "quickfix" "toggleterm" "fugitive" ];
+    settings = {
+      options = {
+        globalstatus = true;
+        ignore_focus = [ "NvimTree" "aerial" ];
+        extensions = [ "quickfix" "toggleterm" "fugitive" ];
 
-    componentSeparators = {
-      left = "";
-      right = "";
-    };
-    sectionSeparators = {
-      left = "";
-      right = "";
-    };
-
-    sections = let
-      branch = {
-        name = "b:gitsigns_head";
-        icon = "";
+        component_separators = {
+          left = "";
+          right = "";
+        };
+        section_separators = {
+          left = "";
+          right = "";
+        };
       };
-      diagnostics = {
-        name = "diagnostics";
-        extraConfig = {
+
+      sections = let
+        branch = {
+          __unkeyed = "b:gitsigns_head";
+          icon = "";
+        };
+        diagnostics = {
+          __unkeyed = "diagnostics";
           sources = [ "nvim_diagnostic" ];
           sections = [ "error" "warn" ];
           symbols = {
@@ -32,10 +34,8 @@
           update_in_insert = false;
           always_visible = true;
         };
-      };
-      filename = {
-        name = "filename";
-        extraConfig = {
+        filename = {
+          __unkeyed = "filename";
           path = 1;
           newfile_status = true;
           symbols = {
@@ -45,10 +45,8 @@
             newfile = "";
           };
         };
-      };
-      diff = {
-        name = "diff";
-        extraConfig = {
+        diff = {
+          __unkeyed = "diff";
           colored = false;
           symbols = {
             added = " ";
@@ -67,20 +65,20 @@
                 end
               end'';
         };
-      };
-      filetype = {
-        name = "filetype";
-        icons_enabled = false;
-        icon = null;
-      };
-    in {
-      lualine_a = [ branch diagnostics ];
-      lualine_b = [ filename ];
-      lualine_c = [ "" ];
+        filetype = {
+          __unkeyed = "filetype";
+          icons_enabled = false;
+          icon = null;
+        };
+      in {
+        lualine_a = [ branch diagnostics ];
+        lualine_b = [ filename ];
+        lualine_c = [ "" ];
 
-      lualine_x = [ "lsp_progress" ];
-      lualine_y = [ diff "encoding" "fileformat" filetype "progress" ];
-      lualine_z = [ "" ];
+        lualine_x = [ "lsp_progress" ];
+        lualine_y = [ diff "encoding" "fileformat" filetype "progress" ];
+        lualine_z = [ "" ];
+      };
     };
   };
 }
