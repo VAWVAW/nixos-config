@@ -16,29 +16,29 @@
           layouts = [
             {
               position = "right";
-              size = 70;
+              size = 80;
               elements = [
                 {
                   id = "scopes";
-                  size = 0.35;
+                  size = 0.5;
                 }
                 {
                   id = "breakpoints";
-                  size = 0.25;
+                  size = 0.2;
                 }
                 {
                   id = "stacks";
-                  size = 0.2;
+                  size = 0.15;
                 }
                 {
                   id = "watches";
-                  size = 0.2;
+                  size = 0.15;
                 }
               ];
             }
             {
               position = "bottom";
-              size = 10;
+              size = 15;
               elements = [
                 {
                   id = "repl";
