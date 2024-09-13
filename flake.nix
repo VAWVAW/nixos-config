@@ -15,7 +15,7 @@
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
       nixvimModule = pkgs: {
         inherit pkgs;
-        module = import ./config;
+        module = import ./nixvim;
         extraSpecialArgs = { inherit inputs; };
       };
     in {
