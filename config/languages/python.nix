@@ -2,20 +2,18 @@
   options.languages.python.enable =
     lib.mkEnableOption "python language support";
 
-  config = lib.mkIf config.languages.python.enable {
-    plugins = {
-      lsp = {
-        enable = true;
-        servers.pyright.enable = true;
-      };
-      none-ls = {
-        enable = true;
-        sources.formatting.black.enable = true;
-      };
-      dap = {
-        enabled = true;
-        extensions.dap-python.enable = true;
-      };
+  config.plugins = lib.mkIf config.languages.python.enable {
+    lsp = {
+      enable = true;
+      servers.pyright.enable = true;
+    };
+    none-ls = {
+      enable = true;
+      sources.formatting.black.enable = true;
+    };
+    dap = {
+      enabled = true;
+      extensions.dap-python.enable = true;
     };
   };
 }
