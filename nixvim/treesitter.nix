@@ -1,4 +1,4 @@
-{
+{ lib, ... }: {
   plugins = {
     rainbow-delimiters.enable = true;
     nvim-autopairs.enable = true;
@@ -9,7 +9,7 @@
     };
 
     treesitter = {
-      enable = true;
+      enable = lib.mkDefault true;
 
       gccPackage = null;
       nodejsPackage = null;

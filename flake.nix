@@ -72,8 +72,27 @@
           pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
           nixvimpkgs = nixvim.legacyPackages.${system};
         in (import ./pkgs { inherit pkgs; }) // rec {
+          # ~ 1 GB
           nixvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs-unstable);
+          # ~ 3 GB
           nixvim-all = nixvim.extend { languages.all.enable = true; };
+          # ~ 500 MB
+          nixvim-small = nixvim.extend {
+            plugins = {
+              fugitive.gitPackage = null;
+              gitsigns.gitPackage = null;
+              lualine.gitPackage = null;
+              nvim-tree.gitPackage = null;
+              lsp.servers = {
+                bashls.enable = false;
+                jsonls.enable = false;
+                yamlls.enable = false;
+              };
+            };
+          };
+          # ~ 250 MB
+          nixvim-minimal =
+            nixvim-small.extend { plugins.treesitter.enable = false; };
         });
 
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-classic);

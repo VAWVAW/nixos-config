@@ -4,9 +4,9 @@
     inlayHints = true;
 
     servers = {
-      bashls.enable = true;
-      jsonls.enable = true;
-      yamlls.enable = true;
+      bashls.enable = lib.mkDefault true;
+      jsonls.enable = lib.mkDefault true;
+      yamlls.enable = lib.mkDefault true;
     };
 
     keymaps = {
