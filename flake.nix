@@ -42,16 +42,6 @@
       url = "github:vawvaw/wallpapers";
       flake = false;
     };
-
-    # neovim plugins
-    vim-inspecthi = {
-      url = "github:cocopon/inspecthi.vim";
-      flake = false;
-    };
-    vim-colorswatch = {
-      url = "github:cocopon/colorswatch.vim";
-      flake = false;
-    };
   };
 
   outputs =
@@ -82,16 +72,8 @@
           pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
           nixvimpkgs = nixvim.legacyPackages.${system};
         in (import ./pkgs { inherit pkgs; }) // rec {
-          nvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs-unstable);
-          nvim-all = nvim.extend { languages.all.enable = true; };
-        });
-      checks = forEachSystem (system:
-        let
-          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
-          nixvimLib = nixvim.lib.${system};
-        in {
-          nixvim = nixvimLib.check.mkTestDerivationFromNixvimModule
-            (nixvimModule pkgs-unstable);
+          nixvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs-unstable);
+          nixvim-all = nixvim.extend { languages.all.enable = true; };
         });
 
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-classic);
@@ -102,7 +84,8 @@
       nixosConfigurations = {
         "iso" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
-          modules = [ ./hosts/iso ];
+          modules =
+            [ ./hosts/iso { nixpkgs.hostPlatform.system = "x86_64-linux"; } ];
           system = "x86_64-linux";
         };
 
@@ -152,37 +135,55 @@
         # Desktop
         "vaw@hades" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            nvim = outputs.packages."x86_64-linux".nixvim-all;
+          };
           modules = [ ./home/vaw/hosts/hades.nix ];
         };
         # Framework 13 Laptop
         "vaw@zeus" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            nvim = outputs.packages."x86_64-linux".nixvim-all;
+          };
           modules = [ ./home/vaw/hosts/zeus.nix ];
         };
         # home server
         "vaw@athena" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            nvim = outputs.packages."x86_64-linux".nixvim-all;
+          };
           modules = [ ./home/vaw/hosts/athena.nix ];
         };
         # hosted server
         "vaw@artemis" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            nvim = outputs.packages."aarch64-linux".nixvim-all;
+          };
           modules = [ ./home/vaw/hosts/artemis.nix ];
         };
         # raspberry pi 3b
         "vaw@nyx" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            nvim = outputs.packages."aarch64-linux".nixvim-all;
+          };
           modules = [ ./home/vaw/hosts/nyx.nix ];
         };
         # Portable minimum configuration
         "vaw" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            nvim = outputs.packages."x86_64-linux".nixvim-all;
+          };
           modules = [ ./home/vaw/hosts/nixos-iso.nix ];
         };
       };

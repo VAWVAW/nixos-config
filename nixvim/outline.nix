@@ -48,9 +48,7 @@
         unfold = { };
         hover_symbol = "gl";
       };
-      symbol_folding = {
-        autofold_depth = 3;
-      };
+      symbol_folding.autofold_depth = 3;
       symbols.icon_fetcher = helpers.mkRaw ''
         function(kind, bufnr)
           local icons = ${helpers.toLuaObject icons}

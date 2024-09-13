@@ -1,10 +1,9 @@
-{ inputs, config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, nvim, ... }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.sops-nix.homeManagerModule
 
     ./ntfy
-    ./nvim
     ./waybar
 
     ./account_programs.nix
@@ -76,7 +75,8 @@
       ];
     };
 
-    home.packages = with pkgs; [
+    home.sessionVariables."EDITOR" = "nvim";
+    home.packages = [ nvim ] ++ (with pkgs; [
       wireplumber
       noisetorch
       pavucontrol
@@ -94,7 +94,7 @@
       nixfmt-classic
       wlr-randr
       brightnessctl
-    ];
+    ]);
 
     fonts.fontconfig.enable = lib.mkDefault true;
 
@@ -108,7 +108,6 @@
       khal.enable = lib.mkDefault true;
       khard.enable = lib.mkDefault true;
       neomutt.enable = lib.mkDefault true;
-      neovim.enable = lib.mkDefault true;
       obsidian.enable = lib.mkDefault true;
       signal-desktop.enable = lib.mkDefault true;
       spotifython-cli.enable = lib.mkDefault true;

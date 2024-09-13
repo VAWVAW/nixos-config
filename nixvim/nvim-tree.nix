@@ -11,7 +11,7 @@
 
     filters.dotfiles = true;
 
-    filesystemWatchers.ignoreDirs = ["^/nix/store"];
+    filesystemWatchers.ignoreDirs = [ "^/nix/store" ];
 
     updateFocusedFile = {
       enable = true;

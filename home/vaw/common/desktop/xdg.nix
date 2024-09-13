@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, nvim, ... }: {
   config = lib.mkIf config.desktop.enable {
     xdg = {
       portal = {
@@ -37,7 +37,7 @@
           icon = "neovim";
           noDisplay = true;
           exec =
-            "${pkgs.alacritty}/bin/alacritty --command ${pkgs.neovim}/bin/nvim %f";
+            "${pkgs.alacritty}/bin/alacritty --command ${nvim}/bin/nvim %f";
           terminal = false;
           mimeType = [
             "text/plain"

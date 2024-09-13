@@ -23,4 +23,4 @@ luks2 partition
       - "swap": optional with "btrfs-swapfile.nix"; mountpoint: "/swap"; contains: "swapfile" swapfile
 
 # Nixvim
-To run my neovim config use `nix run .#nvim`
+To run my neovim config use `nix run .#nixvim`
