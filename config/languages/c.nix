@@ -4,5 +4,8 @@
   config.plugins = lib.mkIf config.languages.c.enable {
     lsp.enable = true;
     lsp.servers.ccls.enable = true;
+
+    dap.enabled = true;
+    dap.extensions.dap-lldb.enable = true;
   };
 }
