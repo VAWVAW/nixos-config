@@ -21,3 +21,6 @@ luks2 partition
       - "backed\_up": persistent and backed up data; mountpoint: "/backed\_up"
       - "persist": persistent data; mountpoint: "/persist"
       - "swap": optional with "btrfs-swapfile.nix"; mountpoint: "/swap"; contains: "swapfile" swapfile
+
+# Nixvim
+To run my neovim config use `nix run .#nvim`

@@ -28,6 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -49,7 +54,8 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs =
+    { self, nixpkgs, nixpkgs-unstable, home-manager, nixvim, ... }@inputs:
     let
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
@@ -59,19 +65,40 @@
           inherit system;
           config.allowUnfree = true;
         };
+      nixvimModule = pkgs: {
+        inherit pkgs;
+        module = import ./nixvim;
+        extraSpecialArgs = { inherit inputs; };
+      };
     in {
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 
       overlays = import ./overlays { inherit inputs outputs; };
 
-      packages = forEachPkgs (pkgs: import ./pkgs { inherit pkgs; });
+      packages = forEachSystem (system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+          nixvimpkgs = nixvim.legacyPackages.${system};
+        in (import ./pkgs { inherit pkgs; }) // rec {
+          nvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs-unstable);
+          nvim-all = nvim.extend { languages.all.enable = true; };
+        });
+      checks = forEachSystem (system:
+        let
+          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+          nixvimLib = nixvim.lib.${system};
+        in {
+          nixvim = nixvimLib.check.mkTestDerivationFromNixvimModule
+            (nixvimModule pkgs-unstable);
+        });
+
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-classic);
 
       devShells = forEachPkgs (pkgs: import ./shells { inherit pkgs; });
 
       iso = outputs.nixosConfigurations."iso".config.system.build.isoImage;
-
       nixosConfigurations = {
         "iso" = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs; };
