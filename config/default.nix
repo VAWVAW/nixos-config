@@ -12,6 +12,7 @@
     ./lualine.nix
     ./none-ls.nix
     ./nvim-tree.nix
+    ./outline.nix
     ./telescope.nix
     ./toggleterm.nix
     ./treesitter.nix
