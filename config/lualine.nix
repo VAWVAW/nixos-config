@@ -1,4 +1,5 @@
-{ helpers, ... }: {
+{ pkgs, helpers, ... }: {
+  extraPlugins = [ pkgs.vimPlugins.lualine-lsp-progress ];
   plugins.lualine = {
     enable = true;
     settings = {
