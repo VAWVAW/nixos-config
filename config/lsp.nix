@@ -56,6 +56,11 @@
           key = "gt";
           action = ":Telescope lsp_type_definitions<CR>";
         }
+        {
+          mode = "n";
+          key = "<leader>q";
+          action = ":Telescope diagnostics<CR>";
+        }
       ];
     };
   };

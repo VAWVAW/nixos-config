@@ -5,7 +5,7 @@
     settings = {
       options = {
         globalstatus = true;
-        ignore_focus = [ "NvimTree" "aerial" ];
+        ignore_focus = [ "NvimTree" "Outline" ];
         extensions = [ "quickfix" "toggleterm" "fugitive" ];
 
         component_separators = {
