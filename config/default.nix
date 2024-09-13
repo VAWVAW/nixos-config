@@ -19,8 +19,6 @@
     ./undotree.nix
   ];
 
-  # TODO: add plugin specific keybinds
-
   clipboard.register = "unnamed";
   opts = {
     mouse = "";
@@ -51,7 +49,6 @@
 
   plugins = {
     comment.enable = true;
-    nvim-autopairs.enable = true;
     project-nvim.enable = true;
   };
 
