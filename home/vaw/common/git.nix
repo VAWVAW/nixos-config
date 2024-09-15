@@ -24,7 +24,12 @@
         mnemonicprefix = true;
         algorithm = "histogram";
       };
-      merge.conflictstyle = "diff3";
+      merge = {
+        conflictstyle = "diff3";
+        tool = "nvim";
+      };
+      mergetool."nvim".cmd =
+        ''nvim -d -c "wincmd l" -c "norm ]c" "$LOCAL" "$MERGED" "$REMOTE"'';
       rebase.autosquash = true;
       rerere.enabled = true;
     };
