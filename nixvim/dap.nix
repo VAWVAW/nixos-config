@@ -2,6 +2,12 @@
   options.plugins.dap.enabled = lib.mkEnableOption "dap";
 
   config = lib.mkIf config.plugins.dap.enabled {
+    plugins.cmp.filetype = {
+      "dap-repl".sources = [{ name = "dap"; }];
+      "dapui_watches".sources = [{ name = "dap"; }];
+      "dapui_hover".sources = [{ name = "dap"; }];
+    };
+
     plugins.dap = {
       enable = true;
 
