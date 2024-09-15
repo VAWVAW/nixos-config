@@ -30,7 +30,7 @@
         ];
       };
       "firefox-unsafe" = {
-        executable = "${pkgs.firefox}/bin/firefox";
+        executable = "${pkgs.firefox}/bin/firefox --new-instance";
         profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
         extraArgs = [
           # U2F USB stick
