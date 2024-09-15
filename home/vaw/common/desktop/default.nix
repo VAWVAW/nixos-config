@@ -82,6 +82,9 @@
       pavucontrol
       qpwgraph
 
+      wl-clipboard
+      nix-tree
+      jq
       yubioath-flutter
       libreoffice
       d-spy
