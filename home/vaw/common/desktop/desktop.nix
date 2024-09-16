@@ -128,24 +128,6 @@
           command = "${pkgs.brightnessctl}/bin/brightnessctl s 5%-";
         }
 
-        # player control
-        {
-          key = "XF86AudioPlay";
-          command = "${pkgs.playerctl}/bin/playerctl -p spotifyd play-pause";
-        }
-        {
-          key = "XF86AudioStop";
-          command = "${pkgs.playerctl}/bin/playerctl -p spotifyd stop";
-        }
-        {
-          key = "XF86AudioNext";
-          command = "${pkgs.playerctl}/bin/playerctl -p spotifyd next";
-        }
-        {
-          key = "XF86AudioPrev";
-          command = "${pkgs.playerctl}/bin/playerctl -p spotifyd previous";
-        }
-
         # rfkill 
         {
           key = "XF86RFKill";
@@ -192,60 +174,6 @@
               key = "m";
               command =
                 "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt";
-            }
-          ];
-        };
-        "spotify" = {
-          enter = {
-            mods = [ mod ];
-            key = "p";
-          };
-          binds = [
-            {
-              key = "o";
-              command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s saved@#ask@#all";
-            }
-            {
-              key = "i";
-              command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play saved@#ask@#all";
-            }
-            {
-              key = "r";
-              command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play -r saved@#ask@#all";
-            }
-            {
-              key = "Question";
-              command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play search@#ask@#all";
-            }
-            {
-              key = "Slash";
-              command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play --queue search@#ask@#ask";
-            }
-            {
-              key = "d";
-              command =
-                "${pkgs.spotifython-cli}/bin/spotifython-cli play --queue saved@#ask@#ask";
-            }
-            {
-              key = "p";
-              command = "${pkgs.spotifython-cli}/bin/spotifython-cli play";
-            }
-            {
-              key = "s";
-              command = "${pkgs.spotifython-cli}/bin/spotifython-cli pause";
-            }
-            {
-              key = "n";
-              command = "${pkgs.spotifython-cli}/bin/spotifython-cli next";
-            }
-            {
-              key = "b";
-              command = "${pkgs.spotifython-cli}/bin/spotifython-cli prev";
             }
           ];
         };
