@@ -6,6 +6,7 @@
     ./cmp.nix
     ./dap.nix
     ./dap-lldb.nix
+    ./disable_nerdfonts.nix
     ./git.nix
     ./keybinds.nix
     ./lsp.nix

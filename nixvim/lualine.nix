@@ -1,4 +1,4 @@
-{ pkgs, helpers, ... }: {
+{ config, pkgs, helpers, ... }: {
   extraPlugins = [ pkgs.vimPlugins.lualine-lsp-progress ];
   plugins.lualine = {
     enable = true;
@@ -21,15 +21,15 @@
       sections = let
         branch = {
           __unkeyed = "b:gitsigns_head";
-          icon = "";
+          icon = if config.disable_nerdfonts then "" else "";
         };
         diagnostics = {
           __unkeyed = "diagnostics";
           sources = [ "nvim_diagnostic" ];
           sections = [ "error" "warn" ];
           symbols = {
-            error = " ";
-            warn = " ";
+            error = if config.disable_nerdfonts then "E:" else " ";
+            warn = if config.disable_nerdfonts then "W:" else " ";
           };
           colored = false;
           update_in_insert = false;
@@ -41,18 +41,18 @@
           newfile_status = true;
           symbols = {
             modified = "";
-            readonly = "";
-            unnamed = "[]";
-            newfile = "";
+            readonly = if config.disable_nerdfonts then "[L]" else "";
+            unnamed = if config.disable_nerdfonts then "[?]" else "[]";
+            newfile = if config.disable_nerdfonts then "[+]" else "";
           };
         };
         diff = {
           __unkeyed = "diff";
           colored = false;
           symbols = {
-            added = " ";
-            modified = " ";
-            removed = " ";
+            added = if config.disable_nerdfonts then "+" else " ";
+            modified = if config.disable_nerdfonts then "~" else " ";
+            removed = if config.disable_nerdfonts then "-" else " ";
           };
           source = helpers.mkRaw ''
             function()

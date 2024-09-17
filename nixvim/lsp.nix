@@ -66,12 +66,17 @@
   };
 
   extraConfigLua = let
-    signs = helpers.toLuaObject {
+    signs = helpers.toLuaObject (if config.disable_nerdfonts then {
+      "DiagnosticSignError" = "E";
+      "DiagnosticSignWarn" = "W";
+      "DiagnosticSignHint" = "I";
+      "DiagnosticSignInfo" = "H";
+    } else {
       "DiagnosticSignError" = "";
       "DiagnosticSignWarn" = "";
       "DiagnosticSignHint" = "";
       "DiagnosticSignInfo" = "";
-    };
+    });
   in lib.mkIf config.plugins.lsp.enable ''
     local signs = ${signs}
     for name, text in pairs(signs) do

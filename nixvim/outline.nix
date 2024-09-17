@@ -1,4 +1,4 @@
-{ pkgs, helpers, ... }: {
+{ config, pkgs, helpers, ... }: {
   extraPlugins = [ pkgs.vimPlugins.outline-nvim ];
 
   extraConfigLua = let
@@ -49,12 +49,16 @@
         hover_symbol = "gl";
       };
       symbol_folding.autofold_depth = 3;
-      symbols.icon_fetcher = helpers.mkRaw ''
+      symbols.icon_fetcher = helpers.mkRaw (if config.disable_nerdfonts then ''
+        function(kind, bufnr)
+          return string.sub(kind, 1, 1)
+        end
+      '' else ''
         function(kind, bufnr)
           local icons = ${helpers.toLuaObject icons}
           return icons[kind]
         end
-      '';
+      '');
     };
   in ''
     require('outline').setup(${helpers.toLuaObject cfg})

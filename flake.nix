@@ -74,8 +74,10 @@
         in (import ./pkgs { inherit pkgs; }) // rec {
           # ~ 1 GB
           nixvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs-unstable);
+          nixvim-cli = nixvim.extend { disable_nerdfonts = true; };
           # ~ 3 GB
           nixvim-all = nixvim.extend { languages.all.enable = true; };
+          nixvim-cli-all = nixvim-all.extend { disable_nerdfonts = true; };
           # ~ 500 MB
           nixvim-small = nixvim.extend {
             plugins = {
@@ -90,9 +92,12 @@
               };
             };
           };
+          nixvim-cli-small = nixvim-small.extend { disable_nerdfonts = true; };
           # ~ 250 MB
           nixvim-minimal =
             nixvim-small.extend { plugins.treesitter.enable = false; };
+          nixvim-cli-minimal =
+            nixvim-minimal.extend { disable_nerdfonts = true; };
         });
 
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-classic);
