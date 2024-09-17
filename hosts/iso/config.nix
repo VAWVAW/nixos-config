@@ -1,4 +1,6 @@
 { lib, ... }: {
+  imports = [ ./arch-install ];
+
   networking.hostName = lib.mkForce "nixos-iso";
 
   desktop.enable = true;
