@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, lib, nvim, ... }: {
+{ inputs, config, pkgs, lib, ... }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.sops-nix.homeManagerModule
@@ -76,7 +76,7 @@
     };
 
     home.sessionVariables."EDITOR" = "nvim";
-    home.packages = [ nvim ] ++ (with pkgs; [
+    home.packages = with pkgs; [
       wireplumber
       noisetorch
       pavucontrol
@@ -97,7 +97,7 @@
       nixfmt-classic
       wlr-randr
       brightnessctl
-    ]);
+    ];
 
     fonts.fontconfig.enable = lib.mkDefault true;
 

@@ -107,7 +107,10 @@
       iso = outputs.nixosConfigurations."iso".config.system.build.isoImage;
       nixosConfigurations = {
         "iso" = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            nvim = outputs.packages."x86_64-linux".nixvim-cli-small;
+          };
           modules =
             [ ./hosts/iso { nixpkgs.hostPlatform.system = "x86_64-linux"; } ];
           system = "x86_64-linux";
@@ -118,6 +121,7 @@
           specialArgs = {
             inherit inputs outputs;
             pkgs-unstable = pkgs-unstable "x86_64-linux";
+            nvim = outputs.packages."x86_64-linux".nixvim-all;
           };
           modules = [ ./hosts/hades ];
         };
@@ -126,6 +130,7 @@
           specialArgs = {
             inherit inputs outputs;
             pkgs-unstable = pkgs-unstable "x86_64-linux";
+            nvim = outputs.packages."x86_64-linux".nixvim-all;
           };
           modules = [ ./hosts/zeus ];
         };
@@ -134,6 +139,7 @@
           specialArgs = {
             inherit inputs outputs;
             pkgs-unstable = pkgs-unstable "x86_64-linux";
+            nvim = outputs.packages."x86_64-linux".nixvim-small;
           };
           modules = [ ./hosts/athena ];
         };
@@ -142,6 +148,7 @@
           specialArgs = {
             inherit inputs outputs;
             pkgs-unstable = pkgs-unstable "aarch64-linux";
+            nvim = outputs.packages."aarch64-linux".nixvim-small;
           };
           modules = [ ./hosts/artemis ];
         };
@@ -150,6 +157,7 @@
           specialArgs = {
             inherit inputs outputs;
             pkgs-unstable = pkgs-unstable "aarch64-linux";
+            nvim = outputs.packages."aarch64-linux".nixvim-small;
           };
           modules = [ ./hosts/nyx ];
         };
@@ -179,7 +187,7 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
-            nvim = outputs.packages."x86_64-linux".nixvim-all;
+            nvim = outputs.packages."x86_64-linux".nixvim-small;
           };
           modules = [ ./home/vaw/hosts/athena.nix ];
         };
@@ -188,7 +196,7 @@
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
-            nvim = outputs.packages."aarch64-linux".nixvim-all;
+            nvim = outputs.packages."aarch64-linux".nixvim-small;
           };
           modules = [ ./home/vaw/hosts/artemis.nix ];
         };
@@ -197,7 +205,7 @@
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
-            nvim = outputs.packages."aarch64-linux".nixvim-all;
+            nvim = outputs.packages."aarch64-linux".nixvim-small;
           };
           modules = [ ./home/vaw/hosts/nyx.nix ];
         };

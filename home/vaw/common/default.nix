@@ -1,4 +1,4 @@
-{ lib, pkgs, config, outputs, ... }: {
+{ lib, pkgs, config, outputs, nvim, ... }: {
   imports = [
     ./desktop
 
@@ -13,6 +13,8 @@
 
   home = {
     packages = with pkgs; [
+      nvim
+
       ncdu # TUI disk usage
       eza # colorful ls
       fd # colorful find
