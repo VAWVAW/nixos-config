@@ -66,6 +66,14 @@
                 end
               end'';
         };
+        fileformat = {
+          __unkeyed = "fileformat";
+          symbols = {
+            unix = "\\n";
+            dos = "\\r\\n";
+            mac = "\\r";
+          };
+        };
         filetype = {
           __unkeyed = "filetype";
           icons_enabled = false;
@@ -77,7 +85,7 @@
         lualine_c = [ "" ];
 
         lualine_x = [ "lsp_progress" ];
-        lualine_y = [ diff "encoding" "fileformat" filetype "progress" ];
+        lualine_y = [ diff "encoding" fileformat filetype "progress" ];
         lualine_z = [ "" ];
       };
     };
