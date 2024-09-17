@@ -2,10 +2,18 @@
   options.plugins.dap.enabled = lib.mkEnableOption "dap";
 
   config = lib.mkIf config.plugins.dap.enabled {
-    plugins.cmp.filetype = {
-      "dap-repl".sources = [{ name = "dap"; }];
-      "dapui_watches".sources = [{ name = "dap"; }];
-      "dapui_hover".sources = [{ name = "dap"; }];
+    plugins.cmp = {
+      filetype = {
+        "dap-repl".sources = [{ name = "dap"; }];
+        "dapui_watches".sources = [{ name = "dap"; }];
+        "dapui_hover".sources = [{ name = "dap"; }];
+      };
+      settings.enabled = helpers.mkRaw ''
+        function()
+          return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+              or require("cmp_dap").is_dap_buffer()
+        end
+      '';
     };
 
     plugins.dap = {

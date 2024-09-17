@@ -3,13 +3,6 @@
   plugins.cmp.settings = {
     autoEnableSources = true;
 
-    enabled = helpers.mkRaw ''
-      function()
-        return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
-            or require("cmp_dap").is_dap_buffer()
-      end
-    '';
-
     snippet.expand = "luasnip";
     window.documentation = helpers.mkRaw "cmp.config.window.bordered()";
 
