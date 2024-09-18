@@ -32,7 +32,7 @@ in {
 
   home = {
     keyboard.options = [ "altwin:menu_win" ];
-    sessionVariables."NVK_I_WANT_A_BROKEN_VULKAN_DRIVER" = "1";
+    sessionVariables."NVK_I_WANT_A_BROKEN_VULKAN_DRIVER" = "0";
   };
 
   desktop = {
