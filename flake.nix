@@ -170,6 +170,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             nvim = outputs.packages."x86_64-linux".nixvim-all;
+            hostname = "hades";
           };
           modules = [ ./home/vaw/hosts/hades.nix ];
         };
@@ -179,6 +180,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             nvim = outputs.packages."x86_64-linux".nixvim-all;
+            hostname = "zeus";
           };
           modules = [ ./home/vaw/hosts/zeus.nix ];
         };
@@ -188,6 +190,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             nvim = outputs.packages."x86_64-linux".nixvim-small;
+            hostname = "athena";
           };
           modules = [ ./home/vaw/hosts/athena.nix ];
         };
@@ -197,6 +200,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             nvim = outputs.packages."aarch64-linux".nixvim-small;
+            hostname = "artemis";
           };
           modules = [ ./home/vaw/hosts/artemis.nix ];
         };
@@ -206,6 +210,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             nvim = outputs.packages."aarch64-linux".nixvim-small;
+            hostname = "nyx";
           };
           modules = [ ./home/vaw/hosts/nyx.nix ];
         };
@@ -215,6 +220,7 @@
           extraSpecialArgs = {
             inherit inputs outputs;
             nvim = outputs.packages."x86_64-linux".nixvim-all;
+            hostname = "vaw";
           };
           modules = [ ./home/vaw/hosts/nixos-iso.nix ];
         };

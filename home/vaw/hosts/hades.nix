@@ -24,11 +24,7 @@ in {
     firefox.profiles."default".settings."network.trr.mode" = lib.mkForce 5;
   };
 
-  services = {
-    swayidle.enable = true;
-
-    spotifyd.settings.global.device_name = "hades_spotifyd";
-  };
+  services.swayidle.enable = true;
 
   home = {
     keyboard.options = [ "altwin:menu_win" ];

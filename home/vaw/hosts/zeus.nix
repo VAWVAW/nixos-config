@@ -1,7 +1,6 @@
 { pkgs, lib, ... }: {
   imports = [ ../common ];
 
-  services.spotifyd.settings.global.device_name = "zeus_spotifyd";
   systemd.user.services."spotifyd".Install.WantedBy = lib.mkForce [ ];
 
   home.keyboard.options = [ "ctrl:swap_rwin_rctl" ];

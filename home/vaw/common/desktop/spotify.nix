@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, hostname, ... }: {
 
   options.programs.spotify.enable =
     lib.mkEnableOption "spotify proprietary client";
@@ -175,7 +175,7 @@
             device = "default";
             mixer = "PCM";
             volume_controller = "alsa";
-            device_name = lib.mkDefault "vaw_spotifyd";
+            device_name = "${hostname}_spotifyd";
             bitrate = 160;
             no_audio_cache = false;
             initial_volume = "0";
