@@ -23,21 +23,21 @@
       };
 
       desktopEntries = {
-        "alacritty-file" = {
+        "terminal-file" = {
           type = "Application";
-          name = "Alacritty file";
+          name = "terminal file";
           noDisplay = true;
-          exec = "${pkgs.alacritty}/bin/alacritty --working-directory %f";
+          exec = "${config.desktop.terminal} --working-directory %f";
           terminal = false;
           mimeType = [ "inode/directory" ];
         };
-        "alacritty-nvim" = {
+        "terminal-nvim" = {
           type = "Application";
-          name = "Alacritty Nvim";
+          name = "terminal Nvim";
           icon = "neovim";
           noDisplay = true;
           exec =
-            "${pkgs.alacritty}/bin/alacritty --command ${nvim}/bin/nvim %f";
+            "${config.desktop.terminal} --command ${nvim}/bin/nvim %f";
           terminal = false;
           mimeType = [
             "text/plain"

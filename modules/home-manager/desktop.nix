@@ -226,6 +226,17 @@ with lib; {
         };
       };
     };
+
+    terminal = lib.mkOption {
+      type = types.str;
+      default = "${pkgs.alacritty}/bin/alacritty";
+      description = ''
+        terminal to use on the desktop
+      '';
+      example = literalExpression ''
+        ''${pkgs.foot}/bin/foot
+      '';
+    };
   };
 
   options.wayland.windowManager.hyprland.extraBinds = mkOption {

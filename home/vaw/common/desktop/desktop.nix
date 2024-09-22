@@ -1,7 +1,9 @@
-{ inputs, pkgs, ... }: {
+{ inputs, config, pkgs, ... }: {
 
   desktop = {
     theme.wallpaper = "${inputs.wallpapers}/kali-contours-blue.png";
+
+    terminal = "${pkgs.foot}/bin/foot";
 
     startup_commands = [
       "${pkgs.bash}/bin/bash -c 'systemctl --user import-environment PATH && systemctl --user restart xdg-desktop-portal-gtk.service'"
@@ -20,7 +22,7 @@
         {
           mods = [ mod ];
           key = "Return";
-          command = "${pkgs.alacritty}/bin/alacritty";
+          command = config.desktop.terminal;
         }
         {
           mods = [ mod ];
@@ -173,7 +175,7 @@
             {
               key = "m";
               command =
-                "${pkgs.alacritty}/bin/alacritty -e ${pkgs.neomutt}/bin/neomutt";
+                "${config.desktop.terminal} -e ${pkgs.neomutt}/bin/neomutt";
             }
           ];
         };

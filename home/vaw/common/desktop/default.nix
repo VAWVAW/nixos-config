@@ -16,6 +16,7 @@
     ./dunst.nix
     ./firefox.nix
     ./font.nix
+    ./foot.nix
     ./gpg.nix
     ./hypridle.nix
     ./hyprland.nix
@@ -93,7 +94,6 @@
       sops
       freesweep
       libnotify
-      foot
       nixfmt-classic
       wlr-randr
       brightnessctl
@@ -103,6 +103,7 @@
 
     programs = {
       alacritty.enable = lib.mkDefault true;
+      foot.enable = lib.mkDefault true;
       direnv.enable = lib.mkDefault true;
       discord.enable = lib.mkDefault true;
       firefox.enable = lib.mkDefault true;

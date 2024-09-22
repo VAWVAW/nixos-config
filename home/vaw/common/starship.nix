@@ -83,7 +83,10 @@
         vimcmd_symbol = "[\\$](bold yellow)";
       };
 
-      status.disabled = false;
+      status = {
+        disabled = false;
+        symbol = "X ";
+      };
 
       cmd_duration.format = "[󰥔 ]($style)[$duration](white)";
 
