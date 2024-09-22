@@ -37,7 +37,7 @@ in {
   in {
     enable = true;
     control = "optional";
-    modulePath = "pam_exec.so";
+    modulePath = "${config.security.pam.package}/lib/security/pam_exec.so";
     args = [ "seteuid" "${script}" ];
     order = 15000;
   };

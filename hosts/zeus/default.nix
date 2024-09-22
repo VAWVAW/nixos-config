@@ -50,7 +50,7 @@
     binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable32Bit = true;
 
   virtualisation.libvirtd.enable = true;
   virtualisation.podman.enable = true;

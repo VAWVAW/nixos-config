@@ -12,6 +12,5 @@
     zsh.enable = true;
     fuse.userAllowOther = true;
     git.enable = true;
-    vim.defaultEditor = true;
   };
 }

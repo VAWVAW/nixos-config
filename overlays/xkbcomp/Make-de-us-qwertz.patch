@@ -1,0 +1,32 @@
+From ea3809f305dcd72ec0355bd5181a446b8239172f Mon Sep 17 00:00:00 2001
+From: vaw <valentin@wiedekind1.de>
+Date: Sun, 22 Sep 2024 17:28:40 +0200
+Subject: [PATCH] Make de/us qwertz
+
+---
+ symbols/de | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/symbols/de b/symbols/de
+index 51c7021..63948fd 100644
+--- a/symbols/de
++++ b/symbols/de
+@@ -891,6 +891,7 @@ xkb_symbols "us" {
+     key <AE11> { [       minus, underscore,     ssharp,      U1E9E ] };
+ 
+     key <AD03> { [           e,          E,   EuroSign,       cent ] };
++    key <AD06> { [           z,          Z ] };
+     key <AD07> { [           u,          U, udiaeresis, Udiaeresis ] };
+     key <AD09> { [           o,          O, odiaeresis, Odiaeresis ] };
+     key <AD11> { [ bracketleft,  braceleft, udiaeresis, Udiaeresis ] };
+@@ -900,6 +901,7 @@ xkb_symbols "us" {
+     key <AC10> { [   semicolon,      colon, odiaeresis, Odiaeresis ] };
+     key <AC11> { [  apostrophe,   quotedbl, adiaeresis, Adiaeresis ] };
+ 
++    key <AB01> { [           y,          Y ] };
+     key <AB03> { [           c,          C,  Multi_key,  Multi_key ] };
+     key <AB07> { [           m,          M, dead_greek,       Menu ] };
+ 
+-- 
+2.44.1
+

@@ -2,7 +2,7 @@
   config = lib.mkIf config.desktop.enable {
     home.file = {
       ".icons/default".source =
-        "${pkgs.gnome.adwaita-icon-theme}/share/icons/Adwaita";
+        "${pkgs.adwaita-icon-theme}/share/icons/Adwaita";
     };
 
     dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
@@ -11,11 +11,11 @@
       enable = true;
       theme = {
         name = "Adwaita-dark";
-        package = pkgs.gnome.gnome-themes-extra;
+        package = pkgs.gnome-themes-extra;
       };
       iconTheme = {
         name = "Adwaita";
-        package = pkgs.gnome.adwaita-icon-theme;
+        package = pkgs.adwaita-icon-theme;
       };
     };
     qt = {

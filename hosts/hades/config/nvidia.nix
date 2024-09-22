@@ -7,6 +7,7 @@
     boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
 
     hardware.nvidia = {
+      open = false;
       modesetting.enable = true;
       powerManagement.enable = true;
     };

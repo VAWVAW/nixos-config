@@ -20,7 +20,7 @@
 
     services.pipewire.enable = true;
 
-    hardware.opengl.enable = true;
+    hardware.graphics.enable = true;
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = false;

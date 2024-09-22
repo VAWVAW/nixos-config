@@ -8,7 +8,7 @@
     networks."40-eno1" = {
       matchConfig.Name = "eno1";
       address = [ "192.168.2.10/24" ];
-      routes = [{ routeConfig.Gateway = "192.168.2.1"; }];
+      routes = [{ Gateway = "192.168.2.1"; }];
     };
     links."50-eth" = {
       matchConfig.Type = "ether";

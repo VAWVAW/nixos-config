@@ -52,8 +52,8 @@
   };
 
   hardware.steam-hardware.enable = true;
-  hardware.opengl = {
-    driSupport32Bit = true;
+  hardware.graphics = {
+    enable32Bit = true;
     extraPackages = with pkgs; [ libvdpau-va-gl ];
   };
 

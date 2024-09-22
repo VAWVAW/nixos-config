@@ -1,98 +1,99 @@
-From fed413b53ac24f31df801b0ffbeb5cebeadf2321 Mon Sep 17 00:00:00 2001
+From 01dcf628f6bbd10ffb4bb0a29f9b8c93edbb5636 Mon Sep 17 00:00:00 2001
 From: vawvaw <valentin@wiedekind1.de>
 Date: Tue, 13 Feb 2024 17:55:11 +0100
 Subject: [PATCH] hyprland/workspaces: Add `enable-bar-scroll` option
 
 ---
- include/modules/hyprland/workspaces.hpp |  4 +++
- man/waybar-hyprland-workspaces.5.scd    |  5 +++
- src/modules/hyprland/workspaces.cpp     | 42 +++++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
+ include/modules/hyprland/workspaces.hpp |  5 ++++
+ man/waybar-hyprland-workspaces.5.scd    |  5 ++++
+ src/modules/hyprland/workspaces.cpp     | 35 +++++++++++++++++++++++++
+ 3 files changed, 45 insertions(+)
 
 diff --git a/include/modules/hyprland/workspaces.hpp b/include/modules/hyprland/workspaces.hpp
-index 82872348..e69bd6b6 100644
+index a9d56b79..bb0ea496 100644
 --- a/include/modules/hyprland/workspaces.hpp
 +++ b/include/modules/hyprland/workspaces.hpp
-@@ -128,6 +128,7 @@ class Workspaces : public AModule, public EventHandler {
-   auto showSpecial() const -> bool { return m_showSpecial; }
+@@ -37,6 +37,7 @@ class Workspaces : public AModule, public EventHandler {
    auto activeOnly() const -> bool { return m_activeOnly; }
+   auto specialVisibleOnly() const -> bool { return m_specialVisibleOnly; }
    auto moveToMonitor() const -> bool { return m_moveToMonitor; }
 +  auto barScroll() const -> bool { return m_barScroll; }
  
    auto getBarOutput() const -> std::string { return m_bar.output->name; }
  
-@@ -181,6 +182,9 @@ class Workspaces : public AModule, public EventHandler {
-   void loadPersistentWorkspacesFromConfig(Json::Value const& clientsJson);
-   void loadPersistentWorkspacesFromWorkspaceRules(const Json::Value& clientsJson);
+@@ -93,6 +94,9 @@ class Workspaces : public AModule, public EventHandler {
  
-+  bool handleScroll(GdkEventScroll*) override;
+   int windowRewritePriorityFunction(std::string const& window_rule);
+ 
++  // scroll events
++  bool handleScroll(GdkEventScroll* e) override;
 +
-+  bool m_barScroll = false;
-   bool m_allOutputs = false;
-   bool m_showSpecial = false;
+   // Update methods
+   void doUpdate();
+   void removeWorkspacesToRemove();
+@@ -114,6 +118,7 @@ class Workspaces : public AModule, public EventHandler {
    bool m_activeOnly = false;
+   bool m_specialVisibleOnly = false;
+   bool m_moveToMonitor = false;
++  bool m_barScroll = false;
+   Json::Value m_persistentWorkspaceConfig;
+ 
+   // Map for windows stored in workspaces not present in the current bar.
 diff --git a/man/waybar-hyprland-workspaces.5.scd b/man/waybar-hyprland-workspaces.5.scd
-index 2d0641b4..d77ad578 100644
+index c71168d4..5ba0300a 100644
 --- a/man/waybar-hyprland-workspaces.5.scd
 +++ b/man/waybar-hyprland-workspaces.5.scd
-@@ -47,6 +47,11 @@ Addressed by *hyprland/workspaces*
- 	default: false ++
- 	If set to false workspaces group will be shown only in assigned output. Otherwise, all workspace groups are shown.
+@@ -65,6 +65,11 @@ Addressed by *hyprland/workspaces*
+ 	Otherwise, the workspace will open on the monitor where it was previously assigned.
+ 	Analog to using `focusworkspaceoncurrentmonitor` dispatcher instead of `workspace` in Hyprland.
  
 +*enable-bar-scroll*: ++
 +	typeof: bool ++
 +	default: false ++
 +	If set to false, you can't scroll to cycle throughout workspaces from the entire bar. If set to true this behaviour is enabled.
 +
- *active-only*: ++
- 	typeof: bool ++
- 	default: false ++
+ *ignore-workspaces*: ++
+ 	typeof: array ++
+ 	default: [] ++
 diff --git a/src/modules/hyprland/workspaces.cpp b/src/modules/hyprland/workspaces.cpp
-index 3c03c708..b442f0c7 100644
+index 13364f3f..c43fed08 100644
 --- a/src/modules/hyprland/workspaces.cpp
 +++ b/src/modules/hyprland/workspaces.cpp
-@@ -88,6 +88,11 @@ auto Workspaces::parseConfig(const Json::Value &config) -> void {
-     m_moveToMonitor = configMoveToMonitor.asBool();
-   }
+@@ -43,6 +43,13 @@ void Workspaces::init() {
+   m_activeWorkspaceName = (gIPC->getSocket1JsonReply("activeworkspace"))["name"].asString();
  
-+  auto configBarScroll = config_["enable-bar-scroll"];
-+  if (configBarScroll.isBool()) {
-+    m_barScroll = configBarScroll.asBool();
-+  }
+   initializeWorkspaces();
 +
-   auto configSortBy = config_["sort-by"];
-   if (configSortBy.isString()) {
-     auto sortByStr = configSortBy.asString();
-@@ -803,6 +808,12 @@ void Workspaces::initializeWorkspaces() {
-   auto const workspacesJson = gIPC->getSocket1JsonReply("workspaces");
-   auto const clientsJson = gIPC->getSocket1JsonReply("clients");
- 
 +  if (barScroll()) {
 +    auto &window = const_cast<Bar &>(m_bar).window;
 +    window.add_events(Gdk::SCROLL_MASK | Gdk::SMOOTH_SCROLL_MASK);
 +    window.signal_scroll_event().connect(sigc::mem_fun(*this, &Workspaces::handleScroll));
 +  }
 +
-   for (Json::Value workspaceJson : workspacesJson) {
-     std::string workspaceName = workspaceJson["name"].asString();
-     if ((allOutputs() || m_bar.output->name == workspaceJson["monitor"].asString()) &&
-@@ -1196,4 +1207,35 @@ void WindowCreationPayload::moveToWorksace(std::string &new_workspace_name) {
-   m_workspaceName = new_workspace_name;
+   dp.emit();
+ }
+ 
+@@ -575,6 +582,7 @@ auto Workspaces::parseConfig(const Json::Value &config) -> void {
+   populateBoolConfig(config, "special-visible-only", m_specialVisibleOnly);
+   populateBoolConfig(config, "active-only", m_activeOnly);
+   populateBoolConfig(config, "move-to-monitor", m_moveToMonitor);
++  populateBoolConfig(config, "enable-bar-scroll", m_barScroll);
+ 
+   m_persistentWorkspaceConfig = config.get("persistent-workspaces", Json::Value());
+   populateSortByConfig(config);
+@@ -905,4 +913,31 @@ int Workspaces::windowRewritePriorityFunction(std::string const &window_rule) {
+   return 0;
  }
  
 +bool Workspaces::handleScroll(GdkEventScroll *e) {
++  // Ignore emulated scroll events on window
 +  if (gdk_event_get_pointer_emulated((GdkEvent *)e)) {
-+    /**
-+     * Ignore emulated scroll events on window
-+     */
 +    return false;
 +  }
 +  auto dir = AModule::getScrollDir(e);
 +  if (dir == SCROLL_DIR::NONE) {
 +    return true;
 +  }
-+
-+  bool increase;
 +
 +  if (dir == SCROLL_DIR::DOWN || dir == SCROLL_DIR::RIGHT) {
 +    if (allOutputs()) {
@@ -113,5 +114,5 @@ index 3c03c708..b442f0c7 100644
 +
  }  // namespace waybar::modules::hyprland
 -- 
-2.44.0
+2.44.1
 
