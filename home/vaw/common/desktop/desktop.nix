@@ -1,7 +1,14 @@
-{ inputs, config, pkgs, ... }: {
+{ config, pkgs, ... }: {
 
   desktop = {
-    theme.wallpaper = "${inputs.wallpapers}/kali-contours-blue.png";
+    theme.wallpaper = let
+      repo = pkgs.fetchFromGitHub {
+        owner = "vawvaw";
+        repo = "wallpapers";
+        rev = "210605c09f5f0200ce9a36f338845995874aea3a";
+        hash = "sha256-OHfHM6SWSWXAFToizRJxB5NnUPu+Uq2B0C7IY/6BYxI=";
+      };
+    in "${repo}/kali-contours-blue.png";
 
     terminal = "${pkgs.foot}/bin/foot";
 
