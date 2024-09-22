@@ -33,6 +33,7 @@
         ];
 
         "hyprland/workspaces" = {
+          cursor = false;
           sort-by = "number";
           on-click = "activate";
           enable-bar-scroll = true;
@@ -42,6 +43,7 @@
           enable-bar-scroll = true;
         };
         "hyprland/submap" = {
+          cursor = false;
           on-click = if config.wayland.windowManager.hyprland.enable then
             "${pkgs.hyprland}/bin/hyprctl dispatch submap reset"
           else
@@ -49,6 +51,7 @@
           tooltip = false;
         };
         "sway/mode" = {
+          cursor = false;
           on-click = if config.wayland.windowManager.sway.enable then
             "${pkgs.sway}/bin/swaymsg mode default"
           else
@@ -56,6 +59,7 @@
           tooltip = false;
         };
         "custom/sync" = {
+          cursor = false;
           format = "{}";
           exec = ''
             ${pkgs.fd}/bin/fd -H .sync-conflict- ~/Documents | ${pkgs.gawk}/bin/awk 'BEGIN { ORS=""; num=0; print("{\"tooltip\": \"") }; { print($1); print("\n"); num+=1 }; END { printf("\",\"text\": \""); if (num == 0) print(""); else printf("sync-conflicts: %d", num); print("\"}\n") }' | tr '\n' '\t' | sed 's/\t/\\n/g' '';
@@ -64,6 +68,7 @@
           on-click = "";
         };
         "custom/mail" = {
+          cursor = false;
           signal = 1;
           interval = 300;
           exec =
@@ -72,6 +77,7 @@
           tooltip = false;
         };
         "mpris" = {
+          cursor = false;
           player = "spotifyd";
           format-playing = "{title} - {artist}";
           format-paused = " ";
@@ -82,6 +88,7 @@
             "{player}: {title} - {artist} - {album} ({length})";
         };
         "wireplumber" = {
+          cursor = false;
           format = "{volume}%";
           format-muted = "muted";
           tooltip = false;
@@ -141,6 +148,7 @@
           };
         };
         "clock" = {
+          cursor = false;
           interval = 5;
           format = "{:%d.%m.%Y %T}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
@@ -181,6 +189,7 @@
           ];
         };
         "idle_inhibitor" = {
+          cursor = false;
           format = "{icon}";
           format-icons = {
             activated = "󰐯";
@@ -188,21 +197,23 @@
           };
         };
         "custom/lock" = {
+          cursor = false;
           format = "";
           tooltip = false;
           on-click =
             "${pkgs.swaylock}/bin/swaylock && systemctl --user restart waybar";
         };
         "custom/shutdown" = {
+          cursor = false;
           format = "⏻";
           tooltip = false;
           on-click = "systemctl poweroff";
         };
         "custom/reboot" = {
+          cursor = false;
           format = "⏼";
           tooltip = false;
           on-click = "systemctl reboot";
-
         };
       }];
 
