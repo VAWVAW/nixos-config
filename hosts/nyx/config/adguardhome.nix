@@ -40,13 +40,13 @@
             fallback_dns = [ "https://dns.cloudflare.com/dns-query" ];
             bootstrap_dns = [
               # quad9
-              "9.9.9.10"
-              "149.112.112.10"
-              "2620:fe::10"
-              "2620:fe::fe:10"
+              "https://9.9.9.10/dns-query"
+              "https://149.112.112.10/dns-query"
+              "https://[2620:fe::10]/dns-query"
+              "https://[2620:fe::fe:10]/dns-query"
               # cloudflare
-              "1.1.1.1"
-              "2606:4700:4700::1111"
+              "https://1.1.1.1/dns-query"
+              "https://[2606:4700:4700::1111]/dns-query"
             ];
             upstream_mode = "load_balance";
             cache_size = 4194304;
