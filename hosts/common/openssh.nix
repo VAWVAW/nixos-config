@@ -11,6 +11,7 @@ in {
     settings = {
       # Harden
       PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
       PermitRootLogin = "no";
       # Automatically remove stale sockets
       StreamLocalBindUnlink = "yes";
