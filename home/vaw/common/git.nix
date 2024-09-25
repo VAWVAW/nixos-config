@@ -20,16 +20,14 @@
       branch.sort = "-committerdate";
 
       diff = {
-        tool = "vimdiff";
+        tool = "nvimdiff";
         mnemonicprefix = true;
         algorithm = "histogram";
       };
       merge = {
         conflictstyle = "diff3";
-        tool = "nvim";
+        tool = "nvimdiff";
       };
-      mergetool."nvim".cmd =
-        ''nvim -d -c "wincmd l" -c "norm ]c" "$LOCAL" "$MERGED" "$REMOTE"'';
       rebase.autosquash = true;
       rerere.enabled = true;
     };
