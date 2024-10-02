@@ -48,7 +48,8 @@
       bars = [ ];
 
       window = {
-        titlebar = true;
+        titlebar = false;
+        border = 1;
         commands = [
           {
             criteria.app_id = "^Tor Browser$";
@@ -64,6 +65,8 @@
           }
         ];
       };
+
+      gaps.smartBorders = "on";
 
       input."type:touchpad" = {
         natural_scroll = "disabled";
@@ -194,9 +197,5 @@
         };
       };
     };
-    extraConfig = ''
-      # hide title bar
-      default_border pixel 1
-    '';
   };
 }
