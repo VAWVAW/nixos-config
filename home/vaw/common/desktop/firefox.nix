@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, hostname, ... }: {
   config = lib.mkIf config.programs.firefox.enable {
     home = {
       persistence."/persist/home/vaw".directories = [{
@@ -40,6 +40,81 @@
           # disable access to ~
           "--private"
         ];
+      };
+    };
+
+    # backup bookmarks (based on impermanence binds)
+    systemd.user.services."bindMount-bookmarks" = let
+      name = "bookmarks";
+      mountPoint = "/persist/home/vaw/.mozilla/firefox/default/bookmarkbackups";
+      targetDir = "/persist/home/vaw/Documents/misc/bookmarks/${hostname}";
+      unmountScript = mountPoint: tries: sleep: ''
+        triesLeft=${toString tries}
+        if ${pkgs.util-linux}/bin/mount | grep -F ${mountPoint}' ' >/dev/null; then
+            while (( triesLeft > 0 )); do
+                if fusermount -u ${mountPoint}; then
+                    break
+                else
+                    (( triesLeft-- ))
+                    if (( triesLeft == 0 )); then
+                        echo "Couldn't perform regular unmount of ${mountPoint}. Attempting lazy unmount."
+                        fusermount -uz ${mountPoint}
+                    else
+                        sleep ${toString sleep}
+                    fi
+                fi
+            done
+        fi
+      '';
+      startScript = pkgs.writeShellScript name ''
+        set -eu
+        if ! mount | grep -F ${mountPoint}' ' && ! mount | grep -F ${mountPoint}/; then
+            mkdir -p ${mountPoint}
+            exec ${pkgs.bindfs}/bin/mount.fuse.bindfs ${targetDir} ${mountPoint}
+        else
+            echo "There is already an active mount at or below ${mountPoint}!" >&2
+            exit 1
+        fi
+      '';
+      stopScript = pkgs.writeShellScript "unmount-${name}" ''
+        set -eu
+        ${unmountScript mountPoint 6 5}
+      '';
+    in {
+      Unit = {
+        Description = "Bind mount ${targetDir} at ${mountPoint}";
+
+        # Don't restart the unit, it could corrupt data and
+        # crash programs currently reading from the mount.
+        X-RestartIfChanged = false;
+
+        # Don't add an implicit After=basic.target.
+        DefaultDependencies = false;
+
+        Before = [
+          "bluetooth.target"
+          "basic.target"
+          "default.target"
+          "paths.target"
+          "sockets.target"
+          "timers.target"
+        ];
+      };
+
+      Install.WantedBy = [ "paths.target" ];
+
+      Service = {
+        Type = "forking";
+        ExecStart = "${startScript}";
+        ExecStop = "${stopScript}";
+        Environment = "PATH=${
+            lib.makeBinPath [
+              pkgs.coreutils
+              pkgs.util-linux
+              pkgs.gnugrep
+              pkgs.bindfs
+            ]
+          }:/run/wrappers/bin";
       };
     };
 
