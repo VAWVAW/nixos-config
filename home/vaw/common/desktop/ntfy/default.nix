@@ -43,6 +43,10 @@ let
     ${pkgs.libnotify}/bin/notify-send --app-name=ntfy --urgency="$URGENCY" "$EMOJIS$EMOJI_SEPERATOR''${NTFY_TITLE:-$NTFY_TOPIC}" "$NTFY_MESSAGE"
   '';
 
+  molly-command = pkgs.writeShellScript "ntfy-molly" ''
+    ${pkgs.libnotify}/bin/notify-send --app-name=molly-ntfy --icon=${pkgs.signal-desktop}/share/icons/hicolor/64x64/apps/signal-desktop.png "You may have a new message"
+  '';
+
   configuration = settingsFormat.generate "ntfy-config.yaml" {
     default-host = "https://ntfy.nlih.de";
     default-command = "${pkgs.bash}/bin/bash ${command}";
@@ -53,13 +57,19 @@ let
   script = pkgs.writeShellScript "ntfy-script" ''
     PATH=/bin ${pkgs.ntfy-sh}/bin/ntfy sub --token "$(${pkgs.coreutils}/bin/cat ${
       config.sops.secrets."ntfy-token".path
-    })" --from-config --config ${configuration}
+    })" --from-config --config ${configuration} "$(${pkgs.coreutils}/bin/cat ${
+      config.sops.secrets."molly-up".path
+    })" "${molly-command}"
   '';
 in {
   options.services.ntfy.enable = lib.mkEnableOption "ntfy daemon";
 
   config = lib.mkIf config.services.ntfy.enable {
-    sops.secrets."ntfy-token" = { };
+    sops.secrets = {
+      "ntfy-token" = { };
+      "molly-up" = { };
+    };
+
     systemd.user.services."ntfy" = {
       Unit = {
         Description = "ntfy desktop notifications";
