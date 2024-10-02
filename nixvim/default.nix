@@ -51,6 +51,7 @@
   plugins = {
     comment.enable = true;
     project-nvim.enable = true;
+    web-devicons.enable = true;
   };
 
   colorscheme = "vaw-colors";
