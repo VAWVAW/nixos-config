@@ -1,6 +1,5 @@
 { pkgs, lib, config, ... }:
 let
-  mouse = "4119:24578:HID_1017:6002_Mouse";
   first_screen = {
     name = "Philips Consumer Electronics Company PHL 243V5 UK01639008163";
     position = "0 0";
@@ -67,9 +66,9 @@ in {
           mode default'');
     };
     extraConfig = ''
-      # bind mouse
-      bindsym --input-device=${mouse} --whole-window button8 workspace next
-      bindsym --input-device=${mouse} --whole-window button9 workspace prev
+      # bind mouse (other button names are BTN_TASK, BTN_BACK, BTN_FORWARD)
+      bindsym --whole-window button8 workspace next
+      bindsym --whole-window button9 workspace prev
 
       bindcode 152 exec --no-startup-id ${pkgs.sway}/bin/swaymsg seat - cursor press button3
       bindcode --release 152 exec --no-startup-id ${pkgs.sway}/bin/swaymsg seat - cursor release button3
