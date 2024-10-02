@@ -16,7 +16,7 @@ in {
 
     firejail.wrappedBinaries = {
       signal-desktop.executable = lib.mkForce
-        "${pkgs.signal-desktop}/bin/signal-desktop --use-gl=desktop";
+        "${pkgs.signal-desktop}/bin/signal-desktop";
     };
 
     # use system dns resolver (should be nyx)
