@@ -33,7 +33,7 @@
 
             folders = {
               inbox = "Inbox";
-              drafts = "Entw&APw-rfe";
+              drafts = "Entwürfe";
               sent = "Gesendete Objekte";
               trash = "Papierkorb";
             };
@@ -77,7 +77,7 @@
 
             folders = {
               inbox = "Inbox";
-              drafts = "Entw&APw-rfe";
+              drafts = "Entwürfe";
               sent = "Gesendet";
             };
 
