@@ -83,6 +83,7 @@
       pavucontrol
       qpwgraph
 
+      yazi
       wl-clipboard
       nix-tree
       jq
@@ -91,10 +92,10 @@
       d-spy
       qpdfview
       feh
+      mpv
       sops
       freesweep
       libnotify
-      nixfmt-classic
       wlr-randr
       brightnessctl
     ];
