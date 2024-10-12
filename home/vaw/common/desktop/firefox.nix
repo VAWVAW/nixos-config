@@ -280,6 +280,8 @@
           "browser.toolbars.bookmarks.visibility" = "always";
           "general.autoScroll" = true;
           "browser.display.use_document_fonts" = 0;
+          "browser.tabs.hoverPreview.enabled" = false;
+          "browser.tabs.hoverPreview.showThumbnails" = false;
         };
       };
     };
