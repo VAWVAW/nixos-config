@@ -27,6 +27,7 @@
     ./sops.nix
     ./syncthing.nix
     ./system-mail.nix
+    ./tor-relay.nix
     ./unit-fail-notification.nix
     ./yubikey.nix
     ./zram.nix

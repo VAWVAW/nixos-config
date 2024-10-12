@@ -42,7 +42,14 @@
     };
   };
 
-  services.syncthing-container.enable = true;
+  services = {
+    syncthing-container.enable = true;
+    tor.relay.enable = true;
+    tor.settings.ORPort = [{
+      addr = "[2a0a:4cc0:1:104e::1]";
+      port = 9001;
+    }];
+  };
 
   system.stateVersion = "23.11";
   nixpkgs.hostPlatform.system = "aarch64-linux";
