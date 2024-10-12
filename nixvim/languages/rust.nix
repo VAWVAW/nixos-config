@@ -3,7 +3,7 @@
 
   config.plugins = lib.mkIf config.languages.rust.enable {
     lsp.enable = true;
-    lsp.servers.rust-analyzer = {
+    lsp.servers.rust_analyzer = {
       enable = true;
       installCargo = false;
       installRustc = false;
