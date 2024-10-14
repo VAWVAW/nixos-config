@@ -14,11 +14,6 @@ in {
     lutris.enable = true;
     minecraft.enable = true;
 
-    firejail.wrappedBinaries = {
-      signal-desktop.executable = lib.mkForce
-        "${pkgs.signal-desktop}/bin/signal-desktop";
-    };
-
     # use system dns resolver (should be nyx)
     firefox.profiles."default".settings."network.trr.mode" = lib.mkForce 5;
   };

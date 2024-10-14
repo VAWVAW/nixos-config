@@ -13,8 +13,7 @@ in {
 
     programs.firejail.wrappedBinaries = {
       signal-desktop = {
-        executable =
-          "${pkgs.signal-desktop}/bin/signal-desktop --enable-features=UseOzonePlatform --ozone-platform=wayland";
+        executable = "${pkgs.signal-desktop}/bin/signal-desktop";
         profile = "${pkgs.firejail}/etc/firejail/signal-desktop.profile";
       };
     };
