@@ -1,5 +1,5 @@
 { config, lib, ... }: {
-  imports = [ ./c.nix ./nix.nix ./python.nix ./rust.nix ];
+  imports = [ ./c.nix ./markdown.nix ./nix.nix ./python.nix ./rust.nix ];
   options.languages.all.enable = lib.mkEnableOption "support for all languages";
 
   config.languages = lib.mkIf config.languages.all.enable {
@@ -7,5 +7,6 @@
     nix.enable = true;
     python.enable = true;
     rust.enable = true;
+    markdown.enable = true;
   };
 }

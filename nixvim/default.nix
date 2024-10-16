@@ -1,4 +1,4 @@
-{ pkgs, helpers, ... }: {
+{ pkgs, ... }: {
   imports = [
     ./languages
 
@@ -65,13 +65,5 @@
         hash = "sha256-wQDjo7pWNRXHjhTkZsAkshAfM0aotI/kaL0aCl0wMAM=";
       };
     })
-
-    pkgs.vimPlugins.nabla-nvim
   ];
-
-  autoCmd = [{
-    event = "FileType";
-    pattern = "markdown";
-    callback = helpers.mkRaw ''require("nabla").enable_virt'';
-  }];
 }
