@@ -37,6 +37,7 @@
     tabstop = 2;
 
     wrap = false;
+    linebreak = true;
     scrolloff = 3;
     sidescrolloff = 8;
 
