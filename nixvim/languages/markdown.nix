@@ -10,12 +10,23 @@
       pattern = "markdown";
       callback = helpers.mkRaw ''
         function()
+          local nabla = require("nabla")
           vim.api.nvim_create_autocmd("BufWrite", {
             buffer = 0,
-            callback = require("nabla").enable_virt
+            callback = function()
+              nabla.enable_virt()
+              vim.o.wrap = true
+            end
           })
-          require("nabla").enable_virt()
+          vim.keymap.set("n", "<leader>k", nabla.popup, {noremap=true, silent=true})
+          vim.keymap.set("i", "<C-k>", nabla.popup, {noremap=true, silent=true})
+          nabla.enable_virt()
+          vim.o.wrap = true
         end'';
     }];
+
+    plugins.nvim-autopairs.luaConfig.post = ''
+      require("nvim-autopairs").add_rule(require("nvim-autopairs.rule")("$", "$" , "markdown"))
+    '';
   };
 }
