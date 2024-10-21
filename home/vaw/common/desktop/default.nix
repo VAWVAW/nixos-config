@@ -87,6 +87,7 @@
       wl-clipboard
       nix-tree
       jq
+      units
       yubioath-flutter
       libreoffice
       d-spy
