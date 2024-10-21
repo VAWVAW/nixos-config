@@ -3,20 +3,14 @@ let
   settingsFormat = pkgs.formats.yaml { };
 
   command = pkgs.writeShellScript "ntfy-command" ''
-    if [ "$NTFY_TOPIC" = "push-update" ]; then
-      case "$NTFY_MESSAGE" in
-        email-*)
-          box=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed 's/^[^-]*-[^-]*-//')
-          ${pkgs.isync}/bin/mbsync "$box"
-          ${pkgs.notmuch}/bin/notmuch new --no-hooks
-          ${config.programs.notmuch.hooks.postNew}
-          echo "finished email update"
-          exit 0
-          ;;
-      esac
-      echo unknown message: $NTFY_MESSAGE
-      exit 1
-    fi
+    case "$NTFY_TOPIC" in
+      mail)
+        box=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed 's/^New E-Mail on //')
+        ${pkgs.isync}/bin/mbsync "$box"
+        ${pkgs.notmuch}/bin/notmuch new --no-hooks
+        ${config.programs.notmuch.hooks.postNew}
+      ;;
+    esac
 
     case "$NTFY_PRIORITY" in
       1|2)
@@ -40,7 +34,7 @@ let
       EMOJI_SEPERATOR=" "
     done
 
-    ${pkgs.libnotify}/bin/notify-send --app-name=ntfy --urgency="$URGENCY" "$EMOJIS$EMOJI_SEPERATOR''${NTFY_TITLE:-$NTFY_TOPIC}" "$NTFY_MESSAGE"
+    ${pkgs.libnotify}/bin/notify-send --app-name=ntfy --urgency="$URGENCY" --icon="$ICON" "$EMOJIS$EMOJI_SEPERATOR''${NTFY_TITLE:-$NTFY_TOPIC}" "$NTFY_MESSAGE"
   '';
 
   molly-command = pkgs.writeShellScript "ntfy-molly" ''
@@ -50,8 +44,7 @@ let
   configuration = settingsFormat.generate "ntfy-config.yaml" {
     default-host = "https://ntfy.nlih.de";
     default-command = "${pkgs.bash}/bin/bash ${command}";
-    subscribe =
-      [ { topic = "nina"; } { topic = "desktop"; } { topic = "push-update"; } ];
+    subscribe = [ { topic = "desktop"; } { topic = "mail"; } ];
   };
 
   script = pkgs.writeShellScript "ntfy-script" ''

@@ -11,13 +11,11 @@ let
 
   onNewMail = name:
     pkgs.writeShellScript "imapnotify-onNewMail-${name}" ''
-      ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat $CREDENTIALS_DIRECTORY/token)" --tags incoming_envelope https://ntfy.nlih.de/desktop "New E-Mail on ${name}"
-
-      ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat $CREDENTIALS_DIRECTORY/token)" https://ntfy.nlih.de/push-update "email-new-${name}"'';
+      ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat $CREDENTIALS_DIRECTORY/token)" --tags incoming_envelope https://ntfy.nlih.de/mail "New E-Mail on ${name}"'';
 
   onDeletedMail = name:
     pkgs.writeShellScript "imapnotify-onDeletedMail-${name}" ''
-      ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat $CREDENTIALS_DIRECTORY/token)" https://ntfy.nlih.de/push-update "email-delete-${name}"'';
+      ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat $CREDENTIALS_DIRECTORY/token)" --tags incoming_envelope https://ntfy.nlih.de/mail "New E-Mail on ${name}"'';
 
   genConfig = name:
     let account = accounts."${name}";
