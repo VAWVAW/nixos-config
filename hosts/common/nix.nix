@@ -7,7 +7,9 @@
     };
 
     # Add each flake input as a registry
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+    registry = (lib.mapAttrs (_: value: { flake = value; }) inputs) // {
+      pkgs.flake = inputs."nixpkgs";
+    };
 
     # Map registries to channels
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
