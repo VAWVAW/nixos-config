@@ -90,7 +90,7 @@
       yubioath-flutter
       libreoffice
       d-spy
-      qpdfview
+      mate.atril
       feh
       mpv
       sops

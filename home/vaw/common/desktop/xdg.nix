@@ -9,7 +9,7 @@
       };
       mimeApps = {
         enable = true;
-        defaultApplications."application/pdf" = "qpdfview.desktop";
+        defaultApplications."application/pdf" = "atril.desktop";
         associations.removed."application/pdf" = "draw.desktop";
       };
       userDirs = {
