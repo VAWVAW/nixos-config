@@ -200,6 +200,9 @@
               mailboxName = "feuerwehr";
               extraConfig = ''
                 unset trash
+
+                # disable sending mail
+                unset sendmail
               '';
             };
             mbsync = {
