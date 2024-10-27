@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ inputs, pkgs, config, lib, ... }:
 let
   ifTheyExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
@@ -31,7 +31,7 @@ in {
   };
 
   sops.secrets.vaw-password = {
-    sopsFile = ../../../../secrets/system.yaml;
+    sopsFile =  "${inputs.self}/secrets/system.yaml";
     neededForUsers = true;
   };
 

@@ -1,8 +1,8 @@
-{ config, pkgs, ... }: {
+{ inputs, config, pkgs, ... }: {
   sops.secrets."artemis-nyx-borg" = {
     owner = "borg";
     format = "binary";
-    sopsFile = ../../../secrets/artemis-nyx-borg;
+    sopsFile = "${inputs.self}/secrets/artemis-nyx-borg";
   };
 
   services.borgbackup = {

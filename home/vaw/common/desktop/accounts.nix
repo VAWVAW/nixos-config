@@ -1,12 +1,12 @@
-{ config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, ... }: {
   config = lib.mkMerge [
     (lib.mkIf config.programs.mbsync.enable {
       sops.secrets = {
-        "mail/ionos".sopsFile = ../../../../secrets/mail.yaml;
-        "mail/fu-berlin".sopsFile = ../../../../secrets/mail.yaml;
-        "mail/spline".sopsFile = ../../../../secrets/mail.yaml;
-        "mail/subscriptions".sopsFile = ../../../../secrets/mail.yaml;
-        "mail/feuerwehr".sopsFile = ../../../../secrets/mail.yaml;
+        "mail/ionos".sopsFile = "${inputs.self}/secrets/mail.yaml";
+        "mail/fu-berlin".sopsFile = "${inputs.self}/secrets/mail.yaml";
+        "mail/spline".sopsFile = "${inputs.self}/secrets/mail.yaml";
+        "mail/subscriptions".sopsFile = "${inputs.self}/secrets/mail.yaml";
+        "mail/feuerwehr".sopsFile = "${inputs.self}/secrets/mail.yaml";
       };
 
       programs.neomutt.extraConfig = ''

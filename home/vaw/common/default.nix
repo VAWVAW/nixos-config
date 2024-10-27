@@ -45,9 +45,7 @@
 
   nix = {
     package = lib.mkDefault pkgs.nix;
-    settings = {
-      experimental-features = [ "nix-command" "flakes" "repl-flake" ];
-    };
+    settings = { experimental-features = [ "nix-command" "flakes" ]; };
   };
 
   programs.home-manager.enable = true;

@@ -1,8 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ inputs, config, pkgs, lib, ... }:
 let
   inherit ((builtins.head
     (import ../../../home/vaw/common/desktop/accounts.nix {
-      inherit pkgs lib;
+      inherit pkgs lib inputs;
       config = { programs.mbsync.enable = true; };
     }).config.contents).content.accounts.email)
     accounts;
@@ -40,9 +40,9 @@ let
 in {
   sops.secrets = builtins.listToAttrs (map (name: {
     name = "mail/${name}";
-    value = { sopsFile = ../../../secrets/mail.yaml; };
+    value = { sopsFile = "${inputs.self}/secrets/mail.yaml"; };
   }) accountNames) // {
-    "update-notify-token".sopsFile = ../../../secrets/artemis.yaml;
+    "update-notify-token".sopsFile = "${inputs.self}/secrets/artemis.yaml";
   };
 
   systemd.services."imapnotify" = {

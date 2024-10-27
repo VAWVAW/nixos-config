@@ -43,7 +43,7 @@
   config = lib.mkIf config.desktop.enable {
     sops = {
       age.keyFile = "/persist/home/vaw/.config/key.txt";
-      defaultSopsFile = ../../../../secrets/desktop.yaml;
+      defaultSopsFile = "${inputs.self}/secrets/desktop.yaml";
     };
 
     home.persistence."/persist/home/vaw" = {
