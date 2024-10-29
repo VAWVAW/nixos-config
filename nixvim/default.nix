@@ -50,7 +50,10 @@
   };
 
   plugins = {
-    comment.enable = true;
+    comment = {
+      enable = true;
+      luaConfig.post = "require('Comment.ft').set('asm', {';%s', ';%s'})";
+    };
     project-nvim.enable = true;
     web-devicons.enable = true;
   };
