@@ -19,6 +19,7 @@
             end
           })
           vim.keymap.set("n", "<leader>k", nabla.popup, {noremap=true, silent=true})
+          vim.keymap.set("n", "<leader>o", ":silent !pandoc '%' -o /tmp/out.pdf && xdg-open /tmp/out.pdf >/dev/null<CR>", {noremap=true, silent=true})
           vim.keymap.set("i", "<C-k>", nabla.popup, {noremap=true, silent=true})
           nabla.enable_virt()
           vim.o.wrap = true
