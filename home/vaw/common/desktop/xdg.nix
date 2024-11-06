@@ -37,7 +37,7 @@
           icon = "neovim";
           noDisplay = true;
           exec =
-            "${config.desktop.terminal} --command ${nvim}/bin/nvim %f";
+            "${config.desktop.terminal} ${nvim}/bin/nvim %f";
           terminal = false;
           mimeType = [
             "text/plain"
