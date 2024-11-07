@@ -11,6 +11,12 @@
     enable = lib.mkDefault true;
     network = config.systemd.network // { enable = lib.mkDefault false; };
 
+    # default dependency "network.target" is reached after partition is unlocked while connectivity exists before that
+    services."sshd" = {
+      after = lib.mkForce [ "initrd-nixos-copy-secrets.service" ];
+      before = [ "systemd-ask-password-console.service" ];
+    };
+
     services."print-info" = {
       enable = lib.mkDefault false;
       wantedBy = [ "initrd.target" ];
