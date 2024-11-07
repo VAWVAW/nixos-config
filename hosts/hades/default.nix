@@ -46,7 +46,7 @@
         efiSupport = true;
         device = "nodev";
         splashImage = null;
-        configurationLimit = 40;
+        configurationLimit = 30;
       };
     };
     binfmt.emulatedSystems = [ "aarch64-linux" ];
