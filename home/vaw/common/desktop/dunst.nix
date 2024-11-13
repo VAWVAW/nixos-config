@@ -23,7 +23,6 @@ in {
     services.dunst = {
       settings = {
         global = {
-          monitor = 1;
           follow = "none";
           width = 300;
           height = 300;
