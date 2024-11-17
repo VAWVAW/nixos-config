@@ -59,8 +59,8 @@
         layout = "hy3";
         gaps_in = 0;
         gaps_out = 0;
-        cursor_inactive_timeout = 5;
       };
+      cursor.inactive_timeout = 5;
       decoration.drop_shadow = false;
       animations.enabled = false;
       misc = {
