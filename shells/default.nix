@@ -7,4 +7,5 @@
   rust-dbus = import ./rust-dbus.nix { inherit pkgs; };
   rust-graphical = import ./rust-graphical.nix { inherit pkgs; };
   scala = import ./scala.nix { inherit pkgs; };
+  zig = import ./zig.nix { inherit pkgs; };
 }
