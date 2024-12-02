@@ -4,5 +4,7 @@
   config.plugins = lib.mkIf config.languages.zig.enable {
     lsp.enable = true;
     lsp.servers.zls.enable = true;
+
+    rainbow-delimiters.enable = lib.mkForce false; # extremly slow to parse
   };
 }
