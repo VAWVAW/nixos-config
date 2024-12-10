@@ -23,14 +23,29 @@
         tool = "nvimdiff";
         mnemonicprefix = true;
         algorithm = "histogram";
+        colorMoved = "default";
       };
       merge = {
-        conflictstyle = "diff3";
+        conflictstyle = "zdiff3";
         tool = "nvimdiff";
       };
       rebase.autosquash = true;
       rerere.enabled = true;
     };
     ignores = [ "*~" "*.swp" "result" ];
+
+    delta = {
+      enable = true;
+      options = {
+        navigate = true;
+        side-by-side = true;
+        line-numbers-zero-style = "white";
+        line-numbers-minus-style = "red";
+        syntax-theme = "Monokai Extended Bright";
+        file-style = "brightcyan";
+        hunk-header-line-number-style = "white";
+        wrap-right-percent = "0.1";
+      };
+    };
   };
 }
