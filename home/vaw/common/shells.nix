@@ -2,6 +2,7 @@
   imports = [ ./zsh.nix ];
 
   programs.bash.enable = true;
+  programs.bash.package = pkgs.bashInteractive;
 
   home.shellAliases = {
     l = "${pkgs.eza}/bin/eza -1 --group-directories-first";
