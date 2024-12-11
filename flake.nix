@@ -40,13 +40,13 @@
   };
 
   outputs =
-    { self, nixpkgs, nixpkgs-unstable, home-manager, nixvim, ... }@inputs:
+    { self, nixpkgs, nixpkgs-stable, home-manager, nixvim, ... }@inputs:
     let
       inherit (self) outputs;
       forEachSystem = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
       forEachPkgs = f: forEachSystem (sys: f nixpkgs.legacyPackages.${sys});
-      pkgs-unstable = system:
-        import inputs.nixpkgs-unstable {
+      pkgs-stable = system:
+        import nixpkgs-stable {
           inherit system;
           config.allowUnfree = true;
         };
@@ -64,11 +64,10 @@
       packages = forEachSystem (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
           nixvimpkgs = nixvim.legacyPackages.${system};
         in (import ./pkgs { inherit pkgs; }) // rec {
           # ~ 1 GB
-          nixvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs-unstable);
+          nixvim = nixvimpkgs.makeNixvimWithModule (nixvimModule pkgs);
           nixvim-cli = nixvim.extend { disable_nerdfonts = true; };
           # ~ 3 GB
           nixvim-all = nixvim.extend { languages.all.enable = true; };
@@ -115,7 +114,7 @@
         "hades" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-unstable = pkgs-unstable "x86_64-linux";
+            pkgs-stable = pkgs-stable "x86_64-linux";
             nvim = outputs.packages."x86_64-linux".nixvim-all;
           };
           modules = [ ./hosts/hades ];
@@ -124,7 +123,7 @@
         "zeus" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-unstable = pkgs-unstable "x86_64-linux";
+            pkgs-stable = pkgs-stable "x86_64-linux";
             nvim = outputs.packages."x86_64-linux".nixvim-all;
           };
           modules = [ ./hosts/zeus ];
@@ -133,7 +132,7 @@
         "athena" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-unstable = pkgs-unstable "x86_64-linux";
+            pkgs-stable = pkgs-stable "x86_64-linux";
             nvim = outputs.packages."x86_64-linux".nixvim-small;
           };
           modules = [ ./hosts/athena ];
@@ -142,7 +141,7 @@
         "artemis" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-unstable = pkgs-unstable "aarch64-linux";
+            pkgs-stable = pkgs-stable "aarch64-linux";
             nvim = outputs.packages."aarch64-linux".nixvim-small;
           };
           modules = [ ./hosts/artemis ];
@@ -151,7 +150,7 @@
         "nyx" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-unstable = pkgs-unstable "aarch64-linux";
+            pkgs-stable = pkgs-stable "aarch64-linux";
             nvim = outputs.packages."aarch64-linux".nixvim-small;
           };
           modules = [ ./hosts/nyx ];

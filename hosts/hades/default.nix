@@ -1,5 +1,5 @@
 # System configuration for my main desktop PC
-{ inputs, config, pkgs, pkgs-unstable, ... }: {
+{ inputs, config, pkgs, ... }: {
   imports = [
     inputs.hardware.nixosModules.common-cpu-amd-pstate
     inputs.hardware.nixosModules.common-pc-ssd
@@ -21,7 +21,7 @@
   desktop.enable = true;
 
   boot = {
-    kernelPackages = pkgs-unstable.linuxPackages;
+    kernelPackages = pkgs.linuxPackages;
 
     kernelParams = [ "resume_offset=6328854" ];
     resumeDevice = config.fileSystems."/swap".device;

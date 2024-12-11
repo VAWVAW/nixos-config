@@ -10,15 +10,7 @@ in {
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.vimUtils.buildVimPlugin {
-        name = "nvim-dap-lldb";
-        src = pkgs.fetchFromGitHub {
-          owner = "julianolf";
-          repo = "nvim-dap-lldb";
-          rev = "81273514fdb5107b79090364b57a3ff5570bea21";
-          hash = "sha256-XKTbHo/mg9Gr1bsGlRXkgVscRmbY/WrVFxXcmOc0uqE=";
-        };
-      };
+      default = pkgs.vimPlugins.nvim-dap-lldb;
     };
 
     codelldbPath = lib.mkOption {
