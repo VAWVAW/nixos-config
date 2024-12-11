@@ -33,6 +33,8 @@
     username = lib.mkDefault "vaw";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "22.11";
+
+    sessionVariables."EDITOR" = "nvim";
   };
 
   nixpkgs = {

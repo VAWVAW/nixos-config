@@ -76,7 +76,6 @@
       ];
     };
 
-    home.sessionVariables."EDITOR" = "nvim";
     home.packages = with pkgs; [
       wireplumber
       noisetorch
