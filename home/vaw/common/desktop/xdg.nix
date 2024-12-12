@@ -10,6 +10,7 @@
       mimeApps = {
         enable = true;
         defaultApplications."application/pdf" = "atril.desktop";
+        defaultApplications."x-scheme-handler/mailto" = "neomutt.desktop";
         associations.removed."application/pdf" = "draw.desktop";
       };
       userDirs = {
@@ -23,6 +24,15 @@
       };
 
       desktopEntries = {
+        "neomutt" = {
+          type = "Application";
+          name = "neomutt";
+          categories = [ "Email" ];
+          exec = ''${config.desktop.terminal} zsh -c "neomutt %u"'';
+          terminal = false;
+          mimeType = [ "x-scheme-handler/mailto" ];
+          icon = "neomutt";
+        };
         "terminal-file" = {
           type = "Application";
           name = "terminal file";
