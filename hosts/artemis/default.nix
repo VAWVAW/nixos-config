@@ -42,6 +42,7 @@
     };
   };
 
+  mailserver.enable = true;
   services = {
     syncthing-container.enable = true;
     tor.relay.enable = true;

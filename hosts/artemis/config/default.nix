@@ -1,6 +1,7 @@
 {
   imports = [
     ./borgbackup.nix
+    ./mailserver.nix
     ./mollysocket.nix
     ./network.nix
     ./nginx.nix
