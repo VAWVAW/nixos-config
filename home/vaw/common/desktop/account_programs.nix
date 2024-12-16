@@ -154,9 +154,9 @@
 
             # header
             ignore *
-            unignore from: to: cc: date: subject:
+            unignore from: to: cc: date: subject: List-Id:
             unhdr_order *
-            hdr_order from: to: cc: date: subject:
+            hdr_order from: to: cc: List-Id: date: subject:
 
             # colors
             color hdrdefault blue black
