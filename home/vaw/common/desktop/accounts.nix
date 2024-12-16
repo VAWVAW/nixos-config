@@ -1,10 +1,10 @@
-{ inputs, config, pkgs, lib, ... }:
-let
-  removeNumber = name: builtins.head (builtins.tail (lib.splitString "_" name));
-in {
+{ inputs, config, pkgs, lib, ... }: {
   options.accounts.email.accounts = lib.mkOption {
     type = lib.types.attrsOf (lib.types.submodule ({ name, config, ... }: {
-      config = lib.mkMerge [{
+      config = let
+        removeNumber = name:
+          builtins.head (builtins.tail (lib.splitString "_" name));
+      in lib.mkMerge [{
         realName = lib.mkDefault "Valentin Wiedekind";
         userName = lib.mkDefault config.address;
         maildir.path = lib.mkDefault (removeNumber name);
@@ -46,6 +46,10 @@ in {
         "mail/spline".sopsFile = "${inputs.self}/secrets/mail.yaml";
         "mail/subscriptions".sopsFile = "${inputs.self}/secrets/mail.yaml";
         "mail/feuerwehr".sopsFile = "${inputs.self}/secrets/mail.yaml";
+
+        "mail/vaw-nlih".sopsFile = "${inputs.self}/secrets/mail.yaml";
+        "mail/subscriptions-nlih".sopsFile = "${inputs.self}/secrets/mail.yaml";
+        "mail/feuerwehr-nlih".sopsFile = "${inputs.self}/secrets/mail.yaml";
       };
 
       programs.neomutt.extraConfig = ''
@@ -53,19 +57,23 @@ in {
       '';
 
       accounts.email.accounts = {
-        "6_ionos" = {
-          address = "valentin@wiedekind1.de";
+        "0_feuerwehr-nlih" = {
+          address = "feuerwehr@nlih.de";
           passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-              config.sops.secrets."mail/ionos".path
+              config.sops.secrets."mail/feuerwehr-nlih".path
             }";
 
-          smtp.host = "smtp.1und1.de";
-          imap.host = "imap.1und1.de";
+          gpg.signByDefault = false;
+          msmtp.enable = false;
+          neomutt = {
+            extraConfig = ''
+              unset trash
 
-          folders = {
-            drafts = "Entwürfe";
-            sent = "Gesendete Objekte";
-            trash = "Papierkorb";
+              # disable sending mail
+              unset sendmail
+            '';
+            sendMailCommand =
+              config.accounts.email.accounts."2_vaw".neomutt.sendMailCommand;
           };
         };
         "1_fu-berlin" = {
@@ -87,6 +95,13 @@ in {
             sent = "Gesendet";
           };
         };
+        "2_vaw" = {
+          primary = true;
+          address = "vaw@nlih.de";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/vaw-nlih".path
+            }";
+        };
         "3_spline" = {
           realName = "vawvaw";
           address = "vawvaw@spline.de";
@@ -102,20 +117,13 @@ in {
             tls.useStartTls = true;
           };
         };
-        "7_subscriptions" = {
-          address = "subscriptions@vaw-valentin.de";
-          realName = "vaw";
+        "4_subscriptions-nlih" = {
+          address = "subscriptions@nlih.de";
           passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-              config.sops.secrets."mail/subscriptions".path
+              config.sops.secrets."mail/subscriptions-nlih".path
             }";
 
-          imap.host = "mx2fd8.netcup.net";
-          smtp = {
-            host = "mx2fd8.netcup.net";
-            port = 587;
-            tls.useStartTls = true;
-          };
-
+          gpg.signByDefault = false;
           neomutt.extraConfig = "unset trash";
         };
         "5_feuerwehr" = {
@@ -141,6 +149,37 @@ in {
             sendMailCommand =
               config.accounts.email.accounts."2_vaw".neomutt.sendMailCommand;
           };
+        };
+        "6_ionos" = {
+          address = "valentin@wiedekind1.de";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/ionos".path
+            }";
+
+          smtp.host = "smtp.1und1.de";
+          imap.host = "imap.1und1.de";
+
+          folders = {
+            drafts = "Entwürfe";
+            sent = "Gesendete Objekte";
+            trash = "Papierkorb";
+          };
+        };
+        "7_subscriptions" = {
+          address = "subscriptions@vaw-valentin.de";
+          realName = "vaw";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/subscriptions".path
+            }";
+
+          imap.host = "mx2fd8.netcup.net";
+          smtp = {
+            host = "mx2fd8.netcup.net";
+            port = 587;
+            tls.useStartTls = true;
+          };
+
+          neomutt.extraConfig = "unset trash";
         };
       };
     })
