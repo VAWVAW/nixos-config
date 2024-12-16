@@ -1,4 +1,43 @@
-{ inputs, config, pkgs, lib, ... }: {
+{ inputs, config, pkgs, lib, ... }:
+let
+  removeNumber = name: builtins.head (builtins.tail (lib.splitString "_" name));
+in {
+  options.accounts.email.accounts = lib.mkOption {
+    type = lib.types.attrsOf (lib.types.submodule ({ name, config, ... }: {
+      config = lib.mkMerge [{
+        realName = lib.mkDefault "Valentin Wiedekind";
+        userName = lib.mkDefault config.address;
+        maildir.path = lib.mkDefault (removeNumber name);
+
+        gpg = {
+          key = lib.mkDefault "508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8";
+          signByDefault = lib.mkDefault true;
+        };
+
+        neomutt = {
+          enable = lib.mkDefault true;
+          mailboxName = lib.mkDefault (removeNumber name);
+        };
+        mbsync = {
+          enable = lib.mkDefault true;
+          create = lib.mkDefault "both";
+          expunge = lib.mkDefault "both";
+        };
+        notmuch = {
+          enable = lib.mkDefault true;
+          neomutt.virtualMailboxes = lib.mkForce [ ];
+        };
+        msmtp.enable = lib.mkDefault true;
+
+        smtp.host = lib.mkDefault "nlih.de";
+        imap = {
+          host = lib.mkDefault "nlih.de";
+          port = lib.mkDefault 993;
+        };
+      }];
+    }));
+  };
+
   config = lib.mkMerge [
     (lib.mkIf config.programs.mbsync.enable {
       sops.secrets = {
@@ -13,210 +52,97 @@
         alternates '^valentin@wiedekind1.de$' '@vaw-valentin.de$' '@nlih.de$' '^vw7335fu@zedat.fu-berlin.de$' '^valentin.wiedekind@fu-berlin.de$' '^valentin.wiedekind@berliner-feuerwehr.de$'
       '';
 
-      accounts.email.accounts =
-        let gpg-key = "508F0546A3908E3FE6732B8F9BEFF32F6EF32DA8";
-        in {
-          "ionos" = rec {
-            address = "valentin@wiedekind1.de";
-            realName = "Valentin Wiedekind";
-            primary = true;
-            smtp.host = "smtp.1und1.de";
-            imap = {
-              host = "imap.1und1.de";
-              port = 993;
-              tls.enable = true;
-            };
-            userName = address;
-            passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-                config.sops.secrets."mail/ionos".path
-              }";
+      accounts.email.accounts = {
+        "6_ionos" = {
+          address = "valentin@wiedekind1.de";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/ionos".path
+            }";
 
-            folders = {
-              inbox = "Inbox";
-              drafts = "Entwürfe";
-              sent = "Gesendete Objekte";
-              trash = "Papierkorb";
-            };
+          smtp.host = "smtp.1und1.de";
+          imap.host = "imap.1und1.de";
 
-            gpg = {
-              key = gpg-key;
-              signByDefault = true;
-            };
-            neomutt = {
-              enable = true;
-              mailboxName = "ionos";
-            };
-            mbsync = {
-              enable = true;
-              create = "both";
-              expunge = "both";
-            };
-            notmuch = {
-              enable = true;
-              neomutt.virtualMailboxes = lib.mkForce [ ];
-            };
-            msmtp.enable = true;
-          };
-          "fu-berlin" = {
-            address = "valentin.wiedekind@fu-berlin.de";
-            realName = "Valentin Wiedekind";
-            imap = {
-              host = "mail.zedat.fu-berlin.de";
-              port = 993;
-              tls.enable = true;
-            };
-            smtp = {
-              host = "mail.zedat.fu-berlin.de";
-              port = 587;
-              tls.useStartTls = true;
-            };
-            userName = "vw7335fu@zedat.fu-berlin.de";
-            passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-                config.sops.secrets."mail/fu-berlin".path
-              }";
-
-            folders = {
-              inbox = "Inbox";
-              drafts = "Entwürfe";
-              sent = "Gesendet";
-            };
-
-            gpg = {
-              key = gpg-key;
-              signByDefault = true;
-            };
-            neomutt = {
-              enable = true;
-              mailboxName = "fu-berlin";
-            };
-            mbsync = {
-              enable = true;
-              create = "both";
-              expunge = "both";
-            };
-            notmuch = {
-              enable = true;
-              neomutt.virtualMailboxes = lib.mkForce [ ];
-            };
-            msmtp.enable = true;
-          };
-          "spline" = {
-            address = "vawvaw@spline.de";
-            realName = "vawvaw";
-            imap = {
-              host = "imap.spline.de";
-              port = 993;
-              tls.enable = true;
-            };
-            smtp = {
-              host = "mail.spline.de";
-              port = 587;
-              tls.useStartTls = true;
-            };
-            userName = "vawvaw";
-            passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-                config.sops.secrets."mail/spline".path
-              }";
-            folders.inbox = "Inbox";
-
-            gpg = {
-              key = gpg-key;
-              signByDefault = true;
-            };
-            neomutt = {
-              enable = true;
-              mailboxName = "spline";
-            };
-            mbsync = {
-              enable = true;
-              create = "both";
-              expunge = "both";
-              remove = "both";
-            };
-            notmuch = {
-              enable = true;
-              neomutt.virtualMailboxes = lib.mkForce [ ];
-            };
-            msmtp.enable = true;
-          };
-          "subscriptions" = {
-            address = "subscriptions@vaw-valentin.de";
-            realName = "vaw";
-            imap = {
-              host = "mx2fd8.netcup.net";
-              port = 993;
-              tls.enable = true;
-            };
-            smtp = {
-              host = "mx2fd8.netcup.net";
-              port = 587;
-              tls.useStartTls = true;
-            };
-            userName = "subscriptions@vaw-valentin.de";
-            passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-                config.sops.secrets."mail/subscriptions".path
-              }";
-            folders.inbox = "Inbox";
-
-            neomutt = {
-              enable = true;
-              mailboxName = "subscriptions";
-              extraConfig = ''
-                unset trash
-              '';
-            };
-            mbsync = {
-              enable = true;
-              create = "both";
-              expunge = "both";
-            };
-            notmuch = {
-              enable = true;
-              neomutt.virtualMailboxes = lib.mkForce [ ];
-            };
-            msmtp.enable = true;
-          };
-          "feuerwehr" = {
-            address = "feuerwehr@vaw-valentin.de";
-            realName = "vaw";
-            imap = {
-              host = "mx2fd8.netcup.net";
-              port = 993;
-              tls.enable = true;
-            };
-            smtp = {
-              host = "mx2fd8.netcup.net";
-              port = 587;
-              tls.useStartTls = true;
-            };
-            userName = "feuerwehr@vaw-valentin.de";
-            passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-                config.sops.secrets."mail/feuerwehr".path
-              }";
-            folders.inbox = "Inbox";
-
-            neomutt = {
-              enable = true;
-              mailboxName = "feuerwehr";
-              extraConfig = ''
-                unset trash
-
-                # disable sending mail
-                unset sendmail
-              '';
-            };
-            mbsync = {
-              enable = true;
-              create = "both";
-              expunge = "both";
-            };
-            notmuch = {
-              enable = true;
-              neomutt.virtualMailboxes = lib.mkForce [ ];
-            };
-            msmtp.enable = true;
+          folders = {
+            drafts = "Entwürfe";
+            sent = "Gesendete Objekte";
+            trash = "Papierkorb";
           };
         };
+        "1_fu-berlin" = {
+          address = "valentin.wiedekind@fu-berlin.de";
+          userName = "vw7335fu@zedat.fu-berlin.de";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/fu-berlin".path
+            }";
+
+          imap.host = "mail.zedat.fu-berlin.de";
+          smtp = {
+            host = "mail.zedat.fu-berlin.de";
+            port = 587;
+            tls.useStartTls = true;
+          };
+
+          folders = {
+            drafts = "Entwürfe";
+            sent = "Gesendet";
+          };
+        };
+        "3_spline" = {
+          realName = "vawvaw";
+          address = "vawvaw@spline.de";
+          userName = "vawvaw";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/spline".path
+            }";
+
+          imap.host = "imap.spline.de";
+          smtp = {
+            host = "mail.spline.de";
+            port = 587;
+            tls.useStartTls = true;
+          };
+        };
+        "7_subscriptions" = {
+          address = "subscriptions@vaw-valentin.de";
+          realName = "vaw";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/subscriptions".path
+            }";
+
+          imap.host = "mx2fd8.netcup.net";
+          smtp = {
+            host = "mx2fd8.netcup.net";
+            port = 587;
+            tls.useStartTls = true;
+          };
+
+          neomutt.extraConfig = "unset trash";
+        };
+        "5_feuerwehr" = {
+          address = "feuerwehr@vaw-valentin.de";
+          passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
+              config.sops.secrets."mail/feuerwehr".path
+            }";
+
+          imap.host = "mx2fd8.netcup.net";
+          smtp = {
+            host = "mx2fd8.netcup.net";
+            port = 587;
+            tls.useStartTls = true;
+          };
+
+          neomutt = {
+            extraConfig = ''
+              unset trash
+
+              # disable sending mail
+              unset sendmail
+            '';
+            sendMailCommand =
+              config.accounts.email.accounts."2_vaw".neomutt.sendMailCommand;
+          };
+        };
+      };
     })
 
     (lib.mkIf config.programs.khard.enable {
