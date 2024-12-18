@@ -1,14 +1,8 @@
 { config, ... }:
-let
-  address = "192.168.101.11";
-  port = 5232;
-  host = "${address}:${builtins.toString port}";
+let host = "127.0.0.1:5232";
 in {
   containers."radicale" = {
     autoStart = true;
-    privateNetwork = true;
-    hostAddress = "192.168.101.10";
-    localAddress = address;
 
     bindMounts."data" = {
       hostPath = "/backed_up/var/lib/radicale";
@@ -18,8 +12,6 @@ in {
 
     config = {
       imports = [ ../../common/nixos-containers/basic-config.nix ];
-
-      networking.firewall.allowedTCPPorts = [ port ];
 
       users = {
         users."radicale".uid = config.ids.uids.syncthing;
