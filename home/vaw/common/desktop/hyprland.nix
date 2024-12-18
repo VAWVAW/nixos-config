@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, pkgs-stable, lib, ... }: {
   xdg.portal = lib.mkIf config.wayland.windowManager.hyprland.enable {
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     config."hyprland".default = [ "hyprland" "gtk" "*" ];
@@ -20,7 +20,8 @@
       ];
     };
 
-    plugins = with pkgs.hyprlandPlugins; [ hy3 ];
+    package = pkgs-stable.hyprland;
+    plugins = with pkgs-stable.hyprlandPlugins; [ hy3 ];
 
     settings = {
       env = [

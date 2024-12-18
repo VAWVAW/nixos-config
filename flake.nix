@@ -167,6 +167,7 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            pkgs-stable = pkgs-stable "x86_64-linux";
             nvim = outputs.packages."x86_64-linux".nixvim-all;
             hostname = "hades";
           };
@@ -177,6 +178,7 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            pkgs-stable = pkgs-stable "x86_64-linux";
             nvim = outputs.packages."x86_64-linux".nixvim-all;
             hostname = "zeus";
           };
@@ -187,6 +189,7 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            pkgs-stable = pkgs-stable "x86_64-linux";
             nvim = outputs.packages."x86_64-linux".nixvim-small;
             hostname = "athena";
           };
@@ -197,6 +200,7 @@
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            pkgs-stable = pkgs-stable "aarch64-linux";
             nvim = outputs.packages."aarch64-linux".nixvim-small;
             hostname = "artemis";
           };
@@ -207,6 +211,7 @@
           pkgs = nixpkgs.legacyPackages."aarch64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            pkgs-stable = pkgs-stable "aarch64-linux";
             nvim = outputs.packages."aarch64-linux".nixvim-small;
             hostname = "nyx";
           };
@@ -217,6 +222,7 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {
             inherit inputs outputs;
+            pkgs-stable = pkgs-stable "x86_64-linux";
             nvim = outputs.packages."x86_64-linux".nixvim-all;
             hostname = "vaw";
           };
