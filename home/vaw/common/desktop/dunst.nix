@@ -25,7 +25,6 @@ in {
         global = {
           follow = "none";
           width = 300;
-          height = 300;
           origin = "top-right";
           offset = "10x20";
           scale = 0;
