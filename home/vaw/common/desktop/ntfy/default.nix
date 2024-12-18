@@ -9,6 +9,7 @@ let
         ${pkgs.isync}/bin/mbsync "$box"
         ${pkgs.notmuch}/bin/notmuch new --no-hooks
         ${config.programs.notmuch.hooks.postNew}
+        export NTFY_MESSAGE=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed -E 's/^New E-Mail on [0-9]+_/New E-Mail on /')
       ;;
     esac
 

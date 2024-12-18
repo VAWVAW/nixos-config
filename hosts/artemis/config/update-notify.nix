@@ -1,13 +1,14 @@
 { inputs, config, pkgs, lib, ... }:
 let
-  inherit ((builtins.head
+  home_config = ((builtins.head
     (import ../../../home/vaw/common/desktop/accounts.nix {
       inherit pkgs lib inputs;
-      config = { programs.mbsync.enable = true; };
-    }).config.contents).content.accounts.email)
-    accounts;
+      config.programs.mbsync.enable = true;
+    }).config.contents).content);
+  inherit (home_config.accounts.email) accounts;
 
   accountNames = builtins.attrNames accounts;
+  removeNumber = name: builtins.head (builtins.tail (lib.splitString "_" name));
 
   onNewMail = name:
     pkgs.writeShellScript "imapnotify-onNewMail-${name}" ''
@@ -17,21 +18,24 @@ let
     pkgs.writeShellScript "imapnotify-onDeletedMail-${name}" ''
       ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat $CREDENTIALS_DIRECTORY/token)" --tags incoming_envelope https://ntfy.nlih.de/mail "New E-Mail on ${name}"'';
 
-  genConfig = name:
-    let account = accounts."${name}";
+  genConfig = raw_name:
+    let
+      account = accounts."${raw_name}";
+      name = removeNumber raw_name;
     in {
       alias = name;
 
-      inherit (account.imap) host port;
-      tls = account.imap.tls.enable;
+      inherit (account.imap) host;
+      port = account.imap.port or 993;
+      tls = account.imap.tls.enable or true;
 
-      username = account.userName;
+      username = account.userName or account.address;
       passwordCmd = "${pkgs.coreutils}/bin/cat $CREDENTIALS_DIRECTORY/${name}";
 
-      boxes = [{ mailbox = account.folders.inbox; }];
+      boxes = [{ mailbox = account.folders.inbox or "Inbox"; }];
 
-      onNewMail = builtins.toString (onNewMail name);
-      onDeletedMail = builtins.toString (onDeletedMail name);
+      onNewMail = builtins.toString (onNewMail raw_name);
+      onDeletedMail = builtins.toString (onDeletedMail raw_name);
     };
 
   configuration = (pkgs.formats.yaml { }).generate "goimapnotify-config.yaml" {
@@ -39,9 +43,9 @@ let
   };
 in {
   sops.secrets = builtins.listToAttrs (map (name: {
-    name = "mail/${name}";
+    inherit name;
     value = { sopsFile = "${inputs.self}/secrets/mail.yaml"; };
-  }) accountNames) // {
+  }) (builtins.attrNames home_config.sops.secrets)) // {
     "update-notify-token".sopsFile = "${inputs.self}/secrets/artemis.yaml";
   };
 
@@ -55,9 +59,9 @@ in {
       RestartSec = 30;
 
       DynamicUser = true;
-      LoadCredential =
-        (map (name: "${name}:${config.sops.secrets."mail/${name}".path}")
-          accountNames)
+      LoadCredential = (map (raw_name:
+        let name = removeNumber raw_name;
+        in "${name}:${config.sops.secrets."mail/${name}".path}") accountNames)
         ++ [ "token:${config.sops.secrets."update-notify-token".path}" ];
     };
     unitConfig = {

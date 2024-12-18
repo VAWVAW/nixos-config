@@ -47,7 +47,7 @@
         "mail/subscriptions".sopsFile = "${inputs.self}/secrets/mail.yaml";
         "mail/feuerwehr".sopsFile = "${inputs.self}/secrets/mail.yaml";
 
-        "mail/vaw-nlih".sopsFile = "${inputs.self}/secrets/mail.yaml";
+        "mail/vaw".sopsFile = "${inputs.self}/secrets/mail.yaml";
         "mail/subscriptions-nlih".sopsFile = "${inputs.self}/secrets/mail.yaml";
         "mail/feuerwehr-nlih".sopsFile = "${inputs.self}/secrets/mail.yaml";
       };
@@ -63,6 +63,7 @@
               config.sops.secrets."mail/feuerwehr-nlih".path
             }";
 
+          imap.host = "nlih.de";
           gpg.signByDefault = false;
           msmtp.enable = false;
           neomutt = {
@@ -99,8 +100,9 @@
           primary = true;
           address = "vaw@nlih.de";
           passwordCommand = "${pkgs.coreutils-full}/bin/cat ${
-              config.sops.secrets."mail/vaw-nlih".path
+              config.sops.secrets."mail/vaw".path
             }";
+          imap.host = "nlih.de";
         };
         "3_spline" = {
           realName = "vawvaw";
@@ -123,6 +125,7 @@
               config.sops.secrets."mail/subscriptions-nlih".path
             }";
 
+          imap.host = "nlih.de";
           gpg.signByDefault = false;
           neomutt.extraConfig = "unset trash";
         };
