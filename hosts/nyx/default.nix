@@ -1,4 +1,4 @@
-{ config, ... }: {
+{ config, lib, ... }: {
   imports = [
     ../common
     ../common/users/vaw
@@ -17,13 +17,6 @@
   boot = {
     blacklistedKernelModules = [ "onboard_usb_hub" ];
 
-    initrd.availableKernelModules = [
-      "usbhid"
-      "usb_storage"
-      "lan78xx" # network driver
-    ];
-    initrd.systemd.network.enable = true;
-
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot = {
@@ -31,6 +24,25 @@
         editor = false;
         configurationLimit = 10;
       };
+    };
+
+    initrd = {
+      availableKernelModules = [
+        "usbhid"
+        "usb_storage"
+        "lan78xx" # network driver
+      ];
+      systemd.network.enable = true;
+
+      luks.devices."data_partition" =
+        let hasSystemd = config.boot.initrd.systemd.enable;
+        in {
+          device = "/dev/disk/by-label/data_crypt";
+          fallbackToPassword = lib.mkDefault (!hasSystemd);
+          allowDiscards = true;
+
+          crypttabExtraOpts = lib.mkIf hasSystemd [ "password-echo=no" ];
+        };
     };
   };
 
@@ -43,7 +55,7 @@
       neededForBoot = true;
     };
     "/backup" = {
-      device = "/dev/disk/by-label/system_partition";
+      device = "/dev/disk/by-label/data_partition";
       fsType = "btrfs";
       options =
         [ "subvol=${config.networking.hostName}/backup" "compress=zstd" ];
