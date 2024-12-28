@@ -82,14 +82,32 @@
                 "${pkgs.spotifython-cli}/bin/spotifython-cli play -s saved@#ask@#all";
             }
             {
+              key = "o";
+              mods = [ "Shift" ];
+              command =
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play -s --from-ask --to-ask saved@#ask@#all";
+            }
+            {
               key = "i";
               command =
                 "${pkgs.spotifython-cli}/bin/spotifython-cli play saved@#ask@#all";
             }
             {
+              key = "i";
+              mods = [ "Shift" ];
+              command =
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play --from-ask --to-ask saved@#ask@#all";
+            }
+            {
               key = "r";
               command =
                 "${pkgs.spotifython-cli}/bin/spotifython-cli play -r saved@#ask@#all";
+            }
+            {
+              key = "r";
+              mods = [ "Shift" ];
+              command =
+                "${pkgs.spotifython-cli}/bin/spotifython-cli play --from-ask --to-ask -r saved@#ask@#all";
             }
             {
               key = "Question";
