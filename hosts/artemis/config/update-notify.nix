@@ -53,7 +53,7 @@ in {
     serviceConfig = {
       Type = "exec";
       ExecStart =
-        "${pkgs.goimapnotify-patched}/bin/goimapnotify -conf ${configuration}";
+        "${pkgs.goimapnotify}/bin/goimapnotify -conf ${configuration}";
 
       Restart = "always";
       RestartSec = 30;

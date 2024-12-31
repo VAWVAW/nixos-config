@@ -12,8 +12,6 @@ _: {
 
   freesweep = import ./freesweep;
 
-  goimapnotify = import ./goimapnotify;
-
   waybar = import ./waybar;
 
   xkbcomp = import ./xkbcomp;
