@@ -31,6 +31,10 @@ in {
         exit 0
       fi
 
+      if [ "$PAM_USER" == "borg" ]; then
+        exit 0
+      fi
+
       ${pkgs.ntfy-sh}/bin/ntfy publish --token "$(${pkgs.coreutils}/bin/cat ${
         config.sops.secrets."ntfy-desktop".path
       })" --tags "desktop_computer" --title "SSH Login ''${PAM_USER}@${config.networking.hostName}" https://ntfy.nlih.de/desktop "$PAM_USER logged in from ''${PAM_RHOST}"
