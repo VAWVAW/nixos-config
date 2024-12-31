@@ -65,7 +65,7 @@
       })
 
     (lib.mkIf (config.services.borgbackup.jobs != { }) {
-      systemd.services."unit-fail-notification@".enable = true;
+      systemd.services."unit-status-notification@".enable = true;
     })
 
     {
