@@ -7,6 +7,6 @@
     ./nginx.nix
     ./ntfy.nix
     ./radicale.nix
-    ./update-notify.nix
+    ./imapnotify.nix
   ];
 }

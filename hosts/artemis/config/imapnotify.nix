@@ -46,7 +46,7 @@ in {
     inherit name;
     value = { sopsFile = "${inputs.self}/secrets/mail.yaml"; };
   }) (builtins.attrNames home_config.sops.secrets)) // {
-    "update-notify-token".sopsFile = "${inputs.self}/secrets/artemis.yaml";
+    "imapnotify-token".sopsFile = "${inputs.self}/secrets/artemis.yaml";
   };
 
   systemd.services."imapnotify" = {
@@ -62,7 +62,7 @@ in {
       LoadCredential = (map (raw_name:
         let name = removeNumber raw_name;
         in "${name}:${config.sops.secrets."mail/${name}".path}") accountNames)
-        ++ [ "token:${config.sops.secrets."update-notify-token".path}" ];
+        ++ [ "token:${config.sops.secrets."imapnotify-token".path}" ];
     };
     unitConfig = {
       Description = "imapnotify notification";
