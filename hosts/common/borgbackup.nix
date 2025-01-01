@@ -76,18 +76,19 @@
             Type = "oneshot";
             Restart = lib.mkDefault "on-failure";
             RestartSec = lib.mkDefault 60;
-
+          };
+          onFailure = [ "unit-status-notification@%n.service" ];
+        } // (if config.services.borgbackup.jobs."${name}".backupSnapshot then {
+          serviceConfig = {
             StateDirectory = "borgbackup-${name}";
             ExecStartPre =
               "+${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r /backed_up \${STATE_DIRECTORY}/snapshot";
             ExecStopPost =
               "+${pkgs.btrfs-progs}/bin/btrfs subvolume delete \${STATE_DIRECTORY}/snapshot";
           };
-          onFailure = [ "unit-status-notification@%n.service" ];
-        };
-      }) (builtins.filter
-        (name: config.services.borgbackup.jobs."${name}".backupSnapshot)
-        (builtins.attrNames config.services.borgbackup.jobs)));
+        } else
+          { });
+      }) (builtins.attrNames config.services.borgbackup.jobs));
     }
   ];
 }

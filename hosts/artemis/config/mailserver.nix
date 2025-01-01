@@ -1,4 +1,4 @@
-{ inputs, config, lib, ... }: {
+{ inputs, config, pkgs, lib, ... }: {
   imports = [ inputs.simple-nixos-mailserver.nixosModule ];
 
   config = lib.mkIf config.mailserver.enable {
@@ -40,8 +40,6 @@
         };
       };
       certificateScheme = "acme";
-
-      # TODO: borgbackup
     };
 
     services.nginx.virtualHosts."${config.mailserver.fqdn}" = {
@@ -50,5 +48,20 @@
 
       globalRedirect = "nlih.de";
     };
+
+    services.borgbackup.jobs."remote-nyx-mail" = {
+      user = config.mailserver.vmailUserName;
+      group = config.mailserver.vmailGroupName;
+
+      paths = [ config.mailserver.mailDirectory ];
+
+      encryption.mode = "none";
+      repo = "borg@home.vaw-valentin.de:.";
+      environment."BORG_RSH" =
+        "${pkgs.openssh}/bin/ssh -oBatchMode=yes -i %d/ssh_key";
+    };
+    systemd.services."borgbackup-job-remote-nyx-mail".serviceConfig.LoadCredential =
+      [ "ssh_key:${config.sops.secrets."artemis-nyx-borg".path}" ];
+
   };
 }
