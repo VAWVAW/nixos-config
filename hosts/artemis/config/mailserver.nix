@@ -67,7 +67,7 @@
 
       encryption.mode = "none";
       repo = "borg@home.vaw-valentin.de:.";
-      sshKey = config.sops.secrets."artemis-nyx-borg".path;
+      sshKey = config.sops.secrets."artemis-borg".path;
     };
   };
 }

@@ -65,7 +65,7 @@
 
   services.syncthing-container.enable = true;
   services.borgbackup.repos."system".authorizedKeys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDW8KqMDzTeIuvDoPa/8JnQMpIkN/7W/w3k5CInO8u/4 artemis-nyx-borg"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDW8KqMDzTeIuvDoPa/8JnQMpIkN/7W/w3k5CInO8u/4 artemis-borg"
   ];
 
   system.stateVersion = "23.11";
