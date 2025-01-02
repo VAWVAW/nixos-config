@@ -5,6 +5,7 @@
   sops.secrets = lib.mkForce { };
 
   home.packages = with pkgs; [ age ssh-to-age ];
+  home.stateVersion = "24.11";
 
   desktop.enable = true;
   wayland.windowManager.sway.enable = true;

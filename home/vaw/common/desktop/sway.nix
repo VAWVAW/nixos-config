@@ -47,6 +47,7 @@
 
       bars = [ ];
 
+      floating.titlebar = false;
       window = {
         titlebar = false;
         border = 1;

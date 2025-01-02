@@ -3,7 +3,10 @@
 
   systemd.user.services."spotifyd".Install.WantedBy = lib.mkForce [ ];
 
-  home.keyboard.options = [ "ctrl:swap_rwin_rctl" ];
+  home = {
+    keyboard.options = [ "ctrl:swap_rwin_rctl" ];
+    stateVersion = "24.11";
+  };
 
   desktop = {
     enable = true;

@@ -23,6 +23,7 @@ in {
   home = {
     keyboard.options = [ "altwin:menu_win" ];
     sessionVariables."NVK_I_WANT_A_BROKEN_VULKAN_DRIVER" = "0";
+    stateVersion = "24.11";
   };
 
   desktop = {
