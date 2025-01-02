@@ -4,6 +4,7 @@
     (lib.mkIf config.plugins.treesitter.enable {
       rainbow-delimiters.enable = true;
       nvim-autopairs.enable = true;
+      treesitter-context.enable = true;
 
       illuminate = {
         enable = true;
