@@ -10,6 +10,8 @@
         config.mailserver.dkimKeyDirectory
         config.mailserver.mailDirectory
         config.mailserver.sieveDirectory
+        "/var/lib/rspamd"
+        "/var/lib/redis-rspamd"
       ];
     };
 
@@ -48,6 +50,14 @@
 
       globalRedirect = "nlih.de";
     };
+
+    services.rspamd.extraConfig = ''
+      action {
+        reject = null; # disable
+        add_header = 10;
+        greylist = 6;
+      }
+    '';
 
     services.borgbackup.jobs."remote-nyx-mail" = {
       user = config.mailserver.vmailUserName;
