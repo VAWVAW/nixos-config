@@ -3,6 +3,11 @@
     type = lib.types.attrsOf (lib.types.submodule ({ config, ... }: {
       options = {
         backupSnapshot = lib.mkEnableOption "backup a snapshot of /backed_up";
+        sshKey = lib.mkOption {
+          type = lib.types.nullOr lib.types.path;
+          description = "ssh key to use for repo access";
+          default = null;
+        };
       };
       config = lib.mkMerge [
         {
@@ -31,6 +36,10 @@
             "**/var/lib/syncthing/data/Documents/coding/**/.git"
             "**/var/lib/syncthing/data/Documents/studium/*/nextcloud/*/*.mp4"
           ];
+        })
+        (lib.mkIf (config.sshKey != null) {
+          environment."BORG_RSH" =
+            "${pkgs.openssh}/bin/ssh -oBatchMode=yes -i %d/ssh_key";
         })
       ];
     }));
@@ -69,25 +78,33 @@
     })
 
     {
-      systemd.services = builtins.listToAttrs (map (name: {
+      systemd.services = builtins.listToAttrs (map (name:
+        let cfg = config.services.borgbackup.jobs."${name}";
+        in {
+          name = "borgbackup-job-${name}";
+          value = {
+            serviceConfig = {
+              Type = "oneshot";
+              Restart = lib.mkDefault "on-failure";
+              RestartSec = lib.mkDefault 60;
+            };
+            onFailure = [ "unit-status-notification@%n.service" ];
+          } // (lib.optionalAttrs cfg.backupSnapshot {
+            serviceConfig = {
+              StateDirectory = "borgbackup-${name}";
+              ExecStartPre =
+                "+${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r /backed_up \${STATE_DIRECTORY}/snapshot";
+              ExecStopPost =
+                "+${pkgs.btrfs-progs}/bin/btrfs subvolume delete \${STATE_DIRECTORY}/snapshot";
+            };
+          }) // (lib.optionalAttrs (cfg.sshKey != null) {
+            serviceConfig.LoadCredential = [ "ssh_key:${cfg.sshKey}" ];
+          });
+        }) (builtins.attrNames config.services.borgbackup.jobs));
+
+      systemd.timers = builtins.listToAttrs (map (name: {
         name = "borgbackup-job-${name}";
-        value = {
-          serviceConfig = {
-            Type = "oneshot";
-            Restart = lib.mkDefault "on-failure";
-            RestartSec = lib.mkDefault 60;
-          };
-          onFailure = [ "unit-status-notification@%n.service" ];
-        } // (if config.services.borgbackup.jobs."${name}".backupSnapshot then {
-          serviceConfig = {
-            StateDirectory = "borgbackup-${name}";
-            ExecStartPre =
-              "+${pkgs.btrfs-progs}/bin/btrfs subvolume snapshot -r /backed_up \${STATE_DIRECTORY}/snapshot";
-            ExecStopPost =
-              "+${pkgs.btrfs-progs}/bin/btrfs subvolume delete \${STATE_DIRECTORY}/snapshot";
-          };
-        } else
-          { });
+        value.timerConfig.RandomizedDelaySec = "1h";
       }) (builtins.attrNames config.services.borgbackup.jobs));
     }
   ];

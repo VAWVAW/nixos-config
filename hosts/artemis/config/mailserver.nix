@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, lib, ... }: {
+{ inputs, config, lib, ... }: {
   imports = [ inputs.simple-nixos-mailserver.nixosModule ];
 
   config = lib.mkIf config.mailserver.enable {
@@ -57,11 +57,7 @@
 
       encryption.mode = "none";
       repo = "borg@home.vaw-valentin.de:.";
-      environment."BORG_RSH" =
-        "${pkgs.openssh}/bin/ssh -oBatchMode=yes -i %d/ssh_key";
+      sshKey = config.sops.secrets."artemis-nyx-borg".path;
     };
-    systemd.services."borgbackup-job-remote-nyx-mail".serviceConfig.LoadCredential =
-      [ "ssh_key:${config.sops.secrets."artemis-nyx-borg".path}" ];
-
   };
 }

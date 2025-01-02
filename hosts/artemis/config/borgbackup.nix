@@ -1,6 +1,5 @@
-{ inputs, config, pkgs, ... }: {
+{ inputs, config, ... }: {
   sops.secrets."artemis-nyx-borg" = {
-    owner = "borg";
     format = "binary";
     sopsFile = "${inputs.self}/secrets/artemis-nyx-borg";
   };
@@ -17,9 +16,7 @@
       repo = "borg@home.vaw-valentin.de:.";
       encryption.mode = "none";
       backupSnapshot = true;
-      environment."BORG_RSH" = "${pkgs.openssh}/bin/ssh -oBatchMode=yes -i ${
-          config.sops.secrets."artemis-nyx-borg".path
-        }";
+      sshKey = config.sops.secrets."artemis-nyx-borg".path;
     };
   };
 }
