@@ -59,15 +59,19 @@
       }
     '';
 
-    services.borgbackup.jobs."remote-nyx-mail" = {
-      user = config.mailserver.vmailUserName;
-      group = config.mailserver.vmailGroupName;
+    services.borgbackup.jobs = let
+      default = {
+        user = config.mailserver.vmailUserName;
+        group = config.mailserver.vmailGroupName;
 
-      paths = [ config.mailserver.mailDirectory ];
+        paths = [ config.mailserver.mailDirectory ];
 
-      encryption.mode = "none";
-      repo = "borg@home.vaw-valentin.de:.";
-      sshKey = config.sops.secrets."artemis-borg".path;
+        encryption.mode = "none";
+        sshKey = config.sops.secrets."artemis-borg".path;
+      };
+    in {
+      "local-mail" = default // { repo = "borg@localhost:."; };
+      "remote-nyx-mail" = default // { repo = "borg@home.vaw-valentin.de:."; };
     };
   };
 }
