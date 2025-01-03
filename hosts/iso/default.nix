@@ -38,7 +38,6 @@
           type = "ed25519";
         }
       ];
-      settings.PermitRootLogin = lib.mkForce "yes";
     };
 
     security.pam.services.sshd.rules.session."ssh-notify" = {

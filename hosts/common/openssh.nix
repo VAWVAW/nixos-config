@@ -5,14 +5,16 @@ let
   hostname = config.networking.hostName;
   pubKey = host: ../${host}/ssh_host_ed25519_key.pub;
 in {
+  users.users.root.openssh.authorizedKeys.keyFiles =
+    [ ../../home/vaw/pubkey_ssh.txt ];
   services.openssh = {
     enable = true;
     openFirewall = true;
     settings = {
+      PermitRootLogin = "yes";
       # Harden
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
-      PermitRootLogin = "no";
       # Automatically remove stale sockets
       StreamLocalBindUnlink = "yes";
       # Allow forwarding ports to everywhere
