@@ -48,7 +48,7 @@
 
     # fix installer defaults
     services.xserver.enable = lib.mkForce false;
-    hardware.pulseaudio.enable = lib.mkForce false;
+    services.pulseaudio.enable = lib.mkForce false;
     boot.plymouth.enable = lib.mkForce false;
   };
 }
