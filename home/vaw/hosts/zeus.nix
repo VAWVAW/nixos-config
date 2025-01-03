@@ -4,6 +4,7 @@
   systemd.user.services."spotifyd".Install.WantedBy = lib.mkForce [ ];
 
   home = {
+    packages = with pkgs; [ texlive.combined.scheme-full ];
     keyboard.options = [ "ctrl:swap_rwin_rctl" ];
     stateVersion = "24.11";
   };
