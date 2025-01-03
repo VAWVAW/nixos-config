@@ -2,18 +2,18 @@
 pkgs.mkShell {
   buildInputs = with pkgs;
     let
-      nbuild = hostName:
+      nbuild = hostName: extraArgs:
         (writeShellScriptBin "nbuild-${hostName}"
-          "nixos-rebuild build --flake .#${hostName} $@");
-      ntest = hostName:
+          "nixos-rebuild build --flake .#${hostName} ${extraArgs} $@");
+      ntest = hostName: extraArgs:
         (writeShellScriptBin "ntest-${hostName}"
-          "nixos-rebuild test --flake .#${hostName} --use-remote-sudo --target-host ${hostName} $@");
-      nswitch = hostName:
+          "nixos-rebuild test --flake .#${hostName} ${extraArgs} --target-host root@${hostName} $@");
+      nswitch = hostName: extraArgs:
         (writeShellScriptBin "nswitch-${hostName}"
-          "nixos-rebuild switch --flake .#${hostName} --use-remote-sudo --target-host ${hostName} $@");
-      nboot = hostName:
+          "nixos-rebuild switch --flake .#${hostName} ${extraArgs} --target-host root@${hostName} $@");
+      nboot = hostName: extraArgs:
         (writeShellScriptBin "nboot-${hostName}"
-          "nixos-rebuild boot --flake .#${hostName} --use-remote-sudo --target-host ${hostName} $@");
+          "nixos-rebuild boot --flake .#${hostName} ${extraArgs} --target-host root@${hostName} $@");
     in [
       (writeShellScriptBin "nbuild" "nixos-rebuild build --flake .# $@")
       (writeShellScriptBin "ntest" "sudo nixos-rebuild test --flake .# $@")
@@ -21,16 +21,16 @@ pkgs.mkShell {
       (writeShellScriptBin "nboot" "sudo nixos-rebuild boot --flake .# $@")
       (writeShellScriptBin "hswitch" "home-manager switch --flake . $@")
 
-      (nbuild "artemis")
-      (ntest "artemis")
-      (nswitch "artemis")
-      (nboot "artemis")
+      (nbuild "artemis" "--use-substitutes --build-host artemis")
+      (ntest "artemis" "--use-substitutes")
+      (nswitch "artemis" "--use-substitutes")
+      (nboot "artemis" "--use-substitutes")
 
-      (nbuild "nyx")
-      (ntest "nyx")
-      (nswitch "nyx")
-      (nboot "nyx")
+      (nbuild "nyx" "--use-substitutes --build-host artemis")
+      (ntest "nyx" "--build-host artemis")
+      (nswitch "nyx" "--build-host artemis")
+      (nboot "nyx" "--build-host artemis")
 
-      (nbuild "zeus")
+      (nbuild "zeus" "")
     ];
 }

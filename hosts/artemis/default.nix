@@ -52,6 +52,9 @@
     }];
   };
 
+  nix.settings.secret-key-files =
+    [ "/persist/var/lib/binary-cache/cache-key.pem" ];
+
   system.stateVersion = "23.11";
   nixpkgs.hostPlatform.system = "aarch64-linux";
 }
