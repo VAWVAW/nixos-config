@@ -65,7 +65,7 @@
 
       overlays = import ./overlays { inherit inputs outputs; };
 
-      packages = forEachSystem (system:
+      packages = nixpkgs.lib.recursiveUpdate (forEachSystem (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           nixvimpkgs = nixvim.legacyPackages.${system};
@@ -96,13 +96,15 @@
             nixvim-small.extend { plugins.treesitter.enable = false; };
           nixvim-cli-minimal =
             nixvim-minimal.extend { disable_nerdfonts = true; };
-        });
+        })) {
+          x86_64-linux.iso =
+            outputs.nixosConfigurations."iso".config.system.build.isoImage;
+        };
 
       formatter = forEachPkgs (pkgs: pkgs.nixfmt-classic);
 
       devShells = forEachPkgs (pkgs: import ./shells { inherit pkgs; });
 
-      iso = outputs.nixosConfigurations."iso".config.system.build.isoImage;
       nixosConfigurations = {
         "iso" = nixpkgs.lib.nixosSystem {
           specialArgs = {
