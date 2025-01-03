@@ -12,6 +12,7 @@
         config.mailserver.sieveDirectory
         "/var/lib/rspamd"
         "/var/lib/redis-rspamd"
+        "/var/lib/dhparams"
       ];
     };
 
