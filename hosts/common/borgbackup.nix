@@ -24,13 +24,11 @@
           environment."BORG_UNKNOWN_UNENCRYPTED_REPO_ACCESS_IS_OK" = "yes";
         }
         (lib.mkIf config.backupSnapshot {
-          preHook = ''
-            export extraCreateArgs="$extraCreateArgs --paths-from-command"
-          '';
+          extraCreateArgs = [ "--paths-from-command" ];
           paths = let path = "$STATE_DIRECTORY/snapshot";
           in [
             (builtins.toString (pkgs.writeShellScript "borgbackup_paths"
-              ''${pkgs.findutils}/bin/find "${path}" 2>/dev/null''))
+              ''${pkgs.findutils}/bin/find "${path}" 2>/dev/null | grep -v "^${path}$" | sed "s_snapshot_snapshot/._"''))
           ];
           exclude = [
             "**/var/lib/syncthing/data/Documents/coding/**/.git"
