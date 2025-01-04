@@ -12,15 +12,19 @@ in {
     xdg.configFile."discord/settings.json".text =
       ''{ "SKIP_HOST_UPDATE": true }'';
 
-    home.packages = [
-      (outputs.lib.wrapFirejailBinary {
+    home.packages = let
+      discord = (outputs.lib.wrapFirejailBinary {
         inherit pkgs lib;
         name = "discord";
         wrappedExecutable =
           "${pkgs.discord.override { nss = pkgs.nss_latest; }}/bin/discord";
         profile = "${pkgs.firejail}/etc/firejail/discord.profile";
         extraArgs = [ "--dbus-user.talk=org.freedesktop.Notifications" ];
-      })
+      });
+    in [
+      (pkgs.writeShellScriptBin "discord" ''
+        NIXOS_OZONE_WL= ${pkgs.expect}/bin/unbuffer ${discord}/bin/discord
+      '')
     ];
   };
 }
