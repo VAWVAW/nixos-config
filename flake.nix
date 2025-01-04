@@ -60,6 +60,7 @@
         extraSpecialArgs = { inherit inputs; };
       };
     in {
+      lib = import ./lib;
       nixosModules = import ./modules/nixos;
       homeManagerModules = import ./modules/home-manager;
 

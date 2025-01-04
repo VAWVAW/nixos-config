@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, lib, hostname, ... }: {
+{ inputs, outputs, config, pkgs, lib, hostname, ... }: {
   config = lib.mkIf config.programs.firefox.enable {
     home = {
       persistence."/persist/home/vaw".directories = [{
@@ -6,6 +6,39 @@
         method = "bindfs"; # allow home-manager to manage profiles
       }];
       sessionVariables.BROWSER = "firefox";
+
+      packages = [
+        ((outputs.lib.wrapFirejailBinary {
+          inherit pkgs lib;
+          name = "firefox";
+          wrappedExecutable = "${pkgs.firefox}/bin/firefox";
+          profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
+          extraArgs = [
+            # U2F USB stick
+            "--ignore=private-dev"
+            # enable drm
+            "--ignore=noexec \${HOME}"
+            # enable keepassxc browser plugin
+            "--noblacklist=\${RUNUSER}/app"
+            "--whitelist=\${RUNUSER}/app"
+          ];
+        }).overrideAttrs (_: { meta.priority = -1; }))
+
+        (outputs.lib.wrapFirejailBinary {
+          inherit pkgs lib;
+          name = "firefox-unsafe";
+          wrappedExecutable = "${pkgs.firefox}/bin/firefox --new-instance";
+          profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
+          extraArgs = [
+            # U2F USB stick
+            "--ignore=private-dev"
+            # enable drm
+            "--ignore=noexec \${HOME}"
+            # disable access to ~
+            "--private"
+          ];
+        })
+      ];
     };
 
     xdg.mimeApps.defaultApplications = {
@@ -13,34 +46,6 @@
       "text/xml" = [ "firefox.desktop" ];
       "x-scheme-handler/http" = [ "firefox.desktop" ];
       "x-scheme-handler/https" = [ "firefox.desktop" ];
-    };
-
-    programs.firejail.wrappedBinaries = {
-      "firefox" = {
-        executable = "${pkgs.firefox}/bin/firefox";
-        profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
-        extraArgs = [
-          # U2F USB stick
-          "--ignore=private-dev"
-          # enable drm
-          "--ignore=noexec \\\${HOME}"
-          # enable keepassxc browser plugin
-          "--noblacklist=\\\${RUNUSER}/app"
-          "--whitelist=\\\${RUNUSER}/app"
-        ];
-      };
-      "firefox-unsafe" = {
-        executable = "${pkgs.firefox}/bin/firefox --new-instance";
-        profile = "${pkgs.firejail}/etc/firejail/firefox.profile";
-        extraArgs = [
-          # U2F USB stick
-          "--ignore=private-dev"
-          # enable drm
-          "--ignore=noexec \\\${HOME}"
-          # disable access to ~
-          "--private"
-        ];
-      };
     };
 
     # backup bookmarks (based on impermanence binds)

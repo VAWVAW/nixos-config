@@ -1,4 +1,4 @@
-{ config, pkgs, lib, hostname, ... }: {
+{ outputs, config, pkgs, lib, hostname, ... }: {
 
   options.programs.spotify.enable =
     lib.mkEnableOption "spotify proprietary client";
@@ -8,7 +8,15 @@
 
   config = lib.mkMerge [
     (lib.mkIf config.programs.spotify.enable {
-      home.packages = with pkgs; [ spotifython-cli ];
+      home.packages = with pkgs; [
+        spotifython-cli
+        (outputs.lib.wrapFirejailBinary {
+          inherit pkgs lib;
+          name = "spotify";
+          wrappedExecutable = "${pkgs.spotify}/bin/spotify";
+          profile = "${pkgs.firejail}/etc/firejail/spotify.profile";
+        })
+      ];
 
       home.persistence."/persist/home/vaw".directories = [
         {
@@ -20,11 +28,6 @@
           method = "symlink";
         }
       ];
-
-      programs.firejail.wrappedBinaries."spotify" = {
-        executable = "${pkgs.spotify}/bin/spotify";
-        profile = "${pkgs.firejail}/etc/firejail/spotify.profile";
-      };
     })
 
     (lib.mkIf config.programs.spotifython-cli.enable {

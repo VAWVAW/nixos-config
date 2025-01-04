@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ outputs, config, pkgs, lib, ... }: {
   options.programs.mattermost-desktop.enable =
     lib.mkEnableOption "mattermost-desktop";
 
@@ -8,13 +8,15 @@
       method = "symlink";
     }];
 
-    programs.firejail.wrappedBinaries = {
-      mattermost-desktop = {
-        executable =
+    home.packages = [
+      (outputs.lib.wrapFirejailBinary {
+        inherit pkgs lib;
+        name = "mattermost-desktop";
+        wrappedExecutable =
           "${pkgs.mattermost-desktop}/bin/mattermost-desktop --enable-features=WaylandWindowDecorations --ozone-platform-hint=auto";
         profile = "${pkgs.firejail}/etc/firejail/mattermost-desktop.profile";
         extraArgs = [ "--dbus-user.talk=org.freedesktop.Notifications" ];
-      };
-    };
+      })
+    ];
   };
 }

@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, lib, ... }: {
+{ inputs, outputs, config, pkgs, lib, ... }: {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.sops-nix.homeManagerModule
@@ -98,6 +98,13 @@
       libnotify
       wlr-randr
       brightnessctl
+
+      (outputs.lib.wrapFirejailBinary {
+        inherit pkgs lib;
+        name = "tor-browser";
+        wrappedExecutable = "${pkgs.tor-browser-bundle-bin}/bin/tor-browser";
+        profile = "${pkgs.firejail}/etc/firejail/tor-browser.profile";
+      })
     ];
 
     fonts.fontconfig.enable = lib.mkDefault true;
@@ -116,13 +123,6 @@
       obsidian.enable = lib.mkDefault true;
       signal-desktop.enable = lib.mkDefault true;
       spotifython-cli.enable = lib.mkDefault true;
-
-      firejail.wrappedBinaries."tor-browser" = {
-        executable =
-          lib.mkDefault "${pkgs.tor-browser-bundle-bin}/bin/tor-browser";
-        profile =
-          lib.mkDefault "${pkgs.firejail}/etc/firejail/tor-browser.profile";
-      };
     };
 
     services = {
