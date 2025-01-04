@@ -40,6 +40,7 @@ in {
       "${pkgs.noisetorch}/bin/noisetorch -i"
       "discord"
       "${pkgs.bash}/bin/bash -c 'sleep 2; ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 25%'"
+      "${pkgs.keepassxc}/bin/keepassxc"
     ];
   };
 

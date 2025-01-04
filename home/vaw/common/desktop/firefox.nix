@@ -21,6 +21,8 @@
             # enable keepassxc browser plugin
             "--noblacklist=\${RUNUSER}/app"
             "--whitelist=\${RUNUSER}/app"
+            "--noblacklist=\${RUNUSER}/org.keepassxc.KeePassXC.BrowserServer"
+            "--whitelist=\${RUNUSER}/org.keepassxc.KeePassXC.BrowserServer"
           ];
         }).overrideAttrs (_: { meta.priority = -1; }))
 
