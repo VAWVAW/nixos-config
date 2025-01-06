@@ -98,6 +98,9 @@
         # Don't add an implicit After=basic.target.
         DefaultDependencies = false;
 
+        After = [
+          "bindMount-persist-home-vaw-mozilla-firefox-default.service"
+        ];
         Before = [
           "bluetooth.target"
           "basic.target"
