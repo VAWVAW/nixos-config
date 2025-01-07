@@ -3,8 +3,8 @@
     enable = true;
     matchBlocks = {
       "artemis" = {
-        host = "artemis server.vaw-valentin.de";
-        hostname = "server.vaw-valentin.de";
+        host = "artemis server.vaw-valentin.de nlih.de";
+        hostname = "nlih.de";
       };
       "fu-login" = {
         host = "andorra.imp.fu-berlin.de sanmarino.imp.fu-berlin.de";
