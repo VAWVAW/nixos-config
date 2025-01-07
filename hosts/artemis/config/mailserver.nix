@@ -18,17 +18,18 @@
 
     mailserver = {
       fqdn = "nlih.de";
-      domains = [ "nlih.de" "vaw-valentin.de" ];
+      domains = [ "nlih.de" "vaw-valentin.de" "wiedekind1.de" ];
 
       loginAccounts = {
         "vaw@nlih.de" = {
           hashedPassword =
             "$2b$05$eLvLRB7/X8iFmaOsmTRuxeZsEAyFRsTDcx9khB1/AHLNV0yYe5oE6";
-          aliases = [ "@nlih.de" "@vaw-valentin.de" ];
+          aliases = [ "@nlih.de" "@vaw-valentin.de" "@wiedekind1.de" ];
         };
         "feuerwehr@nlih.de" = {
           hashedPassword =
             "$2b$05$xQePZUByxMzwfWIzFxIByeexTmTqlzbsDBWUg6KxEBWvAfovREYdm";
+          aliases = [ "feuerwehr@vaw-valentin.de" ];
         };
         "subscriptions@nlih.de" = {
           hashedPassword =
