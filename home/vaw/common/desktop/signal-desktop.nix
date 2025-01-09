@@ -17,6 +17,9 @@ in {
         name = "signal-desktop";
         wrappedExecutable = "${pkgs.signal-desktop}/bin/signal-desktop";
         profile = "${pkgs.firejail}/etc/firejail/signal-desktop.profile";
+        extraArgs = [
+          "--dbus-user.talk=org.freedesktop.portal.Desktop"
+        ];
       });
     in [
       (pkgs.writeShellScriptBin "signal-desktop" ''
