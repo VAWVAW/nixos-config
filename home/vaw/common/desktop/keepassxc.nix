@@ -13,7 +13,10 @@ in {
         directory = ".cache/keepassxc";
         method = "symlink";
       }
-    ];
+    ] ++ lib.optionals config.programs.firefox.enable [{
+      directory = ".mozilla/native-messaging-hosts";
+      method = "bindfs";
+    }];
 
     home.packages = [ pkgs.keepassxc ];
   };
