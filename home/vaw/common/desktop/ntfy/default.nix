@@ -3,25 +3,29 @@ let
   settingsFormat = pkgs.formats.yaml { };
 
   command = pkgs.writeShellScript "ntfy-command" ''
+    export NIXOS_XDG_OPEN_USE_PORTAL="${config.home.sessionVariables.NIXOS_XDG_OPEN_USE_PORTAL}"
+
+    notify_args=(--app-name=ntfy)
+
+    NTFY_CLICK=$(echo "$NTFY_RAW" | ${pkgs.jq}/bin/jq -r '.click // empty')
+
     case "$NTFY_TOPIC" in
       mail)
         box=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed 's/^New E-Mail on //')
         ${pkgs.isync}/bin/mbsync "$box"
         ${pkgs.notmuch}/bin/notmuch new --no-hooks
         ${config.programs.notmuch.hooks.postNew}
-        export NTFY_MESSAGE=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed -E 's/^New E-Mail on [0-9]+_/New E-Mail on /')
+
+        NTFY_MESSAGE=$(echo "$NTFY_MESSAGE" | ${pkgs.gnused}/bin/sed -E 's/^New E-Mail on [0-9]+_/New E-Mail on /')
       ;;
     esac
 
     case "$NTFY_PRIORITY" in
       1|2)
-        URGENCY=low
+        notify_args+=(--urgency=low)
         ;;
       4|5)
-        URGENCY=critical
-        ;;
-      *)
-        URGENCY=normal
+        notify_args+=(--urgency=critical)
         ;;
     esac
 
@@ -35,7 +39,15 @@ let
       EMOJI_SEPERATOR=" "
     done
 
-    ${pkgs.libnotify}/bin/notify-send --app-name=ntfy --urgency="$URGENCY" --icon="$ICON" "$EMOJIS$EMOJI_SEPERATOR''${NTFY_TITLE:-$NTFY_TOPIC}" "$NTFY_MESSAGE"
+    if [ -n "$NTFY_CLICK" ]; then
+      notify_args+=(--action=url="$NTFY_CLICK")
+    fi
+
+    output=$(${pkgs.libnotify}/bin/notify-send "''${notify_args[@]}" "$EMOJIS$EMOJI_SEPERATOR''${NTFY_TITLE:-$NTFY_TOPIC}" "$NTFY_MESSAGE")
+
+    if [ "$output" = "url" ]; then
+      ${pkgs.xdg-utils}/bin/xdg-open "$NTFY_CLICK"
+    fi
   '';
 
   molly-command = pkgs.writeShellScript "ntfy-molly" ''
@@ -44,7 +56,7 @@ let
 
   configuration = settingsFormat.generate "ntfy-config.yaml" {
     default-host = "https://ntfy.nlih.de";
-    default-command = "${pkgs.bash}/bin/bash ${command}";
+    default-command = "${command}";
     subscribe = [ { topic = "desktop"; } { topic = "mail"; } ];
   };
 
