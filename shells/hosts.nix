@@ -27,9 +27,9 @@ pkgs.mkShell {
       (nboot "artemis" "--use-substitutes")
 
       (nbuild "nyx" "--use-substitutes --build-host artemis")
-      (ntest "nyx" "--build-host artemis")
-      (nswitch "nyx" "--build-host artemis")
-      (nboot "nyx" "--build-host artemis")
+      (ntest "nyx" "")
+      (nswitch "nyx" "")
+      (nboot "nyx" "")
 
       (nbuild "zeus" "")
     ];
