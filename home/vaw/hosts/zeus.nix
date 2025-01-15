@@ -21,9 +21,15 @@
     ];
   };
 
-  wayland.windowManager.sway.enable = true;
-  wayland.windowManager.sway.config.keybindings."XF86AudioMedia" =
-    "input type:touchpad events toggle enabled disabled";
+  wayland.windowManager.sway = {
+    enable = true;
+    config.keybindings."XF86AudioMedia" =
+      "input type:touchpad events toggle enabled disabled";
+    extraConfig = ''
+      bindgesture swipe:right workspace prev
+      bindgesture swipe:left workspace next
+    '';
+  };
   services.swayidle.enable = true;
   programs.waybar.enable = true;
 
